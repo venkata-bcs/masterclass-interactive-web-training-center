@@ -1,150 +1,216 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PySpark Deep Dive - Interactive Simulator &amp; Live Demo Lab | Tinitiate MasterClass Academy</title>
-  <meta name="description" content="Explore live interactive simulators, architecture sandboxes, and hands-on playgrounds for PySpark Deep Dive taught by Venkata Bhattaram.">
-  <link rel="icon" type="image/png" href="favicon.png">
-  <link rel="stylesheet" href="../assets/css/master-global-layout.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lakehouse Demo Lab</title>
+  <meta name="description" content="Interactive PySpark lakehouse demo lab: the same table as a plain Parquet data lake, Delta Lake and Apache Iceberg across inserts, updates, deletes, schema changes, crashes, concurrent writers and time travel; read-path planning cost; and Copy-on-Write vs Merge-on-Read with write amplification and read cost.">
+  <link rel="icon" type="image/png" href="../favicon.png">
+  <link rel="stylesheet" href="assets/css/pyspark.css">
   <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
-  <script src="../assets/js/master-global-nav.js" defer></script>
+  <script>
+    (function() {
+      const savedTheme = localStorage.getItem('tinitiate-theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', savedTheme);
+    })();
+  </script>
   <style>
-    .demo-hero {
-      background: linear-gradient(135deg, rgba(15, 23, 42, 0.98) 0%, rgba(30, 27, 75, 0.95) 100%);
-      border: 1px solid rgba(139, 92, 246, 0.35);
-      border-radius: 16px;
-      padding: 28px 32px;
-      margin-bottom: 24px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    .lh {
+      --lh-plain: #c98500; --lh-delta: #3987e5; --lh-iceberg: #199e70;
+      --lh-cow: #9085e9; --lh-mor: #d55181;
+      --lh-ok: #0ca30c; --lh-warn: #fab219; --lh-bad: #d03b3b;
+      --lh-grid: rgba(148, 163, 184, 0.14); --lh-axis: #94a3b8;
     }
-    .demo-badge-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 4px 12px;
-      border-radius: 999px;
-      font-size: 0.75rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      background: rgba(124, 58, 237, 0.25);
-      border: 1px solid rgba(139, 92, 246, 0.5);
-      color: #c4b5fd;
-      margin-bottom: 12px;
+    [data-theme="light"] .lh {
+      --lh-plain: #b07300; --lh-delta: #2a78d6; --lh-iceberg: #13895f;
+      --lh-cow: #6250d6; --lh-mor: #c2457a; --lh-grid: #e2e8f0; --lh-axis: #64748b;
     }
-    .demo-title {
-      font-size: 2rem;
-      font-weight: 900;
-      color: #ffffff;
-      margin: 0 0 10px 0;
-      letter-spacing: -0.02em;
-    }
-    .demo-subtitle {
-      font-size: 0.95rem;
-      color: #94a3b8;
-      max-width: 820px;
-      line-height: 1.5;
-      margin: 0;
-    }
-    .demo-card {
-      background: #ffffff;
-      border: 1.5px solid #e2e8f0;
-      border-radius: 16px;
-      padding: 24px;
-      margin-bottom: 24px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-    }
-    .demo-controls-bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 12px;
-      background: #f8fafc;
-      padding: 12px 16px;
-      border-radius: 10px;
-      border: 1px solid #e2e8f0;
-      margin-bottom: 20px;
-    }
-    .demo-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 8px 16px;
-      border-radius: 8px;
-      font-size: 0.85rem;
-      font-weight: 700;
-      cursor: pointer;
-      border: none;
-      transition: all 0.2s ease;
-    }
-    .demo-btn-primary {
-      background: #7c3aed;
-      color: #ffffff;
-      box-shadow: 0 4px 12px rgba(124, 58, 237, 0.35);
-    }
-    .demo-btn-primary:hover {
-      background: #6d28d9;
-      transform: translateY(-1px);
-    }
-    .demo-btn-secondary {
-      background: #ffffff;
-      border: 1px solid #cbd5e1;
-      color: #334155;
-    }
-    .demo-btn-secondary:hover {
-      background: #f1f5f9;
-      color: #0f172a;
-    }
-    .demo-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 18px;
-    }
-    .demo-subcard {
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
-      border-radius: 12px;
-      padding: 18px;
-    }
-    .demo-subcard-title {
-      font-size: 1rem;
-      font-weight: 800;
-      color: #0f172a;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 10px;
-    }
-    .demo-log-terminal {
-      background: #0f172a;
-      color: #38bdf8;
-      font-family: monospace;
-      font-size: 0.8rem;
-      padding: 14px;
-      border-radius: 8px;
-      height: 180px;
-      overflow-y: auto;
-      line-height: 1.5;
-    }
-    .demo-status-pill {
-      display: inline-block;
-      padding: 3px 10px;
-      border-radius: 999px;
-      font-size: 0.72rem;
-      font-weight: 800;
-      text-transform: uppercase;
-    }
-    .status-active { background: #dcfce7; color: #166534; border: 1px solid #86efac; }
+    .lh-hero { background: linear-gradient(135deg, rgba(57, 135, 229, 0.16), rgba(25, 158, 112, 0.12) 50%, rgba(201, 133, 0, 0.12)); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 26px 28px; margin-bottom: 30px; }
+    .lh-hero h1 { font-size: 2.1rem; font-weight: 900; margin: 8px 0 8px; letter-spacing: -0.02em; }
+    .lh-hero p { color: var(--text-muted); max-width: 880px; line-height: 1.6; margin: 0; }
+    .lh-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+    .lh-chip { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 9999px; font-size: 0.78rem; font-weight: 700; border: 1px solid var(--border-color); background: var(--bg-card); }
+    .lh-chip i.d { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+    .lh-sec { margin-bottom: 44px; scroll-margin-top: 90px; }
+    .lh-card { background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 18px; margin-bottom: 16px; min-width: 0; }
+    .lh-card-t { font-weight: 800; font-size: 0.95rem; margin-bottom: 10px; color: var(--text-main); }
+    .lh-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+    .lh-two { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; }
+    .lh-three { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+    @media (max-width: 1180px) { .lh-three { grid-template-columns: minmax(0, 1fr); } }
+    @media (max-width: 1000px) { .lh-two { grid-template-columns: minmax(0, 1fr); } }
+    .lh-btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 9999px; font: 700 0.82rem var(--font-sans); cursor: pointer; border: 1px solid transparent; white-space: nowrap; }
+    .lh-btn.primary { background: var(--spark-orange); color: #fff; }
+    .lh-btn.ghost { background: transparent; color: var(--text-main); border-color: var(--border-color); }
+    .lh-btn:hover { filter: brightness(1.08); }
+    .lh-btn:focus-visible, .lh-seg button:focus-visible, .lh-step:focus-visible { outline: 2px solid var(--spark-orange); outline-offset: 2px; }
+    .lh-check { display: inline-flex; align-items: center; gap: 6px; font-size: 0.8rem; color: var(--text-muted); cursor: pointer; }
+    .lh-check input { accent-color: var(--spark-orange); }
+    .lh-seg { display: inline-flex; border: 1px solid var(--border-color); border-radius: 9999px; overflow: hidden; }
+    .lh-seg button { background: transparent; border: 0; border-right: 1px solid var(--border-color); color: var(--text-main); padding: 6px 12px; font: 700 0.78rem var(--font-sans); cursor: pointer; white-space: nowrap; }
+    .lh-seg button:last-child { border-right: 0; }
+    .lh-seg button[aria-pressed="true"] { background: rgba(226, 90, 28, 0.16); color: var(--spark-orange); }
+    .lh-field { display: flex; flex-direction: column; gap: 6px; font-size: 0.78rem; color: var(--text-muted); min-width: 0; }
+    .lh-field b { color: var(--text-main); font-family: var(--font-mono); }
+    .lh-field input[type=range] { width: 190px; accent-color: var(--spark-orange); }
+    .lh-note { font-size: 0.82rem; color: var(--text-muted); line-height: 1.55; margin: 8px 0 0; }
+    .lh-note a, .lh-hero a { color: var(--spark-orange); }
+    .lh code, .lh-note code { font-family: var(--font-mono); font-size: 0.76rem; color: var(--code-text); background: rgba(56, 189, 248, 0.08); padding: 1px 5px; border-radius: 4px; }
+
+    /* timeline */
+    .lh-steps { display: flex; gap: 6px; flex-wrap: wrap; }
+    .lh-step { width: 34px; height: 34px; border-radius: 50%; border: 2px solid var(--border-hover); background: var(--bg-elevated); color: var(--text-muted); font: 800 0.8rem var(--font-mono); cursor: pointer; }
+    .lh-step.done { border-color: var(--lh-ok); color: var(--lh-ok); }
+    .lh-step.on { background: var(--spark-orange); border-color: var(--spark-orange); color: #fff; box-shadow: 0 0 0 4px var(--spark-glow); }
+    .lh-op { margin-top: 14px; padding: 12px 14px; border-radius: var(--radius-md); background: var(--bg-elevated); }
+    .lh-op-t { font-size: 1.1rem; font-weight: 800; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .lh-num { font: 700 0.7rem var(--font-mono); color: var(--spark-orange); border: 1px solid var(--spark-orange); border-radius: 9999px; padding: 2px 9px; }
+    .lh-sql { display: block; margin-top: 8px; white-space: pre-wrap; }
+    .lh-col { background: var(--bg-card); border: 1px solid var(--border-subtle); border-top: 4px solid var(--fc); border-radius: var(--radius-lg); padding: 14px; display: flex; flex-direction: column; min-width: 0; }
+    .fmt-plain { --fc: var(--lh-plain); } .fmt-delta { --fc: var(--lh-delta); } .fmt-iceberg { --fc: var(--lh-iceberg); }
+    .lh-col-hd { display: flex; align-items: center; gap: 10px; color: var(--fc); margin-bottom: 8px; }
+    .lh-col-t { font-weight: 800; color: var(--text-main); }
+    .lh-col-s { font-size: 0.74rem; color: var(--text-muted); }
+    .lh-root { font: 600 0.72rem var(--font-mono); color: var(--text-muted); margin-bottom: 6px; }
+    .lh-tree { background: var(--bg-code); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 8px 10px; min-height: 210px; font: 0.72rem/1.5 var(--font-mono); overflow-x: auto; }
+    .lh-dir { display: flex; align-items: center; gap: 5px; color: var(--text-muted); margin-top: 4px; white-space: nowrap; }
+    .lh-file { display: grid; grid-template-columns: 10px minmax(0, auto) 1fr; gap: 6px; align-items: center; padding: 1px 0 1px 16px; white-space: nowrap; border-radius: 4px; }
+    .lh-file .fn { color: var(--text-main); overflow: hidden; text-overflow: ellipsis; }
+    .lh-file .fl { color: var(--text-dim); overflow: hidden; text-overflow: ellipsis; }
+    .lh-file.rm .fn, .lh-file.rm .fl { text-decoration: line-through; opacity: 0.55; }
+    .lh-file.new { animation: lh-new 1.6s ease-out; }
+    .lh-file.gone { animation: lh-gone 1.6s ease-out; }
+    @keyframes lh-new { 0% { background: rgba(12, 163, 12, 0.35); } 100% { background: transparent; } }
+    @keyframes lh-gone { 0% { background: rgba(208, 59, 59, 0.35); } 100% { background: transparent; } }
+    .lh-kind { width: 10px; height: 10px; border-radius: 3px; display: inline-block; background: var(--text-dim); }
+    .lh-kind.k-data { background: var(--lh-delta); } .fmt-plain .lh-kind.k-data { background: var(--lh-plain); } .fmt-iceberg .lh-kind.k-data { background: var(--lh-iceberg); }
+    .lh-legend .lh-kind.k-data { background: linear-gradient(90deg, var(--lh-plain) 33%, var(--lh-delta) 33% 66%, var(--lh-iceberg) 66%); }
+    .lh-kind.k-log, .lh-kind.k-ckpt { background: var(--worker-purple); border-radius: 50%; }
+    .lh-kind.k-meta, .lh-kind.k-mlist, .lh-kind.k-manifest { background: var(--driver-blue); border-radius: 2px; transform: rotate(45deg) scale(0.85); }
+    .lh-kind.k-ptr { background: var(--spark-orange); border-radius: 50%; }
+    .lh-kind.k-partial, .lh-kind.k-temp, .lh-kind.k-orphan { background: transparent; border: 2px solid var(--lh-bad); }
+    .lh-kind.k-marker { background: var(--text-dim); }
+    .lh-see { margin-top: 10px; padding: 10px 12px; border-radius: var(--radius-md); font-size: 0.82rem; line-height: 1.5; border-left: 4px solid var(--vc); background: var(--bg-elevated); }
+    .lh-see.v-ok { --vc: var(--lh-ok); } .lh-see.v-warn { --vc: var(--lh-warn); } .lh-see.v-bad { --vc: var(--lh-bad); }
+    .lh-verdict { display: inline-flex; align-items: center; gap: 5px; font: 800 0.7rem var(--font-mono); text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-main); border: 1px solid var(--vc); border-radius: 9999px; padding: 1px 8px; margin-bottom: 6px; }
+    .lh-dim { color: var(--text-dim); }
+    .lh-legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: 0.76rem; color: var(--text-muted); margin-top: 10px; }
+    .lh-legend span { display: inline-flex; align-items: center; gap: 6px; }
+    .lh-sw { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
+
+    /* tables */
+    .lh-tw { overflow-x: auto; }
+    .lh-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; background: var(--bg-card); border-radius: var(--radius-md); overflow: hidden; }
+    .lh-table th { text-align: left; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-muted); padding: 10px 12px; border-bottom: 2px solid var(--border-subtle); }
+    .lh-table th.fmt-plain, .lh-table th.fmt-delta, .lh-table th.fmt-iceberg { color: var(--fc); }
+    .lh-table td { padding: 9px 12px; border-bottom: 1px solid var(--border-subtle); vertical-align: top; line-height: 1.45; }
+    .lh-table td:first-child { font-weight: 700; color: var(--text-main); }
+    .lh-table td.neg { color: var(--lh-bad); }
+
+    /* read path */
+    .lh-rsteps { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 6px; }
+    .lh-rsteps li { display: flex; gap: 10px; align-items: center; padding: 8px 10px; border-radius: var(--radius-md); background: var(--bg-elevated); font-size: 0.84rem; transition: all 0.3s; border-left: 3px solid transparent; }
+    .lh-rsteps li .n { width: 24px; height: 24px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; background: var(--bg-input); font: 800 0.72rem var(--font-mono); flex-shrink: 0; }
+    .lh-rsteps li.done { border-left-color: var(--lh-ok); }
+    .lh-rsteps li.on { border-left-color: var(--spark-orange); background: rgba(226, 90, 28, 0.12); }
+    .lh-hbar { display: grid; grid-template-columns: 120px minmax(0, 1fr) 80px; gap: 10px; align-items: center; font-size: 0.82rem; margin-top: 8px; }
+    .lh-hbar .tr { height: 20px; background: var(--lh-grid); border-radius: 6px; overflow: hidden; }
+    .lh-hbar .fi { height: 100%; border-radius: 6px; transition: width 0.4s ease; }
+    .lh-hbar b { font-family: var(--font-mono); text-align: right; }
+    .lh-sub { font-size: 0.74rem; color: var(--text-muted); margin: 2px 0 6px 130px; }
+    .lh-chart svg { display: block; width: 100%; }
+
+    /* COW / MOR */
+    .lh-cm-hd { display: flex; align-items: center; gap: 10px; font-size: 1.05rem; }
+    .lh-tag { font: 800 0.7rem var(--font-mono); padding: 2px 9px; border-radius: 9999px; color: #fff; display: inline-block; }
+    .lh-tag.cow { background: var(--lh-cow); } .lh-tag.mor { background: var(--lh-mor); }
+    .lh-card.cow { border-top: 4px solid var(--lh-cow); } .lh-card.mor { border-top: 4px solid var(--lh-mor); }
+    .lh-grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 5px; margin-top: 12px; min-height: 72px; align-content: start; }
+    .lh-tile { aspect-ratio: 1; border-radius: 6px; position: relative; display: flex; align-items: center; justify-content: center; font: 800 0.62rem var(--font-mono); color: #fff; transition: transform 0.3s, box-shadow 0.3s, background 0.4s; }
+    .lh-tile.cowt { background: color-mix(in srgb, var(--lh-cow) 45%, transparent); }
+    .lh-tile.cowt.g1 { background: color-mix(in srgb, var(--lh-cow) 70%, transparent); }
+    .lh-tile.cowt.g2, .lh-tile.cowt.g3 { background: var(--lh-cow); }
+    .lh-tile.mort { background: color-mix(in srgb, var(--lh-mor) 45%, transparent); }
+    .lh-tile.ins { background: transparent; border: 2px dashed var(--lh-mor); color: var(--lh-mor); }
+    .lh-tile.flash { transform: scale(1.15); box-shadow: 0 0 0 3px var(--spark-orange); }
+    .lh-del { position: absolute; top: -5px; right: -5px; min-width: 16px; height: 16px; padding: 0 3px; border-radius: 8px; background: var(--lh-bad); color: #fff; font: 800 0.6rem var(--font-mono); display: flex; align-items: center; justify-content: center; font-style: normal; }
+    .lh-gstat { margin-top: 10px; font-size: 0.8rem; color: var(--text-muted); }
+    .lh-gstat b { color: var(--text-main); font-family: var(--font-mono); }
+    .lh-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; margin-top: 12px; }
+    .lh-kpi { background: var(--bg-elevated); border-radius: var(--radius-md); padding: 8px 10px; display: flex; flex-direction: column; gap: 2px; font-size: 0.72rem; color: var(--text-muted); }
+    .lh-kpi b { font: 700 0.92rem var(--font-mono); color: var(--text-main); }
+    .lh-rec { display: flex; gap: 12px; align-items: flex-start; padding: 12px; border-radius: var(--radius-md); background: var(--bg-elevated); border-left: 4px solid var(--rc); font-size: 0.88rem; line-height: 1.5; }
+    .lh-rec.cow { --rc: var(--lh-cow); } .lh-rec.mor { --rc: var(--lh-mor); }
+    .lh-list { margin: 10px 0 0; padding-left: 18px; font-size: 0.82rem; color: var(--text-muted); line-height: 1.6; }
+    .lh-pre { margin: 0; background: #090d16; color: #e2e8f0; border-radius: var(--radius-md); padding: 12px 14px; font: 0.76rem/1.55 var(--font-mono); overflow-x: auto; white-space: pre; }
+    [data-theme="light"] .lh-pre { background: #0f172a; }
+    .lh-pre .c { color: #64748b; }
+
+
+    /* COW / MOR block lanes */
+    .lh-blegend { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 10px; }
+    .lh-bl { display: flex; gap: 10px; align-items: flex-start; font-size: 0.78rem; line-height: 1.45; color: var(--text-muted); }
+    .lh-bl b { display: block; color: var(--text-main); font-size: 0.82rem; }
+    .lh-bl .lh-blk { flex-shrink: 0; min-width: 64px; justify-content: center; }
+    .lh-lane { margin-top: 12px; }
+    .lh-lane-h { display: flex; align-items: center; gap: 6px; font: 800 0.7rem var(--font-sans); text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 6px; }
+    .lh-lane-h span { text-transform: none; letter-spacing: 0; font-weight: 500; color: var(--text-dim); }
+    .lh-blks { display: flex; flex-wrap: wrap; gap: 4px; min-height: 26px; align-items: center; }
+    .lh-blk { position: relative; display: inline-flex; align-items: center; gap: 4px; height: 26px; padding: 0 7px; border-radius: 6px; font: 700 0.64rem var(--font-mono); white-space: nowrap; border: 1.5px solid transparent; transition: transform 0.3s, box-shadow 0.3s; cursor: default; }
+    .lh-blk small { font-weight: 500; opacity: 0.8; font-size: 0.58rem; }
+    .lh-blk.b-base { background: #475569; color: #fff; }
+    .lh-blk.b-insert { background: #13895f; color: #fff; }
+    .lh-blk.b-rewritten { background: var(--lh-cow); color: #fff; }
+    .lh-blk.b-old { background: transparent; border: 1.5px dashed var(--text-dim); color: var(--text-dim); text-decoration: line-through; }
+    .lh-blk.b-upd { background: transparent; border: 1.5px dashed var(--lh-mor); color: var(--lh-mor); }
+    .lh-blk.b-del { background: rgba(208, 59, 59, 0.16); border-color: var(--lh-bad); color: var(--text-main); }
+    .lh-blk.b-del::before { content: '✕'; color: var(--lh-bad); }
+    .lh-blk.b-meta { background: rgba(2, 132, 199, 0.12); border-color: var(--driver-blue); color: var(--text-main); }
+    .lh-blk.b-meta::before { content: ''; width: 7px; height: 9px; border: 1.5px solid var(--driver-blue); border-radius: 1px; }
+    [data-theme="light"] .lh-blk.b-base { background: #64748b; }
+    .lh-blk.flash { transform: translateY(-3px) scale(1.08); box-shadow: 0 0 0 3px var(--spark-orange); }
+    .lh-dmark { position: absolute; top: -7px; right: -6px; min-width: 15px; height: 15px; padding: 0 3px; border-radius: 8px; background: var(--lh-bad); color: #fff; font: 800 0.56rem var(--font-mono); display: flex; align-items: center; justify-content: center; font-style: normal; }
+    .lh-empty, .lh-more { font-size: 0.74rem; color: var(--text-dim); font-style: italic; }
+    .lh-clog { list-style: none; margin: 10px 0 0; padding: 8px 10px; border-radius: var(--radius-md); background: var(--bg-elevated); font-size: 0.76rem; line-height: 1.5; color: var(--text-muted); display: flex; flex-direction: column; gap: 3px; }
+    .lh-clog li span { font: 700 0.66rem var(--font-mono); color: var(--driver-blue); margin-right: 6px; }
+    .lh-clog li b { color: var(--text-main); }
+    /* DAG mini-lab */
+    .lh-pill { font: 800 0.72rem var(--font-mono); padding: 3px 10px; border-radius: 9999px; background: rgba(16, 185, 129, 0.14); color: var(--exec-green); border: 1px solid rgba(16, 185, 129, 0.35); }
+    .lh-dagflow { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 12px; color: var(--text-dim); }
+    .lh-dagnode { padding: 6px 12px; border-radius: var(--radius-md); background: var(--bg-elevated); border: 1px solid var(--border-subtle); font-size: 0.8rem; font-weight: 700; color: var(--text-muted); transition: all 0.3s; }
+    .lh-dagnode.on { border-color: var(--spark-orange); color: var(--text-main); box-shadow: 0 0 0 3px var(--spark-glow); }
+    .lh-dagnode.done { border-color: var(--lh-ok); color: var(--text-main); }
+    .lh-term { background: #090d16; color: #a7f3d0; border-radius: var(--radius-md); padding: 12px 14px; font: 0.78rem/1.6 var(--font-mono); min-height: 120px; max-height: 220px; overflow: auto; white-space: pre-wrap; }
+
+    .lh-speed { position: fixed; right: 20px; bottom: 20px; z-index: 50; background: var(--bg-elevated); border: 1px solid var(--border-color); border-radius: 14px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35); padding: 8px 14px; display: flex; align-items: center; gap: 10px; font-size: 0.78rem; color: var(--text-muted); }
+    .lh-speed input { width: 130px; accent-color: var(--spark-orange); }
+    .lh-speed output { font: 700 0.8rem var(--font-mono); color: var(--text-main); min-width: 36px; }
+    @media (max-width: 960px) { body .master-layout-3col { grid-template-columns: minmax(0, 1fr); padding-left: 16px; padding-right: 16px; } }
+    @media (max-width: 640px) { .lh-speed { left: 16px; right: 16px; } .lh-speed input { flex: 1; } .lh-hbar { grid-template-columns: 80px minmax(0, 1fr) 64px; } .lh-sub { margin-left: 0; } .lh-field input[type=range] { width: 100%; } }
+    @media (prefers-reduced-motion: reduce) { .lh * { animation: none !important; transition: none !important; } }
   </style>
+  <link rel="stylesheet" href="../assets/css/master-global-layout.css">
 </head>
 <body>
+
+  <!-- Top Navigation Bar -->
+    <!-- ========================================================================= -->
+  <!-- TOP MENU BAR: Unified Master Header Across All Subjects                   -->
+  <!-- ========================================================================= -->
+    <!-- ========================================================================= -->
+  <!-- TOP MENU BAR: Unified Royal Violet Theme & Visual Dropdown                -->
+  <!-- ========================================================================= -->
+    <!-- ========================================================================= -->
+  <!-- TOP MENU BAR: Unified Royal Violet Theme & Visual Dropdown                -->
+  <!-- ========================================================================= -->
+    <!-- ========================================================================= -->
+  <!-- TOP MENU BAR: Unified Royal Violet Theme & Visual Dropdown                -->
+  <!-- ========================================================================= -->
   <header class="master-top-nav">
     <div class="master-top-nav-inner">
       <a href="../index.html" class="master-brand-wrap" aria-label="Tinitiate MasterClass Academy">
         <img src="../tinitiate_header-banner.png" alt="Tinitiate Logo" class="master-brand-logo">
-        <span class="master-brand-badge">PySpark Deep Dive</span>
+        <span class="master-brand-badge">PySpark Architecture</span>
       </a>
 
       <!-- Primary Navigation Links (NO LOCAL NAVIGATION IN HEADER) -->
@@ -153,13 +219,13 @@
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
           <span>Home</span>
         </a>
-        <a href="index.html" class="master-nav-btn " title="PySpark Deep Dive Home">
+        <a href="index.html" class="master-nav-btn subject-home-btn" title="PySpark Architecture Home">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-          <span>PySpark Deep Dive Home</span>
+          <span>PySpark Home</span>
         </a>
-        <a href="demo.html" class="master-nav-btn subject-home-btn" title="PySpark Deep Dive Interactive Demo" style="border-color:rgba(124,58,237,0.5);">
+        <a href="demo.html" class="master-nav-btn" title="Interactive Demo">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-          <span>Interactive Demo</span>
+          <span>Demo</span>
         </a>
 
         <!-- Subjects DropDown with Bulletproof Bridge & SVGs -->
@@ -176,7 +242,7 @@
                 <h4 class="mega-menu-title">Explore Engineering Curricula by Domain</h4>
               </div>
               <div class="mega-menu-stats-pill">
-                <span>6 Domains</span> • <span>26 Tracks + 15 Placement Guides</span>
+                <span>6 Domains</span> • <span>31 Tracks + 15 Placement Guides</span>
               </div>
             </div>
 
@@ -188,9 +254,16 @@
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="8" height="8" x="3" y="3" rx="2"/><path d="M7 11v4a2 2 0 0 0 2 2h4"/><rect width="8" height="8" x="13" y="13" rx="2"/></svg>
               <span>Foundational</span>
             </span>
-            <span class="mega-cat-count">6 Tracks</span>
+            <span class="mega-cat-count">7 Tracks</span>
           </div>
           <div class="mega-category-list">
+          <a href="../foundational/index.html" class="mega-category-item" title="Foundational Master Class: Computer Science &amp; Software Engineering Fundamentals">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m16.24 7.76-2.12 6.36-6.36 2.12 2.12-6.36 6.36-2.12z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Foundational Master Class</span>
+            </span>
+          </a>
           <a href="../foundational/data-structures/index.html" class="mega-category-item" title="Data Structures: Trees, Graphs, HashTables & Heaps">
             <span class="mega-item-arrow">&gt;</span>
             <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="8" height="8" x="3" y="3" rx="2"/><rect width="8" height="8" x="13" y="13" rx="2"/></svg></span>
@@ -242,14 +315,14 @@
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
               <span>AI</span>
             </span>
-            <span class="mega-cat-count">6 Tracks</span>
+            <span class="mega-cat-count">7 Tracks</span>
           </div>
           <div class="mega-category-list">
-          <a href="../automation-ml-ai-agentic/index.html" class="mega-category-item" title="Automation GenAI Agentic: Swarm Agents, MCP & LangChain">
+          <a href="../automation-ml-ai-agentic/index.html" class="mega-category-item" title="AI Master Class: Automation, ML, GenAI &amp; Agentic Systems, MCP &amp; LangChain">
             <span class="mega-item-arrow">&gt;</span>
             <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg></span>
             <span class="mega-item-text">
-              <span class="mega-item-name">Automation GenAI Agentic</span>
+              <span class="mega-item-name">AI Master Class</span>
             </span>
           </a>
           <a href="../ai/langgraph/index.html" class="mega-category-item" title="Langgraph: Cyclic State Graphs & Multi-Agent DAGs">
@@ -257,6 +330,13 @@
             <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><circle cx="18" cy="6" r="3"/><path d="M18 9v1a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V9"/><path d="M12 12v3"/></svg></span>
             <span class="mega-item-text">
               <span class="mega-item-name">Langgraph</span>
+            </span>
+          </a>
+          <a href="../ai/crewai/index.html" class="mega-category-item" title="CrewAI: Role-Based Agent Crews, Tasks &amp; Flows">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">CrewAI</span>
             </span>
           </a>
           <a href="../ai/aws-bedrock/index.html" class="mega-category-item" title="AWS Bedrock: Managed Foundation Models & Guardrails">
@@ -296,7 +376,7 @@
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"/></svg>
               <span>Data Engineering</span>
             </span>
-            <span class="mega-cat-count">7 Tracks</span>
+            <span class="mega-cat-count">8 Tracks</span>
           </div>
           <div class="mega-category-list">
           <a href="../data-engineering/index.html" class="mega-category-item" title="Data Engineering Master Class: Modern Lakehouse, Fabric & Kafka Streams">
@@ -304,6 +384,13 @@
             <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"/></svg></span>
             <span class="mega-item-text">
               <span class="mega-item-name">Data Engineering Master Class</span>
+            </span>
+          </a>
+          <a href="../pyspark/index.html" class="mega-category-item" title="PySpark: Cluster Architecture, DAG Execution &amp; Data Ingestion">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">PySpark</span>
             </span>
           </a>
           <a href="../databricks-dataengineering/index.html" class="mega-category-item" title="Databricks: Unity Catalog, Delta Live & Photon">
@@ -357,9 +444,16 @@
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg>
               <span>Data Governance</span>
             </span>
-            <span class="mega-cat-count">3 Tracks</span>
+            <span class="mega-cat-count">4 Tracks</span>
           </div>
           <div class="mega-category-list">
+          <a href="../data-governence/index.html" class="mega-category-item" title="Data Governance Master Class: Catalogs, Sensitive Data Discovery, Lineage &amp; Stewardship">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m16.24 7.76-2.12 6.36-6.36 2.12 2.12-6.36 6.36-2.12z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Data Governance Master Class</span>
+            </span>
+          </a>
           <a href="../data-governence/atlas/index.html" class="mega-category-item" title="Atlas: Apache Atlas Metadata & Lineage Graph">
             <span class="mega-item-arrow">&gt;</span>
             <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/></svg></span>
@@ -390,9 +484,16 @@
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
               <span>Full Stack</span>
             </span>
-            <span class="mega-cat-count">4 Tracks</span>
+            <span class="mega-cat-count">5 Tracks</span>
           </div>
           <div class="mega-category-list">
+          <a href="../full-stack/index.html" class="mega-category-item" title="Full Stack Master Class: Enterprise Full Stack Systems Architecture">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m16.24 7.76-2.12 6.36-6.36 2.12 2.12-6.36 6.36-2.12z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Full Stack Master Class</span>
+            </span>
+          </a>
           <a href="../full-stack/python-fastapi/index.html" class="mega-category-item" title="Python fastAPI: Pydantic v2, Async ASGI & OpenTelemetry">
             <span class="mega-item-arrow">&gt;</span>
             <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></span>
@@ -433,6 +534,13 @@
             <span class="mega-cat-count">15 Guides</span>
           </div>
           <div class="mega-category-list">
+          <a href="../placement-assistance/index.html" class="mega-category-item" title="Placement Master Class: Resume to offer letter: all 15 placement guides for freshers">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Placement Master Class</span>
+            </span>
+          </a>
           <a href="../placement-assistance/interview-prep.html" class="mega-category-item" title="Interview Prep: rounds, top questions &amp; a 30-day plan">
             <span class="mega-item-arrow">&gt;</span>
             <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg></span>
@@ -489,13 +597,6 @@
               <span class="mega-item-name">Communication Skills</span>
             </span>
           </a>
-          <a href="../placement-assistance/index.html" class="mega-category-item" title="All placement guides for freshers">
-            <span class="mega-item-arrow">&gt;</span>
-            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg></span>
-            <span class="mega-item-text">
-              <span class="mega-item-name">All 15 Guides</span>
-            </span>
-          </a>
           </div>
         </div>
             </div>
@@ -534,15 +635,16 @@
     </div>
   </header>
 
-  <div class="master-layout-container">
-    <!-- Left Sidebar: Course Topics & Navigation -->
+  <!-- Main Grid with Sticky In-Page Sidebar Navigation -->
+  <div class="master-layout-3col">
+
     <aside class="sidebar-topics-nav" id="sidebarTopicsNav" aria-label="PySpark Topics Navigation">
       <div class="sidebar-header-box">
         <span class="sidebar-header-title">
           <i data-lucide="layers" style="width:14px;height:14px;"></i>
           PySpark Topics
         </span>
-        <span style="font-size:0.72rem;color:var(--text-muted);font-family:var(--font-mono);">7 TOPICS</span>
+        <span style="font-size:0.72rem;color:var(--text-muted);font-family:var(--font-mono);">10 TOPICS</span>
       </div>
 
       <ul class="sidebar-topics-list">
@@ -554,7 +656,7 @@
         </li>
         <li class="sidebar-topic-item">
           <a href="demo.html" class="sidebar-topic-link active">
-            <span class="sidebar-topic-badge" style="background:#10b981;color:#ffffff;border:1px solid #10b981;">DEMO</span>
+            <span class="sidebar-topic-badge" style="background:rgba(16,185,129,0.18);color:#10b981;border:1px solid rgba(16,185,129,0.3);">DEMO</span>
             <span>Interactive Demo Lab</span>
           </a>
         </li>
@@ -562,6 +664,12 @@
           <a href="cluster-architecture.html" class="sidebar-topic-link">
             <span class="sidebar-topic-badge">01</span>
             <span>1. Cluster Setup & Sizer</span>
+          </a>
+        </li>
+        <li class="sidebar-topic-item">
+          <a href="data-distribution.html" class="sidebar-topic-link">
+            <span class="sidebar-topic-badge">01b</span>
+            <span>1b. Data Distribution & Splits</span>
           </a>
         </li>
         <li class="sidebar-topic-item">
@@ -595,6 +703,18 @@
           </a>
         </li>
         <li class="sidebar-topic-item">
+          <a href="shuffle-ops-lab.html" class="sidebar-topic-link">
+            <span class="sidebar-topic-badge">06b</span>
+            <span>6b. Shuffle Operations Lab</span>
+          </a>
+        </li>
+        <li class="sidebar-topic-item">
+          <a href="shuffle-tuning-qna.html" class="sidebar-topic-link">
+            <span class="sidebar-topic-badge">06c</span>
+            <span>6c. Shuffle Tuning Q&A</span>
+          </a>
+        </li>
+        <li class="sidebar-topic-item">
           <a href="streaming-cdc.html" class="sidebar-topic-link">
             <span class="sidebar-topic-badge">07</span>
             <span>7. Streaming & CDC</span>
@@ -603,85 +723,85 @@
       </ul>
     </aside>
 
-    <!-- Main Content Area -->
-    <main class="master-content-area">
-      <!-- Demo Hero Banner -->
-      <section class="demo-hero">
-        <div class="demo-badge-pill">
-          <i data-lucide="flask-conical" style="width:14px;height:14px;"></i>
-          <span>Interactive Laboratory</span>
-        </div>
-        <h1 class="demo-title">PySpark Deep Dive Simulator</h1>
-        <p class="demo-subtitle">
-          Hands-on interactive simulator designed to demonstrate real-world system behaviors, throughput dynamics, fault isolation, and enterprise best practices in Cluster Architecture, DAG & Streaming.
-        </p>
-      </section>
-
-      
-      <section class="demo-card" id="lab-runner">
-        <div class="demo-controls-bar">
-          <div style="display:flex;align-items:center;gap:10px;">
-            <span class="demo-status-pill status-active">Spark Driver Online</span>
-            <span style="font-size:0.85rem;color:#64748b;font-weight:600;">PySpark DAG Execution &amp; AQE Shuffle Coalesce Lab</span>
-          </div>
-          <div style="display:flex;align-items:center;gap:8px;">
-            <button type="button" class="demo-btn demo-btn-primary" onclick="runSparkDag()">
-              <i data-lucide="zap" style="width:14px;height:14px;"></i> Trigger Action (.count())
-            </button>
-            <button type="button" class="demo-btn demo-btn-secondary" onclick="resetSparkDemo()">
-              <i data-lucide="rotate-ccw" style="width:14px;height:14px;"></i> Reset Cluster
-            </button>
-          </div>
-        </div>
-
-        <div class="demo-grid">
-          <div class="demo-subcard">
-            <div class="demo-subcard-title"><i data-lucide="cpu" style="color:#ea580c;"></i> Driver Node</div>
-            <p style="font-size:0.82rem;color:#64748b;">Catalyst Optimizer parses code into Logical &amp; Physical DAG plans.</p>
-            <div style="font-size:0.85rem;font-weight:700;color:#0f172a;" id="driverState">Status: Awaiting Action</div>
-          </div>
-          <div class="demo-subcard">
-            <div class="demo-subcard-title"><i data-lucide="layers" style="color:#2563eb;"></i> Shuffle Partitions (AQE)</div>
-            <p style="font-size:0.82rem;color:#64748b;">Adaptive Query Execution automatically coalesces 200 partitions down.</p>
-            <div style="font-size:0.85rem;font-weight:700;color:#0284c7;" id="partitionState">200 Default &rarr; 8 Coalesced</div>
-          </div>
-        </div>
-
-        <div style="margin-top:20px;" id="lab-terminal">
-          <div class="demo-log-terminal" id="sparkTerminal">
-[SPARK-SESSION] Spark 3.5.0 initialized. Executors: 4 Workers (16 vCPUs, 64GB RAM).
-[CATALYST] Transformations (filter, select, groupBy) recorded in lazy DAG execution plan.
-[READY] Click "Trigger Action" to evaluate lazy transformations...
-          </div>
+    <main class="pyspark-main-content lh">
+      <section class="lh-hero" id="sec-demo-top">
+        <span class="hero-eyebrow-pill"><i data-lucide="flask-conical" style="width:14px;height:14px;"></i>Interactive Demo Lab</span>
+        <h1>Lakehouse Demo Lab: Data Lake vs Delta Lake vs Iceberg</h1>
+        <p>All three store the same Parquet files. The difference is the <b>metadata layer</b> above them: whether a commit is atomic, how a reader finds the current files, and how a row gets updated.
+          Step through real operations, compare read paths, then tune <b>Copy-on-Write vs Merge-on-Read</b> for your workload.</p>
+        <div class="lh-chips">
+          <span class="lh-chip"><i class="d" style="background:var(--lh-plain)"></i>Plain PySpark data lake</span>
+          <span class="lh-chip"><i class="d" style="background:var(--lh-delta)"></i>Delta Lake</span>
+          <span class="lh-chip"><i class="d" style="background:var(--lh-iceberg)"></i>Apache Iceberg</span>
+          <span class="lh-chip"><i class="d" style="background:var(--lh-cow)"></i>COW</span>
+          <span class="lh-chip"><i class="d" style="background:var(--lh-mor)"></i>MOR</span>
         </div>
       </section>
 
-      <script>
-        function runSparkDag() {
-          const term = document.getElementById('sparkTerminal');
-          document.getElementById('driverState').textContent = 'Action Running: .count()';
-          term.innerHTML += '\n[JOB 01] Action triggered! Catalyst generates physical plan.\n[STAGE 0] Narrow Transformation (Map/Filter): 100% localized, zero network shuffle!\n[SHUFFLE] Wide Transformation (groupBy): Adaptive Query Execution dynamically coalesced 200 partitions into 8 optimal stages!\n[COMPLETED] Job finished in 1.42s. Result: 24,500,000 rows.';
-          term.scrollTop = term.scrollHeight;
-        }
-        function resetSparkDemo() {
-          document.getElementById('driverState').textContent = 'Status: Awaiting Action';
-          document.getElementById('sparkTerminal').innerHTML = '[SPARK-SESSION] Spark 3.5.0 ready.\n[READY] Trigger action to start DAG execution.';
-        }
-      </script>
+      <section class="lh-sec" id="sec-demo-formats">
+        <div class="section-header-block"><div>
+          <h2 class="section-header-title"><i data-lucide="git-compare-arrows" style="color:var(--spark-orange);width:22px;height:22px;"></i>1. Same table, three storage designs</h2>
+          <span style="font-size:0.86rem;color:var(--text-muted);">Step through nine operations and watch the files, the metadata and what a reader sees</span></div></div>
+        <div id="lhTimeline"></div>
+      </section>
 
+      <section class="lh-sec" id="sec-demo-matrix">
+        <div class="section-header-block"><div>
+          <h2 class="section-header-title"><i data-lucide="table-properties" style="color:var(--spark-orange);width:22px;height:22px;"></i>2. Capability matrix</h2>
+          <span style="font-size:0.86rem;color:var(--text-muted);">What the metadata layer adds on top of the same Parquet files</span></div></div>
+        <div id="lhMatrix"></div>
+      </section>
+
+      <section class="lh-sec" id="sec-demo-read">
+        <div class="section-header-block"><div>
+          <h2 class="section-header-title"><i data-lucide="book-open" style="color:var(--spark-orange);width:22px;height:22px;"></i>3. How a read finds the files</h2>
+          <span style="font-size:0.86rem;color:var(--text-muted);">Directory listing vs transaction log vs metadata tree — and what it costs as the table grows</span></div></div>
+        <div id="lhRead"></div>
+      </section>
+
+      <section class="lh-sec" id="sec-demo-cowmor">
+        <div class="section-header-block"><div>
+          <h2 class="section-header-title"><i data-lucide="split" style="color:var(--spark-orange);width:22px;height:22px;"></i>4. Copy-on-Write (COW) vs Merge-on-Read (MOR)</h2>
+          <span style="font-size:0.86rem;color:var(--text-muted);">Run updates on a 24-file table, then tune the workload to see which strategy moves less data</span></div></div>
+        <div id="lhCM"></div>
+      </section>
+
+      <section class="lh-sec" id="sec-demo-dag">
+        <div class="section-header-block"><div>
+          <h2 class="section-header-title"><i data-lucide="zap" style="color:var(--spark-orange);width:22px;height:22px;"></i>5. Lazy DAG &amp; AQE mini-lab</h2>
+          <span style="font-size:0.86rem;color:var(--text-muted);">From lazy transformations to a coalesced shuffle in one action</span></div></div>
+        <div id="lhDag"></div>
+      </section>
+
+      <div class="lh-speed" role="group" aria-label="Animation speed">
+        <i data-lucide="gauge" style="width:16px;height:16px;color:var(--spark-orange)"></i>Animation speed
+        <input type="range" id="lhSpeed" min="0" max="7" step="1" value="3" aria-label="Animation speed">
+        <output id="lhSpeedOut">1×</output>
+      </div>
     </main>
 
-    <!-- Right Sidebar: In-Page Navigation -->
-    <aside class="sidebar-inpage-nav">
-      <div class="inpage-nav-title">Lab Scenarios</div>
-      <ul class="inpage-nav-list">
-        <li><a href="#lab-runner" class="inpage-link active">1. Pipeline Simulator</a></li>
-        <li><a href="#lab-terminal" class="inpage-link">2. Live Event Stream</a></li>
-        <li><a href="#lab-metrics" class="inpage-link">3. Telemetry &amp; KPIs</a></li>
+    <aside class="sidebar-inpage-nav" id="sidebarInpageNav" aria-label="In-Page Table of Contents">
+      <div class="inpage-header-box">
+        <span class="inpage-header-title"><i data-lucide="compass" style="width:14px;height:14px;"></i>On This Page</span>
+        <span style="font-size:0.7rem;color:var(--text-muted);font-family:var(--font-mono);">5 SECTIONS</span>
+      </div>
+      <ul class="inpage-list">
+        <li class="inpage-item"><a href="#sec-demo-formats" class="inpage-link active"><span class="inpage-step-num">01</span><span>Lake vs Delta vs Iceberg</span></a></li>
+        <li class="inpage-item"><a href="#sec-demo-matrix" class="inpage-link"><span class="inpage-step-num">02</span><span>Capability Matrix</span></a></li>
+        <li class="inpage-item"><a href="#sec-demo-read" class="inpage-link"><span class="inpage-step-num">03</span><span>Read Path &amp; Planning</span></a></li>
+        <li class="inpage-item"><a href="#sec-demo-cowmor" class="inpage-link"><span class="inpage-step-num">04</span><span>COW vs MOR</span></a></li>
+        <li class="inpage-item"><a href="#sec-demo-dag" class="inpage-link"><span class="inpage-step-num">05</span><span>Lazy DAG &amp; AQE</span></a></li>
       </ul>
     </aside>
   </div>
 
+  <!-- Footer -->
+    <!-- ========================================================================= -->
+  <!-- SITE FOOTER: Consistent Footer Across All Pages                           -->
+  <!-- ========================================================================= -->
+    <!-- ========================================================================= -->
+  <!-- SITE FOOTER: AI MasterClass Premium High-Contrast Black Footer            -->
+  <!-- ========================================================================= -->
   <footer class="site-footer">
     <div class="footer-container">
       <div class="footer-main-grid">
@@ -764,14 +884,10 @@
         <span class="footer-contact-label" style="margin:0;">MasterClass Portals:</span>
         <div class="footer-portals-list">
           <a href="../index.html" class="footer-portal-chip">🏠 Academy Home</a>
-          <a href="../automation-ml-ai-agentic/index.html" class="footer-portal-chip">> AI Home</a>
-          <a href="../data-engineering/index.html" class="footer-portal-chip">> Data Engineering Home</a>
-          <a href="../pyspark/index.html" class="footer-portal-chip">> PySpark Home</a>
-          <a href="../data-governence/index.html" class="footer-portal-chip">> Data Governance Home</a>
-          <a href="../aws-dataengineering/index.html" class="footer-portal-chip">> AWS Data Engineering Home</a>
-          <a href="../azure-dataengineering/index.html" class="footer-portal-chip">> Azure Data Engineering Home</a>
-          <a href="../databricks-dataengineering/index.html" class="footer-portal-chip">> Databricks Lakehouse Home</a>
-          <a href="../snowflake-dataengineering/index.html" class="footer-portal-chip">> Snowflake Cloud Data Home</a>
+          <a href="../automation-ml-ai-agentic/index.html" class="footer-portal-chip">🤖 AI Systems Hub</a>
+          <a href="../data-engineering/index.html" class="footer-portal-chip">🗄️ Data Engineering Hub</a>
+          <a href="../data-governence/purview-sandbox/index.html" class="footer-portal-chip">🛡️ Data Governance</a>
+          <a href="../pyspark/index.html" class="footer-portal-chip">⚡ PySpark Architecture</a>
         </div>
       </div>
 
@@ -787,13 +903,8 @@
       </div>
     </div>
   </footer>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      if (window.lucide && typeof lucide.createIcons === 'function') {
-        lucide.createIcons();
-      }
-    });
-  </script>
+  
+  <script src="../assets/js/master-global-nav.js" defer></script>
+  <script src="assets/js/lakehouse-demo.js"></script>
 </body>
 </html>

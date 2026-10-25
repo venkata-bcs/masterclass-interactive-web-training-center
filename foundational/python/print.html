@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Python Print: Show Things on Screen | Tinitiate MasterClass Academy</title>
+  <link rel="icon" type="image/png" href="../../favicon.png">
+  <link rel="stylesheet" href="../../assets/css/master-global-layout.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
+  <link rel="stylesheet" href="python-course.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/python/python.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/edit/matchbrackets.min.js" defer></script>
+</head>
+<body class="theme-dark">
+
+  <!-- Master Top Navigation Bar -->
+  <header class="master-top-nav">
+    <div class="master-top-nav-inner">
+      <a href="../../index.html" class="master-brand-wrap" aria-label="Tinitiate MasterClass Academy">
+        <img src="../../tinitiate_header-banner.png" alt="Tinitiate Logo" class="master-brand-logo">
+        <span class="master-brand-badge">PYTHON</span>
+      </a>
+
+      <nav class="master-menu-links">
+        <a href="../../index.html" class="master-nav-btn" title="Main Academy Portal">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          <span>Home</span>
+        </a>
+        <a href="index.html" class="master-nav-btn subject-home-btn" title="Python Foundations home">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 14 14"/></svg>
+          <span>Python</span>
+        </a>
+        <a href="#player" class="master-nav-btn" title="Jump to the slides" style="border-color:rgba(124,58,237,0.5);">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          <span>Slide Player</span>
+        </a>
+
+        <div class="master-dropdown" id="subjectsDropdown">
+          <button type="button" class="master-dropdown-toggle" onclick="toggleSubjectsDropdown(event)" aria-haspopup="true" aria-expanded="false" title="Explore All Subjects">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>
+            <span>Subjects</span>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div class="master-dropdown-menu mega-menu" id="subjectsMegaMenu">
+            <div class="mega-menu-header">
+              <div class="mega-menu-title-wrap">
+                <span class="mega-menu-eyebrow">TINITIATE AI ACADEMY • ARCHITECTURE CURRICULUM</span>
+                <h4 class="mega-menu-title">Explore Engineering Curricula by Domain</h4>
+              </div>
+              <div class="mega-menu-stats-pill">
+                <span>6 Domains</span> • <span>31 Tracks + 15 Placement Guides</span>
+              </div>
+            </div>
+
+            <div class="mega-menu-grid">
+        <!-- Category: Foundational -->
+        <div class="mega-category-col" style="--cat-accent:#38bdf8;">
+          <div class="mega-category-header">
+            <span class="mega-cat-badge" style="color:#38bdf8;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="8" height="8" x="3" y="3" rx="2"/><path d="M7 11v4a2 2 0 0 0 2 2h4"/><rect width="8" height="8" x="13" y="13" rx="2"/></svg>
+              <span>Foundational</span>
+            </span>
+            <span class="mega-cat-count">7 Tracks</span>
+          </div>
+          <div class="mega-category-list">
+          <a href="../../foundational/index.html" class="mega-category-item" title="Foundational Master Class: Computer Science &amp; Software Engineering Fundamentals">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m16.24 7.76-2.12 6.36-6.36 2.12 2.12-6.36 6.36-2.12z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Foundational Master Class</span>
+            </span>
+          </a>
+          <a href="../../foundational/data-structures/index.html" class="mega-category-item" title="Data Structures: Trees, Graphs, HashTables & Heaps">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="8" height="8" x="3" y="3" rx="2"/><rect width="8" height="8" x="13" y="13" rx="2"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Data Structures</span>
+            </span>
+          </a>
+          <a href="../../foundational/authentication/index.html" class="mega-category-item" title="Authentication: OAuth2, OIDC, JWT, SAML & PKCE">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m21 2-2 2m-1.5 1.5L13 10m0 0a5 5 0 1 1-7-7 5 5 0 0 1 7 7Z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Authentication</span>
+            </span>
+          </a>
+          <a href="../../foundational/apis/index.html" class="mega-category-item" title="APIs: REST, GraphQL, gRPC & WebSockets">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 16.326A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 .5 8.973"/><path d="m13 12-3 5h4l-3 5"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">APIs</span>
+            </span>
+          </a>
+          <a href="../../foundational/microservices/index.html" class="mega-category-item" title="MicroServices: Sagas, Service Mesh & Event-Driven">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2.97 12.92A2 2 0 0 0 2 14.63v3.24a2 2 0 0 0 .97 1.71l6 3.43a2 2 0 0 0 1.97 0l6-3.43a2 2 0 0 0 .97-1.71v-3.24a2 2 0 0 0-.97-1.71L11 9.49a2 2 0 0 0-2.06 0l-5.97 3.43Z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">MicroServices</span>
+            </span>
+          </a>
+          <a href="../../foundational/oop/index.html" class="mega-category-item" title="OOP: SOLID, Polymorphism & Abstraction">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">OOP</span>
+            </span>
+          </a>
+          <a href="../../foundational/design-patterns/index.html" class="mega-category-item" title="Design Patterns: GoF Creational, Structural & Behavioral">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Design Patterns</span>
+            </span>
+          </a>
+          </div>
+        </div>
+        <!-- Category: AI -->
+        <div class="mega-category-col" style="--cat-accent:#a855f7;">
+          <div class="mega-category-header">
+            <span class="mega-cat-badge" style="color:#a855f7;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
+              <span>AI</span>
+            </span>
+            <span class="mega-cat-count">7 Tracks</span>
+          </div>
+          <div class="mega-category-list">
+          <a href="../../automation-ml-ai-agentic/index.html" class="mega-category-item" title="AI Master Class: Automation, ML, GenAI &amp; Agentic Systems, MCP &amp; LangChain">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">AI Master Class</span>
+            </span>
+          </a>
+          <a href="../../ai/langgraph/index.html" class="mega-category-item" title="Langgraph: Cyclic State Graphs & Multi-Agent DAGs">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><circle cx="18" cy="6" r="3"/><path d="M18 9v1a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V9"/><path d="M12 12v3"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Langgraph</span>
+            </span>
+          </a>
+          <a href="../../ai/crewai/index.html" class="mega-category-item" title="CrewAI: Role-Based Agent Crews, Tasks &amp; Flows">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">CrewAI</span>
+            </span>
+          </a>
+          <a href="../../ai/aws-bedrock/index.html" class="mega-category-item" title="AWS Bedrock: Managed Foundation Models & Guardrails">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="16" height="16" x="4" y="4" rx="2"/><rect width="6" height="6" x="9" y="9" rx="1"/><path d="M15 2v2"/><path d="M15 20v2"/><path d="M2 15h2"/><path d="M2 9h2"/><path d="M20 15h2"/><path d="M20 9h2"/><path d="M9 2v2"/><path d="M9 20v2"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">AWS Bedrock</span>
+            </span>
+          </a>
+          <a href="../../ai/azure-foundry/index.html" class="mega-category-item" title="Azure Foundry: Azure AI Studio, Prompt Flow & Evaluators">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="8" x="2" y="2" rx="2" ry="2"/><rect width="20" height="8" x="2" y="14" rx="2" ry="2"/><line x1="6" x2="6.01" y1="6" y2="6"/><line x1="6" x2="6.01" y1="18" y2="18"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Azure Foundry</span>
+            </span>
+          </a>
+          <a href="../../ai/claude-sdk/index.html" class="mega-category-item" title="Claude SDK: Anthropic SDK, Tools & Prompt Caching">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Claude SDK</span>
+            </span>
+          </a>
+          <a href="../../ai/google-gemini-sdk/index.html" class="mega-category-item" title="Google Gemini SDK: Gemini 1.5 Pro, Multimodal & Context Cache">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Google Gemini SDK</span>
+            </span>
+          </a>
+          </div>
+        </div>
+        <!-- Category: Data Engineering -->
+        <div class="mega-category-col" style="--cat-accent:#0284c7;">
+          <div class="mega-category-header">
+            <span class="mega-cat-badge" style="color:#0284c7;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"/></svg>
+              <span>Data Engineering</span>
+            </span>
+            <span class="mega-cat-count">8 Tracks</span>
+          </div>
+          <div class="mega-category-list">
+          <a href="../../data-engineering/index.html" class="mega-category-item" title="Data Engineering Master Class: Modern Lakehouse, Fabric & Kafka Streams">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Data Engineering Master Class</span>
+            </span>
+          </a>
+          <a href="../../pyspark/index.html" class="mega-category-item" title="PySpark: Cluster Architecture, DAG Execution &amp; Data Ingestion">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">PySpark</span>
+            </span>
+          </a>
+          <a href="../../databricks-dataengineering/index.html" class="mega-category-item" title="Databricks: Unity Catalog, Delta Live & Photon">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Databricks</span>
+            </span>
+          </a>
+          <a href="../../aws-dataengineering/index.html" class="mega-category-item" title="AWS Data Engineering: EMR, Glue, Redshift, Kinesis & S3">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">AWS Data Engineering</span>
+            </span>
+          </a>
+          <a href="../../snowflake-dataengineering/index.html" class="mega-category-item" title="SnowFlake: Snowpark, Dynamic Tables & Warehouses">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" x2="12" y1="2" y2="22"/><line x1="12" x2="12" y1="10" y2="14"/><line x1="2" x2="22" y1="12" y2="12"/><line x1="20" x2="4" y1="4" y2="20"/><line x1="4" x2="20" y1="4" y2="20"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">SnowFlake</span>
+            </span>
+          </a>
+          <a href="../../azure-dataengineering/index.html" class="mega-category-item" title="Azure Data Engineering: Fabric, Synapse Analytics & ADLS Gen2">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="8" x="2" y="2" rx="2" ry="2"/><rect width="20" height="8" x="2" y="14" rx="2" ry="2"/><line x1="6" x2="6.01" y1="6" y2="6"/><line x1="6" x2="6.01" y1="18" y2="18"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Azure Data Engineering</span>
+            </span>
+          </a>
+          <a href="../../data-engineering/onprem-pandas-polars-sql/index.html" class="mega-category-item" title="On Prem Pandas, Polars, SQL: Vectorized LazyFrames & Local Engines">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" x2="20" y1="19" y2="19"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">On Prem Pandas, Polars, SQL</span>
+            </span>
+          </a>
+          <a href="../../data-engineering/duckdb/index.html" class="mega-category-item" title="DuckDB: In-Process Columnar Analytical OLAP">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"/><line x1="16" x2="2" y1="8" y2="22"/><line x1="17.5" x2="9" y1="15" y2="15"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">DuckDB</span>
+            </span>
+          </a>
+          </div>
+        </div>
+        <!-- Category: Data Governance -->
+        <div class="mega-category-col" style="--cat-accent:#10b981;">
+          <div class="mega-category-header">
+            <span class="mega-cat-badge" style="color:#10b981;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg>
+              <span>Data Governance</span>
+            </span>
+            <span class="mega-cat-count">4 Tracks</span>
+          </div>
+          <div class="mega-category-list">
+          <a href="../../data-governence/index.html" class="mega-category-item" title="Data Governance Master Class: Catalogs, Sensitive Data Discovery, Lineage &amp; Stewardship">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m16.24 7.76-2.12 6.36-6.36 2.12 2.12-6.36 6.36-2.12z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Data Governance Master Class</span>
+            </span>
+          </a>
+          <a href="../../data-governence/atlas/index.html" class="mega-category-item" title="Atlas: Apache Atlas Metadata & Lineage Graph">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Atlas</span>
+            </span>
+          </a>
+          <a href="../../data-governence/unity/index.html" class="mega-category-item" title="Unity: Unity Catalog Fine-Grained ABAC & Grants">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Unity</span>
+            </span>
+          </a>
+          <a href="../../data-governence/purview-sandbox/index.html" class="mega-category-item" title="Purview: Purview Data Map, Stewardship & Scanning">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Purview</span>
+            </span>
+          </a>
+          </div>
+        </div>
+        <!-- Category: Full Stack -->
+        <div class="mega-category-col" style="--cat-accent:#f43f5e;">
+          <div class="mega-category-header">
+            <span class="mega-cat-badge" style="color:#f43f5e;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+              <span>Full Stack</span>
+            </span>
+            <span class="mega-cat-count">5 Tracks</span>
+          </div>
+          <div class="mega-category-list">
+          <a href="../../full-stack/index.html" class="mega-category-item" title="Full Stack Master Class: Enterprise Full Stack Systems Architecture">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m16.24 7.76-2.12 6.36-6.36 2.12 2.12-6.36 6.36-2.12z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Full Stack Master Class</span>
+            </span>
+          </a>
+          <a href="../../full-stack/python-fastapi/index.html" class="mega-category-item" title="Python fastAPI: Pydantic v2, Async ASGI & OpenTelemetry">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Python fastAPI</span>
+            </span>
+          </a>
+          <a href="../../full-stack/nodejs-react-nextjs/index.html" class="mega-category-item" title="NodeJS React NextJS: React 19, Server Components & App Router">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" x2="22" y1="12" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">NodeJS React NextJS</span>
+            </span>
+          </a>
+          <a href="../../full-stack/dotnet-csharp/index.html" class="mega-category-item" title="C#/.Net Full Stack: ASP.NET Core Web API & Entity Framework">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" x2="20" y1="9" y2="9"/><line x1="4" x2="20" y1="15" y2="15"/><line x1="10" x2="8" y1="3" y2="21"/><line x1="16" x2="14" y1="3" y2="21"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">C#/.Net Full Stack</span>
+            </span>
+          </a>
+          <a href="../../full-stack/java-fullstack/index.html" class="mega-category-item" title="Java Full Stack: Spring Boot 3, Hibernate JPA & Microservices">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" x2="6" y1="2" y2="4"/><line x1="10" x2="10" y1="2" y2="4"/><line x1="14" x2="14" y1="2" y2="4"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Java Full Stack</span>
+            </span>
+          </a>
+          </div>
+        </div>
+        <!-- Category: Placement Assistance -->
+        <div class="mega-category-col" style="--cat-accent:#fb923c;">
+          <div class="mega-category-header">
+            <span class="mega-cat-badge" style="color:#fb923c;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="14" x="2" y="7" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+              <span>Placement</span>
+            </span>
+            <span class="mega-cat-count">15 Guides</span>
+          </div>
+          <div class="mega-category-list">
+          <a href="../../placement-assistance/index.html" class="mega-category-item" title="Placement Master Class: Resume to offer letter: all 15 placement guides for freshers">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Placement Master Class</span>
+            </span>
+          </a>
+          <a href="../../placement-assistance/interview-prep.html" class="mega-category-item" title="Interview Prep: rounds, top questions &amp; a 30-day plan">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Interview Prep</span>
+            </span>
+          </a>
+          <a href="../../placement-assistance/resume-prep.html" class="mega-category-item" title="Resume Prep: an ATS-friendly 1-page resume for freshers">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M16 13H8"/><path d="M16 17H8"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Resume Prep</span>
+            </span>
+          </a>
+          <a href="../../placement-assistance/job-applications.html" class="mega-category-item" title="Job Applications: apply smart, referrals &amp; avoiding scams">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Job Applications</span>
+            </span>
+          </a>
+          <a href="../../placement-assistance/cover-letters.html" class="mega-category-item" title="Cover Letters: a 3-paragraph formula &amp; cold emails">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Cover Letters</span>
+            </span>
+          </a>
+          <a href="../../placement-assistance/before-interview.html" class="mega-category-item" title="Before the Interview: countdown, research &amp; setup">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/><path d="m9 16 2 2 4-4"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Before Interview</span>
+            </span>
+          </a>
+          <a href="../../placement-assistance/during-interview.html" class="mega-category-item" title="During the Interview: strong start, think aloud &amp; smart questions">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">During Interview</span>
+            </span>
+          </a>
+          <a href="../../placement-assistance/handling-competition.html" class="mega-category-item" title="Handling Competition: stand out among lakhs of freshers">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Handling Competition</span>
+            </span>
+          </a>
+          <a href="../../placement-assistance/communication-skills.html" class="mega-category-item" title="Communication Skills: clear English, structure &amp; practice">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 11 18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Communication Skills</span>
+            </span>
+          </a>
+          </div>
+        </div>
+            </div>
+
+            <div class="mega-menu-footer">
+              <div class="mega-footer-left">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+                <span>Each module includes <strong>zero-code visual architectures</strong>, <strong>interactive sandboxes</strong>, and <strong>production blueprints</strong>.</span>
+              </div>
+              <div class="mega-footer-right">
+                <span>Lead Architect: <strong>Venkata Bhattaram</strong></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <div class="master-nav-actions">
+        <div class="master-instructor-beam" title="Lead Course Instructor &amp; Enterprise Architect">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+          <span class="inst-label">Instructor:</span>
+          <span class="inst-name">Venkata Bhattaram</span>
+        </div>
+        <a href="https://www.linkedin.com/in/venkata-bhattaram/" target="_blank" rel="noopener noreferrer" class="master-nav-social-btn linkedin" title="Venkata Bhattaram LinkedIn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.45a1.6 1.6 0 1 0 0 3.2 1.6 1.6 0 0 0 0-3.2Z"/></svg>
+          <span>LinkedIn</span>
+        </a>
+        <a href="https://github.com/venkata-bcs" target="_blank" rel="noopener noreferrer" class="master-nav-social-btn github" title="Venkata Bhattaram GitHub">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>
+          <span>GitHub</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="page-main-wrap py-wrap" data-py-page="print" style="max-width:1400px;margin:0 auto;padding:32px 24px;">
+
+    <!-- Module Hero -->
+    <section class="subject-hero-card py-hero" style="background:radial-gradient(ellipse at top right, rgba(56,189,248,0.22), transparent 65%), rgba(15,23,42,0.75);border:1px solid rgba(255,255,255,0.1);border-radius:18px;padding:40px;margin-bottom:32px;box-shadow:0 20px 40px rgba(0,0,0,0.5);">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap;">
+        <a href="index.html" style="font-size:0.75rem;font-weight:800;letter-spacing:0.06em;text-transform:uppercase;color:#38bdf8;background:rgba(255,255,255,0.06);padding:4px 12px;border-radius:20px;border:1px solid #38bdf844;text-decoration:none;">
+          &larr; Python Foundations
+        </a>
+        <span style="font-size:0.75rem;font-weight:700;color:#38bdf8;background:rgba(255,255,255,0.06);padding:4px 12px;border-radius:20px;border:1px solid #38bdf855;">
+          Module 1 of 3 &bull; No experience needed
+        </span>
+      </div>
+      <h1 style="font-size:2.4rem;font-weight:800;color:#ffffff;line-height:1.2;margin:0 0 14px 0;">
+        Python Print: Show Things on Screen
+      </h1>
+      <p style="font-size:1.1rem;color:#cbd5e1;max-width:860px;line-height:1.6;margin:0 0 28px 0;">
+        Your very first Python command. <code style="font-family:var(--font-mono);color:#fde68a;">print()</code> makes Python show a message on the screen. By the end of this module you will be able to print text, numbers, several things at once, new lines and sentences with values filled in.
+      </p>
+      <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:center;">
+        <a href="#player" class="py-btn primary" style="padding:12px 24px;font-size:0.95rem;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          <span>Open the Slides</span>
+        </a>
+        <a href="#dashboard" class="py-btn" style="padding:12px 20px;font-size:0.95rem;">
+          <span>My Progress</span>
+        </a>
+        <a href="https://github.com/tinitiateprime/python/tree/main/python-core-language/python-print" target="_blank" rel="noopener noreferrer" class="py-btn" style="padding:12px 20px;font-size:0.95rem;">
+          <span>Example Files on GitHub</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- Module Dashboard -->
+    <section id="dashboard" class="py-section">
+      <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+        <div>
+          <span class="py-eyebrow" style="color:#38bdf8;">Module Dashboard</span>
+          <h2 class="py-h2">Python Print: Your Progress</h2>
+          <p class="py-sub">A slide counts as done once you open it. Your progress is saved in this browser.</p>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <button type="button" class="py-btn primary" id="py-continue">Start learning</button>
+          <button type="button" class="py-btn" id="py-reset" style="border-color:rgba(239,68,68,0.35);color:#fca5a5;">Reset</button>
+        </div>
+      </div>
+
+      <div class="py-stats">
+        <div class="py-stat"><span>Completed</span><strong id="py-stat-progress" style="color:#facc15;">0%</strong>
+          <div class="py-meter" style="margin-top:8px;--mod-accent:#38bdf8;"><span id="py-stat-progress-bar"></span></div></div>
+        <div class="py-stat" style="animation-delay:.06s"><span>Slides opened</span><strong id="py-stat-opened">0</strong></div>
+        <div class="py-stat" style="animation-delay:.12s"><span>Total slides</span><strong id="py-stat-slides">0</strong></div>
+        <div class="py-stat" style="animation-delay:.18s"><span>Time needed</span><strong id="py-stat-time">-</strong></div>
+      </div>
+
+      <div class="py-two-col">
+        <div>
+          <h3 class="py-h3">What you will learn <span style="font-size:0.78rem;color:var(--py-muted);font-weight:600;">(click any topic to jump to it)</span></h3>
+          <div class="py-learn-grid" id="py-learn"></div>
+        </div>
+        <div>
+          <h3 class="py-h3">Words to know</h3>
+          <div class="py-glossary" id="py-glossary"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide Player -->
+    <section id="player" class="py-section">
+      <span class="py-eyebrow" style="color:#facc15;">Slide Player</span>
+      <h2 class="py-h2">Python Print, Step by Step</h2>
+      <p class="py-sub" style="margin-bottom:18px;">Read the "In plain English" box first, then look at the code and what it shows on screen. The code is a real Python editor: change anything and press Run. Reset puts the original code back. Keys: <span class="py-kbd">&larr;</span> <span class="py-kbd">&rarr;</span> change slide, <span class="py-kbd">Space</span> play/pause, <span class="py-kbd">R</span> run again.</p>
+
+      <div class="py-player-layout">
+        <div class="py-player" id="py-player">
+          <div class="py-player-top">
+            <div class="py-player-deck">
+              <span class="py-live-dot"></span>
+              <strong style="color:#fff;font-size:0.95rem;">Python Print</strong>
+              <span class="py-counter" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">python-core-language/python-print</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <span class="py-counter" id="py-counter"></span>
+              <button type="button" class="py-icon-btn" onclick="PyCourse.fullscreen()" title="Fullscreen" aria-label="Toggle fullscreen">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3"/><path d="M21 8V5a2 2 0 0 0-2-2h-3"/><path d="M3 16v3a2 2 0 0 0 2 2h3"/><path d="M16 21h3a2 2 0 0 0 2-2v-3"/></svg>
+              </button>
+            </div>
+          </div>
+          <div class="py-progress"><span id="py-progress"></span></div>
+          <div class="py-autobar"><span id="py-autobar"></span></div>
+
+          <div class="py-stage" id="py-stage" aria-live="polite"></div>
+
+          <div class="py-player-controls">
+            <div class="py-transport">
+              <button type="button" class="py-icon-btn" id="py-first" onclick="PyCourse.go(0)" title="First slide" aria-label="First slide">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="19 20 9 12 19 4 19 20"/><line x1="5" x2="5" y1="19" y2="5"/></svg>
+              </button>
+              <button type="button" class="py-icon-btn" id="py-prev" onclick="PyCourse.prev()" title="Previous slide" aria-label="Previous slide">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m15 18-6-6 6-6"/></svg>
+              </button>
+              <button type="button" class="py-icon-btn play" id="py-play" onclick="PyCourse.togglePlay()" title="Play / pause autoplay" aria-label="Play autoplay">
+                <svg id="py-play-icon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 4 20 12 6 20 6 4"/></svg>
+              </button>
+              <button type="button" class="py-icon-btn" id="py-next" onclick="PyCourse.next()" title="Next slide" aria-label="Next slide">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg>
+              </button>
+              <button type="button" class="py-icon-btn" id="py-last" onclick="PyCourse.go(-1)" title="Last slide" aria-label="Last slide">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" x2="19" y1="5" y2="19"/></svg>
+              </button>
+            </div>
+            <div class="py-dots" id="py-dots"></div>
+            <label class="py-speed">Autoplay
+              <select onchange="PyCourse.setSpeed(this.value)">
+                <option value="8000">8 s</option>
+                <option value="12000" selected>12 s</option>
+                <option value="20000">20 s</option>
+              </select>
+            </label>
+          </div>
+        </div>
+
+        <aside class="py-outline" id="py-outline" aria-label="Slide list"></aside>
+      </div>
+    </section>
+
+    <nav class="py-modnav" id="py-modnav" aria-label="Module navigation"></nav>
+
+  </main>
+
+  <!-- Master Footer -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-main-grid">
+        <div class="footer-col">
+          <div class="footer-col-title">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><rect width="16" height="20" x="4" y="2" rx="2" ry="2"/><path d="M9 22v-4h6v4"/><path d="M8 6h.01"/><path d="M16 6h.01"/><path d="M12 6h.01"/><path d="M12 10h.01"/><path d="M12 14h.01"/><path d="M16 10h.01"/><path d="M16 14h.01"/><path d="M8 10h.01"/><path d="M8 14h.01"/></svg>
+            <span>Tinitiate AI Academy</span>
+          </div>
+          <p class="footer-col-desc">
+            Industry-aligned IT training curriculum designed to transition software engineers, cloud architects, and data professionals into high-impact AI, GenAI, and Distributed Lakehouse Engineering roles.
+          </p>
+          <span class="footer-contact-label">Company Social Channels</span>
+          <div class="footer-socials-grid">
+            <a href="https://linkedin.com/company/tinitiate" target="_blank" rel="noopener noreferrer" class="footer-social-btn" title="Tinitiate LinkedIn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.45a1.6 1.6 0 1 0 0 3.2 1.6 1.6 0 0 0 0-3.2Z"/></svg>
+            </a>
+            <a href="https://youtube.com/@tinitiate" target="_blank" rel="noopener noreferrer" class="footer-social-btn" title="Tinitiate YouTube">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+            </a>
+            <a href="https://github.com/venkata-bcs" target="_blank" rel="noopener noreferrer" class="footer-social-btn" title="Tinitiate GitHub">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <div class="footer-col-title">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+            <span>Instructor &bull; Venkata Bhattaram</span>
+          </div>
+          <p class="footer-col-desc">
+            Principal Enterprise Architect and Lead Instructor at Tinitiate AI. Over two decades architecting distributed computing, lakehouse telemetry, and multi-agent AI ecosystems for Fortune 500 enterprises.
+          </p>
+          <div class="footer-instructor-card">
+            <div class="footer-inst-avatar">VB</div>
+            <div class="footer-inst-info">
+              <span class="footer-inst-name">Venkata Bhattaram</span>
+              <span class="footer-inst-role">Chief Architect &amp; Lead Trainer</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <div class="footer-col-title">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            <span>Academy Inquiries</span>
+          </div>
+          <div class="footer-contact-list">
+            <div class="footer-contact-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+              <a href="mailto:contact@tinitiateai.com" class="footer-web-link">contact@tinitiateai.com</a>
+            </div>
+            <div class="footer-contact-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" x2="22" y1="12" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+              <a href="https://tinitiateai.com" target="_blank" rel="noopener noreferrer" class="footer-web-link">tinitiateai.com</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom-bar">
+        <div class="footer-copy">
+          &copy; 2026 <strong>Venkata Bhattaram</strong> &bull; <a href="https://tinitiateai.com" target="_blank" rel="noopener noreferrer" style="color:#ffffff;text-decoration:none;font-weight:700;">TinitiateAI.com</a> &bull; All Rights Reserved.
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../../assets/js/master-global-nav.js"></script>
+  <script src="python-course.js"></script>
+  <script>
+    if (window.lucide) {
+      lucide.createIcons();
+    }
+  </script>
+</body>
+</html>

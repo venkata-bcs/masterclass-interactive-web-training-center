@@ -4,7 +4,9 @@
    ============================================================================= */
 
 (function() {
-  let dropdownTimeout = null;
+  let dropdownTimeout = null;   // pending close
+  let openTimeout = null;       // pending hover-intent open
+  let hoverOpenedAt = 0;        // when hover last opened the menu
   // Resolve site-root links from this script's own URL so they work at any folder depth
   const NAV_SCRIPT_SRC = document.currentScript && document.currentScript.src;
 
@@ -47,37 +49,72 @@
     const dd = document.getElementById('subjectsDropdown');
     if (dd) {
       clearTimeout(dropdownTimeout);
-      const willOpen = !dd.classList.contains('open');
-      dd.classList.toggle('open');
-      if (willOpen) {
+      clearTimeout(openTimeout);
+      const isOpen = dd.classList.contains('open');
+      // A click right after hover opened the menu means "keep it open", not "close it"
+      if (isOpen && Date.now() - hoverOpenedAt < 800) return;
+      dd.classList.toggle('open', !isOpen);
+      const toggle = dd.querySelector('.master-dropdown-toggle');
+      if (toggle) toggle.setAttribute('aria-expanded', String(!isOpen));
+      if (!isOpen) {
         requestAnimationFrame(adjustMegaMenuPosition);
       }
     }
   };
+
+  function openDropdown(dd) {
+    if (dd.classList.contains('open')) return;
+    dd.classList.add('open');
+    hoverOpenedAt = Date.now();
+    const toggle = dd.querySelector('.master-dropdown-toggle');
+    if (toggle) toggle.setAttribute('aria-expanded', 'true');
+    requestAnimationFrame(adjustMegaMenuPosition);
+  }
+  function closeDropdown(dd) {
+    clearTimeout(openTimeout);
+    dd.classList.remove('open');
+    const toggle = dd.querySelector('.master-dropdown-toggle');
+    if (toggle) toggle.setAttribute('aria-expanded', 'false');
+  }
 
   // Setup hover and click listeners once DOM is ready
   function initSubjectsDropdown() {
     const dd = document.getElementById('subjectsDropdown');
     if (!dd) return;
 
-    dd.addEventListener('mouseenter', () => {
-      clearTimeout(dropdownTimeout);
-      dd.classList.add('open');
-      requestAnimationFrame(adjustMegaMenuPosition);
+    const toggle = dd.querySelector('.master-dropdown-toggle');
+    if (!toggle) return;
+    const canHover = window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+    if (canHover) {
+      // Hover intent: only open when the pointer rests on the Subjects button itself,
+      // so passing across the header doesn't pop the menu open
+      toggle.addEventListener('mouseenter', () => {
+        clearTimeout(dropdownTimeout);
+        clearTimeout(openTimeout);
+        openTimeout = setTimeout(() => openDropdown(dd), 180);
+      });
+      toggle.addEventListener('mouseleave', () => clearTimeout(openTimeout));
+    }
+
+    // Moving between the button and the open menu keeps it open
+    dd.addEventListener('mouseenter', () => clearTimeout(dropdownTimeout));
+    dd.addEventListener('mouseleave', () => {
+      clearTimeout(openTimeout);
+      if (!dd.classList.contains('open')) return;
+      dropdownTimeout = setTimeout(() => closeDropdown(dd), 350); // buffer so a brief slip doesn't collapse it
     });
 
-    dd.addEventListener('mouseleave', () => {
-      dropdownTimeout = setTimeout(() => {
-        dd.classList.remove('open');
-      }, 350); // 350ms buffer so mouse never accidentally collapses menu
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && dd.classList.contains('open')) { closeDropdown(dd); toggle.focus(); }
     });
   }
 
   // Close dropdown on outside click
   document.addEventListener('click', function(e) {
     const dd = document.getElementById('subjectsDropdown');
-    if (dd && !dd.contains(e.target)) {
-      dd.classList.remove('open');
+    if (dd && !dd.contains(e.target) && dd.classList.contains('open')) {
+      closeDropdown(dd);
     }
   });
 

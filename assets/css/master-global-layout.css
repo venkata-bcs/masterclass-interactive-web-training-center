@@ -215,8 +215,12 @@ code, kbd, samp, pre {
   display: inline-block;
 }
 
-/* Invisible bridge so mouse never drops hover when crossing to menu */
-.master-dropdown::after {
+/* Invisible bridge under the Subjects button only (the dropdown wrapper is position:static,
+   so a bridge on it would span the whole header and open the menu on stray hovers) */
+.master-dropdown-toggle {
+  position: relative;
+}
+.master-dropdown.open .master-dropdown-toggle::after {
   content: "";
   position: absolute;
   top: 100%;
@@ -224,7 +228,6 @@ code, kbd, samp, pre {
   right: 0;
   height: 16px;
   background: transparent;
-  z-index: 1040;
 }
 
 .master-dropdown-toggle {
@@ -260,8 +263,7 @@ code, kbd, samp, pre {
   border-color: rgba(255, 255, 255, 0.5);
 }
 
-.master-dropdown.open .master-dropdown-toggle svg:last-child,
-.master-dropdown:hover .master-dropdown-toggle svg:last-child {
+.master-dropdown.open .master-dropdown-toggle svg:last-child {
   transform: rotate(180deg);
 }
 
@@ -308,8 +310,7 @@ code, kbd, samp, pre {
   background: transparent;
 }
 
-.master-dropdown.open .master-dropdown-menu,
-.master-dropdown:hover .master-dropdown-menu {
+.master-dropdown.open .master-dropdown-menu {
   display: flex !important;
 }
 

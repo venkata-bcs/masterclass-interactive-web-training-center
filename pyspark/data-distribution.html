@@ -1,0 +1,982 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Data Distribution Explorer</title>
+  <meta name="description" content="Interactive Material Design dashboard explaining how the Spark driver splits Delta Lake / Iceberg Parquet files into partitions: rows vs columns, the driver pipeline, maxPartitionBytes / openCostInBytes split math, row-group alignment, column projection, tiny files and compaction, Z-ordering and salting.">
+  <link rel="icon" type="image/png" href="../favicon.png">
+  <link rel="stylesheet" href="assets/css/pyspark.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Roboto+Mono:wght@400;500;700&display=swap">
+  <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+  <script>
+    // This dashboard is designed as a light Material 3 surface.
+    document.documentElement.setAttribute('data-theme', 'light');
+  </script>
+  <style>
+    /* ===== Material 3 light tokens (seed: Spark orange) — scoped to .dd ===== */
+    .dd {
+      --md-primary: #9c4300; --md-on-primary: #ffffff; --md-primary-container: #ffdbca; --md-on-primary-container: #331200;
+      --md-secondary: #765848; --md-secondary-container: #ffdbca; --md-on-secondary-container: #2b160a;
+      --md-tertiary: #636032; --md-tertiary-container: #e9e5ab;
+      --md-surface: #fff8f5; --md-surface-low: #fff1eb; --md-surface-c: #fceae2; --md-surface-high: #f6e4dc; --md-surface-highest: #f0dfd7;
+      --md-on-surface: #221a15; --md-on-surface-var: #52443c; --md-outline: #85736b; --md-outline-var: #d7c2b8;
+      --md-error: #ba1a1a; --md-error-container: #ffdad6; --md-success: #1b6c34; --md-success-container: #c4efc9;
+      --md-elev1: 0 1px 2px rgba(0,0,0,.3), 0 1px 3px 1px rgba(0,0,0,.15);
+      --md-elev2: 0 1px 2px rgba(0,0,0,.3), 0 2px 6px 2px rgba(0,0,0,.15);
+      --md-elev3: 0 4px 8px 3px rgba(0,0,0,.15), 0 1px 3px rgba(0,0,0,.3);
+      /* workers (validated categorical, light steps) */
+      --w0: #2a78d6; --w1: #eb6834; --w2: #1baf7a; --w3: #eda100; --w4: #e87ba4; --w5: #008300; --w6: #6250d6; --w7: #e34948;
+      --mono: "Roboto Mono", ui-monospace, Menlo, Consolas, monospace;
+      font-family: "Roboto", system-ui, sans-serif; color: var(--md-on-surface);
+    }
+    body { background: #fffbff; }
+    .dd *, .dd *::before, .dd *::after { box-sizing: border-box; }
+    .dd h1, .dd h2, .dd h3, .dd h4 { font-family: "Roboto", system-ui, sans-serif; letter-spacing: 0; }
+    .dd code { font-family: var(--mono); font-size: .8em; background: var(--md-surface-high); color: var(--md-primary); padding: 1px 6px; border-radius: 6px; }
+
+    /* hero */
+    .dd-hero { background: linear-gradient(135deg, var(--md-primary-container), #fff1eb 60%, var(--md-tertiary-container)); border-radius: 28px; padding: 28px; margin-bottom: 28px; }
+    .dd-hero h1 { font-size: 2.1rem; font-weight: 400; margin: 6px 0 8px; color: var(--md-on-primary-container); }
+    .dd-hero p { margin: 0; max-width: 820px; line-height: 1.6; color: var(--md-on-surface-var); font-size: 1rem; }
+    .dd-assist { display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 14px; border-radius: 8px; border: 1px solid var(--md-outline); font-size: .82rem; font-weight: 500; color: var(--md-on-surface); background: var(--md-surface); }
+    .dd-hero-facts { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+
+    /* sections & cards */
+    .dd-sec { margin-bottom: 40px; scroll-margin-top: 90px; }
+    .dd-sec-hd { margin-bottom: 14px; }
+    .dd-sec-hd .num { font: 500 .75rem var(--mono); color: var(--md-primary); letter-spacing: .08em; }
+    .dd-sec-hd h2 { font-size: 1.55rem; font-weight: 400; margin: 2px 0 4px; display: flex; align-items: center; gap: 10px; color: var(--md-on-surface); }
+    .dd-sec-hd p { margin: 0; color: var(--md-on-surface-var); line-height: 1.55; max-width: 860px; }
+    .dd-card { background: var(--md-surface-low); border-radius: 16px; padding: 18px; box-shadow: var(--md-elev1); min-width: 0; }
+    .dd-card.filled { background: var(--md-surface-high); box-shadow: none; }
+    .dd-card.outlined { background: var(--md-surface); border: 1px solid var(--md-outline-var); box-shadow: none; }
+    .dd-card-t { font-size: 1rem; font-weight: 500; margin: 0 0 10px; display: flex; align-items: center; gap: 8px; }
+    .dd-grid2 { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; }
+    .dd-grid3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+    @media (max-width: 1100px) { .dd-grid2, .dd-grid3 { grid-template-columns: minmax(0, 1fr); } }
+    .dd-stack { display: flex; flex-direction: column; gap: 16px; }
+
+    /* controls */
+    .dd-controls { display: flex; flex-wrap: wrap; gap: 14px 24px; align-items: flex-end; }
+    .dd-field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+    .dd-label { font-size: .75rem; font-weight: 500; color: var(--md-on-surface-var); letter-spacing: .02em; }
+    .dd-slider { display: flex; align-items: center; gap: 12px; }
+    .dd-slider output { font: 500 .85rem var(--mono); color: var(--md-on-primary-container); background: var(--md-primary-container); padding: 3px 10px; border-radius: 12px; min-width: 64px; text-align: center; white-space: nowrap; }
+    .dd input[type=range] { -webkit-appearance: none; appearance: none; width: 180px; height: 20px; background: transparent; cursor: pointer; }
+    .dd input[type=range]::-webkit-slider-runnable-track { height: 4px; border-radius: 2px; background: linear-gradient(to right, var(--md-primary) var(--p, 50%), var(--md-secondary-container) var(--p, 50%)); }
+    .dd input[type=range]::-moz-range-track { height: 4px; border-radius: 2px; background: var(--md-secondary-container); }
+    .dd input[type=range]::-moz-range-progress { height: 4px; border-radius: 2px; background: var(--md-primary); }
+    .dd input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%; background: var(--md-primary); margin-top: -8px; box-shadow: var(--md-elev1); }
+    .dd input[type=range]::-moz-range-thumb { width: 20px; height: 20px; border: 0; border-radius: 50%; background: var(--md-primary); }
+    .dd input[type=range]:focus-visible { outline: 2px solid var(--md-primary); outline-offset: 4px; border-radius: 6px; }
+    .dd-seg { display: inline-flex; border: 1px solid var(--md-outline); border-radius: 20px; overflow: hidden; }
+    .dd-seg button { height: 36px; padding: 0 14px; border: 0; border-right: 1px solid var(--md-outline); background: transparent; color: var(--md-on-surface); font: 500 .84rem "Roboto"; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+    .dd-seg button:last-child { border-right: 0; }
+    .dd-seg button:hover { background: rgba(34, 26, 21, .06); }
+    .dd-seg button[aria-pressed="true"] { background: var(--md-secondary-container); color: var(--md-on-secondary-container); }
+    .dd-seg button[aria-pressed="true"]::before { content: '✓'; font-size: .8rem; }
+    .dd-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .dd-chip { height: 32px; padding: 0 12px; border-radius: 8px; border: 1px solid var(--md-outline); background: transparent; color: var(--md-on-surface-var); font: 500 .8rem "Roboto"; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+    .dd-chip:hover { background: rgba(34, 26, 21, .06); }
+    .dd-chip[aria-pressed="true"] { background: var(--md-secondary-container); border-color: transparent; color: var(--md-on-secondary-container); }
+    .dd-chip[aria-pressed="true"]::before { content: '✓'; }
+    .dd-btn { height: 40px; padding: 0 22px; border-radius: 20px; border: 0; font: 500 .88rem "Roboto"; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; position: relative; overflow: hidden; white-space: nowrap; }
+    .dd-btn.filled { background: var(--md-primary); color: var(--md-on-primary); }
+    .dd-btn.filled:hover { box-shadow: var(--md-elev1); }
+    .dd-btn.tonal { background: var(--md-secondary-container); color: var(--md-on-secondary-container); }
+    .dd-btn.outlined { background: transparent; border: 1px solid var(--md-outline); color: var(--md-primary); }
+    .dd-btn.text { background: transparent; color: var(--md-primary); padding: 0 12px; }
+    .dd-btn:disabled { opacity: .38; cursor: default; }
+    .dd-btn:focus-visible, .dd-seg button:focus-visible, .dd-chip:focus-visible, .dd-icon-btn:focus-visible { outline: 2px solid var(--md-primary); outline-offset: 2px; }
+    .dd-icon-btn { width: 36px; height: 36px; border-radius: 50%; border: 0; background: transparent; color: var(--md-on-surface-var); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
+    .dd-icon-btn:hover { background: rgba(34, 26, 21, .08); }
+    .dd-ripple { position: absolute; border-radius: 50%; transform: scale(0); background: currentColor; opacity: .2; animation: dd-rip .5s ease-out forwards; pointer-events: none; }
+    @keyframes dd-rip { to { transform: scale(4); opacity: 0; } }
+
+    /* KPI tiles */
+    .dd-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; }
+    .dd-kpi { background: var(--md-surface); border: 1px solid var(--md-outline-var); border-radius: 12px; padding: 10px 12px; }
+    .dd-kpi-l { font-size: .72rem; font-weight: 500; color: var(--md-on-surface-var); }
+    .dd-kpi-v { font: 500 1.25rem var(--mono); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .dd-kpi-s { font-size: .7rem; color: var(--md-on-surface-var); }
+
+    /* tables */
+    .dd-tw { overflow-x: auto; }
+    .dd-table { width: 100%; border-collapse: collapse; font-size: .86rem; background: var(--md-surface); border-radius: 12px; overflow: hidden; }
+    .dd-table th { text-align: left; font-size: .75rem; font-weight: 500; color: var(--md-on-surface-var); background: var(--md-surface-c); padding: 10px 12px; }
+    .dd-table td { padding: 10px 12px; border-top: 1px solid var(--md-outline-var); vertical-align: top; line-height: 1.5; }
+    .dd-table tr.hl td { background: var(--md-primary-container); }
+    .dd-yn { display: inline-flex; align-items: center; gap: 4px; height: 26px; padding: 0 10px; border-radius: 8px; font-size: .78rem; font-weight: 500; white-space: nowrap; }
+    .dd-yn.yes { background: var(--md-success-container); color: var(--md-success); }
+    .dd-yn.no { background: var(--md-surface-highest); color: var(--md-on-surface-var); }
+    .dd-yn.opt { background: var(--md-tertiary-container); color: #4a4800; }
+
+    /* callouts */
+    .dd-note { display: flex; gap: 10px; align-items: flex-start; padding: 12px 14px; border-radius: 12px; background: var(--md-tertiary-container); color: #3a3800; font-size: .88rem; line-height: 1.5; }
+    .dd-note.err { background: var(--md-error-container); color: #410002; }
+    .dd-note.ok { background: var(--md-success-container); color: #00210b; }
+
+    /* rows vs columns */
+    .dd-dataset { display: flex; flex-direction: column; gap: 3px; }
+    .dd-band { display: flex; align-items: center; gap: 8px; height: 30px; border-radius: 8px; padding: 0 10px; color: #fff; font: 500 .74rem var(--mono); background: var(--c); transition: transform .5s cubic-bezier(.2,0,0,1), opacity .5s; white-space: nowrap; overflow: hidden; }
+    .dd-band.sent { transform: translateX(30px); opacity: .35; }
+    .dd-workers { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 10px; }
+    .dd-wcard { background: var(--md-surface); border-radius: 12px; border: 1px solid var(--md-outline-var); padding: 10px 12px; border-top: 4px solid var(--c); transition: box-shadow .3s, transform .3s; }
+    .dd-wcard.flash { box-shadow: var(--md-elev3); transform: translateY(-2px); }
+    .dd-wcard h4 { margin: 0 0 4px; font-size: .9rem; font-weight: 500; display: flex; align-items: center; gap: 6px; }
+    .dd-wcard .meta { font: .74rem var(--mono); color: var(--md-on-surface-var); line-height: 1.5; }
+    .dd-schema { display: flex; flex-wrap: wrap; gap: 3px; margin-top: 6px; }
+    .dd-col { font: 500 .62rem var(--mono); padding: 2px 5px; border-radius: 4px; border: 1px solid var(--md-outline-var); color: var(--md-on-surface-var); }
+    .dd-col.on { background: var(--md-primary); border-color: var(--md-primary); color: #fff; }
+
+    /* stepper */
+    .dd-stepper { display: flex; gap: 0; margin-bottom: 14px; overflow-x: auto; }
+    .dd-step { flex: 1 1 0; min-width: 150px; display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 8px; background: transparent; border: 0; cursor: pointer; color: var(--md-on-surface-var); font: 500 .8rem "Roboto"; position: relative; text-align: center; }
+    .dd-step::before { content: ''; position: absolute; top: 22px; left: -50%; width: 100%; height: 2px; background: var(--md-outline-var); z-index: 0; }
+    .dd-step:first-child::before { display: none; }
+    .dd-step.done::before, .dd-step.active::before { background: var(--md-primary); }
+    .dd-step .dot { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--md-surface-highest); color: var(--md-on-surface-var); font: 500 .8rem var(--mono); z-index: 1; }
+    .dd-step.active .dot { background: var(--md-primary); color: #fff; box-shadow: 0 0 0 6px var(--md-primary-container); }
+    .dd-step.done .dot { background: var(--md-primary-container); color: var(--md-on-primary-container); }
+    .dd-step.active { color: var(--md-on-surface); }
+    .dd-pane { min-height: 260px; }
+    .dd-log { font: .76rem/1.7 var(--mono); background: var(--md-surface); border: 1px solid var(--md-outline-var); border-radius: 12px; padding: 10px 12px; white-space: nowrap; overflow-x: auto; }
+    .dd-log .rm { color: var(--md-error); text-decoration: line-through; }
+    .dd-log .add { color: var(--md-success); }
+    .dd-log .dim { color: var(--md-on-surface-var); }
+    .dd-task { display: flex; gap: 10px; align-items: flex-start; padding: 8px 10px; border-radius: 10px; background: var(--md-surface); border-left: 4px solid var(--c); font: .78rem/1.5 var(--mono); margin-bottom: 6px; animation: dd-in .35s ease-out both; }
+    @keyframes dd-in { from { opacity: 0; transform: translateY(6px); } }
+    .dd-exec { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; }
+    .dd-exec-w { background: var(--md-surface); border-radius: 12px; padding: 10px 12px; border-top: 4px solid var(--c); }
+    .dd-ops { list-style: none; padding: 0; margin: 6px 0 0; font-size: .78rem; }
+    .dd-ops li { display: flex; gap: 6px; align-items: center; padding: 2px 0; color: var(--md-outline); }
+    .dd-ops li.on { color: var(--md-on-surface); font-weight: 500; }
+    .dd-ops li.done { color: var(--md-success); }
+
+    /* calculator */
+    .dd-formula { font: .84rem/1.9 var(--mono); background: var(--md-surface); border-radius: 12px; padding: 12px 16px; border: 1px solid var(--md-outline-var); overflow-x: auto; }
+    .dd-formula .v { color: var(--md-primary); font-weight: 700; }
+    .dd-formula .win { background: var(--md-primary-container); border-radius: 6px; padding: 1px 6px; }
+    .dd-files { display: flex; flex-direction: column; gap: 6px; }
+    .dd-frow { display: grid; grid-template-columns: 190px minmax(0, 1fr); gap: 10px; align-items: center; }
+    .dd-fname { font: .74rem var(--mono); color: var(--md-on-surface-var); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: flex; align-items: center; gap: 4px; }
+    .dd-fbar { position: relative; height: 30px; background: var(--md-surface-highest); border-radius: 6px; }
+    .dd-chunk { position: absolute; top: 0; bottom: 0; background: var(--c); border-right: 2px solid var(--md-surface); color: #fff; font: 500 .66rem var(--mono); display: flex; align-items: center; justify-content: center; overflow: hidden; white-space: nowrap; }
+    .dd-chunk:first-child { border-radius: 6px 0 0 6px; }
+    .dd-rgtick { position: absolute; top: -4px; height: 38px; width: 1px; background: rgba(34,26,21,.45); pointer-events: none; }
+    .dd-mid { position: absolute; bottom: -7px; width: 7px; height: 7px; margin-left: -3.5px; border-radius: 50%; background: var(--md-on-surface); pointer-events: none; }
+    .dd-parts { display: flex; flex-direction: column; gap: 5px; max-height: 420px; overflow: auto; padding-right: 4px; }
+    .dd-prow { display: grid; grid-template-columns: 120px minmax(0, 1fr) 150px; gap: 10px; align-items: center; font: .74rem var(--mono); }
+    .dd-pbar { position: relative; height: 22px; background: var(--md-surface-c); border-radius: 6px; overflow: visible; display: flex; }
+    .dd-pseg { height: 100%; background: var(--c); border-right: 1px solid #fff; }
+    .dd-pcost { height: 100%; background: repeating-linear-gradient(135deg, var(--md-outline) 0 2px, transparent 2px 5px); opacity: .55; }
+    .dd-pmax { position: absolute; top: -4px; bottom: -4px; width: 2px; background: var(--md-error); }
+    .dd-waves { overflow-x: auto; }
+    .dd-wtable { border-collapse: separate; border-spacing: 4px; font: .72rem var(--mono); }
+    .dd-wtable th { font-weight: 500; color: var(--md-on-surface-var); padding: 2px 4px; white-space: nowrap; }
+    .dd-cell { width: 54px; height: 34px; border-radius: 8px; text-align: center; background: var(--md-surface-c); color: var(--md-on-surface-var); transition: background .3s, color .3s, transform .3s; }
+    .dd-cell.on { background: var(--c); color: #fff; font-weight: 700; }
+    .dd-cell.pop { transform: scale(1.12); }
+    .dd-file-editor { display: flex; flex-direction: column; gap: 6px; }
+    .dd-fe { display: grid; grid-template-columns: 1fr auto auto; gap: 8px; align-items: center; background: var(--md-surface); border-radius: 10px; padding: 4px 4px 4px 10px; font: .76rem var(--mono); }
+
+    /* single-file split view */
+    .dd-bytes { position: relative; margin: 30px 0 18px; }
+    .dd-splitline { position: absolute; top: -26px; bottom: -6px; border-left: 2px dashed var(--md-on-surface-var); font: 500 .66rem var(--mono); padding-left: 3px; color: var(--md-on-surface-var); white-space: nowrap; }
+    .dd-splitline.empty { color: var(--md-error); }
+    .dd-rgbar { display: flex; height: 44px; gap: 2px; }
+    .dd-rg { position: relative; flex: 1 1 0; border-radius: 6px; background: var(--c); color: #fff; font: 500 .68rem var(--mono); display: flex; align-items: center; justify-content: center; }
+    .dd-rg::after { content: ''; position: absolute; left: calc(50% - 1px); top: -8px; width: 2px; height: 10px; background: var(--md-on-surface); }
+    .dd-footer { width: 52px; flex: 0 0 auto; border-radius: 6px; background: var(--md-on-surface-var); color: #fff; font: 500 .62rem var(--mono); display: flex; align-items: center; justify-content: center; }
+
+    /* projection */
+    .dd-colgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(112px, 1fr)); gap: 6px; }
+    .dd-colbtn { height: 34px; border-radius: 8px; border: 1px solid var(--md-outline-var); background: var(--md-surface); font: 500 .7rem var(--mono); color: var(--md-on-surface-var); cursor: pointer; display: flex; justify-content: space-between; align-items: center; padding: 0 8px; gap: 4px; }
+    .dd-colbtn[aria-pressed="true"] { background: var(--md-primary); color: #fff; border-color: var(--md-primary); }
+    .dd-colbtn small { opacity: .75; font-size: .62rem; }
+    .dd-hbar { display: grid; grid-template-columns: 150px minmax(0, 1fr) 90px; gap: 10px; align-items: center; font-size: .8rem; margin-bottom: 8px; }
+    .dd-hbar .track { height: 22px; border-radius: 6px; background: var(--md-surface-c); overflow: hidden; }
+    .dd-hbar .fill { height: 100%; border-radius: 6px; transition: width .5s cubic-bezier(.2,0,0,1); }
+    .dd-hbar .val { font: 500 .78rem var(--mono); text-align: right; }
+
+    /* compaction */
+    .dd-tiles { display: flex; flex-wrap: wrap; gap: 3px; align-content: flex-start; min-height: 120px; }
+    .dd-tile { border-radius: 3px; background: var(--w0); transition: all .6s cubic-bezier(.2,0,0,1); }
+    .dd-tile.merge { transform: scale(.1); opacity: 0; }
+    .dd-tile.big { animation: dd-pop .5s ease-out; }
+    @keyframes dd-pop { from { transform: scale(.3); opacity: 0; } }
+
+    /* z-order */
+    .dd-axis { display: grid; grid-template-columns: 140px minmax(0, 1fr) 70px; gap: 10px; align-items: center; font: .74rem var(--mono); margin-bottom: 6px; }
+    .dd-range { position: relative; height: 22px; background: var(--md-surface-c); border-radius: 6px; }
+    .dd-range .r { position: absolute; top: 3px; bottom: 3px; border-radius: 4px; background: var(--md-outline); opacity: .45; transition: all .5s cubic-bezier(.2,0,0,1); }
+    .dd-range .r.hit { background: var(--md-primary); opacity: 1; }
+    .dd-target { position: absolute; top: -4px; bottom: -4px; width: 2px; background: var(--md-error); }
+    .dd-ticks { position: relative; height: 34px; }
+    .dd-ticks span { position: absolute; transform: translateX(-50%); font: 500 .68rem var(--mono); color: var(--md-on-surface-var); white-space: nowrap; top: 10px; }
+
+    /* salting */
+    .dd-gantt { width: 100%; display: block; }
+    .dd-pre { margin: 0; background: #2b2420; color: #fbeee8; border-radius: 12px; padding: 14px 16px; font: .78rem/1.6 var(--mono); overflow-x: auto; white-space: pre; }
+    .dd-pre .c { color: #b5a39a; }
+    .dd-pre .k { color: #ffb68f; }
+    .dd-tabs { display: flex; gap: 0; border-bottom: 1px solid var(--md-outline-var); margin-bottom: 10px; }
+    .dd-tab { height: 40px; padding: 0 16px; border: 0; background: transparent; font: 500 .84rem "Roboto"; color: var(--md-on-surface-var); cursor: pointer; position: relative; }
+    .dd-tab[aria-selected="true"] { color: var(--md-primary); }
+    .dd-tab[aria-selected="true"]::after { content: ''; position: absolute; left: 12px; right: 12px; bottom: 0; height: 3px; border-radius: 3px 3px 0 0; background: var(--md-primary); }
+    .dd-legend { display: flex; flex-wrap: wrap; gap: 12px; font-size: .76rem; color: var(--md-on-surface-var); margin-top: 8px; }
+    .dd-legend span { display: inline-flex; align-items: center; gap: 6px; }
+    .dd-sw { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
+
+    /* floating speed control */
+    .dd-speed { position: fixed; right: 20px; bottom: 20px; z-index: 50; background: var(--md-surface-c); border-radius: 16px; box-shadow: var(--md-elev3); padding: 10px 14px; display: flex; align-items: center; gap: 10px; }
+    .dd-speed input[type=range] { width: 140px; }
+    .dd-speed .dd-label { white-space: nowrap; }
+    @media (max-width: 640px) { .dd-speed { left: 16px; right: 16px; bottom: 12px; } .dd-speed input[type=range] { flex: 1; width: auto; } .dd-frow { grid-template-columns: 110px minmax(0, 1fr); } .dd-prow { grid-template-columns: 80px minmax(0, 1fr); } .dd-prow .pr { display: none; } .dd-hero { padding: 20px; } }
+    @media (max-width: 960px) { body .master-layout-3col { grid-template-columns: minmax(0, 1fr); padding-left: 16px; padding-right: 16px; } }
+    @media (prefers-reduced-motion: reduce) { .dd * { transition: none !important; animation: none !important; } }
+  </style>
+  <link rel="stylesheet" href="../assets/css/master-global-layout.css">
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+    <!-- ========================================================================= -->
+  <!-- TOP MENU BAR: Unified Master Header Across All Subjects                   -->
+  <!-- ========================================================================= -->
+    <!-- ========================================================================= -->
+  <!-- TOP MENU BAR: Unified Royal Violet Theme & Visual Dropdown                -->
+  <!-- ========================================================================= -->
+    <!-- ========================================================================= -->
+  <!-- TOP MENU BAR: Unified Royal Violet Theme & Visual Dropdown                -->
+  <!-- ========================================================================= -->
+    <!-- ========================================================================= -->
+  <!-- TOP MENU BAR: Unified Royal Violet Theme & Visual Dropdown                -->
+  <!-- ========================================================================= -->
+  <header class="master-top-nav">
+    <div class="master-top-nav-inner">
+      <a href="../index.html" class="master-brand-wrap" aria-label="Tinitiate MasterClass Academy">
+        <img src="../tinitiate_header-banner.png" alt="Tinitiate Logo" class="master-brand-logo">
+        <span class="master-brand-badge">PySpark Architecture</span>
+      </a>
+
+      <!-- Primary Navigation Links (NO LOCAL NAVIGATION IN HEADER) -->
+      <nav class="master-menu-links">
+        <a href="../index.html" class="master-nav-btn" title="Main Academy Portal">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          <span>Home</span>
+        </a>
+        <a href="index.html" class="master-nav-btn subject-home-btn" title="PySpark Architecture Home">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          <span>PySpark Home</span>
+        </a>
+        <a href="demo.html" class="master-nav-btn" title="Interactive Demo">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          <span>Demo</span>
+        </a>
+
+        <!-- Subjects DropDown with Bulletproof Bridge & SVGs -->
+        <div class="master-dropdown" id="subjectsDropdown">
+          <button type="button" class="master-dropdown-toggle" onclick="toggleSubjectsDropdown(event)" aria-haspopup="true" aria-expanded="false" title="Explore All Subjects">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>
+            <span>Subjects</span>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div class="master-dropdown-menu mega-menu" id="subjectsMegaMenu">
+            <div class="mega-menu-header">
+              <div class="mega-menu-title-wrap">
+                <span class="mega-menu-eyebrow">TINITIATE AI ACADEMY • ARCHITECTURE CURRICULUM</span>
+                <h4 class="mega-menu-title">Explore Engineering Curricula by Domain</h4>
+              </div>
+              <div class="mega-menu-stats-pill">
+                <span>6 Domains</span> • <span>31 Tracks + 15 Placement Guides</span>
+              </div>
+            </div>
+
+            <div class="mega-menu-grid">
+        <!-- Category: Foundational -->
+        <div class="mega-category-col" style="--cat-accent:#38bdf8;">
+          <div class="mega-category-header">
+            <span class="mega-cat-badge" style="color:#38bdf8;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="8" height="8" x="3" y="3" rx="2"/><path d="M7 11v4a2 2 0 0 0 2 2h4"/><rect width="8" height="8" x="13" y="13" rx="2"/></svg>
+              <span>Foundational</span>
+            </span>
+            <span class="mega-cat-count">7 Tracks</span>
+          </div>
+          <div class="mega-category-list">
+          <a href="../foundational/index.html" class="mega-category-item" title="Foundational Master Class: Computer Science &amp; Software Engineering Fundamentals">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m16.24 7.76-2.12 6.36-6.36 2.12 2.12-6.36 6.36-2.12z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Foundational Master Class</span>
+            </span>
+          </a>
+          <a href="../foundational/data-structures/index.html" class="mega-category-item" title="Data Structures: Trees, Graphs, HashTables & Heaps">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="8" height="8" x="3" y="3" rx="2"/><rect width="8" height="8" x="13" y="13" rx="2"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Data Structures</span>
+            </span>
+          </a>
+          <a href="../foundational/authentication/index.html" class="mega-category-item" title="Authentication: OAuth2, OIDC, JWT, SAML & PKCE">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m21 2-2 2m-1.5 1.5L13 10m0 0a5 5 0 1 1-7-7 5 5 0 0 1 7 7Z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Authentication</span>
+            </span>
+          </a>
+          <a href="../foundational/apis/index.html" class="mega-category-item" title="APIs: REST, GraphQL, gRPC & WebSockets">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 16.326A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 .5 8.973"/><path d="m13 12-3 5h4l-3 5"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">APIs</span>
+            </span>
+          </a>
+          <a href="../foundational/microservices/index.html" class="mega-category-item" title="MicroServices: Sagas, Service Mesh & Event-Driven">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2.97 12.92A2 2 0 0 0 2 14.63v3.24a2 2 0 0 0 .97 1.71l6 3.43a2 2 0 0 0 1.97 0l6-3.43a2 2 0 0 0 .97-1.71v-3.24a2 2 0 0 0-.97-1.71L11 9.49a2 2 0 0 0-2.06 0l-5.97 3.43Z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">MicroServices</span>
+            </span>
+          </a>
+          <a href="../foundational/oop/index.html" class="mega-category-item" title="OOP: SOLID, Polymorphism & Abstraction">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">OOP</span>
+            </span>
+          </a>
+          <a href="../foundational/design-patterns/index.html" class="mega-category-item" title="Design Patterns: GoF Creational, Structural & Behavioral">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Design Patterns</span>
+            </span>
+          </a>
+          </div>
+        </div>
+        <!-- Category: AI -->
+        <div class="mega-category-col" style="--cat-accent:#a855f7;">
+          <div class="mega-category-header">
+            <span class="mega-cat-badge" style="color:#a855f7;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
+              <span>AI</span>
+            </span>
+            <span class="mega-cat-count">7 Tracks</span>
+          </div>
+          <div class="mega-category-list">
+          <a href="../automation-ml-ai-agentic/index.html" class="mega-category-item" title="AI Master Class: Automation, ML, GenAI &amp; Agentic Systems, MCP &amp; LangChain">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">AI Master Class</span>
+            </span>
+          </a>
+          <a href="../ai/langgraph/index.html" class="mega-category-item" title="Langgraph: Cyclic State Graphs & Multi-Agent DAGs">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><circle cx="18" cy="6" r="3"/><path d="M18 9v1a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V9"/><path d="M12 12v3"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Langgraph</span>
+            </span>
+          </a>
+          <a href="../ai/crewai/index.html" class="mega-category-item" title="CrewAI: Role-Based Agent Crews, Tasks &amp; Flows">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">CrewAI</span>
+            </span>
+          </a>
+          <a href="../ai/aws-bedrock/index.html" class="mega-category-item" title="AWS Bedrock: Managed Foundation Models & Guardrails">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="16" height="16" x="4" y="4" rx="2"/><rect width="6" height="6" x="9" y="9" rx="1"/><path d="M15 2v2"/><path d="M15 20v2"/><path d="M2 15h2"/><path d="M2 9h2"/><path d="M20 15h2"/><path d="M20 9h2"/><path d="M9 2v2"/><path d="M9 20v2"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">AWS Bedrock</span>
+            </span>
+          </a>
+          <a href="../ai/azure-foundry/index.html" class="mega-category-item" title="Azure Foundry: Azure AI Studio, Prompt Flow & Evaluators">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="8" x="2" y="2" rx="2" ry="2"/><rect width="20" height="8" x="2" y="14" rx="2" ry="2"/><line x1="6" x2="6.01" y1="6" y2="6"/><line x1="6" x2="6.01" y1="18" y2="18"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Azure Foundry</span>
+            </span>
+          </a>
+          <a href="../ai/claude-sdk/index.html" class="mega-category-item" title="Claude SDK: Anthropic SDK, Tools & Prompt Caching">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Claude SDK</span>
+            </span>
+          </a>
+          <a href="../ai/google-gemini-sdk/index.html" class="mega-category-item" title="Google Gemini SDK: Gemini 1.5 Pro, Multimodal & Context Cache">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Google Gemini SDK</span>
+            </span>
+          </a>
+          </div>
+        </div>
+        <!-- Category: Data Engineering -->
+        <div class="mega-category-col" style="--cat-accent:#0284c7;">
+          <div class="mega-category-header">
+            <span class="mega-cat-badge" style="color:#0284c7;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"/></svg>
+              <span>Data Engineering</span>
+            </span>
+            <span class="mega-cat-count">8 Tracks</span>
+          </div>
+          <div class="mega-category-list">
+          <a href="../data-engineering/index.html" class="mega-category-item" title="Data Engineering Master Class: Modern Lakehouse, Fabric & Kafka Streams">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Data Engineering Master Class</span>
+            </span>
+          </a>
+          <a href="../pyspark/index.html" class="mega-category-item" title="PySpark: Cluster Architecture, DAG Execution &amp; Data Ingestion">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">PySpark</span>
+            </span>
+          </a>
+          <a href="../databricks-dataengineering/index.html" class="mega-category-item" title="Databricks: Unity Catalog, Delta Live & Photon">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Databricks</span>
+            </span>
+          </a>
+          <a href="../aws-dataengineering/index.html" class="mega-category-item" title="AWS Data Engineering: EMR, Glue, Redshift, Kinesis & S3">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">AWS Data Engineering</span>
+            </span>
+          </a>
+          <a href="../snowflake-dataengineering/index.html" class="mega-category-item" title="SnowFlake: Snowpark, Dynamic Tables & Warehouses">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" x2="12" y1="2" y2="22"/><line x1="12" x2="12" y1="10" y2="14"/><line x1="2" x2="22" y1="12" y2="12"/><line x1="20" x2="4" y1="4" y2="20"/><line x1="4" x2="20" y1="4" y2="20"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">SnowFlake</span>
+            </span>
+          </a>
+          <a href="../azure-dataengineering/index.html" class="mega-category-item" title="Azure Data Engineering: Fabric, Synapse Analytics & ADLS Gen2">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="8" x="2" y="2" rx="2" ry="2"/><rect width="20" height="8" x="2" y="14" rx="2" ry="2"/><line x1="6" x2="6.01" y1="6" y2="6"/><line x1="6" x2="6.01" y1="18" y2="18"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Azure Data Engineering</span>
+            </span>
+          </a>
+          <a href="../data-engineering/onprem-pandas-polars-sql/index.html" class="mega-category-item" title="On Prem Pandas, Polars, SQL: Vectorized LazyFrames & Local Engines">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" x2="20" y1="19" y2="19"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">On Prem Pandas, Polars, SQL</span>
+            </span>
+          </a>
+          <a href="../data-engineering/duckdb/index.html" class="mega-category-item" title="DuckDB: In-Process Columnar Analytical OLAP">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"/><line x1="16" x2="2" y1="8" y2="22"/><line x1="17.5" x2="9" y1="15" y2="15"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">DuckDB</span>
+            </span>
+          </a>
+          </div>
+        </div>
+        <!-- Category: Data Governance -->
+        <div class="mega-category-col" style="--cat-accent:#10b981;">
+          <div class="mega-category-header">
+            <span class="mega-cat-badge" style="color:#10b981;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg>
+              <span>Data Governance</span>
+            </span>
+            <span class="mega-cat-count">4 Tracks</span>
+          </div>
+          <div class="mega-category-list">
+          <a href="../data-governence/index.html" class="mega-category-item" title="Data Governance Master Class: Catalogs, Sensitive Data Discovery, Lineage &amp; Stewardship">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m16.24 7.76-2.12 6.36-6.36 2.12 2.12-6.36 6.36-2.12z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Data Governance Master Class</span>
+            </span>
+          </a>
+          <a href="../data-governence/atlas/index.html" class="mega-category-item" title="Atlas: Apache Atlas Metadata & Lineage Graph">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Atlas</span>
+            </span>
+          </a>
+          <a href="../data-governence/unity/index.html" class="mega-category-item" title="Unity: Unity Catalog Fine-Grained ABAC & Grants">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Unity</span>
+            </span>
+          </a>
+          <a href="../data-governence/purview-sandbox/index.html" class="mega-category-item" title="Purview: Purview Data Map, Stewardship & Scanning">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Purview</span>
+            </span>
+          </a>
+          </div>
+        </div>
+        <!-- Category: Full Stack -->
+        <div class="mega-category-col" style="--cat-accent:#f43f5e;">
+          <div class="mega-category-header">
+            <span class="mega-cat-badge" style="color:#f43f5e;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+              <span>Full Stack</span>
+            </span>
+            <span class="mega-cat-count">5 Tracks</span>
+          </div>
+          <div class="mega-category-list">
+          <a href="../full-stack/index.html" class="mega-category-item" title="Full Stack Master Class: Enterprise Full Stack Systems Architecture">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m16.24 7.76-2.12 6.36-6.36 2.12 2.12-6.36 6.36-2.12z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Full Stack Master Class</span>
+            </span>
+          </a>
+          <a href="../full-stack/python-fastapi/index.html" class="mega-category-item" title="Python fastAPI: Pydantic v2, Async ASGI & OpenTelemetry">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Python fastAPI</span>
+            </span>
+          </a>
+          <a href="../full-stack/nodejs-react-nextjs/index.html" class="mega-category-item" title="NodeJS React NextJS: React 19, Server Components & App Router">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" x2="22" y1="12" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">NodeJS React NextJS</span>
+            </span>
+          </a>
+          <a href="../full-stack/dotnet-csharp/index.html" class="mega-category-item" title="C#/.Net Full Stack: ASP.NET Core Web API & Entity Framework">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" x2="20" y1="9" y2="9"/><line x1="4" x2="20" y1="15" y2="15"/><line x1="10" x2="8" y1="3" y2="21"/><line x1="16" x2="14" y1="3" y2="21"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">C#/.Net Full Stack</span>
+            </span>
+          </a>
+          <a href="../full-stack/java-fullstack/index.html" class="mega-category-item" title="Java Full Stack: Spring Boot 3, Hibernate JPA & Microservices">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" x2="6" y1="2" y2="4"/><line x1="10" x2="10" y1="2" y2="4"/><line x1="14" x2="14" y1="2" y2="4"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Java Full Stack</span>
+            </span>
+          </a>
+          </div>
+        </div>
+        <!-- Category: Placement Assistance -->
+        <div class="mega-category-col" style="--cat-accent:#fb923c;">
+          <div class="mega-category-header">
+            <span class="mega-cat-badge" style="color:#fb923c;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="14" x="2" y="7" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+              <span>Placement</span>
+            </span>
+            <span class="mega-cat-count">15 Guides</span>
+          </div>
+          <div class="mega-category-list">
+          <a href="../placement-assistance/index.html" class="mega-category-item" title="Placement Master Class: Resume to offer letter: all 15 placement guides for freshers">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Placement Master Class</span>
+            </span>
+          </a>
+          <a href="../placement-assistance/interview-prep.html" class="mega-category-item" title="Interview Prep: rounds, top questions &amp; a 30-day plan">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Interview Prep</span>
+            </span>
+          </a>
+          <a href="../placement-assistance/resume-prep.html" class="mega-category-item" title="Resume Prep: an ATS-friendly 1-page resume for freshers">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M16 13H8"/><path d="M16 17H8"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Resume Prep</span>
+            </span>
+          </a>
+          <a href="../placement-assistance/job-applications.html" class="mega-category-item" title="Job Applications: apply smart, referrals &amp; avoiding scams">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Job Applications</span>
+            </span>
+          </a>
+          <a href="../placement-assistance/cover-letters.html" class="mega-category-item" title="Cover Letters: a 3-paragraph formula &amp; cold emails">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Cover Letters</span>
+            </span>
+          </a>
+          <a href="../placement-assistance/before-interview.html" class="mega-category-item" title="Before the Interview: countdown, research &amp; setup">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/><path d="m9 16 2 2 4-4"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Before Interview</span>
+            </span>
+          </a>
+          <a href="../placement-assistance/during-interview.html" class="mega-category-item" title="During the Interview: strong start, think aloud &amp; smart questions">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">During Interview</span>
+            </span>
+          </a>
+          <a href="../placement-assistance/handling-competition.html" class="mega-category-item" title="Handling Competition: stand out among lakhs of freshers">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Handling Competition</span>
+            </span>
+          </a>
+          <a href="../placement-assistance/communication-skills.html" class="mega-category-item" title="Communication Skills: clear English, structure &amp; practice">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 11 18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Communication Skills</span>
+            </span>
+          </a>
+          </div>
+        </div>
+            </div>
+
+            <div class="mega-menu-footer">
+              <div class="mega-footer-left">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+                <span>Each module includes <strong>zero-code visual architectures</strong>, <strong>interactive sandboxes</strong>, and <strong>production blueprints</strong>.</span>
+              </div>
+              <div class="mega-footer-right">
+                <span>Lead Architect: <strong>Venkata Bhattaram</strong></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Right Actions: Instructor Rotating Border Beam + LinkedIn + GitHub -->
+      <div class="master-nav-actions">
+        <div class="master-instructor-beam" title="Lead Course Instructor &amp; Enterprise Architect">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+          <span class="inst-label">Instructor:</span>
+          <span class="inst-name">Venkata Bhattaram</span>
+        </div>
+
+        <a href="https://www.linkedin.com/in/venkata-bhattaram/" target="_blank" rel="noopener noreferrer" class="master-nav-social-btn linkedin" title="Venkata Bhattaram on LinkedIn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.45a1.6 1.6 0 1 0 0 3.2 1.6 1.6 0 0 0 0-3.2Z"/></svg>
+          <span>LinkedIn</span>
+        </a>
+
+        <a href="https://github.com/venkata-bcs" target="_blank" rel="noopener noreferrer" class="master-nav-social-btn github" title="Venkata Bhattaram on GitHub">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>
+          <span>GitHub</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Grid with Sticky In-Page Sidebar Navigation -->
+  <div class="master-layout-3col">
+
+    <aside class="sidebar-topics-nav" id="sidebarTopicsNav" aria-label="PySpark Topics Navigation">
+      <div class="sidebar-header-box">
+        <span class="sidebar-header-title">
+          <i data-lucide="layers" style="width:14px;height:14px;"></i>
+          PySpark Topics
+        </span>
+        <span style="font-size:0.72rem;color:var(--text-muted);font-family:var(--font-mono);">10 TOPICS</span>
+      </div>
+
+      <ul class="sidebar-topics-list">
+        <li class="sidebar-topic-item">
+          <a href="index.html" class="sidebar-topic-link">
+            <span class="sidebar-topic-badge">HUB</span>
+            <span>PySpark Overview</span>
+          </a>
+        </li>
+        <li class="sidebar-topic-item">
+          <a href="demo.html" class="sidebar-topic-link">
+            <span class="sidebar-topic-badge" style="background:rgba(16,185,129,0.18);color:#10b981;border:1px solid rgba(16,185,129,0.3);">DEMO</span>
+            <span>Interactive Demo Lab</span>
+          </a>
+        </li>
+        <li class="sidebar-topic-item">
+          <a href="cluster-architecture.html" class="sidebar-topic-link">
+            <span class="sidebar-topic-badge">01</span>
+            <span>1. Cluster Setup & Sizer</span>
+          </a>
+        </li>
+        <li class="sidebar-topic-item">
+          <a href="data-distribution.html" class="sidebar-topic-link active">
+            <span class="sidebar-topic-badge">01b</span>
+            <span>1b. Data Distribution & Splits</span>
+          </a>
+        </li>
+        <li class="sidebar-topic-item">
+          <a href="cloud-storage.html" class="sidebar-topic-link">
+            <span class="sidebar-topic-badge">02</span>
+            <span>2. Cloud Storage Ingestion</span>
+          </a>
+        </li>
+        <li class="sidebar-topic-item">
+          <a href="rdbms-jdbc.html" class="sidebar-topic-link">
+            <span class="sidebar-topic-badge">03</span>
+            <span>3. Parallel RDBMS JDBC</span>
+          </a>
+        </li>
+        <li class="sidebar-topic-item">
+          <a href="mpp-warehouses.html" class="sidebar-topic-link">
+            <span class="sidebar-topic-badge">04</span>
+            <span>4. MPP Warehouses & Staging</span>
+          </a>
+        </li>
+        <li class="sidebar-topic-item">
+          <a href="dag-execution.html" class="sidebar-topic-link">
+            <span class="sidebar-topic-badge">05</span>
+            <span>5. DAG, Stages & Tasks</span>
+          </a>
+        </li>
+        <li class="sidebar-topic-item">
+          <a href="shuffle-partitioning.html" class="sidebar-topic-link">
+            <span class="sidebar-topic-badge">06</span>
+            <span>6. Shuffle & Partitioning</span>
+          </a>
+        </li>
+        <li class="sidebar-topic-item">
+          <a href="shuffle-ops-lab.html" class="sidebar-topic-link">
+            <span class="sidebar-topic-badge">06b</span>
+            <span>6b. Shuffle Operations Lab</span>
+          </a>
+        </li>
+        <li class="sidebar-topic-item">
+          <a href="shuffle-tuning-qna.html" class="sidebar-topic-link">
+            <span class="sidebar-topic-badge">06c</span>
+            <span>6c. Shuffle Tuning Q&A</span>
+          </a>
+        </li>
+        <li class="sidebar-topic-item">
+          <a href="streaming-cdc.html" class="sidebar-topic-link">
+            <span class="sidebar-topic-badge">07</span>
+            <span>7. Streaming & CDC</span>
+          </a>
+        </li>
+      </ul>
+    </aside>
+
+    <main class="pyspark-main-content dd" id="ddMain">
+
+      <section class="dd-hero" id="sec-dd-top">
+        <span class="dd-assist"><i data-lucide="layers-3" style="width:15px;height:15px;"></i>Module 01b · Interactive guide</span>
+        <h1>Data Distribution &amp; File Splits Explorer</h1>
+        <p>The Spark driver assigns data to workers as <b>partitions</b>: groups of complete rows. This page shows exactly how it gets there,
+          from the Delta Lake / Iceberg file list through the split arithmetic and Parquet row groups to the task each worker receives.
+          Every panel is interactive, and the floating slider controls animation speed.</p>
+        <div class="dd-hero-facts">
+          <span class="dd-assist"><i data-lucide="crown" style="width:14px;height:14px;"></i>The driver decides, workers only execute</span>
+          <span class="dd-assist"><i data-lucide="rows-3" style="width:14px;height:14px;"></i>Rows are split, columns are not</span>
+          <span class="dd-assist"><i data-lucide="ruler" style="width:14px;height:14px;"></i>maxPartitionBytes 128 MB · openCostInBytes 4 MB</span>
+        </div>
+      </section>
+
+      <section class="dd-sec" id="sec-dd-rows">
+        <div class="dd-sec-hd"><span class="num">01</span><h2><i data-lucide="rows-3" style="color:var(--md-primary)"></i>Rows travel, columns stay together</h2>
+          <p>A DataFrame is split <b>horizontally</b>. Every worker receives complete rows and the full schema. With Parquet, workers only <i>read</i> the columns your query needs from disk.</p></div>
+        <div id="ddRows"></div>
+      </section>
+
+      <section class="dd-sec" id="sec-dd-pipeline">
+        <div class="dd-sec-hd"><span class="num">02</span><h2><i data-lucide="crown" style="color:var(--md-primary)"></i>Who decides? The driver's 4-step pipeline</h2>
+          <p>The split is never decided by the worker, and not by Delta Lake or Iceberg either. The table format is the catalog; the <b>Spark driver</b> does the math and hands out byte ranges.</p></div>
+        <div id="ddPipe"></div>
+      </section>
+
+      <section class="dd-sec" id="sec-dd-calc">
+        <div class="dd-sec-hd"><span class="num">03</span><h2><i data-lucide="calculator" style="color:var(--md-primary)"></i>Split calculator: from files to tasks</h2>
+          <p>Spark's file-planning algorithm, step by step: the split size formula, cutting files, bin-packing chunks into partitions with the open-cost penalty, then waves of tasks on worker cores.</p></div>
+        <div id="ddCalc"></div>
+      </section>
+
+      <section class="dd-sec" id="sec-dd-rowgroups">
+        <div class="dd-sec-hd"><span class="num">04</span><h2><i data-lucide="scissors" style="color:var(--md-primary)"></i>Inside one Parquet file: where the cut really lands</h2>
+          <p>Byte splits are computed without looking inside the file. At read time each task keeps only the <b>row groups whose midpoint</b> falls in its byte range, so no worker reads a partial row group.</p></div>
+        <div id="ddRG"></div>
+      </section>
+
+      <section class="dd-sec" id="sec-dd-projection">
+        <div class="dd-sec-hd"><span class="num">05</span><h2><i data-lucide="columns-3" style="color:var(--md-primary)"></i>Column projection: same rows, far fewer bytes</h2>
+          <p>Columns are never split across workers, but because Parquet stores each column separately, a worker fetches only the column chunks the query selects.</p></div>
+        <div id="ddProj"></div>
+      </section>
+
+      <section class="dd-sec" id="sec-dd-compaction">
+        <div class="dd-sec-hd"><span class="num">06</span><h2><i data-lucide="combine" style="color:var(--md-primary)"></i>Tiny files &amp; compaction</h2>
+          <p>A tiny file cannot be split, and thousands of them cost more to open than to read. Compaction rewrites them into well-sized files so the default split engine works at its best.</p></div>
+        <div id="ddCompact"></div>
+      </section>
+
+      <section class="dd-sec" id="sec-dd-zorder">
+        <div class="dd-sec-hd"><span class="num">07</span><h2><i data-lucide="filter" style="color:var(--md-primary)"></i>Z-ordering: let workers skip whole files</h2>
+          <p>Clustering similar values into the same files tightens each file's min/max statistics, so the driver can drop files before any task is created.</p></div>
+        <div id="ddZ"></div>
+      </section>
+
+      <section class="dd-sec" id="sec-dd-salting">
+        <div class="dd-sec-hd"><span class="num">08</span><h2><i data-lucide="flame" style="color:var(--md-primary)"></i>Data skew &amp; salting</h2>
+          <p>After a <code>groupBy</code> or <code>join</code>, rows are routed by key. A heavy key lands on one worker; a random <b>salt</b> spreads it out, and a second aggregation stitches the pieces back together.</p></div>
+        <div id="ddSalt"></div>
+      </section>
+
+      <section class="dd-sec" id="sec-dd-cheatsheet">
+        <div class="dd-sec-hd"><span class="num">09</span><h2><i data-lucide="list-checks" style="color:var(--md-primary)"></i>Cheat sheet: the driver's auto-decisions</h2></div>
+        <div id="ddCheat"></div>
+      </section>
+
+      <div class="dd-speed" role="group" aria-label="Animation speed">
+        <i data-lucide="gauge" style="width:18px;height:18px;color:var(--md-primary)"></i>
+        <span class="dd-label">Animation speed</span>
+        <input type="range" id="ddSpeed" min="0" max="8" step="1" value="4" aria-label="Animation speed">
+        <output id="ddSpeedOut" class="dd-label" style="font-family:var(--mono);min-width:38px;">1×</output>
+      </div>
+    </main>
+
+    <aside class="sidebar-inpage-nav" id="sidebarInpageNav" aria-label="In-Page Table of Contents">
+      <div class="inpage-header-box">
+        <span class="inpage-header-title"><i data-lucide="compass" style="width:14px;height:14px;"></i>On This Page</span>
+        <span style="font-size:0.7rem;color:var(--text-muted);font-family:var(--font-mono);">9 SECTIONS</span>
+      </div>
+      <ul class="inpage-list">
+        <li class="inpage-item"><a href="#sec-dd-rows" class="inpage-link active"><span class="inpage-step-num">01</span><span>Rows vs Columns</span></a></li>
+        <li class="inpage-item"><a href="#sec-dd-pipeline" class="inpage-link"><span class="inpage-step-num">02</span><span>Who Decides?</span></a></li>
+        <li class="inpage-item"><a href="#sec-dd-calc" class="inpage-link"><span class="inpage-step-num">03</span><span>Split Calculator</span></a></li>
+        <li class="inpage-item"><a href="#sec-dd-rowgroups" class="inpage-link"><span class="inpage-step-num">04</span><span>Row-Group Alignment</span></a></li>
+        <li class="inpage-item"><a href="#sec-dd-projection" class="inpage-link"><span class="inpage-step-num">05</span><span>Column Projection</span></a></li>
+        <li class="inpage-item"><a href="#sec-dd-compaction" class="inpage-link"><span class="inpage-step-num">06</span><span>Tiny Files &amp; Compaction</span></a></li>
+        <li class="inpage-item"><a href="#sec-dd-zorder" class="inpage-link"><span class="inpage-step-num">07</span><span>Z-Ordering</span></a></li>
+        <li class="inpage-item"><a href="#sec-dd-salting" class="inpage-link"><span class="inpage-step-num">08</span><span>Skew &amp; Salting</span></a></li>
+        <li class="inpage-item"><a href="#sec-dd-cheatsheet" class="inpage-link"><span class="inpage-step-num">09</span><span>Cheat Sheet</span></a></li>
+      </ul>
+    </aside>
+  </div>
+
+  <!-- Footer -->
+    <!-- ========================================================================= -->
+  <!-- SITE FOOTER: Consistent Footer Across All Pages                           -->
+  <!-- ========================================================================= -->
+    <!-- ========================================================================= -->
+  <!-- SITE FOOTER: AI MasterClass Premium High-Contrast Black Footer            -->
+  <!-- ========================================================================= -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-main-grid">
+
+        <!-- Column 1: Company Profile & Social Channels -->
+        <div class="footer-col">
+          <div class="footer-col-title">
+            <i data-lucide="building-2" style="color:#38bdf8;width:22px;height:22px;"></i>
+            <span>Tinitiate AI Academy</span>
+          </div>
+          <p class="footer-col-desc">
+            Industry-aligned IT training curriculum designed to transition software engineers, cloud architects, and data professionals into high-impact AI, GenAI, and Distributed Lakehouse Engineering roles.
+          </p>
+          <span class="footer-contact-label">Company Social Channels</span>
+          <div class="footer-socials-grid">
+            <a href="https://linkedin.com/company/tinitiate" target="_blank" rel="noopener noreferrer" class="footer-social-btn" title="Tinitiate LinkedIn">
+              <span class="footer-social-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="#0a66c2"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.45a1.6 1.6 0 1 0 0 3.2 1.6 1.6 0 0 0 0-3.2Z"/></svg></span>
+              <span>LinkedIn</span>
+            </a>
+            <a href="https://youtube.com/@tinitiate" target="_blank" rel="noopener noreferrer" class="footer-social-btn" title="Tinitiate YouTube">
+              <span class="footer-social-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="#ff0000"><path d="M21.58 7.19a2.76 2.76 0 0 0-1.95-1.95C17.9 4.75 12 4.75s-5.9 0-7.63.49a2.76 2.76 0 0 0-1.95 1.95A28.84 28.84 0 0 0 2 12a28.84 28.84 0 0 0 .42 4.81 2.76 2.76 0 0 0 1.95 1.95c1.73.49 7.63.49 7.63.49s5.9 0 7.63-.49a2.76 2.76 0 0 0 1.95-1.95A28.84 28.84 0 0 0 22 12a28.84 28.84 0 0 0-.42-4.81ZM10 15V9l5.2 3L10 15Z"/></svg></span>
+              <span>YouTube</span>
+            </a>
+            <a href="https://github.com/venkata-bcs" target="_blank" rel="noopener noreferrer" class="footer-social-btn" title="Tinitiate GitHub">
+              <span class="footer-social-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="#ffffff"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg></span>
+              <span>GitHub</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Column 2: Lead Instructor Profiles -->
+        <div class="footer-col">
+          <div class="footer-col-title">
+            <i data-lucide="user-check" style="color:#a855f7;width:22px;height:22px;"></i>
+            <span>Venkata Bhattaram</span>
+          </div>
+          <p class="footer-col-desc">
+            Lead AI Instructor &amp; Enterprise Architect. Connect directly for course consultations, curriculum design, and technical advisory.
+          </p>
+          <span class="footer-contact-label">Venkata Bhattaram's Profiles</span>
+          <div class="footer-socials-grid">
+            <a href="https://www.linkedin.com/in/venkata-bhattaram/" target="_blank" rel="noopener noreferrer" class="footer-social-btn" title="Venkata Bhattaram LinkedIn">
+              <span class="footer-social-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="#0a66c2"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.45a1.6 1.6 0 1 0 0 3.2 1.6 1.6 0 0 0 0-3.2Z"/></svg></span>
+              <span>LinkedIn</span>
+            </a>
+            <a href="https://github.com/venkata-bcs" target="_blank" rel="noopener noreferrer" class="footer-social-btn" title="Venkata Bhattaram GitHub">
+              <span class="footer-social-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="#ffffff"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg></span>
+              <span>GitHub</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Column 3: Contact & Call Us -->
+        <div class="footer-col">
+          <div class="footer-col-title">
+            <i data-lucide="phone-call" style="color:#22c55e;width:22px;height:22px;"></i>
+            <span>Contact &amp; Call Us</span>
+          </div>
+          <div class="footer-contact-block">
+            <div class="footer-contact-item">
+              <div class="footer-contact-icon"><i data-lucide="mail" style="width:18px;height:18px;"></i></div>
+              <div class="footer-contact-details">
+                <span class="footer-contact-label">Email Support</span>
+                <a href="mailto:contact@tinitiateai.com" class="footer-web-link">contact@tinitiateai.com</a>
+              </div>
+            </div>
+            <div class="footer-contact-item">
+              <div class="footer-contact-icon"><i data-lucide="globe" style="width:18px;height:18px;"></i></div>
+              <div class="footer-contact-details">
+                <span class="footer-contact-label">Official Portal</span>
+                <a href="https://tinitiateai.com" target="_blank" rel="noopener noreferrer" class="footer-web-link">tinitiateai.com</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Curriculum Portals Bar -->
+      <div class="footer-portals-bar">
+        <span class="footer-contact-label" style="margin:0;">MasterClass Portals:</span>
+        <div class="footer-portals-list">
+          <a href="../index.html" class="footer-portal-chip">🏠 Academy Home</a>
+          <a href="../automation-ml-ai-agentic/index.html" class="footer-portal-chip">🤖 AI Systems Hub</a>
+          <a href="../data-engineering/index.html" class="footer-portal-chip">🗄️ Data Engineering Hub</a>
+          <a href="../data-governence/purview-sandbox/index.html" class="footer-portal-chip">🛡️ Data Governance</a>
+          <a href="../pyspark/index.html" class="footer-portal-chip">⚡ PySpark Architecture</a>
+        </div>
+      </div>
+
+      <!-- Bottom Bar -->
+      <div class="footer-bottom-bar">
+        <div>
+          &copy; 2026 <strong>Venkata Bhattaram</strong> &bull; <a href="https://tinitiateai.com" target="_blank" rel="noopener noreferrer" style="color:#ffffff;text-decoration:none;font-weight:700;">TinitiateAI.com</a> &bull; All Rights Reserved.
+        </div>
+        <div class="footer-bottom-links">
+          <span>Lead Instructor: <strong>Venkata Bhattaram</strong></span>
+          <a href="https://github.com/venkata-bcs" target="_blank" rel="noopener noreferrer">github.com/venkata-bcs</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+  
+  <script src="../assets/js/master-global-nav.js" defer></script>
+  <script src="assets/js/data-distribution.js"></script>
+</body>
+</html>

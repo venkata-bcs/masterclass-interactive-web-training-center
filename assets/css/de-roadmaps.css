@@ -1,0 +1,186 @@
+/* =============================================================================
+   Data Engineering roadmaps on the home page (assets/js/de-roadmaps.js)
+   Builds on the poster styles defined inline in index.html.
+   ============================================================================= */
+
+/* ---- Stack switcher ---- */
+.de-stack-switch {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 10px;
+}
+.de-stack-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1.5px solid rgba(148, 163, 184, 0.2);
+  background: rgba(15, 23, 42, 0.6);
+  color: var(--text-muted);
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+}
+.de-stack-btn:hover { border-color: var(--stack-accent); transform: translateY(-1px); }
+.de-stack-btn > svg { width: 22px; height: 22px; flex-shrink: 0; color: var(--stack-accent); }
+.de-stack-num {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: var(--stack-accent);
+}
+.de-stack-text { display: flex; flex-direction: column; min-width: 0; }
+.de-stack-text strong { font-size: 0.86rem; color: var(--text-main); line-height: 1.25; }
+.de-stack-text small { font-size: 0.72rem; color: var(--text-dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.de-stack-btn.active {
+  border-color: var(--stack-accent);
+  background: linear-gradient(135deg, color-mix(in srgb, var(--stack-accent) 22%, transparent), rgba(15, 23, 42, 0.6));
+  box-shadow: 0 6px 20px color-mix(in srgb, var(--stack-accent) 25%, transparent);
+}
+[data-theme="light"] .de-stack-btn { background: #ffffff; border-color: #e2e8f0; }
+[data-theme="light"] .de-stack-btn.active {
+  background: linear-gradient(135deg, color-mix(in srgb, var(--stack-accent) 14%, #ffffff), #ffffff);
+  border-color: var(--stack-accent);
+}
+
+/* ---- Header tool badges ---- */
+.de-header-tools {
+  display: grid;
+  grid-template-columns: repeat(3, 76px);
+  gap: 12px 10px;
+}
+.de-header-tool { display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; }
+.de-header-tool span {
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--text-muted);
+  line-height: 1.2;
+}
+
+/* ---- Architectural summary ---- */
+.de-arch {
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: var(--radius-lg, 16px);
+  background: rgba(15, 23, 42, 0.55);
+  padding: 20px;
+  margin-bottom: 28px;
+}
+[data-theme="light"] .de-arch { background: #f8fafc; border-color: #e2e8f0; }
+.de-arch-head p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.55; margin: 6px 0 16px; max-width: 980px; }
+.de-arch-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--poster-accent);
+}
+.de-arch-eyebrow svg { width: 15px; height: 15px; }
+
+.de-arch-flow {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 22px;
+}
+.de-arch-layer {
+  position: relative;
+  border-radius: 12px;
+  border: 1px solid color-mix(in srgb, var(--poster-accent) 45%, transparent);
+  border-top: 3px solid var(--poster-accent);
+  background: rgba(8, 13, 26, 0.7);
+  padding: 12px;
+}
+[data-theme="light"] .de-arch-layer { background: #ffffff; }
+.de-arch-layer:not(:last-child)::after {
+  content: "\2192";
+  position: absolute;
+  right: -18px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-weight: 900;
+  font-size: 1rem;
+  color: var(--poster-accent);
+}
+.de-arch-layer-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-main);
+  margin-bottom: 8px;
+}
+.de-arch-layer-title svg { width: 15px; height: 15px; color: var(--poster-accent); flex-shrink: 0; }
+.de-arch-layer ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 5px; }
+.de-arch-layer li {
+  font-size: 0.76rem;
+  line-height: 1.35;
+  color: var(--text-muted);
+  padding: 4px 7px;
+  border-radius: 6px;
+  background: rgba(148, 163, 184, 0.1);
+}
+
+.de-features {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 10px;
+}
+.de-feature {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border-left: 3px solid var(--poster-accent);
+  background: rgba(148, 163, 184, 0.08);
+}
+.de-feature strong { font-size: 0.86rem; color: var(--text-main); }
+.de-feature span { font-size: 0.78rem; color: var(--text-muted); line-height: 1.45; }
+
+/* Long tool names ("Lakeflow Pipelines") wrap instead of squeezing the step text */
+#de-roadmap-root .step-learn-box { flex: 0 1 auto; max-width: 44%; }
+#de-roadmap-root .learn-tools-icons { flex-wrap: wrap; justify-content: center; }
+#de-roadmap-root .learn-tool-item { width: 74px; }
+#de-roadmap-root .learn-tool-label { white-space: normal; line-height: 1.15; font-size: 0.66rem; }
+#de-roadmap-root .step-content-left { flex: 1 1 0; min-width: 0; }
+
+/* ---- Responsive ---- */
+@media (max-width: 1200px) {
+  .de-stack-switch { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .de-arch-flow { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .de-arch-layer:nth-child(3n)::after { display: none; }
+}
+@media (max-width: 760px) {
+  .de-stack-switch { grid-template-columns: 1fr 1fr; }
+  .de-arch-flow { grid-template-columns: 1fr; gap: 26px; }
+  .de-arch-layer:not(:last-child)::after {
+    content: "\2193";
+    display: block;
+    right: auto;
+    left: 50%;
+    top: auto;
+    bottom: -22px;
+    transform: translateX(-50%);
+  }
+  .de-features { grid-template-columns: 1fr; }
+  .de-header-tools { grid-template-columns: repeat(6, 1fr); width: 100%; }
+}
+@media (max-width: 640px) {
+  #de-roadmap-root .step-learn-box { max-width: none; }
+}
+@media (max-width: 480px) {
+  .de-stack-switch { grid-template-columns: 1fr; }
+  .de-header-tools { grid-template-columns: repeat(3, 1fr); }
+}

@@ -1,0 +1,617 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Evolution of AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Exo+2:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* 4:5 portrait page (8in x 10in) */
+  @page { size: 8in 10in; margin: 0; }
+  :root {
+    --bg1: #235f7e; --bg2: #133d55; --bg3: #0c2a3c;
+    --cream: #f2e5c9; --orange: #f0611f; --ink: #1b1d27; --sky: #48a7c0; --steel: #2f7d9c; --sand: #e9b277;
+    --text: #eaf4f8; --muted: #a9c7d4;
+    --mono: 'Orbitron', 'Bahnschrift', 'Segoe UI', sans-serif;
+    --head: 'Exo 2', 'Bahnschrift', 'Segoe UI', sans-serif;
+    --body: 'Inter', 'Segoe UI', sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--bg3); }
+  body { font-family: var(--body); color: var(--text); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+  .page {
+    width: 8in; height: 10in; position: relative; overflow: hidden;
+    page-break-after: always; break-after: page;
+    background:
+      radial-gradient(ellipse 90% 60% at 80% 10%, rgba(72,167,192,.25), transparent 60%),
+      linear-gradient(170deg, var(--bg1) 0%, var(--bg2) 55%, var(--bg3) 100%);
+  }
+  .page:last-child { page-break-after: auto; break-after: auto; }
+  /* subtle futuristic grid */
+  .page::before {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background-image:
+      linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+
+  /* ---------- ribbons + band (from theme) ---------- */
+  .ribbon { position: absolute; top: 0; width: 54px; box-shadow: 6px 0 14px rgba(0,0,0,.35); }
+  .band {
+    position: absolute; left: -40px; right: -40px; border-radius: 70px;
+    background: linear-gradient(180deg, #3a86a8 0%, #2a6c8c 45%, #1e5573 100%);
+    box-shadow: 0 18px 30px rgba(0,0,0,.45), inset 0 2px 0 rgba(255,255,255,.18), inset 0 -6px 12px rgba(0,0,0,.25);
+  }
+  .cap {
+    position: absolute; width: 96px; border-radius: 44px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+    box-shadow: -10px 0 18px rgba(0,0,0,.45), inset 0 3px 0 rgba(255,255,255,.25), inset 0 -8px 14px rgba(0,0,0,.18);
+  }
+  .cap svg { width: 22px; height: 22px; }
+  .cap .n { font-family: var(--mono); font-weight: 900; font-size: 30px; letter-spacing: 1px; line-height: 1; }
+  .cap .l { font-family: var(--head); font-weight: 800; font-size: 8.5px; letter-spacing: 1.4px; text-transform: uppercase; }
+  .cap.dim { filter: saturate(.55) brightness(.72); }
+  .cap.active { outline: 3px solid rgba(255,255,255,.85); outline-offset: 4px; z-index: 5; }
+
+  .c-cream { background: var(--cream); color: var(--ink); }
+  .c-orange { background: var(--orange); color: #fff; }
+  .c-ink { background: var(--ink); color: #fff; }
+  .c-sky { background: var(--sky); color: #0f2a38; }
+  .c-steel { background: var(--steel); color: #fff; }
+  .c-sand { background: var(--sand); color: var(--ink); }
+
+  .band-text { position: absolute; z-index: 6; }
+  .band-text .k { font-family: var(--mono); font-size: 10px; letter-spacing: 3px; color: var(--cream); opacity: .9; }
+  .band-text .t { font-family: var(--head); font-weight: 800; font-size: 25px; line-height: 1.05; margin-top: 4px; }
+  .band-text .y { font-family: var(--mono); font-size: 11px; color: var(--sand); margin-top: 6px; letter-spacing: 1.5px; }
+
+  /* ---------- top bar ---------- */
+  .topbar { position: absolute; top: 22px; right: 30px; z-index: 10; text-align: right; }
+  .topbar .k { font-family: var(--mono); font-size: 9px; letter-spacing: 3px; color: var(--muted); }
+  .topbar .t { font-family: var(--mono); font-weight: 700; font-size: 13px; letter-spacing: 2px; color: #fff; }
+
+  /* ---------- content ---------- */
+  .content { position: absolute; left: 38px; right: 38px; top: 318px; bottom: 96px; z-index: 4; }
+  .hero h1 { font-family: var(--head); font-weight: 800; font-size: 31px; white-space: nowrap; line-height: 1.05; }
+  .hero h1 em { font-style: normal; color: var(--accent); }
+  .hero p { font-size: 13px; color: var(--muted); margin-top: 8px; line-height: 1.5; max-width: 620px; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
+  .card {
+    background: linear-gradient(160deg, rgba(8,26,38,.72), rgba(8,26,38,.5));
+    border: 1px solid rgba(255,255,255,.08); border-left: 4px solid var(--accent);
+    border-radius: 12px; padding: 12px 14px;
+  }
+  .card.wide { grid-column: span 2; }
+  .card h3 { font-family: var(--mono); font-weight: 700; font-size: 10px; letter-spacing: 2.2px; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
+  .card p, .card li { font-size: 11.2px; line-height: 1.5; color: #d9e9f0; }
+  .card ul { list-style: none; }
+  .card li { padding-left: 14px; position: relative; margin: 2px 0; }
+  .card li::before { content: ""; position: absolute; left: 0; top: 6px; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+  .card b { color: #fff; font-weight: 600; }
+
+  .flow { display: flex; align-items: stretch; gap: 0; }
+  .flow .s {
+    flex: 1; text-align: center; padding: 9px 4px; font-family: var(--head); font-weight: 700; font-size: 11px;
+    background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12); position: relative;
+  }
+  .flow .s small { display: block; font-family: var(--body); font-weight: 400; font-size: 9px; color: var(--muted); margin-top: 2px; }
+  .flow .s:first-child { border-radius: 10px 0 0 10px; }
+  .flow .s:last-child { border-radius: 0 10px 10px 0; }
+  .flow .s + .s { border-left: none; }
+  .flow .s:not(:last-child)::after {
+    content: "›"; position: absolute; right: -7px; top: 50%; transform: translateY(-55%); z-index: 2;
+    font-family: var(--mono); font-size: 16px; color: var(--accent);
+  }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 10px; padding: 3px 8px; border-radius: 20px; border: 1px solid rgba(255,255,255,.18); background: rgba(255,255,255,.05); }
+  .next {
+    margin-top: 12px; display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-radius: 12px;
+    background: linear-gradient(90deg, rgba(240,97,31,.22), rgba(240,97,31,.04)); border: 1px dashed rgba(240,97,31,.6);
+    font-size: 11.5px;
+  }
+  .next .tag { font-family: var(--mono); font-size: 9px; letter-spacing: 2px; color: var(--orange); white-space: nowrap; }
+
+  /* ---------- footer with futuristic page number ---------- */
+  .footer { position: absolute; left: 0; right: 0; bottom: 0; height: 78px; z-index: 8;
+    background: linear-gradient(0deg, rgba(5,18,27,.9), rgba(5,18,27,.35)); border-top: 1px solid rgba(72,167,192,.35); }
+  /* logo sits on a dark "chip" so it pops off the teal */
+  .logo-chip { background: linear-gradient(160deg, #1b1d27, #0b0d14); border: 1px solid rgba(240,97,31,.55); border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.12); }
+  .footer .logo { position: absolute; left: 24px; top: 12px; height: 54px; padding: 7px 12px; }
+  .footer .credit { position: absolute; left: 200px; top: 13px; font-size: 9.5px; color: var(--muted); line-height: 1.5; }
+  .name-tag { display: inline-block; font-family: var(--head); font-weight: 800; color: #fff; letter-spacing: .5px;
+    background: linear-gradient(90deg, #f0611f, #c9471a); border-radius: 8px; box-shadow: 0 4px 12px rgba(240,97,31,.35); }
+  .footer .name-tag { font-size: 15px; padding: 3px 10px; margin-bottom: 4px; }
+  .pnum { position: absolute; right: 38px; bottom: 12px; display: flex; align-items: center; gap: 10px; }
+  .pnum .brand { text-align: right; }
+  .pnum .brand .w { font-family: var(--mono); font-weight: 900; font-size: 11px; letter-spacing: 4px; color: #fff; }
+  .pnum .brand .w span { color: var(--orange); }
+  .pnum .brand .s { font-family: var(--mono); font-size: 7.5px; letter-spacing: 3px; color: var(--muted); margin-top: 3px; }
+  .hex { position: relative; width: 70px; height: 60px; }
+  .hex svg { position: absolute; inset: 0; }
+  .hex .num { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    font-family: var(--mono); font-weight: 900; font-size: 24px; color: #fff;
+    text-shadow: 0 0 8px rgba(72,167,192,.9), 0 0 18px rgba(240,97,31,.5); }
+  .hex .of { position: absolute; right: -16px; bottom: -4px; font-family: var(--mono); font-size: 8px; color: var(--sand); letter-spacing: 1px; }
+
+  /* ---------- cover ---------- */
+  .cover .ribbon { height: 100%; }
+  .cover-title { position: absolute; left: 0; right: 0; top: 118px; text-align: center; z-index: 6; }
+  .cover-title .k { font-family: var(--mono); font-size: 12px; letter-spacing: 6px; color: var(--cream); }
+  .cover-title h1 { font-family: var(--mono); font-weight: 900; font-size: 54px; letter-spacing: 3px; line-height: 1.05; margin-top: 10px;
+    text-shadow: 0 6px 24px rgba(0,0,0,.6); }
+  .cover-title h1 span { color: var(--orange); }
+  .cover-title p { font-family: var(--head); font-weight: 600; font-size: 16px; color: #fff; margin-top: 12px; text-shadow: 0 2px 10px rgba(0,0,0,.8); }
+  .glass { background: rgba(9,28,40,.78); border: 1px solid rgba(255,255,255,.12); border-radius: 14px; backdrop-filter: blur(4px); }
+  .cover-logo { position: absolute; top: 20px; left: 50%; transform: translateX(-50%); height: 78px; padding: 10px 20px; z-index: 7; }
+  .cover-by { position: absolute; left: 60px; right: 60px; bottom: 110px; z-index: 7; padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; }
+  .cover-by .who { font-size: 28px; padding: 5px 16px; margin-bottom: 4px; border-radius: 10px; }
+  .cover-by .meta { font-size: 11px; color: var(--muted); margin-top: 4px; line-height: 1.6; }
+  .cover-by .meta b { color: var(--cream); font-weight: 600; }
+  .cover-by .stat { text-align: center; padding: 0 12px; border-left: 1px solid rgba(255,255,255,.12); }
+  .cover-by .stat .v { font-family: var(--mono); font-weight: 900; font-size: 22px; color: var(--sand); }
+  .cover-by .stat .d { font-size: 9px; letter-spacing: 1.5px; color: var(--muted); text-transform: uppercase; }
+  .band-list { position: absolute; z-index: 6; }
+  .band-list > div { display: flex; gap: 8px; align-items: flex-start; margin: 7px 0; }
+  .band-list i { flex: none; width: 11px; height: 11px; border-radius: 50%; background: #fff; margin-top: 2px; }
+  .band-list b { display: block; font-family: var(--head); font-weight: 800; font-size: 13px; }
+  .band-list span { font-size: 9px; color: #d3e6ee; }
+
+  /* ---------- agentic loop ring ---------- */
+  .loopwrap { display: flex; gap: 14px; align-items: center; }
+  .loopwrap svg text { font-family: var(--head); font-weight: 700; }
+</style>
+</head>
+<body>
+
+<!-- ======================= PAGE 1 : AI HOME / COVER ======================= -->
+<section class="page cover" data-page="1" data-active="0">
+  <img class="cover-logo logo-chip" src="website_logo_black_bg_white_text-Picsart-BackgroundRemover.png" alt="Tinitiate Technologies">
+  <div class="cover-title">
+    <div class="k">TINITIATE · AI DEVELOPER MASTERCLASS</div>
+    <h1>THE EVOLUTION<br>OF <span>AI</span></h1>
+    <p>From deterministic rules to autonomous, multi-agent reasoning</p>
+  </div>
+  <div class="cover-by glass">
+    <div>
+      <div class="who name-tag">Venkata Bhattaram</div>
+      <div class="meta"><b>github.com/venkata-bcs</b> &nbsp;·&nbsp; venkat@tinitiate.com</div>
+      <div class="meta">© 2026 Venkata Bhattaram · Tinitiate Technologies</div>
+    </div>
+    <div style="display:flex">
+      <div class="stat"><div class="v">06</div><div class="d">Eras</div></div>
+      <div class="stat"><div class="v">60+</div><div class="d">Years</div></div>
+      <div class="stat"><div class="v">01</div><div class="d">Journey</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= PAGE 2 : AUTOMATION ======================= -->
+<section class="page" data-page="2" data-active="1">
+  <div class="content">
+    <div class="hero">
+      <h1>Automation: <em>“If this, then that.”</em></h1>
+      <p>The first step toward intelligent systems. Humans write every rule; the machine follows them perfectly, at speed, every time. Same input &rarr; same output.</p>
+    </div>
+    <div class="grid">
+      <div class="card wide">
+        <h3>How it works</h3>
+        <div class="flow">
+          <div class="s">Trigger<small>file, schedule, event</small></div>
+          <div class="s">Rules<small>if / else, lookups</small></div>
+          <div class="s">Action<small>update, send, post</small></div>
+          <div class="s">Log<small>audit trail</small></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>From scripts to hyperautomation</h3>
+        <ul>
+          <li><b>1960s–80s</b> batch jobs, JCL, cron</li>
+          <li><b>1990s</b> shell &amp; Perl scripts, macros</li>
+          <li><b>2000s</b> workflow &amp; BPM engines</li>
+          <li><b>2010s</b> RPA bots that click like humans</li>
+          <li><b>2020s</b> hyperautomation: RPA + APIs + AI</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Example · Accounts-payable bot</h3>
+        <ul>
+          <li>Watches the invoices mailbox</li>
+          <li>Extracts vendor, amount, PO number</li>
+          <li>Matches against the purchase order</li>
+          <li>Posts to ERP or routes exceptions</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>The automation toolbox</h3>
+        <div class="chips">
+          <span class="chip">Python</span><span class="chip">PowerShell</span><span class="chip">cron</span>
+          <span class="chip">Apache Airflow</span><span class="chip">UiPath</span><span class="chip">Power Automate</span>
+          <span class="chip">Zapier</span><span class="chip">n8n</span><span class="chip">Ansible</span>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Is it worth automating?</h3>
+        <ul>
+          <li><b>Yes</b> if high volume, repetitive and rule-based</li>
+          <li><b>Yes</b> if the inputs are structured and stable</li>
+          <li><b>No</b> if every case needs judgment</li>
+        </ul>
+      </div>
+    </div>
+    <div class="next"><span class="tag">LIMIT &rarr; NEXT</span> <span>Rules can’t handle what they’ve never seen. A new invoice layout breaks the bot, so we need systems that <b>learn</b> the rules from data.</span></div>
+  </div>
+</section>
+
+<!-- ======================= PAGE 3 : TRADITIONAL ML ======================= -->
+<section class="page" data-page="3" data-active="2">
+  <div class="content">
+    <div class="hero">
+      <h1>Traditional ML: <em>learn the rules from data</em></h1>
+      <p>Instead of writing rules, we show the algorithm thousands of labelled examples and it finds the pattern. The output is a <b>prediction</b> with a confidence score, not a fixed answer.</p>
+    </div>
+    <div class="grid">
+      <div class="card wide">
+        <h3>The ML lifecycle</h3>
+        <div class="flow">
+          <div class="s">Data<small>collect &amp; clean</small></div>
+          <div class="s">Features<small>engineer signals</small></div>
+          <div class="s">Train<small>fit the model</small></div>
+          <div class="s">Evaluate<small>accuracy, F1, RMSE</small></div>
+          <div class="s">Deploy<small>serve &amp; monitor</small></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Three ways to learn</h3>
+        <ul>
+          <li><b>Supervised</b>: labelled data (regression, classification)</li>
+          <li><b>Unsupervised</b>: find structure (clustering, anomalies)</li>
+          <li><b>Reinforcement</b>: learn by reward (games, robotics)</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Classic algorithms</h3>
+        <ul>
+          <li>Linear &amp; logistic regression</li>
+          <li>Decision trees, Random Forest, XGBoost</li>
+          <li>k-Means, SVM, Naive Bayes</li>
+          <li>Early neural networks</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Across domains</h3>
+        <ul>
+          <li><b>Finance</b>: card-fraud scoring</li>
+          <li><b>Retail</b>: demand forecasting</li>
+          <li><b>Real estate</b>: price estimation</li>
+          <li><b>Social media</b>: feed ranking</li>
+          <li><b>Logistics</b>: delivery ETA</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>The ML stack</h3>
+        <div class="chips">
+          <span class="chip">Python</span><span class="chip">pandas</span><span class="chip">Polars</span>
+          <span class="chip">NumPy</span><span class="chip">scikit-learn</span><span class="chip">XGBoost</span>
+          <span class="chip">Jupyter</span><span class="chip">MLflow</span><span class="chip">SageMaker</span>
+        </div>
+      </div>
+    </div>
+    <div class="next"><span class="tag">LIMIT &rarr; NEXT</span> <span>ML predicts but cannot <b>create</b>, and every task needs its own model and features. Deep learning on internet-scale data opens the door to generation.</span></div>
+  </div>
+</section>
+
+<!-- ======================= PAGE 4 : GEN AI ======================= -->
+<section class="page" data-page="4" data-active="3">
+  <div class="content">
+    <div class="hero">
+      <h1>Generative AI: <em>from inspector to creator</em></h1>
+      <p>Traditional ML inspects data and labels it. GenAI creates something new: text, code, images, audio. Foundation models learn from huge amounts of data, then follow plain-language prompts.</p>
+    </div>
+    <div class="grid">
+      <div class="card wide">
+        <h3>Four eras of LLM history</h3>
+        <div class="flow">
+          <div class="s">2017<small>Transformer: “Attention Is All You Need”</small></div>
+          <div class="s">2018–21<small>BERT, GPT-2/3: scale wins</small></div>
+          <div class="s">2022–23<small>ChatGPT, Claude: chat goes mainstream</small></div>
+          <div class="s">2024+<small>multimodal, reasoning, open weights</small></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Core concepts</h3>
+        <ul>
+          <li><b>Tokens &amp; context window</b>: how much the model reads</li>
+          <li><b>Temperature</b>: creativity vs. determinism</li>
+          <li><b>RAG</b>: open-book answers from your own data</li>
+          <li><b>MCP</b>: one standard port to plug in tools</li>
+          <li><b>MoE</b>: sparse experts, cheaper inference</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>The 4 layers of the GenAI stack</h3>
+        <ul>
+          <li><b>Models</b>: Claude, GPT, Gemini, Llama, Mistral</li>
+          <li><b>Cloud</b>: AWS Bedrock, Azure AI Foundry, Vertex AI</li>
+          <li><b>Hubs</b>: Hugging Face, Ollama</li>
+          <li><b>SDKs</b>: Anthropic SDK, Google GenAI SDK, LangChain</li>
+        </ul>
+      </div>
+      <div class="card wide">
+        <h3>Across domains</h3>
+        <div class="chips">
+          <span class="chip">Social: post &amp; caption writer</span><span class="chip">Finance: earnings-call summaries</span>
+          <span class="chip">Real estate: listing descriptions</span><span class="chip">Retail: product Q&amp;A bot</span>
+          <span class="chip">Logistics: shipping-document extraction</span><span class="chip">Dev: code assistant</span>
+        </div>
+      </div>
+    </div>
+    <div class="next"><span class="tag">LIMIT &rarr; NEXT</span> <span>A chatbot answers once and waits. It cannot book, query, or fix anything itself. Giving the model <b>tools and a goal</b> turns it into an agent.</span></div>
+  </div>
+</section>
+
+<!-- ======================= PAGE 5 : AGENTS ======================= -->
+<section class="page" data-page="5" data-active="4">
+  <div class="content">
+    <div class="hero">
+      <h1>AI Agents: <em>LLM + tools + memory + goal</em></h1>
+      <p>An agent doesn’t just reply. It decides what to do next, calls real tools (APIs, databases, code, browsers) and uses the results to complete a task for you.</p>
+    </div>
+    <div class="grid">
+      <div class="card wide">
+        <h3>How an agent runs a task</h3>
+        <div class="flow">
+          <div class="s">Goal<small>user intent</small></div>
+          <div class="s">Plan<small>break into steps</small></div>
+          <div class="s">Tool call<small>API · SQL · search</small></div>
+          <div class="s">Observe<small>read the result</small></div>
+          <div class="s">Respond<small>answer or act</small></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Anatomy of an agent</h3>
+        <ul>
+          <li><b>Brain</b>: the LLM that reasons</li>
+          <li><b>Tools</b>: functions, MCP servers, APIs</li>
+          <li><b>Memory</b>: short-term context + long-term vector store</li>
+          <li><b>Planner</b>: decides the next step</li>
+          <li><b>Guardrails</b>: permissions, policies, limits</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Key patterns</h3>
+        <ul>
+          <li><b>ReAct</b>: reason, then act, in turns</li>
+          <li><b>Function / tool calling</b></li>
+          <li><b>Agentic RAG</b>: the agent decides what to retrieve</li>
+          <li><b>Multi-agent</b>: a supervisor routes work to specialist agents</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Frameworks &amp; platforms</h3>
+        <div class="chips">
+          <span class="chip">Claude Agent SDK</span><span class="chip">LangGraph</span><span class="chip">Bedrock Agents</span>
+          <span class="chip">Azure AI Foundry</span><span class="chip">Google ADK</span><span class="chip">MCP</span>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Across domains</h3>
+        <ul>
+          <li><b>Real estate</b>: lead qualifier that books viewings</li>
+          <li><b>Logistics</b>: re-routes shipments when there’s a delay</li>
+          <li><b>Finance</b>: KYC document checker</li>
+        </ul>
+      </div>
+    </div>
+    <div class="next"><span class="tag">LIMIT &rarr; NEXT</span> <span>One pass through plan &rarr; act can fail on complex work. The agent has to <b>check its own output and try again</b> until the goal is met.</span></div>
+  </div>
+</section>
+
+<!-- ======================= PAGE 6 : AGENTIC LOOPS ======================= -->
+<section class="page" data-page="6" data-active="5">
+  <div class="content">
+    <div class="hero">
+      <h1>Agentic Loops: <em>think · act · repeat</em></h1>
+      <p>The agent runs in a loop. It acts, checks the result against the goal, reflects, and goes again until the job is done, the budget runs out, or a human steps in.</p>
+    </div>
+    <div class="grid">
+      <div class="card wide">
+        <h3>The loop</h3>
+        <div class="loopwrap">
+          <svg width="250" height="190" viewBox="0 0 250 190" aria-label="Agentic loop diagram">
+            <defs>
+              <marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#e9b277"/></marker>
+            </defs>
+            <circle cx="125" cy="95" r="66" fill="none" stroke="rgba(233,178,119,.55)" stroke-width="2" stroke-dasharray="5 5"/>
+            <path d="M 160 39 A 66 66 0 0 1 190 88" fill="none" stroke="#e9b277" stroke-width="2.5" marker-end="url(#ar)"/>
+            <path d="M 180 135 A 66 66 0 0 1 130 161" fill="none" stroke="#e9b277" stroke-width="2.5" marker-end="url(#ar)"/>
+            <path d="M 80 144 A 66 66 0 0 1 60 100" fill="none" stroke="#e9b277" stroke-width="2.5" marker-end="url(#ar)"/>
+            <path d="M 70 55 A 66 66 0 0 1 115 30" fill="none" stroke="#e9b277" stroke-width="2.5" marker-end="url(#ar)"/>
+            <g font-size="11" text-anchor="middle">
+              <rect x="95" y="14" width="60" height="24" rx="12" fill="#f2e5c9"/><text x="125" y="30" fill="#1b1d27">THINK</text>
+              <rect x="180" y="83" width="60" height="24" rx="12" fill="#f0611f"/><text x="210" y="99" fill="#fff">ACT</text>
+              <rect x="88" y="152" width="74" height="24" rx="12" fill="#48a7c0"/><text x="125" y="168" fill="#0f2a38">OBSERVE</text>
+              <rect x="6" y="83" width="74" height="24" rx="12" fill="#1b1d27" stroke="#fff" stroke-opacity=".3"/><text x="43" y="99" fill="#fff">REFLECT</text>
+            </g>
+            <text x="125" y="92" text-anchor="middle" font-size="13" fill="#fff">GOAL</text>
+            <text x="125" y="108" text-anchor="middle" font-size="9" fill="#a9c7d4" style="font-family:Inter,sans-serif;font-weight:400">met? stop : loop</text>
+          </svg>
+          <ul style="flex:1">
+            <li><b>Reflection</b>: the agent critiques its own draft</li>
+            <li><b>Plan-and-execute</b>: plan once, run the steps, re-plan when something fails</li>
+            <li><b>Evaluator–optimizer</b>: one model writes, another grades it</li>
+            <li><b>Human-in-the-loop</b>: a person approves risky actions</li>
+            <li><b>Stop conditions</b>: goal met, max steps, or token/cost budget used up</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Orchestration</h3>
+        <ul>
+          <li>State machines &amp; graphs (LangGraph)</li>
+          <li>Subagents with their own context</li>
+          <li>Parallel workers, then merge the results</li>
+          <li>Long-running, resumable runs</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Across domains</h3>
+        <ul>
+          <li><b>Software</b>: write code &rarr; run tests &rarr; fix</li>
+          <li><b>Finance</b>: reconcile ledgers until they balance</li>
+          <li><b>Retail</b>: tune pricing, measure, adjust</li>
+          <li><b>Research</b>: search, read, cite, verify</li>
+        </ul>
+      </div>
+      <div class="card wide">
+        <h3>Controls that make loops safe</h3>
+        <div class="chips">
+          <span class="chip">Token &amp; cost budgets</span><span class="chip">Tracing &amp; observability</span><span class="chip">Permission boundaries</span>
+          <span class="chip">Sandboxed execution</span><span class="chip">Evals &amp; regression tests</span><span class="chip">Audit logs</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= PAGE 7 : FUTURE ======================= -->
+<section class="page" data-page="7" data-active="6">
+  <div class="content">
+    <div class="hero">
+      <h1>The Future: <em>AI as a colleague</em></h1>
+      <p>Each era built on the one before it. The next one is agents that work for hours or days, cooperate with each other, and operate in the physical world, under strong governance.</p>
+    </div>
+    <div class="grid">
+      <div class="card">
+        <h3>Trends to watch</h3>
+        <ul>
+          <li><b>Long-horizon agents</b>: multi-day autonomous work</li>
+          <li><b>Multi-agent organisations</b>: teams of specialist agents</li>
+          <li><b>Computer use</b>: agents that operate apps and browsers</li>
+          <li><b>Embodied AI</b>: robotics guided by foundation models</li>
+          <li><b>Small on-device models</b>: private and low-latency</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Standards &amp; trust</h3>
+        <ul>
+          <li><b>Open protocols</b>: MCP, agent-to-agent (A2A)</li>
+          <li><b>Governance</b>: data lineage, Purview, Unity Catalog</li>
+          <li><b>Regulation</b>: EU AI Act, model risk management</li>
+          <li><b>Safety</b>: evals, red-teaming, alignment</li>
+        </ul>
+      </div>
+      <div class="card wide">
+        <h3>The full journey</h3>
+        <div class="flow">
+          <div class="s">Automation<small>humans write rules</small></div>
+          <div class="s">ML<small>machines learn rules</small></div>
+          <div class="s">GenAI<small>machines create</small></div>
+          <div class="s">Agents<small>machines act</small></div>
+          <div class="s">Loops<small>machines self-correct</small></div>
+          <div class="s">Future<small>machines collaborate</small></div>
+        </div>
+      </div>
+      <div class="card wide">
+        <h3>Skills for the AI developer</h3>
+        <div class="chips">
+          <span class="chip">Python</span><span class="chip">SQL &amp; data engineering</span><span class="chip">Prompt &amp; context engineering</span>
+          <span class="chip">RAG &amp; vector DBs</span><span class="chip">Agent frameworks</span><span class="chip">MCP tool building</span>
+          <span class="chip">Evals &amp; observability</span><span class="chip">AWS · Azure · GCP AI</span><span class="chip">Data governance</span>
+        </div>
+      </div>
+    </div>
+    <div class="next" style="background:linear-gradient(90deg,rgba(72,167,192,.25),rgba(72,167,192,.05));border-color:rgba(72,167,192,.7)">
+      <span class="tag" style="color:var(--sky)">START HERE</span> <span>Begin your AI developer journey with <b>Tinitiate</b>. <b>github.com/venkata-bcs</b> · <b>venkat@tinitiate.com</b></span></div>
+  </div>
+</section>
+
+<script>
+  const STAGES = [
+    { n: '01', l: 'Automation', c: 'cream',  t: 'Automation',      y: '1960s → 2010s', icon: 'gear' },
+    { n: '02', l: 'Trad. ML',   c: 'orange', t: 'Traditional ML',  y: '1990s → 2010s', icon: 'chart' },
+    { n: '03', l: 'Gen AI',     c: 'ink',    t: 'Generative AI',   y: '2017 → today',  icon: 'spark' },
+    { n: '04', l: 'Agents',     c: 'sky',    t: 'AI Agents',       y: '2023 → today',  icon: 'bot' },
+    { n: '05', l: 'Loops',      c: 'steel',  t: 'Agentic Loops',   y: '2024 → today',  icon: 'loop' },
+    { n: '06', l: 'Future',     c: 'sand',   t: 'The Future',      y: 'tomorrow →',    icon: 'rocket' },
+  ];
+  const ACCENT = { cream: '#f2e5c9', orange: '#f0611f', ink: '#f0611f', sky: '#48a7c0', steel: '#5fb6d3', sand: '#e9b277' };
+  const ICONS = {
+    gear:   '<circle cx="12" cy="12" r="3.2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/>',
+    chart:  '<path d="M3 21h18"/><rect x="5" y="12" width="3" height="7"/><rect x="10.5" y="8" width="3" height="11"/><rect x="16" y="4" width="3" height="15"/>',
+    spark:  '<path d="M12 2l2.2 6.8L21 11l-6.8 2.2L12 20l-2.2-6.8L3 11l6.8-2.2z"/>',
+    bot:    '<rect x="4" y="8" width="16" height="11" rx="3"/><path d="M12 4v4"/><circle cx="12" cy="3" r="1"/><circle cx="9" cy="13.5" r="1.3"/><circle cx="15" cy="13.5" r="1.3"/>',
+    loop:   '<path d="M20 12a8 8 0 1 1-2.3-5.6"/><path d="M20 4v5h-5"/>',
+    rocket: '<path d="M12 2c4 3 5 8 3 13H9C7 10 8 5 12 2z"/><circle cx="12" cy="9" r="1.8"/><path d="M9 15l-3 4 4-1M15 15l3 4-4-1"/>',
+  };
+  const icon = k => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ICONS[k]}</svg>`;
+  const TOTAL = document.querySelectorAll('.page').length;
+
+  function hexNum(n) {
+    return `<div class="hex">
+      <svg viewBox="0 0 70 60">
+        <defs><linearGradient id="hg${n}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#48a7c0"/><stop offset="1" stop-color="#f0611f"/></linearGradient></defs>
+        <polygon points="17,2 53,2 68,30 53,58 17,58 2,30" fill="rgba(8,26,38,.85)" stroke="url(#hg${n})" stroke-width="2.2"/>
+        <polygon points="21,8 49,8 61,30 49,52 21,52 9,30" fill="none" stroke="rgba(255,255,255,.18)" stroke-width="1" stroke-dasharray="3 3"/>
+        <path d="M2 30 H-8 M68 30 H78" stroke="#f0611f" stroke-width="2"/>
+      </svg>
+      <div class="num">${String(n).padStart(2, '0')}</div>
+      <div class="of">/${String(TOTAL).padStart(2, '0')}</div>
+    </div>`;
+  }
+
+  function footer(n) {
+    return `<div class="footer">
+      <img class="logo logo-chip" src="website_logo_black_bg_white_text-Picsart-BackgroundRemover.png" alt="Tinitiate">
+      <div class="credit"><span class="name-tag">© Venkata Bhattaram</span><br>github.com/venkata-bcs · venkat@tinitiate.com</div>
+      <div class="pnum">
+        <div class="brand"><div class="w">TIN<span>I</span>TIATE</div><div class="s">PAGE · ${String(n).padStart(2, '0')}</div></div>
+        ${hexNum(n)}
+      </div>
+    </div>`;
+  }
+
+  // Lay out ribbons + band + capsules. geometry: {ribTop, ribH, bandTop, bandH, x0, step, capW, textX}
+  function header(page, active, g) {
+    let html = '';
+    STAGES.forEach((s, i) => {
+      const x = g.x0 + i * g.step + (g.capW - 54) / 2;
+      html += `<div class="ribbon c-${s.c}${active && i + 1 !== active ? ' dim' : ''}" style="left:${x}px;top:${g.ribTop}px;height:${g.ribH}px;${active && i + 1 !== active ? 'filter:saturate(.55) brightness(.72)' : ''}"></div>`;
+    });
+    html += `<div class="band" style="top:${g.bandTop}px;height:${g.bandH}px"></div>`;
+    STAGES.forEach((s, i) => {
+      const x = g.x0 + i * g.step;
+      const cls = active ? (i + 1 === active ? ' active' : ' dim') : '';
+      html += `<div class="cap c-${s.c}${cls}" style="left:${x}px;top:${g.bandTop}px;height:${g.bandH}px;width:${g.capW}px;z-index:${active && i + 1 === active ? 5 : 2 + i * 0}">
+        ${icon(s.icon)}<div class="n">${s.n}</div><div class="l">${s.l}</div></div>`;
+    });
+    page.insertAdjacentHTML('afterbegin', html);
+  }
+
+  document.querySelectorAll('.page').forEach(page => {
+    const n = +page.dataset.page, active = +page.dataset.active;
+    if (active === 0) {
+      // cover: full-height ribbons, band through the middle
+      header(page, 0, { ribTop: 0, ribH: 960, bandTop: 470, bandH: 150, x0: 22, step: 84, capW: 96 });
+      page.insertAdjacentHTML('beforeend', `<div class="band-list" style="left:560px;top:482px">
+        <div><i></i><div><b>Rules &rarr; Learning</b><span>automation and traditional ML</span></div></div>
+        <div><i></i><div><b>Learning &rarr; Creating</b><span>generative AI and LLMs</span></div></div>
+        <div><i></i><div><b>Creating &rarr; Acting</b><span>agents, loops and what comes next</span></div></div>
+      </div>`);
+    } else {
+      const s = STAGES[active - 1];
+      page.style.setProperty('--accent', ACCENT[s.c]);
+      header(page, active, { ribTop: 0, ribH: 300, bandTop: 128, bandH: 126, x0: 22, step: 78, capW: 90 });
+      page.insertAdjacentHTML('beforeend', `
+        <div class="topbar"><div class="k">THE EVOLUTION OF AI</div><div class="t">CHAPTER ${s.n}</div></div>
+        <div class="band-text" style="left:520px;top:150px">
+          <div class="k">ERA ${s.n} / 06</div><div class="t">${s.t}</div><div class="y">${s.y}</div>
+        </div>`);
+    }
+    page.insertAdjacentHTML('beforeend', footer(n));
+  });
+</script>
+</body>
+</html>
