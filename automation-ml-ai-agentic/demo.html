@@ -483,9 +483,35 @@
       background: var(--md-surface-container-low);
       display: grid; place-items: center; padding: 12px;
     }
-    .evo-figure-media img { max-width: 100%; max-height: 340px; object-fit: contain; border-radius: var(--md-shape-s); display: block; }
-    .evo-figure-media .md-btn { position: absolute; right: 12px; bottom: 12px; }
+    .evo-figure-media .md-btn { position: absolute; right: 12px; bottom: 12px; z-index: 2; }
     .evo-figure-caption { padding: 12px 16px; display: flex; flex-direction: column; gap: 2px; border-top: 1px solid var(--md-outline-variant); }
+
+    /* FIG 1.0 slideshow: one slide per stage (cropped from the infographic), then the full overview */
+    .evo-slides { position: relative; width: 100%; height: 100%; min-height: 340px; }
+    .evo-slide {
+      position: absolute; inset: 0; display: grid; place-items: center;
+      opacity: 0; transform: scale(.97); transition: opacity .5s ease, transform .5s ease; pointer-events: none;
+    }
+    .evo-slide.active { opacity: 1; transform: none; pointer-events: auto; }
+    .evo-slide img { max-width: 100%; max-height: 340px; object-fit: contain; border-radius: var(--md-shape-s); display: block; }
+    .evo-slide-crop {
+      height: 100%; max-height: 340px; aspect-ratio: 400 / 560; max-width: 100%;
+      border-radius: var(--md-shape-s);
+      background: url('ai_evolution_stages.jpg') no-repeat;
+      background-size: 344% auto; background-position: var(--x) 18%;
+    }
+    .evo-slide-nav {
+      position: absolute; top: 50%; transform: translateY(-50%); z-index: 2;
+      background: var(--md-surface-container-high); box-shadow: var(--md-el-1);
+    }
+    .evo-slide-nav.prev { left: 8px; } .evo-slide-nav.next { right: 8px; }
+    .evo-slide-dots { display: flex; gap: 6px; margin-top: 8px; }
+    .evo-slide-dot {
+      width: 8px; height: 8px; padding: 0; border: 0; border-radius: 4px; cursor: pointer;
+      background: var(--md-outline-variant); transition: width .3s ease, background .3s ease;
+    }
+    .evo-slide-dot.active { width: 22px; background: var(--tone-purple); }
+    @media (prefers-reduced-motion: reduce) { .evo-slide { transition: none; } }
 
     /* Tabs (primary) */
     .md-tabs {
@@ -854,12 +880,13 @@
       display: flex; align-items: center; gap: 8px; padding: 8px 12px 0;
       border-bottom: 1px solid var(--md-outline-variant);
     }
-    .stack-tabs { flex: 1; min-width: 0; display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; }
-    .stack-tabs::-webkit-scrollbar { display: none; }
+    /* Tabs in two rows: 4 on top, 3 below */
+    .stack-tabs { flex: 1; min-width: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0 4px; }
+    @media (max-width: 640px) { .stack-tabs { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
     .stack-top-actions { display: flex; align-items: center; padding-bottom: 8px; }
     .stack-tab {
       position: relative; overflow: hidden; flex-shrink: 0;
-      display: inline-flex; align-items: center; gap: 8px;
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-width: 0;
       height: 48px; padding: 0 14px; border: 0; background: none; cursor: pointer;
       font: 500 14px var(--font-sans); color: var(--md-on-surface-variant); white-space: nowrap;
     }
@@ -1066,7 +1093,7 @@
                 <h4 class="mega-menu-title">Explore Engineering Curricula by Domain</h4>
               </div>
               <div class="mega-menu-stats-pill">
-                <span>6 Domains</span> • <span>31 Tracks + 15 Placement Guides</span>
+                <span>6 Domains</span> • <span>32 Tracks + 15 Placement Guides</span>
               </div>
             </div>
 
@@ -1078,7 +1105,7 @@
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="8" height="8" x="3" y="3" rx="2"/><path d="M7 11v4a2 2 0 0 0 2 2h4"/><rect width="8" height="8" x="13" y="13" rx="2"/></svg>
               <span>Foundational</span>
             </span>
-            <span class="mega-cat-count">7 Tracks</span>
+            <span class="mega-cat-count">8 Tracks</span>
           </div>
           <div class="mega-category-list">
           <a href="../foundational/index.html" class="mega-category-item" title="Foundational Master Class: Computer Science &amp; Software Engineering Fundamentals">
@@ -1086,6 +1113,13 @@
             <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m16.24 7.76-2.12 6.36-6.36 2.12 2.12-6.36 6.36-2.12z"/></svg></span>
             <span class="mega-item-text">
               <span class="mega-item-name">Foundational Master Class</span>
+            </span>
+          </a>
+          <a href="../foundational/python/index.html" class="mega-category-item" title="Python: Print, Variables, Datatypes, Operators, Strings &amp; Lists">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" x2="20" y1="19" y2="19"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Python</span>
             </span>
           </a>
           <a href="../foundational/data-structures/index.html" class="mega-category-item" title="Data Structures: Trees, Graphs, HashTables & Heaps">
@@ -1541,36 +1575,54 @@
           <div class="evo-grid">
             <!-- Infographic -->
             <figure class="md-card evo-figure" style="margin:0;">
-              <div class="evo-figure-media">
-                <img src="ai_evolution_stages.jpg" alt="Evolution of AI: Automation, Machine Learning, Generative AI, and Agentic AI" id="snap1InfographicImg" data-zoom-title="FIG 1.0 · Automation → Traditional ML → Generative AI → Agentic AI">
-                <button class="md-btn md-btn-elevated" onclick="openZoom(document.getElementById('snap1InfographicImg'))" title="View full-screen diagram">
+              <div class="evo-figure-media" id="evoSlides" onmouseenter="pauseEvoSlides(true)" onmouseleave="pauseEvoSlides(false)">
+                <div class="evo-slides">
+                  <div class="evo-slide active" role="img" aria-label="Stage 1: Automation"><div class="evo-slide-crop" style="--x:0%"></div></div>
+                  <div class="evo-slide" role="img" aria-label="Stage 2: Machine Learning"><div class="evo-slide-crop" style="--x:32.4%"></div></div>
+                  <div class="evo-slide" role="img" aria-label="Stage 3: Generative AI"><div class="evo-slide-crop" style="--x:67.6%"></div></div>
+                  <div class="evo-slide" role="img" aria-label="Stage 4: Agentic AI"><div class="evo-slide-crop" style="--x:100%"></div></div>
+                  <div class="evo-slide">
+                    <img src="ai_evolution_stages.jpg" alt="Evolution overview: Automation, Machine Learning, Generative AI, and Agentic AI" id="snap1InfographicImg" data-zoom-title="FIG 1.0 · The Evolution: Automation → Machine Learning → Generative AI → Agentic AI">
+                  </div>
+                </div>
+                <button class="md-icon-btn evo-slide-nav prev" onclick="stepEvoSlide(-1)" title="Previous stage"><span class="msr">chevron_left</span></button>
+                <button class="md-icon-btn evo-slide-nav next" onclick="stepEvoSlide(1)" title="Next stage"><span class="msr">chevron_right</span></button>
+                <button class="md-btn md-btn-elevated" onclick="openZoom(document.getElementById('snap1InfographicImg'))" title="View the full overview diagram">
                   <span class="msr">zoom_out_map</span>Zoom
                 </button>
               </div>
               <figcaption class="evo-figure-caption">
-                <span class="md-label-m c-purple">FIG 1.0 · ARCHITECTURAL EPOCHS</span>
-                <span class="md-body-m muted">Automation → Traditional ML → GenAI → Agentic Swarms</span>
+                <span class="md-label-m c-purple" id="evoSlideLabel">FIG 1.1 · STAGE 1 OF 4</span>
+                <span class="md-title-s" id="evoSlideTitle">Automation</span>
+                <span class="md-body-m muted" id="evoSlideText">Scripts and rule-based pipelines repeat a fixed task exactly as written.</span>
+                <div class="evo-slide-dots" role="tablist" aria-label="Choose a slide">
+                  <button class="evo-slide-dot active" onclick="showEvoSlide(0)" title="Stage 1: Automation"></button>
+                  <button class="evo-slide-dot" onclick="showEvoSlide(1)" title="Stage 2: Machine Learning"></button>
+                  <button class="evo-slide-dot" onclick="showEvoSlide(2)" title="Stage 3: Generative AI"></button>
+                  <button class="evo-slide-dot" onclick="showEvoSlide(3)" title="Stage 4: Agentic AI"></button>
+                  <button class="evo-slide-dot" onclick="showEvoSlide(4)" title="Overview: all four stages"></button>
+                </div>
               </figcaption>
             </figure>
 
             <!-- Evolution tour: one ticket, four kinds of AI -->
-            <div class="md-card" style="display:flex;flex-direction:column;" data-zoom="AI evolution in 30 seconds" data-zoom-slot=".md-card-head > div:last-child">
+            <div class="md-card" style="display:flex;flex-direction:column;" data-zoom="Understanding the Evolution of Automation to Agents" data-zoom-slot=".md-card-head > div:last-child">
               <div class="md-card-head">
                 <div class="md-card-head-title">
                   <span class="md-live-dot"></span>
-                  <span class="md-title-m">AI evolution in 30 seconds · Rules to AI agents</span>
+                  <span class="md-title-m">Understanding the Evolution of Automation to Agents using a Refund System</span>
                 </div>
                 <div style="display:flex;align-items:center;gap:4px;">
                   <span class="time-pill" id="tourTimeText">00:00 / 00:30</span>
                   <button class="md-btn md-btn-tonal" id="tourPlayBtn" onclick="toggleTourPlay()">
-                    <span class="msr" id="tourPlayIcon">play_arrow</span><span id="tourPlayText">Play 30s Tour</span>
+                    <span class="msr" id="tourPlayIcon">play_arrow</span><span id="tourPlayText">Play Walkthrough</span>
                   </button>
                 </div>
               </div>
 
               <div class="evo-ticket">
                 <span class="msr sm">confirmation_number</span>
-                <span class="md-body-m"><strong>One support ticket, four kinds of AI.</strong> Sam's order arrived broken and Sam wants their money back.</span>
+                <span class="md-body-m"><strong>One refund request, four generations of technology.</strong> Sam's order arrived broken and Sam wants their money back. Watch how each generation handles it.</span>
               </div>
 
               <div class="md-tabs" role="tablist">
@@ -1599,7 +1651,7 @@
                   <div class="epoch-title-row">
                     <div>
                       <h3 class="md-title-l">Automation: follows the rules you write</h3>
-                      <p class="md-body-m muted" style="margin-top:4px;">A person writes the rule once. The computer repeats it exactly, every time.</p>
+                      <p class="md-body-m muted" style="margin-top:4px;">A developer writes the rule once, and the system applies it exactly the same way every time.</p>
                     </div>
                     <div style="display:flex;align-items:center;gap:4px;">
                       <span class="md-tag t-neutral">IF → THEN</span>
@@ -1620,8 +1672,8 @@
                     </div>
                   </div>
                   <div class="evo-take">
-                    <div><span class="msr sm fill c-green">thumb_up</span><span><strong>Great at:</strong> fast, cheap and 100% predictable</span></div>
-                    <div><span class="msr sm fill c-red">thumb_down</span><span><strong>Limit:</strong> breaks on anything nobody wrote a rule for</span></div>
+                    <div><span class="msr sm fill c-green">thumb_up</span><span><strong>Strength:</strong> fast, low-cost and completely predictable</span></div>
+                    <div><span class="msr sm fill c-red">thumb_down</span><span><strong>Limitation:</strong> fails on any wording no one wrote a rule for</span></div>
                   </div>
                 </div>
 
@@ -1629,8 +1681,8 @@
                 <div class="epoch-panel" id="epochPanel2" role="tabpanel">
                   <div class="epoch-title-row">
                     <div>
-                      <h3 class="md-title-l">Machine Learning: learns patterns from examples</h3>
-                      <p class="md-body-m muted" style="margin-top:4px;">Show it thousands of past tickets and it learns what a refund request looks like.</p>
+                      <h3 class="md-title-l">Machine Learning: learns patterns from past data</h3>
+                      <p class="md-body-m muted" style="margin-top:4px;">Trained on thousands of past tickets, it recognizes a refund request even when the wording is new.</p>
                     </div>
                     <div style="display:flex;align-items:center;gap:4px;">
                       <span class="md-tag t-blue">DATA → PREDICTION</span>
@@ -1654,8 +1706,8 @@
                     </div>
                   </div>
                   <div class="evo-take">
-                    <div><span class="msr sm fill c-green">thumb_up</span><span><strong>Great at:</strong> understands new wording it was never told about</span></div>
-                    <div><span class="msr sm fill c-red">thumb_down</span><span><strong>Limit:</strong> only picks a label. It can't write a reply or fix anything</span></div>
+                    <div><span class="msr sm fill c-green">thumb_up</span><span><strong>Strength:</strong> handles new phrasing without a hand-written rule</span></div>
+                    <div><span class="msr sm fill c-red">thumb_down</span><span><strong>Limitation:</strong> it only classifies the request; it can't reply or resolve it</span></div>
                   </div>
                 </div>
 
@@ -1663,8 +1715,8 @@
                 <div class="epoch-panel" id="epochPanel3" role="tabpanel">
                   <div class="epoch-title-row">
                     <div>
-                      <h3 class="md-title-l">Generative AI: creates new content</h3>
-                      <p class="md-body-m muted" style="margin-top:4px;">Ask in plain English and it writes something brand new: replies, summaries, code, images.</p>
+                      <h3 class="md-title-l">Generative AI: writes new content on request</h3>
+                      <p class="md-body-m muted" style="margin-top:4px;">Give it a plain-English prompt and it drafts original replies, summaries, code or images.</p>
                     </div>
                     <div style="display:flex;align-items:center;gap:4px;">
                       <span class="md-tag t-purple">PROMPT → CONTENT</span>
@@ -1674,11 +1726,11 @@
                   <div class="evo-stage">
                     <div class="evo-chat user a-in" style="--t:.3s"><span class="msr sm">person</span><span>Write a friendly reply to Sam about the broken order.</span></div>
                     <div class="evo-chat ai a-pop" style="--t:.9s"><span class="msr sm fill">auto_awesome</span><span><span id="evoTyped">Hi Sam, I'm so sorry your order arrived broken! That's not the experience we want for you. I've passed your refund request to our team and you'll hear back within 24 hours.</span><span class="evo-caret"></span></span></div>
-                    <div class="evo-result warn a-pop" style="--t:5.6s"><span class="msr sm fill">info</span>Sounds great, but no refund was actually issued</div>
+                    <div class="evo-result warn a-pop" style="--t:5.6s"><span class="msr sm fill">info</span>A convincing reply, but no refund was actually processed</div>
                   </div>
                   <div class="evo-take">
-                    <div><span class="msr sm fill c-green">thumb_up</span><span><strong>Great at:</strong> writes, summarizes and explains like a person</span></div>
-                    <div><span class="msr sm fill c-red">thumb_down</span><span><strong>Limit:</strong> it only produces text. Nothing in the real world happens</span></div>
+                    <div><span class="msr sm fill c-green">thumb_up</span><span><strong>Strength:</strong> writes, summarizes and explains in natural language</span></div>
+                    <div><span class="msr sm fill c-red">thumb_down</span><span><strong>Limitation:</strong> it produces words, not actions; the refund still needs a person</span></div>
                   </div>
                 </div>
 
@@ -1686,8 +1738,8 @@
                 <div class="epoch-panel" id="epochPanel4" role="tabpanel">
                   <div class="epoch-title-row">
                     <div>
-                      <h3 class="md-title-l">AI Agent: plans and takes action</h3>
-                      <p class="md-body-m muted" style="margin-top:4px;">Give it a goal and tools. It thinks, acts, checks the result and repeats until the job is done.</p>
+                      <h3 class="md-title-l">AI Agent: plans, acts and verifies</h3>
+                      <p class="md-body-m muted" style="margin-top:4px;">Give it a goal and access to tools. It reasons, takes action, checks the result and repeats until the job is done.</p>
                     </div>
                     <div style="display:flex;align-items:center;gap:4px;">
                       <span class="md-tag t-green">GOAL → DONE</span>
@@ -1730,18 +1782,18 @@
                         </li>
                       </ol>
                     </div>
-                    <div class="evo-result ok a-pop" style="--t:5.3s"><span class="msr sm fill">task_alt</span>Ticket closed: refund issued and Sam emailed, with no human needed</div>
+                    <div class="evo-result ok a-pop" style="--t:5.3s"><span class="msr sm fill">task_alt</span>Ticket resolved end to end: refund issued and Sam notified, no human hand-off</div>
                   </div>
                   <div class="evo-take">
-                    <div><span class="msr sm fill c-green">thumb_up</span><span><strong>Great at:</strong> finishes real multi-step jobs using tools</span></div>
-                    <div><span class="msr sm fill c-amber">shield</span><span><strong>Limit:</strong> needs guardrails: permissions, limits and human approval for risky steps</span></div>
+                    <div><span class="msr sm fill c-green">thumb_up</span><span><strong>Strength:</strong> completes real multi-step work across systems</span></div>
+                    <div><span class="msr sm fill c-amber">shield</span><span><strong>Limitation:</strong> needs guardrails: scoped permissions, spending limits and human approval for risky steps</span></div>
                   </div>
                 </div>
               </div>
 
               <div class="epoch-footer">
-                <span class="md-body-m">Same ticket, four levels: <strong style="font-weight:500;">follows rules → learns patterns → creates content → takes action.</strong></span>
-                <span class="md-label-l c-purple">Rules → AI agents</span>
+                <span class="md-body-m">Same refund, four generations: <strong style="font-weight:500;">follows rules → learns patterns → writes content → takes action.</strong></span>
+                <span class="md-label-l c-purple">Automation → Agents</span>
               </div>
             </div>
           </div>
@@ -2210,7 +2262,7 @@
     });
 
     // ------------------------------------------------------------------------
-    // 1. SNAP 1: 30s evolution tour
+    // 1. SNAP 1: evolution walkthrough + FIG 1.0 slideshow
     // ------------------------------------------------------------------------
     let currentEpoch = 1;
     const totalEpochs = 4;
@@ -2227,6 +2279,7 @@
         document.getElementById('epochPanel' + i).classList.toggle('active', i === idx);
       }
       playEpoch(idx);
+      showEvoSlide(idx - 1);
       if (!fromTour) {
         document.getElementById('epochScrubberFill').style.width = (idx / totalEpochs) * 100 + '%';
       }
@@ -2235,7 +2288,7 @@
     function toggleTourPlay() {
       tourPlaying = !tourPlaying;
       setIcon(document.getElementById('tourPlayIcon'), tourPlaying ? 'pause' : 'play_arrow');
-      document.getElementById('tourPlayText').textContent = tourPlaying ? 'Pause Tour' : 'Play 30s Tour';
+      document.getElementById('tourPlayText').textContent = tourPlaying ? 'Pause' : 'Play Walkthrough';
       if (tourPlaying) {
         if (tourSeconds === 0) selectEpochStage(1, true);
         tourInterval = setInterval(tickTour, 1000);
@@ -2254,6 +2307,32 @@
       if (epochIdx !== currentEpoch) selectEpochStage(epochIdx, true);
       document.getElementById('epochScrubberFill').style.width = (tourSeconds / tourTotalSeconds) * 100 + '%';
     }
+
+    // FIG 1.0 slideshow: stages 1-4, then the full overview. Auto-advances; follows the walkthrough tabs.
+    const evoSlideInfo = [
+      ['FIG 1.1 · STAGE 1 OF 4', 'Automation', 'Scripts and rule-based pipelines repeat a fixed task exactly as written.'],
+      ['FIG 1.2 · STAGE 2 OF 4', 'Machine Learning', 'Models trained on datasets recognize patterns and make predictions.'],
+      ['FIG 1.3 · STAGE 3 OF 4', 'Generative AI', 'Large language models create new text, images and code from a prompt.'],
+      ['FIG 1.4 · STAGE 4 OF 4', 'Agentic AI', 'Autonomous agents plan, use tools and work together to reach a goal.'],
+      ['FIG 1.0 · OVERVIEW', 'The full evolution', 'Automation → Machine Learning → Generative AI → Agentic AI']
+    ];
+    let evoSlide = 0, evoSlidePaused = false;
+
+    function showEvoSlide(i) {
+      evoSlide = (i + evoSlideInfo.length) % evoSlideInfo.length;
+      document.querySelectorAll('#evoSlides .evo-slide').forEach((s, n) => s.classList.toggle('active', n === evoSlide));
+      document.querySelectorAll('.evo-slide-dot').forEach((d, n) => d.classList.toggle('active', n === evoSlide));
+      const [label, title, text] = evoSlideInfo[evoSlide];
+      document.getElementById('evoSlideLabel').textContent = label;
+      document.getElementById('evoSlideTitle').textContent = title;
+      document.getElementById('evoSlideText').textContent = text;
+    }
+    function stepEvoSlide(dir) { showEvoSlide(evoSlide + dir); }
+    function pauseEvoSlides(p) { evoSlidePaused = p; }
+
+    setInterval(() => {
+      if (!evoSlidePaused && !tourPlaying && !reduceMotion.matches) stepEvoSlide(1);
+    }, 5000);
 
     // Restart a panel's step-by-step animation (and the GenAI typing effect)
     let evoTypeTimer = null;

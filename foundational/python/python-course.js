@@ -1,7 +1,7 @@
 // Python Foundations: shared slide engine and course content.
 // Slide examples follow github.com/tinitiateprime/python
-// (python-core-language/python-print, python-datatypes, python-strings).
-// Each page sets data-py-page on <main>: "home", "print", "datatypes" or "strings".
+// (python-core-language/python-print, python-variables, python-datatypes, python-operators, python-strings, python-lists).
+// Each page sets data-py-page on <main>: "home" or a key of DECKS ("print", "variables", "datatypes", "operators", "strings", "lists").
 const PyCourse = (() => {
   const py = String.raw;
 
@@ -13,7 +13,17 @@ const PyCourse = (() => {
     return q + s.replace(/\\/g, '\\\\').replace(/\n/g, '\\n').replace(/\t/g, '\\t').split(q).join('\\' + q) + q;
   }
   const repr = s => lit(s, "'");
-  const pyFloat = n => (Number.isInteger(n) ? n.toFixed(1) : String(n));
+  // repr() of a Python float: scientific notation below 1e-4 and from 1e16, like CPython.
+  function pyFloat(n) {
+    if (!Number.isFinite(n)) return Number.isNaN(n) ? 'nan' : (n > 0 ? 'inf' : '-inf');
+    if (Object.is(n, -0)) return '-0.0';
+    const a = Math.abs(n);
+    if (a !== 0 && (a >= 1e16 || a < 1e-4)) {
+      const [m, e] = n.toExponential().split('e');
+      return m + 'e' + (e[0] === '-' ? '-' : '+') + e.replace(/^[+-]/, '').padStart(2, '0');
+    }
+    return Number.isInteger(n) ? n.toFixed(1) : String(n);
+  }
   const toInt = (v, d = 0) => { const n = Math.trunc(Number(v)); return Number.isFinite(n) ? n : d; };
   const pyBool = b => (b ? 'True' : 'False');
   const listRepr = arr => '[' + arr.map(repr).join(', ') + ']';
@@ -148,6 +158,79 @@ const PyCourse = (() => {
   const anatomy = parts => '<div class="py-anatomy">' + parts.map(([code, label, color], i) => `<div style="--part:${color};animation-delay:${i * 0.1}s"><code>${esc(code)}</code><span>${label}</span></div>`).join('') + '</div>';
   const varBox = (label, value, note) => `<div class="py-varbox"><span class="lid">${esc(label)}</span><span class="body">${esc(value)}</span>${note ? `<small>${esc(note)}</small>` : ''}</div>`;
   const C = { cmd: '#38bdf8', brk: '#a78bfa', txt: '#34d399', op: '#facc15', red: '#f87171' };
+  const boxRow = parts => '<div class="py-varrow">' + parts.join('') + '</div>';
+  const arrow = '<span class="py-arrow" aria-hidden="true">&rarr;</span>';
+  const goneBox = (label, value, note) => varBox(label, value, note).replace('py-varbox', 'py-varbox gone');
+  const resultTable = (head, rows) => `<table class="py-table"><thead><tr><th>${head[0]}</th><th>${head[1]}</th></tr></thead><tbody>` +
+    rows.map(r => `<tr${r[2] ? ' class="on"' : ''}><td>${esc(r[0])}</td><td style="font-family:var(--font-mono);color:#fff;">${esc(r[1])}</td></tr>`).join('') + '</tbody></table>';
+  const recapTable = rows => '<table class="py-table"><thead><tr><th>You want to…</th><th>Write</th></tr></thead><tbody>' +
+    rows.map(r => `<tr><td style="font-family:inherit;color:#e2e8f0;font-weight:600;">${r[0]}</td><td style="font-family:var(--font-mono);color:#fde68a;">${esc(r[1])}</td></tr>`).join('') + '</tbody></table>';
+
+  // ---------- Helpers for the variables, operators and lists slides ----------
+  const PY_KEYWORDS = new Set(['False', 'None', 'True', 'and', 'as', 'assert', 'async', 'await', 'break', 'class', 'continue', 'def', 'del', 'elif', 'else', 'except',
+    'finally', 'for', 'from', 'global', 'if', 'import', 'in', 'is', 'lambda', 'nonlocal', 'not', 'or', 'pass', 'raise', 'return', 'try', 'while', 'with', 'yield']);
+  const isStrItem = it => it.key.startsWith('s:');
+  const shown = it => (isStrItem(it) ? it.key.slice(2) : it.repr); // what print() shows for one item
+  const itemsRepr = items => '[' + items.map(i => i.repr).join(', ') + ']';
+  const pyTypeName = it => (it.bool ? 'bool' : it.key === 'None' ? 'NoneType' : isStrItem(it) ? 'str' : /[.e]/.test(it.repr) ? 'float' : 'int');
+  const comparable = (a, b) => (a.num != null && b.num != null) || (isStrItem(a) && isStrItem(b));
+  const pyLess = (a, b) => (a.num != null ? a.num < b.num : a.key.slice(2) < b.key.slice(2));
+  const notSupported = (op, a, b) => `TypeError: '${op}' not supported between instances of '${pyTypeName(a)}' and '${pyTypeName(b)}'`;
+  const intsFrom = text => text.split(',').map(x => x.trim()).filter(x => /^[+-]?\d+$/.test(x)).map(x => parseInt(x, 10));
+  const sameItems = (a, b) => a.length === b.length && a.every((it, i) => it.key === b[i].key);
+  function listCellsHTML(items, on = [], showNeg = true, cls = 'on') {
+    if (!items.length) return '<div class="py-cells"><div class="py-cell"><span class="ix">&nbsp;</span><span class="ch wide">[ ] empty</span></div></div>';
+    const onSet = new Set(on), n = items.length;
+    return '<div class="py-cells">' + items.map((it, i) => `<div class="py-cell${onSet.has(i) ? ' ' + cls : ''}"><span class="ix">${i}</span><span class="ch wide">${esc(it.repr)}</span>${showNeg ? `<span class="ix">${i - n}</span>` : ''}</div>`).join('') + '</div>';
+  }
+  // Python arithmetic on ints (BigInt) and floats (Number), with CPython's floor-division rules and error messages.
+  function pyArith(a, op, b) {
+    const isF = typeof a === 'number' || typeof b === 'number';
+    if (op === '/') {
+      if (Number(b) === 0) return { err: `ZeroDivisionError: ${isF ? 'float ' : ''}division by zero` };
+      return { v: Number(a) / Number(b) };
+    }
+    if (op === '**') {
+      if (!isF && b >= 0n) return { v: a ** b };
+      if (Number(a) === 0 && Number(b) < 0) return { err: 'ZeroDivisionError: 0.0 cannot be raised to a negative power' };
+      return { v: Math.pow(Number(a), Number(b)) };
+    }
+    if (!isF) {
+      if (op === '+') return { v: a + b };
+      if (op === '-') return { v: a - b };
+      if (op === '*') return { v: a * b };
+      if (b === 0n) return { err: 'ZeroDivisionError: integer division or modulo by zero' };
+      let q = a / b;
+      if (a % b !== 0n && (a < 0n) !== (b < 0n)) q -= 1n;
+      return { v: op === '//' ? q : a - b * q };
+    }
+    const x = Number(a), y = Number(b);
+    if (op === '+') return { v: x + y };
+    if (op === '-') return { v: x - y };
+    if (op === '*') return { v: x * y };
+    if (y === 0) return { err: op === '//' ? 'ZeroDivisionError: float floor division by zero' : 'ZeroDivisionError: float modulo' };
+    let mod = x % y, div = (x - mod) / y;
+    if (mod) { if ((y < 0) !== (mod < 0)) { mod += y; div -= 1; } } else mod = y < 0 ? -0 : 0;
+    if (op === '%') return { v: mod };
+    let fd = Math.floor(div);
+    if (div) { if (div - fd > 0.5) fd += 1; } else fd = x / y < 0 ? -0 : 0;
+    return { v: fd };
+  }
+  const fmtNum = v => (typeof v === 'bigint' ? String(v) : pyFloat(v));
+  // sum() of parsed items: exact for ints, compensated (Neumaier) for floats like CPython 3.12+.
+  function pySum(items) {
+    let s = 0, c = 0, isF = false;
+    for (const it of items) {
+      const x = it.num;
+      if (pyTypeName(it) === 'float') isF = true;
+      const t = s + x;
+      c += Math.abs(s) >= Math.abs(x) ? (s - t) + x : (x - t) + s;
+      s = t;
+    }
+    return isF ? pyFloat(s + c) : String(s);
+  }
+  const bitsHTML = rows => '<div class="py-bits">' + rows.map(([label, n, res]) =>
+    `<div class="row${res ? ' res' : ''}"><code class="lbl">${esc(label)}</code>` + [...(n >>> 0).toString(2).padStart(8, '0').slice(-8)].map(b => `<span class="b${b === '1' ? ' on' : ''}">${b}</span>`).join('') + `<span class="dec">= ${n}</span></div>`).join('') + '</div>';
 
   // ---------- Course content ----------
   const DECKS = {
@@ -744,7 +827,628 @@ const PyCourse = (() => {
       ]
     }
   };
-  const ORDER = ['print', 'datatypes', 'strings'];
+  DECKS.variables = {
+    name: 'Python Variables', short: 'Variables', icon: 'x=', accent: '#f472b6', page: 'variables.html', folder: 'python-core-language/python-variables',
+    blurb: 'Give a value a name so you can store it, change it and use it again later.',
+    glossary: [
+      ['variable', 'A name that holds a value, like the label on a jar.'],
+      ['=', 'The assignment sign. It means "store", not "equals".'],
+      ['assign', 'To put a value into a variable: age = 25.'],
+      ['reassign', 'To put a new value into a variable that already exists. The old value is thrown away.'],
+      ['del', 'A command that deletes a variable, so its name stops working.'],
+      ['keyword', 'A word Python keeps for itself, like if, for or class. It cannot be a variable name.']
+    ],
+    slides: [
+      {
+        title: 'What is a variable?', file: '01_variables_simple_creation.py',
+        idea: 'A variable is a <strong>name</strong> that holds a value, so you can use that value again later.',
+        analogy: 'Think of labelled jars in a kitchen. The <strong>label</strong> is the variable name, and what is <strong>inside the jar</strong> is the value. Ask for a jar by its label and you get what is inside.',
+        explain: `<p>Python has no separate "create" step. The moment you write <code>name = value</code>, the variable exists.</p><p>The <code>=</code> sign means <strong>"store"</strong>, not "equals". Read <code>variable1 = 1</code> as "variable1 stores 1".</p>`,
+        visual: anatomy([['variable1', 'the name (label)', C.cmd], ['=', 'means "store"', C.op], ['1', 'the value', C.txt]]) +
+          '<div style="margin-top:16px;">' + boxRow([varBox('variable1', '1', 'int'), varBox('variable2', 'test', 'str'), varBox('variable3', '100.4', 'float')]) + '</div>',
+        code: `variable1 = 1        # a whole number (int)\nvariable2 = "test"   # text (str)\nvariable3 = 100.4    # a decimal number (float)\n\n# Print all three variables\nprint("variable1 : ", variable1)\nprint("variable2 : ", variable2)\nprint("variable3 : ", variable3)`,
+        out: 'variable1 :  1\nvariable2 :  test\nvariable3 :  100.4',
+        tip: 'The GitHub example ends each line with <code>;</code>. Python allows it, but you never need it.'
+      },
+      {
+        title: 'Make your own variables', file: '01_variables_simple_creation.py',
+        idea: 'Put any value in a variable. Python works out its type from the value you give.',
+        explain: `<p>Text needs quotes. Numbers do not. A number with a dot, like <code>100.4</code>, is a float. A number without a dot is an int.</p>`,
+        controls: [{ key: 'a', label: 'variable1 (whole number)', type: 'number', value: 1 }, { key: 'b', label: 'variable2 (text)', type: 'text', value: 'test' }, { key: 'c', label: 'variable3 (decimal number)', type: 'text', value: '100.4' }],
+        render: v => {
+          const t = v.c.trim();
+          const code = `variable1 = ${v.a}\nvariable2 = ${lit(v.b, '"')}\nvariable3 = ${t}\n\nprint("variable1 : ", variable1)\nprint("variable2 : ", variable2)\nprint("variable3 : ", variable3)`;
+          if (!/^[+-]?((0|[1-9]\d*)(\.\d*)?|\.\d+)([eE][+-]?\d+)?$/.test(t)) {
+            if (/^[A-Za-z_]\w*$/.test(t) && !PY_KEYWORDS.has(t)) return { code, out: '', err: tb(3, `NameError: name '${t}' is not defined`) };
+            return { code, out: '', err: '  File "demo.py", line 3\nSyntaxError: invalid syntax' };
+          }
+          const isF = /[.eE]/.test(t);
+          const c = isF ? pyFloat(Number(t)) : String(parseInt(t, 10));
+          return {
+            code, out: `variable1 :  ${v.a}\nvariable2 :  ${v.b}\nvariable3 :  ${c}`,
+            visual: boxRow([varBox('variable1', String(v.a), 'int'), varBox('variable2', v.b, 'str'), varBox('variable3', c, isF ? 'float' : 'int')])
+          };
+        },
+        tip: 'Type <code>abc</code> as the decimal number. Without quotes Python thinks it is a variable name and gives a <code>NameError</code>.'
+      },
+      {
+        title: 'Change a variable (reassign)', file: '02_variables_reassign_and_delete.py',
+        idea: 'Give a variable a new value with <code>=</code> again. The old value is <strong>replaced</strong>.',
+        analogy: 'Like a whiteboard with a name written at the top: rub out the old number, write a new one. The board only ever shows one value.',
+        controls: [{ key: 'a', label: 'first value', type: 'number', value: 1 }, { key: 'b', label: 'new value', type: 'number', value: 4 }],
+        render: v => ({
+          code: `variable1 = ${v.a}\nprint("variable1 first value: ", variable1)\n\n# Reassign: put a new value in the same variable\nvariable1 = ${v.b}\nprint("variable1 reassigned value: ", variable1)`,
+          out: `variable1 first value:  ${v.a}\nvariable1 reassigned value:  ${v.b}`,
+          visual: boxRow([goneBox('variable1', String(v.a), 'before'), arrow, varBox('variable1', String(v.b), 'after')])
+        }),
+        tip: 'Python runs from top to bottom, so line 2 still prints the first value. Only the lines after the change see the new one.'
+      },
+      {
+        title: 'Copy one variable into another', file: '02_variables_reassign_and_delete.py',
+        idea: '<code>variable1 = variable2</code> means: "take the value in variable2 and store it in variable1 too".',
+        explain: `<ul><li>Python reads the <strong>right side</strong> first, then stores the result in the name on the left</li><li><code>variable2</code> keeps its value. It is copied, not moved</li><li>A variable can switch type: <code>variable1</code> held a number, now it holds text</li></ul>`,
+        controls: [{ key: 'b', label: 'variable2', type: 'text', value: 'test' }],
+        render: v => ({
+          code: `variable1 = 4\nvariable2 = ${lit(v.b, '"')}\n\n# variable1 gets the value stored in variable2\nvariable1 = variable2\nprint("variable1 again reassigned value: ", variable1)\nprint("variable2 still has: ", variable2)\nprint(type(variable1))`,
+          out: `variable1 again reassigned value:  ${v.b}\nvariable2 still has:  ${v.b}\n<class 'str'>`,
+          visual: boxRow([varBox('variable2', v.b, 'str'), arrow, varBox('variable1', v.b, 'was 4, now a str')])
+        })
+      },
+      {
+        title: 'Delete a variable with del', file: '02_variables_reassign_and_delete.py',
+        idea: '<code>del name</code> removes the variable. After that, using the name gives an <strong>error</strong>.',
+        analogy: 'Like throwing a jar away: the label is gone too, so asking for that jar fails.',
+        explain: `<p>Delete several at once with commas: <code>del variable1, variable2</code>.</p>`,
+        controls: [{ key: 'm', label: 'what to try', type: 'select', value: 0, options: [{ label: 'del variable1, then print variable1', value: 0 }, { label: 'del variable1, then print variable2', value: 1 }, { label: 'del variable1, variable2, then print variable2', value: 2 }] }],
+        render: v => {
+          const del = v.m === 2 ? 'del variable1, variable2' : 'del variable1';
+          const who = v.m === 0 ? 'variable1' : 'variable2';
+          const code = `variable1 = 4\nvariable2 = "test"\nprint("variable1 : ", variable1)\n\n# del removes the variable completely\n${del}\nprint("${who} : ", ${who})`;
+          const visual = boxRow([goneBox('variable1', '4', 'deleted'), v.m === 2 ? goneBox('variable2', 'test', 'deleted') : varBox('variable2', 'test', 'still here')]);
+          if (v.m === 1) return { code, out: 'variable1 :  4\nvariable2 :  test', visual };
+          const hint = v.m === 0 ? ". Did you mean: 'variable2'?" : '';
+          return { code, out: 'variable1 :  4', err: tb(7, `NameError: name '${who}' is not defined${hint}`), visual };
+        },
+        tip: 'The <code>NameError</code> is expected here: the name no longer exists. Python even guesses which name you meant.'
+      },
+      {
+        title: 'One value, many names', file: '03_variables_syntax_variations.py',
+        idea: '<code>var1 = var2 = 100</code> stores the same value in both variables in one line.',
+        controls: [{ key: 'n', label: 'value', type: 'number', value: 100 }],
+        render: v => ({
+          code: `# The same value for two variables, in one line\nvar1 = var2 = ${v.n}\n\nprint("var1 : ", var1)\nprint("var2 : ", var2)`,
+          out: `var1 :  ${v.n}\nvar2 :  ${v.n}`,
+          visual: boxRow([varBox('var1', String(v.n)), varBox('var2', String(v.n))])
+        }),
+        tip: 'Handy for starting several counters at zero: <code>wins = losses = 0</code>.'
+      },
+      {
+        title: 'Many values in one line', file: '03_variables_syntax_variations.py',
+        idea: '<code>var100, var200 = 100, 200</code> gives each name on the left the value in the same position on the right.',
+        analogy: 'Like handing out name tags in a queue: the first name gets the first value, the second name gets the second value.',
+        explain: `<p>The number of names and values must match. A neat trick: <code>a, b = b, a</code> swaps two variables.</p>`,
+        controls: [{ key: 'a', label: 'first value', type: 'number', value: 100 }, { key: 'b', label: 'second value', type: 'number', value: 200 }, { key: 'm', label: 'what to try', type: 'select', value: 0, options: [{ label: 'print them', value: 0 }, { label: 'swap them', value: 1 }, { label: 'give 3 values to 2 names', value: 2 }] }],
+        render: v => {
+          const vals = v.m === 2 ? `${v.a}, ${v.b}, ${v.b + 100}` : `${v.a}, ${v.b}`;
+          const swap = v.m === 1 ? '\n# Swap: each one gets the other\'s value\nvar100, var200 = var200, var100\n' : '';
+          const code = `# Two names, two values, in one line\nvar100, var200 = ${vals}\n${swap}\nprint("var100 : ", var100)\nprint("var200 : ", var200)`;
+          if (v.m === 2) return { code, out: '', err: tb(2, 'ValueError: too many values to unpack (expected 2)') };
+          const [x, y] = v.m === 1 ? [v.b, v.a] : [v.a, v.b];
+          return { code, out: `var100 :  ${x}\nvar200 :  ${y}`, visual: boxRow([varBox('var100', String(x)), varBox('var200', String(y))]) };
+        }
+      },
+      {
+        title: 'Rules for variable names', file: 'python_variables.md',
+        idea: 'A name may use <strong>letters, digits and _</strong>, must <strong>not start with a digit</strong>, and must <strong>not be a Python keyword</strong>.',
+        explain: `<ul><li>Good: <code>age</code>, <code>my_age</code>, <code>age2</code>, <code>_total</code></li><li>Bad: <code>2age</code> (starts with a digit), <code>my age</code> (has a space), <code>class</code> (a keyword)</li></ul>`,
+        controls: [{ key: 'name', label: 'try a variable name', type: 'text', value: 'my_age' }],
+        render: v => {
+          const n = v.name.trim();
+          const r1 = /^[\p{L}\p{N}_]+$/u.test(n), r2 = n !== '' && !/^\p{N}/u.test(n), r3 = !PY_KEYWORDS.has(n);
+          const code = `# Try your own variable name\n${n} = 25\nprint(${n})`;
+          const visual = badges([['Only letters, digits and _', r1], ['Does not start with a digit', r2], ['Not a Python keyword', r3]]);
+          if (r1 && r2 && r3) return { code, out: '25', visual };
+          let msg = 'invalid syntax';
+          if (/^\d[\d_]*$/.test(n)) msg = "cannot assign to literal here. Maybe you meant '==' instead of '='?";
+          else if (r1 && !r2) msg = 'invalid decimal literal';
+          else if (['True', 'False', 'None'].includes(n)) msg = `cannot assign to ${n}`;
+          return { code, out: '', err: `  File "demo.py", line 2\n    ${n} = 25\nSyntaxError: ${msg}`, visual };
+        },
+        tip: 'Try <code>2age</code>, <code>my age</code>, <code>class</code> and <code>first_name</code>. Watch the green and red rule badges.'
+      },
+      {
+        title: 'Capital letters matter', file: 'python_variables.md',
+        idea: 'Names are <strong>case-sensitive</strong>: <code>age</code>, <code>Age</code> and <code>AGE</code> are three different variables.',
+        analogy: 'Like passwords: one capital letter makes it a different word.',
+        explain: `<p>Most Python code uses small letters with underscores between words: <code>first_name</code>, <code>total_price</code>.</p>`,
+        controls: [{ key: 'pick', label: 'print which one?', type: 'select', value: 0, options: ['age', 'Age', 'AGE'] }],
+        render: v => {
+          const vals = { age: 25, Age: 30, AGE: 35 };
+          return {
+            code: `age = 25\nAge = 30\nAGE = 35\n\nprint(${v.pick})`,
+            out: String(vals[v.pick]),
+            visual: boxRow(Object.keys(vals).map(k => (k === v.pick ? varBox(k, String(vals[k]), 'printed') : varBox(k, String(vals[k])))))
+          };
+        }
+      },
+      {
+        title: 'Cheat sheet: variables', file: 'recap',
+        idea: 'Everything from this module on one page.',
+        visual: recapTable([['create a variable', 'age = 25'], ['change its value', 'age = 26'], ['copy another variable', 'a = b'], ['delete it', 'del age'],
+          ['same value, two names', 'x = y = 0'], ['two values, one line', 'x, y = 1, 2'], ['swap two variables', 'x, y = y, x']]),
+        code: `age = 25\nage = 26\nx = y = 0\nx, y = 1, 2\nx, y = y, x\nprint(age, x, y)\n\ndel age`,
+        out: '26 2 1'
+      }
+    ]
+  };
+
+  DECKS.operators = {
+    name: 'Python Operators', short: 'Operators', icon: '+&minus;', accent: '#fb923c', page: 'operators.html', folder: 'python-core-language/python-operators',
+    blurb: 'Do maths, compare values, combine yes/no answers and check what is inside a list.',
+    glossary: [
+      ['operator', 'A symbol that does an action, like + or ==.'],
+      ['operand', 'A value the operator works on. In 10 + 3, the operands are 10 and 3.'],
+      ['//', 'Floor division: divide, then throw away the decimal part.'],
+      ['%', 'Modulus: the remainder left over after dividing.'],
+      ['bool', 'A True or False answer. Comparisons always give a bool.'],
+      ['object', 'A value stored in memory. "is" checks whether two names point to the same one.']
+    ],
+    slides: [
+      {
+        title: 'What is an operator?', file: 'python_operators.md',
+        idea: 'An <strong>operator</strong> is a symbol that does something with values. The values are called <strong>operands</strong>.',
+        analogy: 'In a recipe, "mix flour and sugar": flour and sugar are the operands, "mix" is the operator.',
+        visual: anatomy([['a', 'operand (a value)', C.txt], ['+', 'operator (the action)', C.op], ['b', 'operand', C.txt]]) +
+          '<div class="py-typegrid" style="margin-top:16px;">' + [['Arithmetic', '+ - * / // % **'], ['Comparison', '== != > < >= <='], ['Assignment', '= += -= *= /='], ['Logical', 'and or not'], ['Bitwise', '& | ^ ~ << >>'], ['Identity', 'is · is not'], ['Membership', 'in · not in']]
+            .map((t, i) => `<div class="py-typebox" style="animation-delay:${i * 0.07}s"><b>${t[0]}</b><span>${esc(t[1])}</span></div>`).join('') + '</div>',
+        code: `a = 10\nb = 3\n\n# + is the operator, a and b are the operands\nprint(a + b)`,
+        out: '13',
+        tip: 'The next slides go through each family from the list, one at a time.'
+      },
+      {
+        title: 'Maths: + - * /', file: '01_arithmetic_operators.py',
+        idea: 'The everyday maths signs. <code>*</code> means times and <code>/</code> means divide.',
+        explain: `<p><code>/</code> always gives a decimal number (a float), even when the answer is whole: <code>10 / 2</code> gives <code>5.0</code>.</p>`,
+        controls: [{ key: 'a', label: 'a', type: 'number', value: 10 }, { key: 'b', label: 'b', type: 'number', value: 3 }],
+        render: v => {
+          const A = BigInt(v.a), B = BigInt(v.b);
+          const code = `a = ${v.a}\nb = ${v.b}\n\nprint(a + b)   # add\nprint(a - b)   # subtract\nprint(a * b)   # multiply\nprint(a / b)   # divide (always a decimal)`;
+          const rows = ['+', '-', '*'].map(op => [`a ${op} b`, fmtNum(pyArith(A, op, B).v)]);
+          const d = pyArith(A, '/', B);
+          const out = rows.map(r => r[1]).join('\n');
+          if (d.err) return { code, out, err: tb(7, d.err), visual: resultTable(['Code', 'Result'], rows.concat([['a / b', 'error']])) };
+          rows.push(['a / b', fmtNum(d.v)]);
+          return { code, out: out + '\n' + fmtNum(d.v), visual: resultTable(['Code', 'Result'], rows) };
+        },
+        tip: 'Set <code>b</code> to <code>0</code>. Dividing by zero is not allowed, so Python stops with a <code>ZeroDivisionError</code>.'
+      },
+      {
+        title: '// and %: share out, count the leftovers', file: '01_arithmetic_operators.py',
+        idea: '<code>//</code> divides and drops the decimal part. <code>%</code> gives the <strong>remainder</strong>.',
+        analogy: 'Share 10 sweets between 3 children. Each child gets <code>10 // 3</code> = 3 sweets, and <code>10 % 3</code> = 1 sweet is left over.',
+        controls: [{ key: 's', label: 'sweets', type: 'range', value: 10, min: 0, max: 30 }, { key: 'k', label: 'children', type: 'range', value: 3, min: 1, max: 8 }],
+        render: v => {
+          const q = Math.floor(v.s / v.k), r = v.s % v.k;
+          const dots = n => '<i></i>'.repeat(n) || '<small>none</small>';
+          return {
+            code: `sweets = ${v.s}\nchildren = ${v.k}\n\nprint(sweets // children)   # sweets for each child\nprint(sweets % children)    # sweets left over`,
+            out: `${q}\n${r}`,
+            visual: '<div class="py-groups">' + Array.from({ length: v.k }, (_, i) => `<div class="py-group" style="animation-delay:${i * 0.05}s"><b>child ${i + 1}</b><div class="py-sweets">${dots(q)}</div></div>`).join('') +
+              `<div class="py-group left"><b>left over</b><div class="py-sweets">${dots(r)}</div></div></div>`
+          };
+        },
+        tip: '<code>% 2</code> tells you if a number is even: <code>8 % 2</code> is <code>0</code> (even), <code>7 % 2</code> is <code>1</code> (odd).'
+      },
+      {
+        title: 'Powers with **', file: '01_arithmetic_operators.py',
+        idea: '<code>a ** b</code> multiplies <code>a</code> by itself <code>b</code> times.',
+        analogy: '<code>10 ** 3</code> is 10 &times; 10 &times; 10. It is the "squared" and "cubed" from school maths.',
+        controls: [{ key: 'a', label: 'a (the number)', type: 'number', value: 10 }, { key: 'b', label: 'b (how many times)', type: 'range', value: 3, min: 0, max: 10 }],
+        render: v => {
+          const res = String(BigInt(v.a) ** BigInt(v.b));
+          const steps = v.b === 0 ? 'any number to the power 0 is 1' : Array(v.b).fill(v.a < 0 ? `(${v.a})` : String(v.a)).join(' × ');
+          return {
+            code: `a = ${v.a}\nb = ${v.b}\n\nprint(a ** b)   # a multiplied by itself b times`,
+            out: res,
+            visual: `<div class="py-tokens"><span class="py-token">${esc(steps)}</span><span style="color:#fde68a;font-weight:800;">=</span><span class="py-token sep">${res}</span></div>`
+          };
+        },
+        tip: 'Python numbers have no size limit. Try <code>2</code> to the power <code>10</code>, then type <code>99</code> for a.'
+      },
+      {
+        title: 'Comparisons: ask a yes/no question', file: '02_comparison_operators.py',
+        idea: 'Comparison operators compare two values and answer <code>True</code> or <code>False</code>.',
+        analogy: 'Like a quiz question: "is 10 bigger than 5?" The answer is always yes (True) or no (False).',
+        explain: `<p>Careful: <code>=</code> <strong>stores</strong> a value, <code>==</code> <strong>compares</strong> two values.</p>`,
+        controls: [{ key: 'x', label: 'x', type: 'number', value: 10 }, { key: 'y', label: 'y', type: 'number', value: 5 }],
+        render: v => {
+          const rows = [['x == y', 'equal to', v.x === v.y], ['x != y', 'not equal to', v.x !== v.y], ['x > y', 'greater than', v.x > v.y],
+            ['x < y', 'less than', v.x < v.y], ['x >= y', 'greater than or equal to', v.x >= v.y], ['x <= y', 'less than or equal to', v.x <= v.y]];
+          return {
+            code: `x = ${v.x}\ny = ${v.y}\n\n` + rows.map(r => `print(${r[0]})`.padEnd(15) + `# ${r[1]}`).join('\n'),
+            out: rows.map(r => pyBool(r[2])).join('\n'),
+            visual: resultTable(['Question', 'Answer'], rows.map(r => [r[0], pyBool(r[2]), r[2]]))
+          };
+        },
+        tip: 'Make <code>x</code> and <code>y</code> the same number and see which answers turn <code>True</code>.'
+      },
+      {
+        title: 'Shortcuts: += -= *= and friends', file: '03_assignment_operators.py',
+        idea: '<code>a += 5</code> is short for <code>a = a + 5</code>: take the current value, change it, store it back.',
+        analogy: 'Like a scoreboard: "+= 5" adds 5 points to whatever the score already is.',
+        controls: [{ key: 'a', label: 'starting value of a', type: 'number', value: 10 }, { key: 'op', label: 'operator', type: 'select', value: 0, options: ['+=', '-=', '*=', '/=', '%=', '//=', '**='] }, { key: 'n', label: 'number', type: 'number', value: 5 }],
+        render: v => {
+          const op = v.op.slice(0, -1);
+          const code = `a = ${v.a}\nprint(a)\n\na ${v.op} ${v.n}    # same as: a = a ${op} ${v.n}\nprint(a)`;
+          if (op === '**' && Math.abs(v.n) > 2000) return { code, out: `${v.a}\n(the answer is too long to show here: press Run to see it)` };
+          const r = pyArith(BigInt(v.a), op, BigInt(v.n));
+          if (r.err) return { code, out: String(v.a), err: tb(4, r.err) };
+          const res = fmtNum(r.v);
+          return { code, out: `${v.a}\n${res}`, visual: boxRow([goneBox('a', String(v.a), 'before'), arrow, varBox('a', res.length > 24 ? res.slice(0, 22) + '…' : res, `after a ${v.op} ${v.n}`)]) };
+        },
+        tip: 'Pick <code>/=</code>: the result becomes a decimal number (a float), because <code>/</code> always gives a float.'
+      },
+      {
+        title: 'A chain of updates', file: '03_assignment_operators.py',
+        idea: 'Each shortcut changes <code>a</code> and the next line starts from the <strong>new</strong> value.',
+        explain: `<p>Follow the value step by step. After <code>/=</code> the value is a float (<code>6.0</code>) and it stays a float afterwards.</p>`,
+        visual: '<div class="py-tokens">' + [['a = 10', '10'], ['+= 5', '15'], ['-= 3', '12'], ['*= 2', '24'], ['/= 4', '6.0'], ['%= 5', '1.0'], ['//= 2', '0.0'], ['**= 3', '0.0']]
+          .map(([c, val], i) => `${i ? '<span style="color:#fde68a;font-weight:800;">&rarr;</span>' : ''}<span class="py-token" title="${esc(c)}" style="animation-delay:${i * 0.08}s">${esc(c)} <b style="color:#fff;">${val}</b></span>`).join('') + '</div>',
+        code: `a = 10\nprint(a)\n\na += 5     # a = a + 5\nprint(a)\n\na -= 3     # a = a - 3\nprint(a)\n\na *= 2     # a = a * 2\nprint(a)\n\na /= 4     # a = a / 4\nprint(a)\n\na %= 5     # a = a % 5\nprint(a)\n\na //= 2    # a = a // 2\nprint(a)\n\na **= 3    # a = a ** 3\nprint(a)`,
+        out: '10\n15\n12\n24\n6.0\n1.0\n0.0\n0.0',
+        tip: 'Change the first line to <code>a = 7</code> and press Run to follow a different chain.'
+      },
+      {
+        title: 'Logic: and, or, not', file: '04_logical_operators.py',
+        idea: '<code>and</code> needs <strong>both</strong> sides True. <code>or</code> needs <strong>at least one</strong>. <code>not</code> flips the answer.',
+        analogy: '"You can play if your homework is done <strong>and</strong> your room is tidy" is strict: both must be true. With <strong>or</strong>, either one is enough.',
+        controls: [{ key: 'x', label: 'x', type: 'number', value: 5 }, { key: 'y', label: 'y', type: 'number', value: 10 }, { key: 'z', label: 'z', type: 'number', value: 15 }],
+        render: v => {
+          const p = v.x < v.y, q = v.y < v.z, r = v.y > v.z;
+          return {
+            code: `x = ${v.x}\ny = ${v.y}\nz = ${v.z}\n\nprint(x < y and y < z)   # both must be True\nprint(x < y or y > z)    # one is enough\nprint(not(x < y))        # flips the answer`,
+            out: `${pyBool(p && q)}\n${pyBool(p || r)}\n${pyBool(!p)}`,
+            visual: resultTable(['Part', 'Answer'], [['x < y', pyBool(p)], ['y < z', pyBool(q)], ['y > z', pyBool(r)], ['x < y and y < z', pyBool(p && q), true], ['x < y or y > z', pyBool(p || r), true], ['not(x < y)', pyBool(!p), true]])
+          };
+        }
+      },
+      {
+        title: 'The truth table', file: '04_logical_operators.py',
+        idea: 'Only four combinations exist. Pick values for <code>A</code> and <code>B</code> and find your row in the table.',
+        controls: [{ key: 'a', label: 'A', type: 'select', value: 0, options: ['True', 'False'] }, { key: 'b', label: 'B', type: 'select', value: 1, options: ['True', 'False'] }],
+        render: v => {
+          const A = v.a === 'True', B = v.b === 'True';
+          const row = (a, b) => `<tr${a === A && b === B ? ' class="on"' : ''}><td>${pyBool(a)}</td><td>${pyBool(b)}</td><td>${pyBool(a && b)}</td><td>${pyBool(a || b)}</td><td>${pyBool(!a)}</td></tr>`;
+          return {
+            code: `A = ${v.a}\nB = ${v.b}\n\nprint(A and B)\nprint(A or B)\nprint(not A)`,
+            out: `${pyBool(A && B)}\n${pyBool(A || B)}\n${pyBool(!A)}`,
+            visual: '<table class="py-table"><thead><tr><th>A</th><th>B</th><th>A and B</th><th>A or B</th><th>not A</th></tr></thead><tbody>' + row(true, true) + row(true, false) + row(false, true) + row(false, false) + '</tbody></table>'
+          };
+        },
+        tip: '<code>A and B</code> is True in only one row. <code>A or B</code> is False in only one row.'
+      },
+      {
+        title: 'Bitwise: working with 0s and 1s', file: '05_bitwise_operators.py',
+        idea: 'Computers store numbers as 0s and 1s (binary). Bitwise operators compare those digits one column at a time.',
+        explain: `<ul><li><code>&amp;</code> 1 where <strong>both</strong> have 1</li><li><code>|</code> 1 where <strong>either</strong> has 1</li><li><code>^</code> 1 where they are <strong>different</strong></li><li><code>~a</code> gives <code>-(a + 1)</code></li><li><code>&lt;&lt; 1</code> doubles, <code>&gt;&gt; 1</code> halves (rounding down)</li></ul><p>This is an advanced topic. You can skip it for now and come back later.</p>`,
+        controls: [{ key: 'a', label: 'a', type: 'range', value: 10, min: 0, max: 63 }, { key: 'b', label: 'b', type: 'range', value: 4, min: 0, max: 63 }],
+        render: v => ({
+          code: `a = ${v.a}\nb = ${v.b}\n\nprint(a & b)    # AND\nprint(a | b)    # OR\nprint(a ^ b)    # XOR\nprint(~a)       # NOT\nprint(a << 1)   # shift left\nprint(a >> 1)   # shift right`,
+          out: [v.a & v.b, v.a | v.b, v.a ^ v.b, ~v.a, v.a << 1, v.a >> 1].join('\n'),
+          visual: bitsHTML([['a', v.a], ['b', v.b], ['a & b', v.a & v.b, true], ['a | b', v.a | v.b, true], ['a ^ b', v.a ^ v.b, true]])
+        }),
+        tip: 'Highlighted squares are 1s. Compare the columns of <code>a</code> and <code>b</code> with each result row.'
+      },
+      {
+        title: 'Identity: is and is not', file: '06_identity_operators.py',
+        idea: '<code>==</code> asks "same values?". <code>is</code> asks "the very <strong>same object</strong> in memory?".',
+        analogy: 'Identical twins look the same (<code>==</code> is True) but are two different people (<code>is</code> is False). A nickname is just another name for the same person (<code>is</code> is True).',
+        controls: [{ key: 'm', label: 'what is z?', type: 'select', value: 0, options: [{ label: 'z = x  (another name for x)', value: 0 }, { label: 'z = a brand-new list', value: 1 }] }],
+        render: v => {
+          const same = v.m === 0;
+          const obj = (names, label) => `<div class="py-obj"><div class="py-names">${names.map(n => `<span>${n}</span>`).join('')}</div><div class="py-objbox"><small>${label}</small><code>['apple', 'banana']</code></div></div>`;
+          return {
+            code: `x = ["apple", "banana"]\ny = ["apple", "banana"]\nz = ${same ? 'x' : '["apple", "banana"]'}\n\nprint(x == y)       # same values?\nprint(x is y)       # same object?\nprint(x is z)\nprint(x is not y)`,
+            out: `True\nFalse\n${pyBool(same)}\nTrue`,
+            visual: '<div class="py-objs">' + (same ? obj(['x', 'z'], 'list #1') + obj(['y'], 'list #2') : obj(['x'], 'list #1') + obj(['y'], 'list #2') + obj(['z'], 'list #3')) + '</div>'
+          };
+        },
+        tip: 'Use <code>==</code> to compare values. Keep <code>is</code> for checking <code>None</code>: <code>if result is None:</code>'
+      },
+      {
+        title: 'Membership: in and not in', file: '07_membership_operators.py',
+        idea: '<code>in</code> asks "is this value inside?". <code>not in</code> asks the opposite.',
+        analogy: 'Like checking a guest list at a party door: is this name on the list?',
+        controls: [{ key: 'items', label: 'my_list items (separate with commas)', type: 'text', value: '1, 2, 3, 4, 5' }, { key: 'x', label: 'look for', type: 'text', value: '3' }],
+        render: v => {
+          const items = parseItems(v.items), x = parseToken(v.x || "''");
+          const hits = items.map((it, i) => (it.key === x.key ? i : -1)).filter(i => i >= 0);
+          return {
+            code: `my_list = ${itemsRepr(items)}\n\nprint(${x.repr} in my_list)\nprint(${x.repr} not in my_list)\n\n# in also works with text\nprint("py" in "python")`,
+            out: `${pyBool(hits.length > 0)}\n${pyBool(!hits.length)}\nTrue`,
+            visual: listCellsHTML(items, hits, false)
+          };
+        },
+        tip: 'Words get quotes automatically. Try the list <code>apple, banana</code> and look for <code>banana</code>, then <code>Banana</code>.'
+      },
+      {
+        title: 'Cheat sheet: operators', file: 'recap',
+        idea: 'All seven operator families on one page.',
+        visual: recapTable([['do maths', '+  -  *  /  //  %  **'], ['compare two values', '==  !=  >  <  >=  <='], ['update a variable', 'a += 1'], ['combine yes/no answers', 'and  or  not'],
+          ['work with binary digits', '&  |  ^  ~  <<  >>'], ['check the same object', 'is  is not'], ['check if something is inside', 'in  not in']]),
+        code: `a = 10\nprint(a // 3, a % 3, a ** 2)\nprint(a > 5 and a < 20)\na += 1\nprint(a)\nprint(3 in [1, 2, 3])`,
+        out: '3 1 100\nTrue\n11\nTrue'
+      }
+    ]
+  };
+
+  DECKS.lists = {
+    name: 'Python Lists', short: 'Lists', icon: '[ ]', accent: '#a3e635', page: 'lists.html', folder: 'python-core-language/python-lists',
+    blurb: 'Keep many values in one place: add, remove, sort, slice and transform them.',
+    glossary: [
+      ['list', 'An ordered collection of values inside [ ], like [1, 2, 3].'],
+      ['element', 'One item in a list.'],
+      ['index', 'The position number of an item. The first item is at index 0.'],
+      ['slice', 'A part of a list, cut out with [start:stop].'],
+      ['method', 'A command that belongs to a value, written after a dot: my_list.append(5).'],
+      ['mutable', 'Can be changed after it is made. Lists are mutable.']
+    ],
+    slides: [
+      {
+        title: 'What is a list?', file: '01_lists_creation.py',
+        idea: 'A list keeps many values <strong>in order</strong>, inside square brackets <code>[ ]</code>, separated by commas.',
+        analogy: 'Like a train: each carriage holds one item, and the carriages stay in the same order. You can add or remove carriages whenever you like.',
+        explain: `<p>A list can hold numbers, text, a mix of types, or even other lists (a <strong>nested</strong> list).</p>`,
+        visual: listCellsHTML(parseItems('apple, banana, orange'), [], false) + '<div style="margin-top:10px;">' + propBadges(true, true, true) + '</div>',
+        code: `MyNumbersList = [1, 100, 9, 99]\nMyStringList  = ["A", 'b', 'Hello', "This"]\nfruits = ["apple", "banana", "orange"]\n\n# Nested list: lists inside a list\nnested_list = [[1, 2], [3, 4], [5, 6]]\n\n# Compound list: items of different types\nCompoundList = [1, "two", 3.0, True]\n\nprint(MyNumbersList)\nprint(MyStringList)\nprint(fruits)\nprint(nested_list)\nprint(CompoundList)`,
+        out: "[1, 100, 9, 99]\n['A', 'b', 'Hello', 'This']\n['apple', 'banana', 'orange']\n[[1, 2], [3, 4], [5, 6]]\n[1, 'two', 3.0, True]",
+        tip: 'Python always shows text items with single quotes, whichever quotes you typed.'
+      },
+      {
+        title: 'Build your own list', file: '01_lists_creation.py',
+        idea: 'Type the items with commas between them. <code>len()</code> counts how many there are.',
+        controls: [{ key: 'items', label: 'items (separate with commas)', type: 'text', value: 'apple, banana, orange' }],
+        render: v => {
+          const items = parseItems(v.items);
+          return {
+            code: `my_list = ${itemsRepr(items)}\n\nprint(my_list)\nprint(len(my_list), "items")\nprint(type(my_list))`,
+            out: `${itemsRepr(items)}\n${items.length} items\n<class 'list'>`,
+            visual: listCellsHTML(items, [], false)
+          };
+        },
+        tip: 'Mix types: <code>1, two, 3.0, True</code>. Words get quotes automatically; numbers and True/False do not.'
+      },
+      {
+        title: 'Get one item by its position', file: '02_lists_accessing_elements.py',
+        idea: '<code>my_list[0]</code> is the first item. Python counts positions (the <strong>index</strong>) from <strong>0</strong>.',
+        analogy: 'Like floors in many lifts: the ground floor is 0, so the first floor up is 1.',
+        explain: `<p>Negative numbers count from the end: <code>-1</code> is the last item, <code>-2</code> the one before it.</p>`,
+        controls: [{ key: 'items', label: 'items', type: 'text', value: 'apple, banana, cherry, date' }, { key: 'i', label: 'index', type: 'number', value: 0 }],
+        render: v => {
+          const items = parseItems(v.items), n = items.length;
+          const code = `my_list = ${itemsRepr(items)}\n\nprint(my_list[${v.i}])`;
+          if (v.i >= n || v.i < -n) return { code, out: '', err: tb(3, 'IndexError: list index out of range'), visual: listCellsHTML(items) };
+          const k = v.i < 0 ? v.i + n : v.i;
+          return { code, out: shown(items[k]), visual: listCellsHTML(items, [k]) };
+        },
+        tip: 'Each box shows its index on top and its negative index below. Try <code>-1</code>, then <code>4</code> (too far: <code>IndexError</code>).'
+      },
+      {
+        title: 'Lists inside lists', file: '03_lists_accessing_nested_list_elements.py',
+        idea: 'For a list of lists, use two indexes: <code>[row][item]</code>. The first picks the inner list, the second picks inside it.',
+        analogy: 'Like a flat number in a building: first the floor, then the door on that floor.',
+        controls: [{ key: 'r', label: 'first index (which inner list)', type: 'range', value: 1, min: 0, max: 2 }, { key: 'c', label: 'second index (which item)', type: 'range', value: 0, min: 0, max: 1 }],
+        render: v => {
+          const grid = [[1, 2], [3, 4], [5, 6]];
+          return {
+            code: `nested_list = [[1, 2], [3, 4], [5, 6]]\n\nprint(nested_list[${v.r}])       # one inner list\nprint(nested_list[${v.r}][${v.c}])    # one item inside it`,
+            out: `[${grid[v.r].join(', ')}]\n${grid[v.r][v.c]}`,
+            visual: '<div class="py-grid2d">' + grid.map((row, r) => `<div class="row${r === v.r ? ' pick' : ''}"><code class="lbl">[${r}]</code>` +
+              row.map((x, c) => `<div class="py-cell${r === v.r && c === v.c ? ' on' : ''}"><span class="ix">[${r}][${c}]</span><span class="ch wide">${x}</span></div>`).join('') + '</div>').join('') + '</div>'
+          };
+        }
+      },
+      {
+        title: 'Slicing: cut out a part', file: '04_lists_slicing.py',
+        idea: '<code>my_list[start:stop]</code> gives a new list from <code>start</code> up to, but <strong>not including</strong>, <code>stop</code>.',
+        analogy: 'Like cutting a slice of bread: you say where the knife goes in and where it stops.',
+        explain: `<ul><li>Leave <code>start</code> empty to begin at the first item: <code>[:2]</code></li><li>Leave <code>stop</code> empty to go to the end: <code>[2:]</code></li><li>A <code>step</code> skips items: <code>[::2]</code> takes every second item, <code>[::-1]</code> reverses</li></ul>`,
+        controls: [{ key: 'items', label: 'items', type: 'text', value: 'apple, banana, cherry, date' }, { key: 'a', label: 'start (blank = beginning)', type: 'text', value: '1' }, { key: 'b', label: 'stop (blank = end)', type: 'text', value: '3' }, { key: 's', label: 'step (blank = 1)', type: 'text', value: '' }],
+        render: v => {
+          const items = parseItems(v.items);
+          const num = t => (/^[+-]?\d+$/.test(t.trim()) ? parseInt(t, 10) : null);
+          const a = num(v.a), b = num(v.b), s = num(v.s);
+          const expr = `${a ?? ''}:${b ?? ''}${s != null ? ':' + s : ''}`;
+          const code = `my_list = ${itemsRepr(items)}\n\nprint(my_list[${expr}])`;
+          if (s === 0) return { code, out: '', err: tb(3, 'ValueError: slice step cannot be zero'), visual: listCellsHTML(items) };
+          const idx = pySliceIdx(items.length, a, b, s ?? 1);
+          return { code, out: itemsRepr(idx.map(i => items[i])), visual: listCellsHTML(items, idx) };
+        },
+        tip: 'Clear start and stop and set the step to <code>-1</code> to get the list backwards.'
+      },
+      {
+        title: 'Join, repeat, check, compare', file: '05_lists_operations.py',
+        idea: '<code>+</code> joins two lists, <code>*</code> repeats a list, <code>in</code> checks for an item, <code>==</code> compares two lists.',
+        explain: `<p>Two lists are equal only when they have the same items <strong>in the same order</strong>.</p>`,
+        controls: [{ key: 'l1', label: 'list1', type: 'text', value: '1, 2, 3' }, { key: 'l2', label: 'list2', type: 'text', value: '4, 5, 6' }, { key: 'n', label: 'repeat list1', type: 'range', value: 3, min: 0, max: 4 }, { key: 'x', label: 'look for in list1', type: 'text', value: '2' }],
+        render: v => {
+          const l1 = parseItems(v.l1), l2 = parseItems(v.l2), x = parseToken(v.x || "''");
+          const rep = Array.from({ length: v.n }, () => l1).flat();
+          return {
+            code: `list1 = ${itemsRepr(l1)}\nlist2 = ${itemsRepr(l2)}\n\nprint(list1 + list2)    # join\nprint(list1 * ${v.n})        # repeat\nprint(${x.repr} in list1)       # is it inside?\nprint(list1 == list2)   # same items, same order?`,
+            out: `${itemsRepr(l1.concat(l2))}\n${itemsRepr(rep)}\n${pyBool(l1.some(it => it.key === x.key))}\n${pyBool(sameItems(l1, l2))}`,
+            visual: listCellsHTML(l1.concat(l2), l1.map((_, i) => i), false)
+          };
+        },
+        tip: 'Type <code>1, 2, 3</code> in both boxes to make <code>list1 == list2</code> True. Then try <code>3, 2, 1</code>.'
+      },
+      {
+        title: 'Count, smallest, biggest, total', file: '06_lists_methods.py',
+        idea: '<code>len()</code> counts the items, <code>min()</code> finds the smallest, <code>max()</code> the biggest, <code>sum()</code> adds them all up.',
+        explain: `<p>With text, <code>min()</code> and <code>max()</code> go by alphabetical order (capital letters come before small ones). <code>sum()</code> only works with numbers.</p>`,
+        controls: [{ key: 'items', label: 'items', type: 'text', value: '1, 2, 3, 4' }],
+        render: v => {
+          const items = parseItems(v.items);
+          const code = `my_list = ${itemsRepr(items)}\n\nprint(len(my_list))   # how many\nprint(min(my_list))   # smallest\nprint(max(my_list))   # biggest\nprint(sum(my_list))   # total`;
+          const visual = listCellsHTML(items, [], false);
+          if (!items.length) return { code, out: '0', err: tb(4, 'ValueError: min() iterable argument is empty'), visual };
+          let lo = items[0], hi = items[0];
+          for (const it of items.slice(1)) {
+            if (!comparable(it, lo)) return { code, out: String(items.length), err: tb(4, notSupported('<', it, lo)), visual };
+            if (pyLess(it, lo)) lo = it;
+            if (pyLess(hi, it)) hi = it;
+          }
+          const base = `${items.length}\n${shown(lo)}\n${shown(hi)}`;
+          if (lo.num == null) return { code, out: base, err: tb(6, `TypeError: unsupported operand type(s) for +: 'int' and '${pyTypeName(items[0])}'`), visual };
+          const marks = [items.indexOf(lo), items.indexOf(hi)];
+          return { code, out: base + '\n' + pySum(items), visual: listCellsHTML(items, marks, false) };
+        },
+        tip: 'Try words: <code>pear, apple, fig</code>. <code>min</code> and <code>max</code> work, but <code>sum</code> gives a <code>TypeError</code>.'
+      },
+      {
+        title: 'Add items: append, extend, insert', file: '06_lists_methods.py',
+        idea: '<code>append(x)</code> adds one item at the end. <code>extend([...])</code> adds several. <code>insert(i, x)</code> puts an item at position <code>i</code>.',
+        analogy: 'append: join the back of the queue. extend: a whole group joins the back. insert: someone is let in at a chosen place in the queue.',
+        controls: [{ key: 'items', label: 'my_list', type: 'text', value: '1, 2, 3, 4' }, { key: 'm', label: 'method', type: 'select', value: 0, options: ['append', 'extend', 'insert'] }, { key: 'x', label: 'value(s) to add', type: 'text', value: '5' }, { key: 'i', label: 'position (insert only)', type: 'number', value: 3 }],
+        render: v => {
+          const items = parseItems(v.items), n = items.length;
+          let call, after, added;
+          if (v.m === 'extend') {
+            const more = parseItems(v.x);
+            call = `my_list.extend(${itemsRepr(more)})`; after = items.concat(more); added = more.map((_, k) => n + k);
+          } else {
+            const x = parseToken(v.x || "''");
+            if (v.m === 'append') { call = `my_list.append(${x.repr})`; after = items.concat([x]); added = [n]; }
+            else {
+              const at = v.i < 0 ? Math.max(0, n + v.i) : Math.min(v.i, n);
+              call = `my_list.insert(${v.i}, ${x.repr})`; after = items.slice(0, at).concat([x], items.slice(at)); added = [at];
+            }
+          }
+          return {
+            code: `my_list = ${itemsRepr(items)}\nprint("Before:", my_list)\n\n${call}\nprint("After:", my_list)`,
+            out: `Before: ${itemsRepr(items)}\nAfter: ${itemsRepr(after)}`,
+            visual: listCellsHTML(after, added, false)
+          };
+        },
+        tip: 'Choose <code>extend</code> and type <code>6, 7, 8, 9</code>. Then choose <code>append</code> with the same text and compare.'
+      },
+      {
+        title: 'Remove items: remove, pop, del, clear', file: '07_lists_modification.py',
+        idea: '<code>remove(x)</code> removes by <strong>value</strong>. <code>pop()</code> and <code>del</code> remove by <strong>position</strong>. <code>clear()</code> empties the list.',
+        explain: `<ul><li><code>remove</code> only removes the <strong>first</strong> match</li><li><code>pop()</code> takes out the last item and hands it back to you; <code>pop(1)</code> takes out the item at index 1</li><li><code>del my_list[0]</code> deletes the item at index 0</li></ul>`,
+        controls: [{ key: 'items', label: 'my_list', type: 'text', value: 'apple, banana, cherry, date' }, { key: 'm', label: 'how to remove', type: 'select', value: 0, options: [{ label: 'remove(value)', value: 'remove' }, { label: 'pop()', value: 'pop' }, { label: 'pop(position)', value: 'popi' }, { label: 'del my_list[position]', value: 'del' }, { label: 'clear()', value: 'clear' }] }, { key: 'x', label: 'value (for remove)', type: 'text', value: 'banana' }, { key: 'i', label: 'position (for pop / del)', type: 'number', value: 1 }],
+        render: v => {
+          const items = parseItems(v.items), n = items.length, x = parseToken(v.x || "''");
+          const k = v.i < 0 ? v.i + n : v.i, inRange = v.i < n && v.i >= -n;
+          const head = `my_list = ${itemsRepr(items)}\n\n`;
+          let line, gone = [], popped = null, err = '';
+          if (v.m === 'remove') {
+            line = `my_list.remove(${x.repr})`;
+            const at = items.findIndex(it => it.key === x.key);
+            if (at < 0) err = 'ValueError: list.remove(x): x not in list'; else gone = [at];
+          } else if (v.m === 'pop') {
+            line = 'item = my_list.pop()';
+            if (!n) err = 'IndexError: pop from empty list'; else { gone = [n - 1]; popped = items[n - 1]; }
+          } else if (v.m === 'popi') {
+            line = `item = my_list.pop(${v.i})`;
+            if (!n) err = 'IndexError: pop from empty list'; else if (!inRange) err = 'IndexError: pop index out of range'; else { gone = [k]; popped = items[k]; }
+          } else if (v.m === 'del') {
+            line = `del my_list[${v.i}]`;
+            if (!inRange) err = 'IndexError: list assignment index out of range'; else gone = [k];
+          } else { line = 'my_list.clear()'; gone = items.map((_, j) => j); }
+          const code = head + line + (v.m === 'pop' || v.m === 'popi' ? '\nprint("Popped:", item)' : '') + '\nprint(my_list)';
+          if (err) return { code, out: '', err: tb(3, err), visual: listCellsHTML(items, [], false) };
+          const after = items.filter((_, j) => !gone.includes(j));
+          return {
+            code, out: (popped ? `Popped: ${shown(popped)}\n` : '') + itemsRepr(after),
+            visual: listCellsHTML(items, gone, false, 'gone') + '<div style="margin-top:10px;">' + listCellsHTML(after, [], false) + '</div>'
+          };
+        },
+        tip: 'Ask <code>remove</code> for a value that is not in the list, like <code>kiwi</code>, to see the <code>ValueError</code>.'
+      },
+      {
+        title: 'Sort, reverse, find and count', file: '06_lists_methods.py',
+        idea: '<code>sort()</code> puts items in order, <code>reverse()</code> flips the order, <code>index(x)</code> finds where <code>x</code> is, <code>count(x)</code> counts how often it appears.',
+        explain: `<p><code>sort()</code> and <code>reverse()</code> change the list itself and give back nothing, so print the list afterwards.</p>`,
+        controls: [{ key: 'items', label: 'my_list', type: 'text', value: '3, 1, 4, 1, 5, 9, 2' }, { key: 'm', label: 'method', type: 'select', value: 0, options: ['sort()', 'sort(reverse=True)', 'reverse()', 'index(value)', 'count(value)'] }, { key: 'x', label: 'value (for index / count)', type: 'text', value: '1' }],
+        render: v => {
+          const items = parseItems(v.items), x = parseToken(v.x || "''");
+          const head = `my_list = ${itemsRepr(items)}\n\n`;
+          if (v.m.startsWith('sort')) {
+            const rev = v.m !== 'sort()';
+            const code = head + `my_list.${v.m}\nprint(my_list)`;
+            // sort(reverse=True) flips the list before sorting, so Python compares the items in that order.
+            const seq = rev ? items.slice().reverse() : items;
+            for (let k = 0; k + 1 < seq.length; k++) if (!comparable(seq[k + 1], seq[k])) return { code, out: '', err: tb(3, notSupported('<', seq[k + 1], seq[k])), visual: listCellsHTML(items, [], false) };
+            const sorted = items.slice().sort((a, b) => (pyLess(a, b) ? -1 : pyLess(b, a) ? 1 : 0) * (rev ? -1 : 1));
+            return { code, out: itemsRepr(sorted), visual: listCellsHTML(sorted, [], false) };
+          }
+          if (v.m === 'reverse()') {
+            const r = items.slice().reverse();
+            return { code: head + 'my_list.reverse()\nprint(my_list)', out: itemsRepr(r), visual: listCellsHTML(r, [], false) };
+          }
+          const hits = items.map((it, i) => (it.key === x.key ? i : -1)).filter(i => i >= 0);
+          if (v.m === 'count(value)') return { code: head + `print(my_list.count(${x.repr}))`, out: String(hits.length), visual: listCellsHTML(items, hits, false) };
+          const code = head + `print(my_list.index(${x.repr}))`;
+          if (!hits.length) return { code, out: '', err: tb(3, `ValueError: ${x.repr} is not in list`), visual: listCellsHTML(items, [], false) };
+          return { code, out: String(hits[0]), visual: listCellsHTML(items, [hits[0]], true) };
+        },
+        tip: '<code>index</code> gives the <strong>first</strong> match only. Look for <code>1</code>: it appears twice, but you get <code>1</code>, not <code>3</code>.'
+      },
+      {
+        title: 'Change an item', file: '07_lists_modification.py',
+        idea: '<code>my_list[1] = "blueberry"</code> replaces the item at index 1. Lists can be changed: they are <strong>mutable</strong>.',
+        explain: `<p>You can replace a whole part at once with a slice: <code>my_list[1:] = ['New1', 'New2']</code> replaces everything from index 1 onwards.</p>`,
+        controls: [{ key: 'items', label: 'my_list', type: 'text', value: 'apple, banana, cherry, date' }, { key: 'i', label: 'position', type: 'number', value: 1 }, { key: 'x', label: 'new value', type: 'text', value: 'blueberry' }],
+        render: v => {
+          const items = parseItems(v.items), n = items.length, x = parseToken(v.x || "''");
+          const code = `my_list = ${itemsRepr(items)}\n\nmy_list[${v.i}] = ${x.repr}\nprint(my_list)`;
+          if (v.i >= n || v.i < -n) return { code, out: '', err: tb(3, 'IndexError: list assignment index out of range'), visual: listCellsHTML(items) };
+          const k = v.i < 0 ? v.i + n : v.i;
+          const after = items.slice();
+          after[k] = x;
+          return { code, out: itemsRepr(after), visual: listCellsHTML(items, [k], false, 'gone') + '<div style="margin-top:10px;">' + listCellsHTML(after, [k], false) + '</div>' };
+        }
+      },
+      {
+        title: 'Putting it all together', file: '07_lists_modification.py',
+        idea: 'One list, changed step by step. Follow each <code>print</code> to see what every line did.',
+        code: `my_list = ["apple", "banana", "cherry", "date"]\n\nmy_list[1] = "blueberry"\nprint(my_list)\n\nmy_list.append("elderberry")\nprint(my_list)\n\nmy_list.insert(2, "cranberry")\nprint(my_list)\n\nmy_list.remove("cherry")\nprint(my_list)\n\ndel my_list[0]\nprint(my_list)\n\npopped_item = my_list.pop()\nprint(popped_item)\nprint(my_list)\n\n# Replace everything from index 1 onwards\nmy_list[1:] = ['New1', 'New2']\nprint('Updated my_list: ', my_list)\n\n# An empty list [ ] clears it\nmy_list = []\nprint("Cleared list:", my_list)`,
+        out: "['apple', 'blueberry', 'cherry', 'date']\n['apple', 'blueberry', 'cherry', 'date', 'elderberry']\n['apple', 'blueberry', 'cranberry', 'cherry', 'date', 'elderberry']\n['apple', 'blueberry', 'cranberry', 'date', 'elderberry']\n['blueberry', 'cranberry', 'date', 'elderberry']\nelderberry\n['blueberry', 'cranberry', 'date']\nUpdated my_list:  ['blueberry', 'New1', 'New2']\nCleared list: []",
+        tip: 'Delete a line from the code (for example the <code>del</code> line) and press Run to see how the rest changes.'
+      },
+      {
+        title: 'List comprehensions', file: '08_lists_comprehensions.py',
+        idea: 'Build a new list from an old one in <strong>one line</strong>: <code>[x ** 2 for x in numbers]</code>.',
+        analogy: 'Like a factory belt: every item from the old list goes through the same machine, and the results come out as a new list.',
+        explain: `<p>Read it as "<strong>x squared, for each x in numbers</strong>". Add <code>if ...</code> at the end to keep only some items.</p>`,
+        controls: [{ key: 'items', label: 'numbers (whole numbers)', type: 'text', value: '1, 2, 3, 4, 5' }, { key: 'e', label: 'what to do with each x', type: 'select', value: 0, options: ['x ** 2', 'x * 10', 'x + 100', '-x'] }, { key: 'f', label: 'which ones to keep', type: 'select', value: 0, options: ['all of them', 'if x % 2 == 0', 'if x > 2'] }],
+        render: v => {
+          const nums = intsFrom(v.items);
+          const fn = { 'x ** 2': x => x * x, 'x * 10': x => x * 10, 'x + 100': x => x + 100, '-x': x => -x }[v.e];
+          const keep = { 'all of them': () => true, 'if x % 2 == 0': x => x % 2 === 0, 'if x > 2': x => x > 2 }[v.f];
+          const cond = v.f === 'all of them' ? '' : ' ' + v.f;
+          const res = nums.filter(keep).map(fn);
+          return {
+            code: `numbers = [${nums.join(', ')}]\nnew_list = [${v.e} for x in numbers${cond}]\nprint(new_list)`,
+            out: `[${res.join(', ')}]`,
+            visual: '<div class="py-map">' + nums.map((x, i) => `<div class="${keep(x) ? '' : 'skip'}" style="animation-delay:${i * 0.06}s"><code>${x}</code><span>&rarr;</span><code>${keep(x) ? fn(x) : 'skipped'}</code></div>`).join('') + '</div>'
+          };
+        },
+        tip: 'The same thing with a loop takes four lines: <code>new_list = []</code>, <code>for x in numbers:</code>, <code>new_list.append(x ** 2)</code>.'
+      },
+      {
+        title: 'Cheat sheet: lists', file: 'recap',
+        idea: 'The list tools from this module on one page.',
+        visual: recapTable([['make a list', 'a = [1, 2, 3]'], ['first / last item', 'a[0]   a[-1]'], ['a part of the list', 'a[1:3]'], ['add to the end', 'a.append(4)'], ['add at a position', 'a.insert(0, 9)'],
+          ['remove by value / position', 'a.remove(9)   a.pop(0)'], ['sort it', 'a.sort()'], ['count / total', 'len(a)   sum(a)'], ['transform every item', '[x * 2 for x in a]']]),
+        code: `a = [3, 1, 2]\na.append(4)\na.insert(0, 9)\nprint(a)\nprint(a[0], a[-1], a[1:3])\na.remove(9)\na.sort()\nprint(a, len(a), sum(a))\nprint([x * 2 for x in a])`,
+        out: '[9, 3, 1, 2, 4]\n9 4 [3, 1]\n[1, 2, 3, 4] 4 10\n[2, 4, 6, 8]'
+      }
+    ]
+  };
+
+  const ORDER = ['print', 'variables', 'datatypes', 'operators', 'strings', 'lists'];
 
   // ---------- State + persistence ----------
   const STORE_KEY = 'tinitiate.python.core.progress.v2';

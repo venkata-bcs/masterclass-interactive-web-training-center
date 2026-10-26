@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agent Swarms | Tinitiate MasterClass Academy</title>
+  <meta name="description" content="Watch a swarm of AI agents assemble itself from skills, tools and memory, plan, pass governance and deliver a tested business result.">
+  <link rel="icon" type="image/png" href="../favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+  <link rel="stylesheet" href="swarm.css">
+</head>
+<body>
+  <div class="sw-stars" aria-hidden="true"></div>
+
+  <header class="sw-top">
+    <a href="../index.html" class="sw-brand" aria-label="Tinitiate MasterClass Academy home">
+      <img src="../tinitiate_header-banner.png" alt="Tinitiate AI">
+      <span class="sw-badge">AGENT SWARMS</span>
+    </a>
+    <nav class="sw-nav">
+      <a href="../index.html">Academy</a>
+      <a href="../automation-ml-ai-agentic/agents.html">Agentic AI Training</a>
+      <a href="#mission" class="sw-nav-cta">Launch a Swarm</a>
+    </nav>
+  </header>
+
+  <main class="sw-main">
+
+    <!-- Hero -->
+    <section class="sw-hero">
+      <span class="sw-eyebrow">Tinitiate AI &bull; Agent Swarm Engine</span>
+      <h1>One business goal in.<br><span class="sw-grad">A governed swarm of AI agents out.</span></h1>
+      <p class="sw-lede">Pick an objective and press <strong>Kick Off Agent</strong>. Watch the swarm choose its own skills, tools and memory. Specialist agents get built, then the whole formation flies through a control tower of audit, guardrails and human approval, and lands a tested result.</p>
+      <div class="sw-props">
+        <div><b>Self-assembling</b><span>Picks only the skills, tools and memory the goal needs</span></div>
+        <div><b>Plans, tests, stops</b><span>A planner, a tester and a clear exit condition on every mission</span></div>
+        <div><b>Governed by design</b><span>Orchestration, audit, observability, human approval and guardrails</span></div>
+      </div>
+    </section>
+
+    <!-- Mission brief -->
+    <section class="sw-brief" id="mission">
+      <div class="sw-brief-head">
+        <span class="sw-step-num">01</span>
+        <div>
+          <h2>Mission brief</h2>
+          <p>Choose an objective. The prompt is what a business user would type; no code involved.</p>
+        </div>
+      </div>
+      <div class="sw-brief-grid">
+        <label class="sw-field">
+          <span>Objective</span>
+          <select id="sw-objective"></select>
+        </label>
+        <label class="sw-field sw-field-wide">
+          <span>Prompt</span>
+          <textarea id="sw-prompt" rows="2" spellcheck="false"></textarea>
+        </label>
+        <div class="sw-launch">
+          <button type="button" class="sw-kick" id="sw-kick">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>
+            <span>Kick Off Agent</span>
+          </button>
+          <div class="sw-launch-opts">
+            <label>Speed
+              <select id="sw-speed">
+                <option value="0.75">0.75&times;</option>
+                <option value="1" selected>1&times;</option>
+                <option value="1.5">1.5&times;</option>
+                <option value="2.5">2.5&times;</option>
+              </select>
+            </label>
+            <button type="button" class="sw-ghost" id="sw-reset">Reset</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stepper + narration -->
+    <ol class="sw-stepper" id="sw-stepper">
+      <li data-k="0"><b>Brief</b><span>Goal in plain words</span></li>
+      <li data-k="1"><b>Assemble</b><span>Pick skills, tools, memory</span></li>
+      <li data-k="2"><b>Build</b><span>Agents, planner, tester, exit</span></li>
+      <li data-k="3"><b>Govern</b><span>Fly the control tower</span></li>
+      <li data-k="4"><b>Deliver</b><span>Tested results</span></li>
+    </ol>
+    <div class="sw-caption" id="sw-caption" aria-live="polite">
+      <span class="sw-caption-what">Choose an objective and press <b>Kick Off Agent</b>.</span>
+      <span class="sw-caption-why">Every drone you see is a reusable building block. The library grows with every mission.</span>
+    </div>
+
+    <!-- The stage: three columns, results below, drones fly in the sky layer above -->
+    <section class="sw-stage" id="sw-stage">
+      <div class="sw-cols">
+        <div class="sw-col" id="sw-col1">
+          <div class="sw-col-head"><span class="sw-col-num">A</span><div><h3>Capability Hangar</h3><p>The library every swarm is built from</p></div></div>
+          <div class="sw-row" data-row="skill"><div class="sw-row-head"><i class="dot c-skill"></i>Skills<small>what an agent knows how to do</small></div><div class="sw-bay" id="bay-skill"></div></div>
+          <div class="sw-row" data-row="tool"><div class="sw-row-head"><i class="dot c-tool"></i>Tools<small>systems an agent can use</small></div><div class="sw-bay" id="bay-tool"></div></div>
+          <div class="sw-row" data-row="memory"><div class="sw-row-head"><i class="dot c-memory"></i>Memory<small>what an agent can remember</small></div><div class="sw-bay" id="bay-memory"></div></div>
+        </div>
+
+        <div class="sw-col" id="sw-col2">
+          <div class="sw-col-head"><span class="sw-col-num">B</span><div><h3>Assembly Deck</h3><p>Where the swarm is built for this mission</p></div></div>
+          <div class="sw-row" data-row="agents"><div class="sw-row-head"><i class="dot c-agent"></i>Agents<small>specialists made from the picks</small></div><div class="sw-agents" id="sw-agents"><div class="sw-wait">Waiting for the kick-off&hellip;</div></div></div>
+          <div class="sw-row sw-deck" data-row="planner"><div class="sw-row-head"><i class="dot c-planner"></i>Planner<small>breaks the goal into steps</small></div><div class="sw-deck-body"><div class="sw-slot" id="slot-planner"></div><ol class="sw-list" id="sw-plan"></ol></div></div>
+          <div class="sw-row sw-deck" data-row="tester"><div class="sw-row-head"><i class="dot c-tester"></i>Tester<small>checks the work is right</small></div><div class="sw-deck-body"><div class="sw-slot" id="slot-tester"></div><ul class="sw-list sw-tests" id="sw-tests"></ul></div></div>
+          <div class="sw-row sw-deck" data-row="exit"><div class="sw-row-head"><i class="dot c-exit"></i>Exit Condition<small>when the mission is done</small></div><div class="sw-deck-body"><div class="sw-slot" id="slot-exit"></div><div class="sw-exit" id="sw-exit"></div></div></div>
+        </div>
+
+        <div class="sw-col sw-tower" id="sw-col3">
+          <div class="sw-col-head"><span class="sw-col-num">C</span><div><h3>Control Tower</h3><p>Every mission flies through governance</p></div></div>
+          <div class="sw-row sw-trow" data-row="orchestrator"><div class="sw-row-head"><i class="dot c-tower"></i>Orchestrator<small>assigns steps to agents</small><em class="sw-state">idle</em></div><div class="sw-trow-body"><div class="sw-pad" id="pad-orchestrator"></div><div class="sw-feed" id="feed-orchestrator"></div></div></div>
+          <div class="sw-row sw-trow" data-row="auditor"><div class="sw-row-head"><i class="dot c-tower"></i>Auditor<small>records every decision</small><em class="sw-state">idle</em></div><div class="sw-trow-body"><div class="sw-pad" id="pad-auditor"></div><div class="sw-feed" id="feed-auditor"></div></div></div>
+          <div class="sw-row sw-trow" data-row="observability"><div class="sw-row-head"><i class="dot c-tower"></i>Observability<small>cost, speed and health</small><em class="sw-state">idle</em></div><div class="sw-trow-body"><div class="sw-pad" id="pad-observability"></div><div class="sw-feed" id="feed-observability"></div></div></div>
+          <div class="sw-row sw-trow" data-row="hitl"><div class="sw-row-head"><i class="dot c-tower"></i>Human in the Loop<small>a person approves big moves</small><em class="sw-state">idle</em></div><div class="sw-trow-body"><div class="sw-pad" id="pad-hitl"></div><div class="sw-feed" id="feed-hitl"></div></div></div>
+          <div class="sw-row sw-trow" data-row="guardrails"><div class="sw-row-head"><i class="dot c-tower"></i>Guardrails<small>blocks unsafe actions</small><em class="sw-state">idle</em></div><div class="sw-trow-body"><div class="sw-pad" id="pad-guardrails"></div><div class="sw-feed" id="feed-guardrails"></div></div></div>
+        </div>
+      </div>
+
+      <div class="sw-results" id="sw-results">
+        <div class="sw-results-empty">
+          <span class="sw-col-num">D</span>
+          <div><h3>Mission Results</h3><p>The swarm lands here with tested, audited results.</p></div>
+        </div>
+      </div>
+
+      <div class="sw-sky" id="sw-sky" aria-hidden="true"></div>
+    </section>
+
+    <!-- Investor narrative -->
+    <section class="sw-pitch">
+      <span class="sw-eyebrow">What you just saw</span>
+      <h2>Why agent swarms change how work gets done</h2>
+      <div class="sw-pitch-grid">
+        <article><b>01</b><h4>Goal in, outcome out</h4><p>A business user states the result they want. The swarm decides how to get there, so teams stop hand-wiring workflows.</p></article>
+        <article><b>02</b><h4>A library that compounds</h4><p>Skills, tools and memory are reusable drones. Every new client adds to the hangar, so each next mission is faster and cheaper to build.</p></article>
+        <article><b>03</b><h4>Ready for regulated industries</h4><p>Audit trail, guardrails and human approval are built in from the start. That is what banks, insurers and retailers need before they buy.</p></article>
+        <article><b>04</b><h4>Talent to run it</h4><p>Tinitiate trains engineers to design, build and govern these swarms, the people every company deploying them will need.</p></article>
+      </div>
+      <div class="sw-pitch-cta">
+        <a class="sw-kick sw-kick-sm" href="#mission">Launch another mission</a>
+        <a class="sw-ghost" href="../automation-ml-ai-agentic/agents.html">Explore the Agentic AI training &rarr;</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="sw-foot">&copy; 2026 Venkata Bhattaram &bull; <a href="https://tinitiateai.com" target="_blank" rel="noopener noreferrer">TinitiateAI.com</a> &bull; Scenarios are illustrative simulations.</footer>
+
+  <script src="swarm.js"></script>
+</body>
+</html>

@@ -26,6 +26,7 @@ const DOMAINS = [
     badge: 'Core CS',
     iconSvg: `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="8" height="8" x="3" y="3" rx="2"/><path d="M7 11v4a2 2 0 0 0 2 2h4"/><rect width="8" height="8" x="13" y="13" rx="2"/></svg>`,
     items: [
+      { name: 'Python', folder: 'foundational/python', desc: 'Print, Variables, Datatypes, Operators, Strings & Lists', icon: 'terminal' },
       { name: 'Data Structures', folder: 'foundational/data-structures', desc: 'Trees, Graphs, HashTables & Heaps', icon: 'binary' },
       { name: 'Authentication', folder: 'foundational/authentication', desc: 'OAuth2, OIDC, JWT, SAML & PKCE', icon: 'key' },
       { name: 'APIs', folder: 'foundational/apis', desc: 'REST, GraphQL, gRPC & WebSockets', icon: 'cloud-lightning' },
