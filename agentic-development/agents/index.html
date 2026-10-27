@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Agents | Tinitiate MasterClass Academy</title>
+  <meta name="description" content="See what an AI agent really is: a model with orders, gear and limits. Watch the same task run as a plain model call, a fixed workflow and an agent.">
+  <link rel="icon" type="image/png" href="../../favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+  <link rel="stylesheet" href="../shared/agentic.css">
+  <link rel="stylesheet" href="agents.css">
+</head>
+<body>
+  <div class="sw-stars" aria-hidden="true"></div>
+
+  <header class="sw-top">
+    <a href="../../index.html" class="sw-brand" aria-label="Tinitiate MasterClass Academy home">
+      <img src="../../tinitiate_header-banner.png" alt="Tinitiate AI">
+      <span class="sw-badge">AI AGENTS</span>
+    </a>
+    <nav class="sw-nav">
+      <a href="../index.html">Agentic Development</a>
+      <a href="../agents/index.html" aria-current="page">Agents</a>
+      <a href="../agentic-loops/index.html">Agentic Loops</a>
+      <a href="../agent-swarms/index.html">Agent Swarms</a>
+      <a href="#mission" class="sw-nav-cta">Brief an Agent</a>
+    </nav>
+  </header>
+
+  <main class="sw-main">
+
+    <section class="sw-hero">
+      <span class="sw-eyebrow">Agentic Development &bull; Part 1 of 3</span>
+      <h1>Meet the agent.<br><span class="sw-grad">A model that can look, decide and act.</span></h1>
+      <p class="sw-lede">An AI agent is a language model with three extra things: <strong>orders</strong> (its role and instructions), <strong>gear</strong> (tools, knowledge and memory) and <strong>limits</strong> (guardrails and human approval). Brief one below and watch the same task run three ways: as a plain model call, as a fixed workflow and as an agent. Each one breaks in a different place.</p>
+      <div class="sw-props">
+        <div><b>Orders</b><span>A role and instructions that say what the job is, and what it is not</span></div>
+        <div><b>Gear</b><span>Tools to act, knowledge to look things up, memory of past cases</span></div>
+        <div><b>Limits</b><span>Guardrails it cannot cross, and a person for the big calls</span></div>
+      </div>
+    </section>
+
+    <section class="sw-brief" id="mission">
+      <div class="sw-brief-head">
+        <span class="sw-step-num">01</span>
+        <div>
+          <h2>The task</h2>
+          <p>Pick a real-world request. All three approaches get exactly the same words.</p>
+        </div>
+      </div>
+      <div class="sw-brief-grid">
+        <label class="sw-field">
+          <span>Task</span>
+          <select id="sw-objective"></select>
+        </label>
+        <label class="sw-field sw-field-wide">
+          <span>Request</span>
+          <textarea id="sw-prompt" rows="2" spellcheck="false"></textarea>
+        </label>
+        <div class="sw-launch">
+          <button type="button" class="sw-kick" id="sw-kick">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 7h18v12H3z"/><path d="m3 7 9 7 9-7"/></svg>
+            <span>Brief the Agent</span>
+          </button>
+          <div class="sw-launch-opts">
+            <label>Speed
+              <select id="sw-speed">
+                <option value="0.75">0.75&times;</option>
+                <option value="1" selected>1&times;</option>
+                <option value="1.5">1.5&times;</option>
+                <option value="2.5">2.5&times;</option>
+              </select>
+            </label>
+            <button type="button" class="sw-ghost" id="sw-reset">Reset</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <ol class="sw-stepper" id="sw-stepper">
+      <li data-k="0"><b>Brief</b><span>The request</span></li>
+      <li data-k="1"><b>Equip</b><span>Orders, gear, limits</span></li>
+      <li data-k="2"><b>Plain model</b><span>Answers from memory</span></li>
+      <li data-k="3"><b>Fixed workflow</b><span>Same steps every time</span></li>
+      <li data-k="4"><b>Agent</b><span>Looks, decides, acts</span></li>
+    </ol>
+    <div class="sw-caption" id="sw-caption" aria-live="polite">
+      <span class="sw-caption-what">Pick a task and press <b>Brief the Agent</b>.</span>
+      <span class="sw-caption-why">Same request, three approaches. Watch where each one breaks.</span>
+    </div>
+
+    <section class="sw-stage" id="sw-stage">
+      <div class="ag-top">
+        <div class="sw-col" id="ag-dossier">
+          <div class="sw-col-head"><span class="sw-col-num">A</span><div><h3>Agent Dossier</h3><p>Everything this agent is issued for the job</p></div></div>
+          <div class="sw-row" data-row="role"><div class="sw-row-head"><i class="dot c-role"></i>Orders<small>role and instructions</small></div><div class="ag-orders"><div class="sw-bay" id="bay-role"></div><p id="ag-role"></p></div></div>
+          <div class="sw-row" data-row="tool"><div class="sw-row-head"><i class="dot c-tool"></i>Tools<small>systems it can act on</small></div><div class="sw-bay" id="bay-tool"></div></div>
+          <div class="sw-row" data-row="knowledge"><div class="sw-row-head"><i class="dot c-knowledge"></i>Knowledge<small>facts and documents it can look up</small></div><div class="sw-bay" id="bay-knowledge"></div></div>
+          <div class="sw-row" data-row="memory"><div class="sw-row-head"><i class="dot c-memory"></i>Memory<small>what it remembers from past cases</small></div><div class="sw-bay" id="bay-memory"></div></div>
+          <div class="sw-row" data-row="guard"><div class="sw-row-head"><i class="dot c-guard"></i>Guardrails<small>lines it cannot cross</small></div><div class="sw-bay" id="bay-guard"></div></div>
+        </div>
+
+        <div class="sw-col ag-hq" id="ag-hq">
+          <div class="sw-col-head"><span class="sw-col-num">B</span><div><h3>Headquarters</h3><p>Where the agent is put together</p></div></div>
+          <div class="ag-hq-stage">
+            <div class="ag-hq-slot" id="ag-slot"></div>
+            <div class="ag-hq-name" id="ag-name">No agent yet</div>
+            <div class="sw-chips" id="ag-chips"></div>
+          </div>
+          <div class="ag-anatomy">
+            <div class="ag-part" data-part="model"><b>Model</b><span>the brain: reads, reasons, decides the next step</span></div>
+            <div class="ag-part" data-part="role"><b>Orders</b><span>what the job is, and what it is not</span></div>
+            <div class="ag-part" data-part="gear"><b>Gear</b><span>tools, knowledge, memory</span></div>
+            <div class="ag-part" data-part="guard"><b>Limits</b><span>guardrails and human approval</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ag-lanes">
+        <div class="sw-row ag-lane" data-lane="llm">
+          <div class="sw-row-head"><i class="dot c-llm"></i>Plain model call<small>one prompt in, one answer out</small><em class="sw-state">idle</em></div>
+          <div class="ag-lane-body"><div class="ag-track" id="track-llm"></div><div class="sw-feed" id="feed-llm"></div></div>
+          <div class="ag-verdict" id="verdict-llm"></div>
+        </div>
+        <div class="sw-row ag-lane" data-lane="flow">
+          <div class="sw-row-head"><i class="dot c-flow"></i>Fixed workflow<small>the same coded steps every time</small><em class="sw-state">idle</em></div>
+          <div class="ag-lane-body"><div class="ag-track" id="track-flow"></div><div class="sw-feed" id="feed-flow"></div></div>
+          <div class="ag-verdict" id="verdict-flow"></div>
+        </div>
+        <div class="sw-row ag-lane" data-lane="agent">
+          <div class="sw-row-head"><i class="dot c-agent"></i>Agent<small>looks, decides the next step, acts, repeats</small><em class="sw-state">idle</em></div>
+          <div class="ag-lane-body"><div class="ag-track" id="track-agent"></div><div class="sw-feed" id="feed-agent"></div></div>
+          <div class="ag-verdict" id="verdict-agent"></div>
+        </div>
+      </div>
+
+      <div class="sw-results" id="sw-results"></div>
+      <div class="sw-sky" id="sw-sky" aria-hidden="true"></div>
+    </section>
+
+    <section class="sw-pitch">
+      <span class="sw-eyebrow">What you just saw</span>
+      <h2>Use the simplest thing that works</h2>
+      <div class="sw-pitch-grid">
+        <article><b>MODEL</b><h4>A plain model call</h4><p>Best for words: drafting, summarising, explaining. Cheap and fast, but it only knows what it was trained on and cannot do anything.</p></article>
+        <article><b>WORKFLOW</b><h4>A fixed workflow</h4><p>Best when the path is known in advance. Predictable, testable and cheap to run, but it breaks on the first case nobody coded for.</p></article>
+        <article><b>AGENT</b><h4>An agent</h4><p>Best when the next step depends on what it finds. It handles surprises, but it costs more, varies more and needs firm limits.</p></article>
+        <article><b>NEXT</b><h4>How does it decide?</h4><p>The agent above ran a loop: look, think, act, check, repeat. Part 2 opens that loop up, including how it knows when to stop.</p></article>
+      </div>
+      <div class="sw-pitch-cta">
+        <a class="sw-kick sw-kick-sm" href="../agentic-loops/index.html">Part 2: Agentic Loops &rarr;</a>
+        <a class="sw-ghost" href="#mission">Brief another agent</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="sw-foot">&copy; 2026 Venkata Bhattaram &bull; <a href="https://tinitiateai.com" target="_blank" rel="noopener noreferrer">TinitiateAI.com</a> &bull; Scenarios and figures are illustrative simulations.</footer>
+
+  <script src="../shared/agentic-kit.js"></script>
+  <script src="agents.js"></script>
+</body>
+</html>

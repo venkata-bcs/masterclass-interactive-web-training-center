@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agentic Development | Tinitiate MasterClass Academy</title>
+  <meta name="description" content="Learn agentic development in three interactive parts: what an AI agent is, how the agentic loop works, and how governed agent swarms deliver business goals.">
+  <link rel="icon" type="image/png" href="../favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+  <link rel="stylesheet" href="shared/agentic.css">
+</head>
+<body>
+  <div class="sw-stars" aria-hidden="true"></div>
+
+  <header class="sw-top">
+    <a href="../index.html" class="sw-brand" aria-label="Tinitiate MasterClass Academy home">
+      <img src="../tinitiate_header-banner.png" alt="Tinitiate AI">
+      <span class="sw-badge">AGENTIC DEVELOPMENT</span>
+    </a>
+    <nav class="sw-nav">
+      <a href="index.html" aria-current="page">Agentic Development</a>
+      <a href="agents/index.html">Agents</a>
+      <a href="agentic-loops/index.html">Agentic Loops</a>
+      <a href="agent-swarms/index.html">Agent Swarms</a>
+      <a href="agents/index.html" class="sw-nav-cta">Start Part 1</a>
+    </nav>
+  </header>
+
+  <main class="sw-main">
+    <section class="sw-hero">
+      <span class="sw-eyebrow">Tinitiate AI &bull; Agentic Development</span>
+      <h1>From one agent<br><span class="sw-grad">to a governed swarm.</span></h1>
+      <p class="sw-lede">Three interactive missions, in order. Meet a single agent and see when it beats a plain model or a fixed workflow. Open up the loop it runs, and the stop rules that end it. Then watch a team of agents plan, assemble, recover from failure and deliver a business goal under full governance.</p>
+    </section>
+
+    <section class="hub-path">
+      <a class="hub-card" href="agents/index.html">
+        <div class="hub-icons"><span data-kind="llm"></span><span data-kind="flow"></span><span data-kind="agent" class="lead"></span></div>
+        <b>Part 1</b>
+        <h2>Agents</h2>
+        <p>A model plus orders, gear and limits. Run one request three ways, as a plain model, a fixed workflow and an agent, and see where each one breaks.</p>
+        <span class="hub-go">Brief an agent &rarr;</span>
+      </a>
+      <a class="hub-card" href="agentic-loops/index.html">
+        <div class="hub-icons"><span data-kind="tool"></span><span data-kind="agent" class="lead"></span><span data-kind="critic"></span></div>
+        <b>Part 2</b>
+        <h2>Agentic Loops</h2>
+        <p>Observe, think, act, check, repeat. See ReAct, plan-and-execute and reflection, a scratchpad that fills up, and the stop rules that end a loop safely.</p>
+        <span class="hub-go">Start a loop &rarr;</span>
+      </a>
+      <a class="hub-card" href="agent-swarms/index.html">
+        <div class="hub-icons"><span data-kind="planner"></span><span data-kind="cmd" class="lead"></span><span data-kind="tester"></span></div>
+        <b>Part 3</b>
+        <h2>Agent Swarms</h2>
+        <p>One business goal, a team of specialist agents. Plan first, assemble from an approved catalog, work a shared task board under governance, and learn for next time.</p>
+        <span class="hub-go">Launch a swarm &rarr;</span>
+      </a>
+    </section>
+  </main>
+
+  <footer class="sw-foot">&copy; 2026 Venkata Bhattaram &bull; <a href="https://tinitiateai.com" target="_blank" rel="noopener noreferrer">TinitiateAI.com</a> &bull; Scenarios and figures are illustrative simulations.</footer>
+
+  <script src="shared/agentic-kit.js"></script>
+  <script>
+    document.querySelectorAll('.hub-icons span').forEach(s => {
+      s.className += ' op c-' + s.dataset.kind;
+      s.innerHTML = '<div class="bob">' + AgentKit.iconSVG(s.dataset.kind) + '</div>';
+    });
+  </script>
+</body>
+</html>

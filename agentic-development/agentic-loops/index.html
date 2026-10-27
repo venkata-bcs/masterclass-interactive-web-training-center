@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agentic Loops | Tinitiate MasterClass Academy</title>
+  <meta name="description" content="Watch an AI agent run its loop: observe, think, act, check, repeat. See ReAct, plan-and-execute and reflection, and the stop rules that end a loop.">
+  <link rel="icon" type="image/png" href="../../favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+  <link rel="stylesheet" href="../shared/agentic.css">
+  <link rel="stylesheet" href="loops.css">
+</head>
+<body>
+  <div class="sw-stars" aria-hidden="true"></div>
+
+  <header class="sw-top">
+    <a href="../../index.html" class="sw-brand" aria-label="Tinitiate MasterClass Academy home">
+      <img src="../../tinitiate_header-banner.png" alt="Tinitiate AI">
+      <span class="sw-badge">AGENTIC LOOPS</span>
+    </a>
+    <nav class="sw-nav">
+      <a href="../index.html">Agentic Development</a>
+      <a href="../agents/index.html">Agents</a>
+      <a href="../agentic-loops/index.html" aria-current="page">Agentic Loops</a>
+      <a href="../agent-swarms/index.html">Agent Swarms</a>
+      <a href="#mission" class="sw-nav-cta">Start a Loop</a>
+    </nav>
+  </header>
+
+  <main class="sw-main">
+
+    <section class="sw-hero">
+      <span class="sw-eyebrow">Agentic Development &bull; Part 2 of 3</span>
+      <h1>The agentic loop.<br><span class="sw-grad">Observe. Think. Act. Check. Repeat.</span></h1>
+      <p class="sw-lede">Every agent runs the same loop: it <strong>observes</strong> where things stand, <strong>thinks</strong> about the next step, <strong>acts</strong> with a tool, then <strong>checks</strong> the result. It goes round until a <strong>stop rule</strong> fires. Pick a mission below to see three common loop patterns, and one loop that would run forever without its stop rules.</p>
+      <div class="sw-props">
+        <div><b>One step at a time</b><span>Each pass looks at the latest result before choosing what to do next</span></div>
+        <div><b>A scratchpad with limits</b><span>Every pass fills the context window, so older steps get summarised</span></div>
+        <div><b>Stop rules</b><span>Goal met, too many loops, out of budget, the same error again, or a person needed</span></div>
+      </div>
+    </section>
+
+    <section class="sw-brief" id="mission">
+      <div class="sw-brief-head">
+        <span class="sw-step-num">01</span>
+        <div>
+          <h2>The mission</h2>
+          <p>Each mission shows a different loop pattern.</p>
+        </div>
+      </div>
+      <div class="sw-brief-grid">
+        <label class="sw-field">
+          <span>Mission</span>
+          <select id="sw-objective"></select>
+        </label>
+        <label class="sw-field sw-field-wide">
+          <span>Goal</span>
+          <textarea id="sw-prompt" rows="2" spellcheck="false"></textarea>
+        </label>
+        <div class="sw-launch">
+          <button type="button" class="sw-kick" id="sw-kick">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 3v6h-6"/></svg>
+            <span>Start the Loop</span>
+          </button>
+          <div class="sw-launch-opts">
+            <label>Speed
+              <select id="sw-speed">
+                <option value="0.75">0.75&times;</option>
+                <option value="1" selected>1&times;</option>
+                <option value="1.5">1.5&times;</option>
+                <option value="2.5">2.5&times;</option>
+              </select>
+            </label>
+            <button type="button" class="sw-ghost" id="sw-reset">Reset</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <ol class="sw-stepper" id="sw-stepper">
+      <li data-k="0"><b>Goal</b><span>What done looks like</span></li>
+      <li data-k="1"><b>Observe</b><span>Where things stand</span></li>
+      <li data-k="2"><b>Think</b><span>Choose the next step</span></li>
+      <li data-k="3"><b>Act</b><span>Use one tool</span></li>
+      <li data-k="4"><b>Check</b><span>Done, or go again?</span></li>
+    </ol>
+    <div class="sw-caption" id="sw-caption" aria-live="polite">
+      <span class="sw-caption-what">Pick a mission and press <b>Start the Loop</b>.</span>
+      <span class="sw-caption-why">Watch the agent go round until a stop rule fires.</span>
+    </div>
+
+    <section class="sw-stage" id="sw-stage">
+      <div class="lp-cols">
+        <div class="sw-col" id="lp-colA">
+          <div class="sw-col-head"><span class="sw-col-num">A</span><div><h3>Gear &amp; Stop Rules</h3><p>What it can use, and what ends the loop</p></div></div>
+          <div class="sw-row" data-row="tool"><div class="sw-row-head"><i class="dot c-tool"></i>Tools<small>one per Act step</small></div><div class="sw-bay" id="bay-tool"></div></div>
+          <div class="sw-row" data-row="rules"><div class="sw-row-head"><i class="dot c-exit"></i>Stop rules<small>checked after every pass</small></div><ul class="lp-rules" id="lp-rules"></ul></div>
+        </div>
+
+        <div class="sw-col lp-ringcol">
+          <div class="sw-col-head"><span class="sw-col-num">B</span><div><h3>The Loop</h3><p id="lp-pattern-sub">One pass = observe, think, act, check</p></div></div>
+          <div class="lp-ring" id="lp-ring">
+            <svg class="lp-ring-svg" viewBox="0 0 100 100" aria-hidden="true">
+              <circle cx="50" cy="50" r="38" class="lp-track"/>
+              <circle cx="50" cy="50" r="38" class="lp-progress" id="lp-progress"/>
+            </svg>
+            <div class="lp-st" data-st="1" style="left:50%;top:12%"><b>Observe</b></div>
+            <div class="lp-st" data-st="2" style="left:88%;top:50%"><b>Think</b></div>
+            <div class="lp-st" data-st="3" style="left:50%;top:88%"><b>Act</b></div>
+            <div class="lp-st" data-st="4" style="left:12%;top:50%"><b>Check</b></div>
+            <div class="lp-core">
+              <span class="lp-pattern" id="lp-pattern">Loop</span>
+              <strong id="lp-iter">0</strong>
+              <span id="lp-iter-of">passes</span>
+              <p id="lp-now"></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="sw-col" id="lp-colC">
+          <div class="sw-col-head"><span class="sw-col-num">C</span><div><h3>Scratchpad</h3><p>The agent’s working memory for this mission</p></div></div>
+          <div class="sw-row" data-row="ctx">
+            <div class="sw-row-head"><i class="dot c-memory"></i>Context window<small id="lp-ctx-txt">0 tokens used</small></div>
+            <div class="lp-meter"><span id="lp-ctx-bar"></span><i style="left:75%"></i></div>
+          </div>
+          <div class="sw-row lp-logrow" data-row="log"><div class="sw-row-head"><i class="dot c-planner"></i>Trace<small>what it saw, thought, did and found</small></div><div class="lp-log" id="lp-log"></div></div>
+        </div>
+      </div>
+
+      <div class="sw-results" id="sw-results"></div>
+      <div class="sw-sky" id="sw-sky" aria-hidden="true"></div>
+    </section>
+
+    <section class="sw-pitch">
+      <span class="sw-eyebrow">What you just saw</span>
+      <h2>Three loop patterns, and why stop rules matter</h2>
+      <div class="sw-pitch-grid">
+        <article><b>REACT</b><h4>Reason and act</h4><p>Think one step, act, look at the result, think again. Simple and flexible, good when the path is unknown.</p></article>
+        <article><b>PLAN &amp; EXECUTE</b><h4>Plan first, re-plan on failure</h4><p>Write the whole plan up front, then work through it. Cheaper and easier to follow, and it re-plans when the numbers say it is off track.</p></article>
+        <article><b>REFLECTION</b><h4>Draft, critique, revise</h4><p>A second agent, the Critic, reviews each draft against clear checks. Quality goes up with every pass, until the checks pass.</p></article>
+        <article><b>STOP RULES</b><h4>Know when to quit</h4><p>Without them, a loop retries a broken service all night. With them, it stops, keeps the trace, and hands over to a person.</p></article>
+      </div>
+      <div class="sw-pitch-cta">
+        <a class="sw-kick sw-kick-sm" href="../agent-swarms/index.html">Part 3: Agent Swarms &rarr;</a>
+        <a class="sw-ghost" href="../agents/index.html">&larr; Part 1: Agents</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="sw-foot">&copy; 2026 Venkata Bhattaram &bull; <a href="https://tinitiateai.com" target="_blank" rel="noopener noreferrer">TinitiateAI.com</a> &bull; Scenarios and figures are illustrative simulations.</footer>
+
+  <script src="../shared/agentic-kit.js"></script>
+  <script src="loops.js"></script>
+</body>
+</html>
