@@ -168,18 +168,7 @@ code, kbd, samp, pre {
 }
 
 /* Current Subject Home Highlight Pill */
-.master-nav-btn.subject-home-btn {
-  background: rgba(250, 204, 21, 0.16);
-  border-color: rgba(250, 204, 21, 0.5);
-  color: #fef08a;
-  font-weight: 700;
-}
 
-.master-nav-btn.subject-home-btn:hover {
-  background: rgba(250, 204, 21, 0.28);
-  color: #ffffff;
-  border-color: #fde047;
-}
 
 /* "Why TinitiateAI" header call-to-action: small gold pill with a throbbing glow */
 .master-nav-btn.why-tinitiate-btn {

@@ -26,6 +26,12 @@
 }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
+/* The shared site header/footer stylesheet forces var(--font-sans) / var(--font-mono) on body,
+   headings, form controls and code. Point those at this section's fonts inside its own content. */
+.sw-main, .sw-subbar { --font-sans: var(--font); --font-mono: var(--mono); font-family: var(--font); }
+.sw-main :is(h1, h2, h3, h4, h5, h6), .sw-kick { --font-sans: var(--display); }
+/* Section links, under the shared site header */
+.sw-top.sw-subbar { top: var(--nav-height, 74px); z-index: 40; justify-content: center; padding: 8px 28px; }
 body {
   margin: 0;
   background: radial-gradient(1200px 600px at 80% -10%, rgba(56, 189, 248, 0.16), transparent 60%),
@@ -47,9 +53,6 @@ body {
 
 /* Top bar */
 .sw-top { position: sticky; top: 0; z-index: 50; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 28px; background: rgba(5, 8, 22, 0.78); backdrop-filter: blur(14px); border-bottom: 1px solid var(--line); }
-.sw-brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-.sw-brand img { height: 30px; }
-.sw-badge { font-family: var(--mono); font-size: 0.68rem; font-weight: 600; letter-spacing: 0.12em; color: var(--c-cmd); border: 1px solid rgba(250, 204, 21, 0.45); padding: 3px 9px; border-radius: 6px; }
 .sw-nav { display: flex; gap: 6px; flex-wrap: wrap; }
 .sw-nav a { color: #cbd5e1; text-decoration: none; font-size: 0.85rem; font-weight: 500; padding: 7px 12px; border-radius: 8px; }
 .sw-nav a:hover { background: rgba(255, 255, 255, 0.06); }
@@ -296,8 +299,6 @@ body {
 .sw-explain dt.c-skill { color: var(--c-skill); } .sw-explain dt.c-tool { color: var(--c-tool); } .sw-explain dt.c-knowledge { color: var(--c-knowledge); } .sw-explain dt.c-memory { color: var(--c-memory); }
 .sw-explain dd { margin: 0; color: #cbd5e1; }
 .sw-pitch-cta { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin-top: 22px; }
-.sw-foot { position: relative; z-index: 1; text-align: center; color: var(--muted); font-size: 0.8rem; padding: 28px 16px 40px; border-top: 1px solid var(--line); }
-.sw-foot a { color: #e2e8f0; }
 
 @keyframes swReveal { from { opacity: 0; transform: translateY(-10px) scale(0.97); } to { opacity: 1; transform: none; } }
 @keyframes swBoom { 0% { opacity: 0; transform: scale(0.3); box-shadow: 0 0 0 0 rgba(250, 204, 21, 0.8); } 60% { opacity: 1; transform: scale(1.06); box-shadow: 0 0 30px 6px rgba(250, 204, 21, 0.35); } 100% { transform: none; box-shadow: 0 0 0 0 transparent; } }

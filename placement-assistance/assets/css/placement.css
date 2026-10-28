@@ -39,7 +39,6 @@ body.pa-theme .master-top-nav {
   box-shadow: 0 4px 22px -2px rgba(124, 45, 18, 0.45);
 }
 body.pa-theme .master-brand-badge { background: rgba(255, 255, 255, 0.16); border-color: rgba(255, 255, 255, 0.45); color: #fff; }
-body.pa-theme .master-nav-btn.subject-home-btn { background: #fff7ed; color: #9a3412; border-color: #fed7aa; }
 
 /* ---------- page layout: topics | content | on-this-page ---------- */
 .pa-shell {
@@ -217,8 +216,6 @@ body.pa-theme .master-nav-btn.subject-home-btn { background: #fff7ed; color: #9a
 .pa-pager a:hover { border-color: var(--pa-saffron); transform: translateY(-2px); }
 .pa-pager a.next { text-align: right; align-items: flex-end; }
 
-.pa-footer { display: flex; justify-content: center; align-items: center; gap: 12px; flex-wrap: wrap; padding: 22px; margin-top: 30px; font-size: 13px; color: var(--pa-muted); border-top: 1px solid var(--pa-line); }
-.pa-footer a { display: inline-flex; align-items: center; gap: 6px; height: 28px; padding: 0 12px 0 10px; border-radius: 999px; background: #0a66c2; color: #fff; font-weight: 600; text-decoration: none; }
 
 /* ---------- hub page ---------- */
 .pa-hub-hero { text-align: left; padding: 52px 44px; }
