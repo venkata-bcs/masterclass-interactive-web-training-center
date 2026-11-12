@@ -85,3 +85,11 @@ For phone width, clicks, JS errors and measurements, drive Edge over the DevTool
 
 - Use only facts the user or the company's own site provides. Do not invent clients, case studies, office locations, timelines or prices.
 - Check the prospect's stated requirements (e.g. location) against the facts and tell the user which ones the page cannot claim.
+
+## 9. Add a module or slide to the SQL course
+
+1. **Slides**: edit `DECKS` in [foundational/sql/sql-course.js](foundational/sql/sql-course.js). Fields: `title`, `file` (section label), `idea`, `analogy`, `explain`, `visual`, `tip`, `setup`, and either `code` or `controls` with `render(values)`.
+2. `setup` is hidden SQL that runs before the student's code on every Run. Build it from `SCHEMA`, `T`, `SEED`, `RULES`, `BASE`, `BASE_DATA` and `RULED`.
+3. Never write expected output into a slide: it comes from the real database.
+4. **New module**: add a key to `DECKS`, copy `dml.html` to `<key>.html`, set `data-py-page`, the title, the hero text and the "Module N of M" badges in every page.
+5. **Test every slide and every TRY THIS tip** in headless Edge (skill 7). A tip is a promise to the student, so run it and confirm that it does what it says. Open pages from `file://` too, because workers behave differently there.

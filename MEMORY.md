@@ -2,7 +2,7 @@
 
 Context, decisions and known issues for the Tinitiate MasterClass site. Read this before changing the AI harness pages, the home hero or the sales pitch page. How-to steps live in [SKILLS.md](SKILLS.md).
 
-Last updated: 2026-10-28.
+Last updated: 2026-11-06.
 
 ## The site
 
@@ -15,7 +15,7 @@ Last updated: 2026-10-28.
   - The 4 `agentic-development/` pages (hub, Agents, Agentic Loops, Agent Swarms) keep their own section links in a sticky `.sw-subbar` under the header. `agentic.css` re-points `--font-sans` / `--font-mono` inside `.sw-main` so the shared stylesheet does not replace their fonts. They are linked from the AI column of the Subjects menu and a home-page card (2026-10-28).
 - The Subjects mega menu is part of the header, so it is also edited in `index.html` and synced.
 - Track counts appear in several places in `index.html`: the AI `mega-cat-count` ("9 Tracks"), "34 Tracks + 15 Placement Guides", the home stats and showcase slide 1 (`data-count="34"`), and the AI domain card count.
-- Every page is reachable from `index.html` except the intentional standalones `sales-pitch/` (shared by direct link) and `pdfs/`. The 2026-10-28 clean-up removed root screenshots, `scratch/` scripts, `*-old.html` pages, duplicate per-folder favicon/banner copies, an unused `package.json` and dead CSS for retired footers. Pages use the root `favicon.png` and banners, except the 7 course folders that still reference their own `favicon.png`.
+- Every page is reachable from `index.html` except the intentional standalones `sales-pitch/` (shared by direct link), `ramesh-operations/` (front desk training in English, Telugu and Hindi, with its own theme and no site chrome) and `pdfs/`. The 2026-10-28 clean-up removed root screenshots, `scratch/` scripts, `*-old.html` pages, duplicate per-folder favicon/banner copies, an unused `package.json` and dead CSS for retired footers. Pages use the root `favicon.png` and banners, except the 7 course folders that still reference their own `favicon.png`.
 - Tech logos live in [assets/icons/tech/](assets/icons/tech/) as Iconify-style SVGs (`width="1em" height="1em"`, brand colours baked in).
 - Icons in markup use Lucide (`<i data-lucide="name">`). The home page pins `lucide@0.468.0`; older sub-pages use `lucide@latest`.
 
@@ -43,6 +43,23 @@ The matrix rows come from [enterprise_architecture_matrix.md](enterprise_archite
 
 - Code-level API names were written from documentation knowledge, not executed. Newest APIs worth re-checking: Strands interrupts, Google ADK `require_confirmation`, Foundry tool approvals and `agent_framework` workflows, CrewAI `crewai.events`.
 - Claude examples use model id `claude-opus-5-5`.
+
+## SQL Foundations course (`foundational/sql/`)
+
+- Added 2026-11-06 as a trial of two modules (`ddl.html`, `dml.html`) plus a home page, built to match the Python course. Source: `postgresql-ddl.md` and `postgresql-dml.md` in github.com/tinitiateprime/postgresql.
+- **Styles are shared, the script is not.** Pages load `../python/python-course.css` and add [sql-course.css](foundational/sql/sql-course.css), so a change to the Python CSS also changes SQL. [sql-course.js](foundational/sql/sql-course.js) is separate from `python-course.js` and holds the engine and all slides.
+- **Engine: PGlite** (real PostgreSQL 18 on WebAssembly) in a Web Worker, pinned to `@electric-sql/pglite@0.5.10` on jsDelivr. Findings that shaped the code:
+  - It must be a classic blob worker with dynamic `import()`. A module worker is refused on `file://`.
+  - Do not pass PGlite's `database` option: it fails to initialise. The course uses the built-in `postgres` database, so `tinitiate` cannot be connected to.
+  - `db.exec` runs a multi-statement script as one transaction, so `splitSql()` splits it and runs statements one at a time, continuing after errors as psql does.
+  - Parsers are replaced with identity functions so values stay as PostgreSQL prints them (`5000.00`, not `5000`).
+- **Slides have no stored output.** Each slide runs on arrival. Each Run resets the database (drops user schemas, roles, databases), applies the slide's hidden `setup`, then snapshots before and after to drive the "Your database" diff panel. New slides need `setup` to contain everything they depend on.
+- **The source docs do not run as written, so the slides correct them.** Keep these corrections if more modules are added from that repo:
+  - One schema `emp` and the DDL column names (`deptno`, `empno`) throughout. The docs mix `employees.`/`emp.`, `deptno`/`deptid`, `empno`/`empid`, and use `ProjectBudget`, `EmpProjects`, `EndDate`, `ProjectID`, none of which the DDL creates.
+  - `USE DATABASE` is not PostgreSQL. A slide shows it failing and explains connecting instead.
+  - The DML doc's violation examples need constraints the DDL never creates, so a slide adds the primary and foreign keys first.
+  - The doc's FK example has 4 values for a 7-column table and would not fail, so it now names its columns.
+  - "Change back" for the budget type restores `NUMERIC(7,2)`, not `NUMERIC(12,2)`. Added: UPDATE without WHERE, and a DELETE blocked by a foreign key.
 
 ## Home page hero (showcase slideshow)
 

@@ -3,13 +3,44 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Claude SDK roadmap 2026: state, edges, function calling, RAG, MCP, orchestration, HITL, guardrails, testing, auditing, MLOps and an enterprise architecture matrix.">
+  <meta name="description" content="Claude SDK roadmap 2026 in two tracks, Entrepreneur and Enterprise Claude AI Engineer: state, edges, function calling, RAG, MCP, orchestration, HITL, guardrails, testing, auditing, MLOps and an enterprise architecture matrix.">
   <title>Claude SDK Roadmap (2026) | Tinitiate MasterClass Academy</title>
   <link rel="icon" type="image/png" href="../../favicon.png">
   <link rel="stylesheet" href="../../assets/css/master-global-layout.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap">
   <link rel="stylesheet" href="../shared/harness.css">
   <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    .hx-tracks { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin-bottom: 24px; }
+    .hx-track {
+      display: flex; gap: 14px; align-items: flex-start; text-align: left; cursor: pointer; font: inherit;
+      padding: 16px 18px; border-radius: 12px; background: #fff; color: #111827;
+      border: 2px solid var(--hx-divider); box-shadow: var(--hx-elev-1);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+    .hx-track:hover { border-color: color-mix(in srgb, var(--track) 50%, #fff); box-shadow: var(--hx-elev-2); }
+    .hx-track:focus-visible { outline: 3px solid color-mix(in srgb, var(--track) 45%, #fff); outline-offset: 2px; }
+    .hx-track[aria-selected="true"] { border-color: var(--track); background: color-mix(in srgb, var(--track) 7%, #fff); box-shadow: var(--hx-elev-2); }
+    .hx-track-icon { flex: none; width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; color: #fff; background: var(--track); }
+    .hx-track-icon svg { width: 22px; height: 22px; }
+    .hx-track-text { display: grid; gap: 3px; min-width: 0; }
+    .hx-track-kicker { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--track); }
+    .hx-track-text strong { font-size: 1.08rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0.01em; }
+    .hx-track-text span:last-child { font-size: 0.86rem; line-height: 1.45; color: var(--hx-text-2); }
+    .hx-poster-body[hidden], .hx-workflows[hidden] { display: none; }
+    .hx-workflows { margin-bottom: 32px; }
+    .hx-table-workflows { min-width: 1080px; }
+    .hx-table-workflows td { width: 20%; }
+    .hx-table-workflows td:nth-of-type(1) { width: 16%; }
+    .hx-table-workflows .hx-cell p { font-size: 0.82rem; }
+    .hx-table-workflows code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.76rem; background: var(--hx-chip); padding: 1px 5px; border-radius: 4px; }
+    .hx-ctx { list-style: none; padding: 0; margin: 0; display: grid; gap: 4px; }
+    .hx-ctx li { position: relative; padding-left: 13px; font-size: 0.8rem; line-height: 1.45; color: #374151; }
+    .hx-ctx li::before { content: ""; position: absolute; left: 0; top: 0.55em; width: 6px; height: 6px; border-radius: 50%; background: var(--node); }
+    .hx-th-icon { display: inline-grid; place-items: center; width: 22px; height: 22px; margin-right: 6px; vertical-align: middle; color: var(--hx-accent); }
+    .hx-th-icon svg { width: 16px; height: 16px; }
+    @media (max-width: 680px) { .hx-tracks { grid-template-columns: 1fr; } }
+  </style>
 </head>
 <body class="theme-dark hx-body">
 
@@ -42,7 +73,7 @@
                 <h4 class="mega-menu-title">Explore Engineering Curricula by Domain</h4>
               </div>
               <div class="mega-menu-stats-pill">
-                <span>6 Domains</span> • <span>34 Tracks + 15 Placement Guides</span>
+                <span>6 Domains</span> • <span>35 Tracks + 15 Placement Guides</span>
               </div>
             </div>
 
@@ -54,7 +85,7 @@
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="8" height="8" x="3" y="3" rx="2"/><path d="M7 11v4a2 2 0 0 0 2 2h4"/><rect width="8" height="8" x="13" y="13" rx="2"/></svg>
               <span>Foundational</span>
             </span>
-            <span class="mega-cat-count">8 Tracks</span>
+            <span class="mega-cat-count">9 Tracks</span>
           </div>
           <div class="mega-category-list">
           <a href="../../foundational/index.html" class="mega-category-item" title="Foundational Master Class: Computer Science &amp; Software Engineering Fundamentals">
@@ -69,6 +100,13 @@
             <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" x2="20" y1="19" y2="19"/></svg></span>
             <span class="mega-item-text">
               <span class="mega-item-name">Python</span>
+            </span>
+          </a>
+          <a href="../../foundational/sql/index.html" class="mega-category-item" title="SQL: PostgreSQL DDL &amp; DML, on a real database in your browser">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">SQL</span>
             </span>
           </a>
           <a href="../../foundational/data-structures/index.html" class="mega-category-item" title="Data Structures: Trees, Graphs, HashTables & Heaps">
@@ -464,15 +502,177 @@
         <div>
           <div class="hx-overline">Tinitiate AI IT Training &bull; 2026 Edition</div>
           <h1 class="hx-poster-title" id="roadmap-title">CLAUDE SDK ROADMAP (2026)</h1>
-          <span class="hx-pill">Step-by-step guide to production agents with Claude SDK</span>
-          <p class="hx-lede">Build on Claude at the level of control you need: the Messages API and Tool Runner for agents with your own tools, the Claude Agent SDK for the Claude Code harness with built-in file, shell and web tools, and Managed Agents when Anthropic should host the loop and sandbox.</p>
+          <span class="hx-pill">Two tracks: Entrepreneur &amp; Enterprise Claude AI Engineer</span>
+          <p class="hx-lede">Build on Claude at the level of control you need: the Messages API and Tool Runner for agents with your own tools, the Claude Agent SDK for the Claude Code harness with built-in file, shell and web tools, and Managed Agents when Anthropic should host the loop and sandbox. Pick the <b>Entrepreneur</b> track to ship a product fast, or the <b>Enterprise Claude AI Engineer</b> track to run governed agents at scale.</p>
         </div>
         <div class="hx-head-art" aria-hidden="true">
           <div class="hx-head-logo"><img src="../../assets/icons/tech/claude.svg" alt="" width="56" height="56" loading="lazy"></div>
           <div class="hx-head-tiles"><span><img src="../../assets/icons/tech/anthropic.svg" alt="" width="24" height="24" loading="lazy"></span><span><img src="../../assets/icons/tech/python.svg" alt="" width="24" height="24" loading="lazy"></span><span><img src="../../assets/icons/tech/mcp.svg" alt="" width="24" height="24" loading="lazy"></span><span><img src="../../assets/icons/tech/markdown.svg" alt="" width="24" height="24" loading="lazy"></span><span><img src="../../assets/icons/tech/pydantic.svg" alt="" width="24" height="24" loading="lazy"></span><span><img src="../../assets/icons/tech/opentelemetry.svg" alt="" width="24" height="24" loading="lazy"></span></div>
         </div>
       </header>
-      <div class="hx-poster-body">
+      <div class="hx-tracks" role="tablist" aria-label="Choose a learning track">
+        <button type="button" class="hx-track" role="tab" id="tab-entrepreneur" data-track="entrepreneur" aria-controls="track-entrepreneur" aria-selected="false" tabindex="-1" style="--track:#ea580c;">
+          <span class="hx-track-icon"><i data-lucide="rocket"></i></span>
+          <span class="hx-track-text"><span class="hx-track-kicker">Track A &bull; 12 steps + 9 workflows</span><strong>Entrepreneur</strong><span>Build your AI product and run your business with Claude: marketing, CRM, follow-ups, appointments, GST and more.</span></span>
+        </button>
+        <button type="button" class="hx-track" role="tab" id="tab-enterprise" data-track="enterprise" aria-controls="track-enterprise" aria-selected="true" tabindex="0" style="--track:#2563eb;">
+          <span class="hx-track-icon"><i data-lucide="building-2"></i></span>
+          <span class="hx-track-text"><span class="hx-track-kicker">Track B &bull; 20 steps</span><strong>Enterprise Claude AI Engineer</strong><span>Build governed, observable production agents on the Claude platform at company scale.</span></span>
+        </button>
+      </div>
+
+      <div class="hx-poster-body" id="track-entrepreneur" role="tabpanel" aria-labelledby="tab-entrepreneur" data-track-panel="entrepreneur" hidden>
+        <div class="hx-spine">
+          <article class="hx-step" id="ent-problem" style="--node:#0891b2;">
+            <div class="hx-step-nodes"><span class="hx-step-num">01</span><span class="hx-step-icon"><i data-lucide="lightbulb"></i></span></div>
+            <div class="hx-step-card">
+              <div class="hx-step-main">
+                <h3 class="hx-step-title">Pick One Problem &amp; Try Claude</h3>
+                <ul class="hx-bullets"><li>Choose one task that eats your time every day, for example replying to WhatsApp enquiries, making quotations or writing Instagram posts</li><li>Try your instructions (the prompt) in the Claude Console Workbench first; once it works, call the same thing from Python in a few lines</li><li><b>Which model?</b> Start with claude-opus-5-5 for the best answers. Switch to Sonnet or Haiku later to save money, but only after testing that quality is still good</li></ul>
+                <ul class="hx-chips" aria-label="What you will use"><li>Console Workbench</li><li>pip install anthropic</li><li>claude-opus-5-5</li><li>claude-sonnet-5-5</li><li>claude-haiku-5-5</li></ul>
+              </div>
+              <div class="hx-learn"><span class="hx-learn-tag">LEARN</span><div class="hx-learn-icons"><div class="hx-learn-item"><span><img src="../../assets/icons/tech/claude.svg" alt="" width="24" height="24" loading="lazy"></span><span>Claude</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/anthropic.svg" alt="" width="24" height="24" loading="lazy"></span><span>Anthropic</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/python.svg" alt="" width="24" height="24" loading="lazy"></span><span>Python</span></div></div></div>
+            </div>
+          </article>
+          <article class="hx-step" id="ent-claude-code" style="--node:#059669;">
+            <div class="hx-step-nodes"><span class="hx-step-num">02</span><span class="hx-step-icon"><i data-lucide="terminal"></i></span></div>
+            <div class="hx-step-card">
+              <div class="hx-step-main">
+                <h3 class="hx-step-title">Claude Code: Your Coding Partner</h3>
+                <ul class="hx-bullets"><li>Claude Code writes, fixes and explains code with you in the terminal or VS Code, so one person can build what used to need a team</li><li>Write your business rules and tech choices once in a CLAUDE.md file so Claude remembers them every time</li><li>Make small changes, read every change before you accept it, and keep your code in Git</li></ul>
+                <ul class="hx-chips" aria-label="What you will use"><li>Claude Code</li><li>CLAUDE.md</li><li>skills</li><li>Git</li></ul>
+              </div>
+              <div class="hx-learn"><span class="hx-learn-tag">LEARN</span><div class="hx-learn-icons"><div class="hx-learn-item"><span><img src="../../assets/icons/tech/claude.svg" alt="" width="24" height="24" loading="lazy"></span><span>Claude</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/vscode.svg" alt="" width="24" height="24" loading="lazy"></span><span>VS Code</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/git.svg" alt="" width="24" height="24" loading="lazy"></span><span>Git</span></div></div></div>
+            </div>
+          </article>
+          <article class="hx-step" id="ent-structured" style="--node:#2563eb;">
+            <div class="hx-step-nodes"><span class="hx-step-num">03</span><span class="hx-step-icon"><i data-lucide="braces"></i></span></div>
+            <div class="hx-step-card">
+              <div class="hx-step-main">
+                <h3 class="hx-step-title">Get Clean, Ready-to-Use Answers</h3>
+                <ul class="hx-bullets"><li>Ask Claude to reply in a fixed format, like filling a form: name, phone, city, product, order value in &#8377;</li><li>Your app, database or Google Sheet can then use the answer directly, with no copy-paste</li><li>messages.parse checks every answer against the format you define with Pydantic</li></ul>
+                <ul class="hx-chips" aria-label="What you will use"><li>client.messages.parse</li><li>output_config.format</li><li>Pydantic</li><li>strict: true</li></ul>
+              </div>
+              <div class="hx-learn"><span class="hx-learn-tag">LEARN</span><div class="hx-learn-icons"><div class="hx-learn-item"><span><img src="../../assets/icons/tech/pydantic.svg" alt="" width="24" height="24" loading="lazy"></span><span>Pydantic</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/python.svg" alt="" width="24" height="24" loading="lazy"></span><span>Python</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/claude.svg" alt="" width="24" height="24" loading="lazy"></span><span>Claude</span></div></div></div>
+            </div>
+          </article>
+          <article class="hx-step" id="ent-ux" style="--node:#7c3aed;">
+            <div class="hx-step-nodes"><span class="hx-step-num">04</span><span class="hx-step-icon"><i data-lucide="messages-square"></i></span></div>
+            <div class="hx-step-card">
+              <div class="hx-step-main">
+                <h3 class="hx-step-title">Chat That Feels Fast</h3>
+                <ul class="hx-bullets"><li>Show the reply word by word as Claude writes it (streaming), so customers are not left staring at a loading screen</li><li>Reply in English, Hindi, Hinglish or your customer&#x27;s own language; tell Claude which one in your instructions</li><li>Keep your API key on your server, never inside the website or mobile app</li></ul>
+                <ul class="hx-chips" aria-label="What you will use"><li>messages.stream</li><li>FastAPI</li><li>multilingual replies</li><li>stop_reason</li></ul>
+              </div>
+              <div class="hx-learn"><span class="hx-learn-tag">LEARN</span><div class="hx-learn-icons"><div class="hx-learn-item"><span><img src="../../assets/icons/tech/fastapi.svg" alt="" width="24" height="24" loading="lazy"></span><span>FastAPI</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/react.svg" alt="" width="24" height="24" loading="lazy"></span><span>React</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/streamlit.svg" alt="" width="24" height="24" loading="lazy"></span><span>Streamlit</span></div></div></div>
+            </div>
+          </article>
+          <article class="hx-step" id="ent-tools" style="--node:#db2777;">
+            <div class="hx-step-nodes"><span class="hx-step-num">05</span><span class="hx-step-icon"><i data-lucide="wrench"></i></span></div>
+            <div class="hx-step-card">
+              <div class="hx-step-main">
+                <h3 class="hx-step-title">Let Claude Take Actions</h3>
+                <ul class="hx-bullets"><li>Give Claude &#x27;tools&#x27;: small functions it can call, such as check stock, create a quotation, book a slot or look up an order</li><li>Built-in tools for web search, reading web pages and running code are ready to use, with nothing for you to host</li></ul>
+                <ul class="hx-chips" aria-label="What you will use"><li>@beta_tool</li><li>tool_runner</li><li>web_search</li><li>web_fetch</li><li>code_execution</li></ul>
+              </div>
+              <div class="hx-learn"><span class="hx-learn-tag">LEARN</span><div class="hx-learn-icons"><div class="hx-learn-item"><span><img src="../../assets/icons/tech/claude.svg" alt="" width="24" height="24" loading="lazy"></span><span>Claude</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/python.svg" alt="" width="24" height="24" loading="lazy"></span><span>Python</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/anthropic.svg" alt="" width="24" height="24" loading="lazy"></span><span>Anthropic</span></div></div></div>
+            </div>
+          </article>
+          <article class="hx-step" id="ent-data" style="--node:#ea580c;">
+            <div class="hx-step-nodes"><span class="hx-step-num">06</span><span class="hx-step-icon"><i data-lucide="library"></i></span></div>
+            <div class="hx-step-card">
+              <div class="hx-step-main">
+                <h3 class="hx-step-title">Answer From Your Own Documents</h3>
+                <ul class="hx-bullets"><li>Upload your price list, product catalogue, FAQs and policy PDFs so Claude answers from your facts, not guesses</li><li>Turn on citations so every answer shows which document and line it came from</li><li>Start with free Postgres (Supabase or Neon) and add vector search only when you have lots of documents</li></ul>
+                <ul class="hx-chips" aria-label="What you will use"><li>Files API</li><li>citations</li><li>pgvector</li><li>prompt caching</li></ul>
+              </div>
+              <div class="hx-learn"><span class="hx-learn-tag">LEARN</span><div class="hx-learn-icons"><div class="hx-learn-item"><span><img src="../../assets/icons/tech/postgresql.svg" alt="" width="24" height="24" loading="lazy"></span><span>Postgres</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/pinecone.svg" alt="" width="24" height="24" loading="lazy"></span><span>Pinecone</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/claude.svg" alt="" width="24" height="24" loading="lazy"></span><span>Claude</span></div></div></div>
+            </div>
+          </article>
+          <article class="hx-step" id="ent-mcp" style="--node:#c026d3;">
+            <div class="hx-step-nodes"><span class="hx-step-num">07</span><span class="hx-step-icon"><i data-lucide="plug"></i></span></div>
+            <div class="hx-step-card">
+              <div class="hx-step-main">
+                <h3 class="hx-step-title">Connect the Apps You Already Use</h3>
+                <ul class="hx-bullets"><li>MCP is a standard plug that connects Claude to your apps (Google Workspace, CRMs, payment or shipping tools) without custom integration code</li><li>Later, publish your own product as an MCP server so other businesses can plug it into Claude</li></ul>
+                <ul class="hx-chips" aria-label="What you will use"><li>MCP connector</li><li>mcp_servers</li><li>mcp_toolset</li></ul>
+              </div>
+              <div class="hx-learn"><span class="hx-learn-tag">LEARN</span><div class="hx-learn-icons"><div class="hx-learn-item"><span><img src="../../assets/icons/tech/mcp.svg" alt="" width="24" height="24" loading="lazy"></span><span>MCP</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/claude.svg" alt="" width="24" height="24" loading="lazy"></span><span>Claude</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/nodejs.svg" alt="" width="24" height="24" loading="lazy"></span><span>Node.js</span></div></div></div>
+            </div>
+          </article>
+          <article class="hx-step" id="ent-managed" style="--node:#0d9488;">
+            <div class="hx-step-nodes"><span class="hx-step-num">08</span><span class="hx-step-icon"><i data-lucide="cloud"></i></span></div>
+            <div class="hx-step-card">
+              <div class="hx-step-main">
+                <h3 class="hx-step-title">Run AI Agents Without Managing Servers</h3>
+                <ul class="hx-bullets"><li>With Managed Agents, Anthropic runs the agent and its workspace for you; you only describe what the agent should do</li><li>Schedule jobs to run on their own: a 9 AM daily follow-up run, a weekly sales summary, a month-end GST report</li><li>Keep passwords and API keys in a vault, never inside your prompts</li></ul>
+                <ul class="hx-chips" aria-label="What you will use"><li>Managed Agents</li><li>scheduled deployments</li><li>vaults</li><li>ant apply</li></ul>
+              </div>
+              <div class="hx-learn"><span class="hx-learn-tag">LEARN</span><div class="hx-learn-icons"><div class="hx-learn-item"><span><img src="../../assets/icons/tech/claude.svg" alt="" width="24" height="24" loading="lazy"></span><span>Claude</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/yaml.svg" alt="" width="24" height="24" loading="lazy"></span><span>YAML</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/anthropic.svg" alt="" width="24" height="24" loading="lazy"></span><span>Anthropic</span></div></div></div>
+            </div>
+          </article>
+          <article class="hx-step" id="ent-ops" style="--node:#0369a1;">
+            <div class="hx-step-nodes"><span class="hx-step-num">09</span><span class="hx-step-icon"><i data-lucide="workflow"></i></span></div>
+            <div class="hx-step-card">
+              <div class="hx-step-main">
+                <h3 class="hx-step-title">Automate Your Business: 9 Workflows</h3>
+                <ul class="hx-bullets"><li>Use Claude across your business: workflows, marketing, outreach, CRM, follow-ups, calendar &amp; appointments, partnerships, inventory &amp; shipping, and finance &amp; GST</li><li><b>No-code way:</b> keep data in Google Sheets or Excel; Claude fills in the columns and a small script sends the results out</li><li><b>Developer way:</b> use free databases (Supabase, Neon, SQLite, DuckDB, Turso) that Claude reads and updates through tools</li><li>See the table below for what to tell Claude in each workflow</li></ul>
+                <ul class="hx-chips" aria-label="What you will use"><li>Google Sheets</li><li>Apps Script</li><li>WhatsApp Business</li><li>Supabase</li><li>SQLite</li><li>Turso</li></ul>
+              </div>
+              <div class="hx-learn"><span class="hx-learn-tag">LEARN</span><div class="hx-learn-icons"><div class="hx-learn-item"><span><img src="../../assets/icons/tech/postgresql.svg" alt="" width="24" height="24" loading="lazy"></span><span>Postgres</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/duckdb.svg" alt="" width="24" height="24" loading="lazy"></span><span>DuckDB</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/claude.svg" alt="" width="24" height="24" loading="lazy"></span><span>Claude</span></div></div></div>
+            </div>
+          </article>
+          <article class="hx-step" id="ent-economics" style="--node:#ca8a04;">
+            <div class="hx-step-nodes"><span class="hx-step-num">10</span><span class="hx-step-icon"><i data-lucide="indian-rupee"></i></span></div>
+            <div class="hx-step-card">
+              <div class="hx-step-main">
+                <h3 class="hx-step-title">Keep Your AI Costs Low</h3>
+                <ul class="hx-bullets"><li>Know how much each task costs you in &#8377; before you decide your selling price; Claude reports token usage on every call</li><li>Save money with prompt caching (reuse the same long instructions), batch jobs for non-urgent work (half price) and a lower effort setting for simple tasks</li><li>Use Haiku for big, simple jobs and keep Opus for the work customers judge you on</li></ul>
+                <ul class="hx-chips" aria-label="What you will use"><li>usage</li><li>prompt caching</li><li>Message Batches</li><li>effort</li><li>model routing</li></ul>
+              </div>
+              <div class="hx-learn"><span class="hx-learn-tag">LEARN</span><div class="hx-learn-icons"><div class="hx-learn-item"><span><img src="../../assets/icons/tech/anthropic.svg" alt="" width="24" height="24" loading="lazy"></span><span>Anthropic</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/python.svg" alt="" width="24" height="24" loading="lazy"></span><span>Python</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/postgresql.svg" alt="" width="24" height="24" loading="lazy"></span><span>Postgres</span></div></div></div>
+            </div>
+          </article>
+          <article class="hx-step" id="ent-quality" style="--node:#65a30d;">
+            <div class="hx-step-nodes"><span class="hx-step-num">11</span><span class="hx-step-icon"><i data-lucide="badge-check"></i></span></div>
+            <div class="hx-step-card">
+              <div class="hx-step-main">
+                <h3 class="hx-step-title">Build Customer Trust</h3>
+                <ul class="hx-bullets"><li>Keep 30 to 50 real customer questions with good answers, and re-check them every time you change a prompt or model</li><li>Make sure a person approves anything that sends money, messages or documents to customers</li><li>Follow India&#x27;s DPDP Act: collect only the customer data you need, take consent before WhatsApp or email marketing, and delete data when asked</li><li>If Claude declines a request, show a polite fallback message instead of an error</li></ul>
+                <ul class="hx-chips" aria-label="What you will use"><li>test set</li><li>human approval</li><li>DPDP Act</li><li>refusal handling</li></ul>
+              </div>
+              <div class="hx-learn"><span class="hx-learn-tag">LEARN</span><div class="hx-learn-icons"><div class="hx-learn-item"><span><img src="../../assets/icons/tech/pytest.svg" alt="" width="24" height="24" loading="lazy"></span><span>pytest</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/claude.svg" alt="" width="24" height="24" loading="lazy"></span><span>Claude</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/python.svg" alt="" width="24" height="24" loading="lazy"></span><span>Python</span></div></div></div>
+            </div>
+          </article>
+          <article class="hx-step" id="ent-launch" style="--node:#6366f1;">
+            <div class="hx-step-nodes"><span class="hx-step-num">12</span><span class="hx-step-icon"><i data-lucide="rocket"></i></span></div>
+            <div class="hx-step-card">
+              <div class="hx-step-main">
+                <h3 class="hx-step-title">Launch &amp; Grow</h3>
+                <ul class="hx-bullets"><li>Put your app online as a Docker container on Cloud Run or a low-cost VPS; the SDK retries busy or failed calls for you</li><li>Fix the model version in your code and upgrade only after your test set passes</li><li>When bigger companies become customers, move to the Enterprise track for SSO, audit logs and data residency</li></ul>
+                <ul class="hx-chips" aria-label="What you will use"><li>Docker</li><li>retries</li><li>pinned model ids</li><li>GitHub Actions</li></ul>
+              </div>
+              <div class="hx-learn"><span class="hx-learn-tag">LEARN</span><div class="hx-learn-icons"><div class="hx-learn-item"><span><img src="../../assets/icons/tech/docker.svg" alt="" width="24" height="24" loading="lazy"></span><span>Docker</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/google-cloud-run.svg" alt="" width="24" height="24" loading="lazy"></span><span>Cloud Run</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/github-actions.svg" alt="" width="24" height="24" loading="lazy"></span><span>GitHub Actions</span></div></div></div>
+            </div>
+          </article>
+        </div>
+        <aside class="hx-side">
+          <section class="hx-card">
+            <h3 class="hx-card-head" style="--head:#1e293b;"><i data-lucide="wrench"></i>Essential Tools</h3>
+            <div class="hx-card-body"><div class="hx-tool"><img src="../../assets/icons/tech/claude.svg" alt="" width="22" height="22" loading="lazy"><span>Claude</span></div><div class="hx-tool"><img src="../../assets/icons/tech/anthropic.svg" alt="" width="22" height="22" loading="lazy"><span>Anthropic</span></div><div class="hx-tool"><img src="../../assets/icons/tech/python.svg" alt="" width="22" height="22" loading="lazy"><span>Python</span></div><div class="hx-tool"><img src="../../assets/icons/tech/fastapi.svg" alt="" width="22" height="22" loading="lazy"><span>FastAPI</span></div><div class="hx-tool"><img src="../../assets/icons/tech/postgresql.svg" alt="" width="22" height="22" loading="lazy"><span>Postgres</span></div><div class="hx-tool"><img src="../../assets/icons/tech/mcp.svg" alt="" width="22" height="22" loading="lazy"><span>MCP</span></div><div class="hx-tool"><img src="../../assets/icons/tech/docker.svg" alt="" width="22" height="22" loading="lazy"><span>Docker</span></div><div class="hx-tool"><i data-lucide="sheet" style="width:22px;height:22px;color:#16a34a;"></i><span>Google Sheets / Excel</span></div></div>
+          </section>
+          <section class="hx-card">
+            <h3 class="hx-card-head" style="--head:#9a3412;"><i data-lucide="award"></i>What You Will Be Able To Do</h3>
+            <div class="hx-card-body"><div class="hx-skill"><span><i data-lucide="lightbulb"></i></span><div><strong>Turn an idea into a working demo</strong><p>Write good prompts and make your first Claude API call</p></div></div><div class="hx-skill"><span><i data-lucide="terminal"></i></span><div><strong>Build faster with AI</strong><p>Use Claude Code to write and fix code as a team of one</p></div></div><div class="hx-skill"><span><i data-lucide="square-function"></i></span><div><strong>Add smart features</strong><p>Clean answers, fast chat, actions, your own documents, app connections</p></div></div><div class="hx-skill"><span><i data-lucide="workflow"></i></span><div><strong>Automate your business</strong><p>Marketing, outreach, CRM, follow-ups, appointments, partners, stock and GST</p></div></div><div class="hx-skill"><span><i data-lucide="indian-rupee"></i></span><div><strong>Protect your margins</strong><p>Caching, batch jobs and the right model for each task</p></div></div><div class="hx-skill"><span><i data-lucide="rocket"></i></span><div><strong>Launch with confidence</strong><p>Testing, human approval, DPDP-friendly data handling</p></div></div></div>
+          </section>
+          <section class="hx-card">
+            <h3 class="hx-card-head" style="--head:#0f766e;"><i data-lucide="info"></i>At a Glance</h3>
+            <div class="hx-card-body"><dl class="hx-facts"><div class="hx-fact"><dt>Who it&#x27;s for</dt><dd>Founders, small business owners, freelancers, D2C brands and service businesses</dd></div><div class="hx-fact"><dt>Goal</dt><dd>Launch a paid AI product and run daily operations on autopilot</dd></div><div class="hx-fact"><dt>Start with</dt><dd>Google Sheets / Excel; no coding needed for the first workflows</dd></div><div class="hx-fact"><dt>Grow into</dt><dd>Python + FastAPI with free Supabase, Neon, SQLite or Turso</dd></div><div class="hx-fact"><dt>Ships to</dt><dd>Managed Agents, Cloud Run or a low-cost VPS</dd></div></dl></div>
+          </section>
+        </aside>
+      </div>
+
+      <div class="hx-poster-body" id="track-enterprise" role="tabpanel" aria-labelledby="tab-enterprise" data-track-panel="enterprise">
         <div class="hx-spine">
           <article class="hx-step" id="step-setup" style="--node:#0891b2;">
             <div class="hx-step-nodes"><span class="hx-step-num">01</span><span class="hx-step-icon"><i data-lucide="plug-zap"></i></span></div>
@@ -683,6 +883,17 @@
               <div class="hx-learn"><span class="hx-learn-tag">LEARN</span><div class="hx-learn-icons"><div class="hx-learn-item"><span><img src="../../assets/icons/tech/anthropic.svg" alt="" width="24" height="24" loading="lazy"></span><span>Anthropic</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/claude.svg" alt="" width="24" height="24" loading="lazy"></span><span>Claude</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/python.svg" alt="" width="24" height="24" loading="lazy"></span><span>Python</span></div></div></div>
             </div>
           </article>
+          <article class="hx-step" id="step-governance" style="--node:#0f766e;">
+            <div class="hx-step-nodes"><span class="hx-step-num">20</span><span class="hx-step-icon"><i data-lucide="building-2"></i></span></div>
+            <div class="hx-step-card">
+              <div class="hx-step-main">
+                <h3 class="hx-step-title">Enterprise Platform &amp; Governance</h3>
+                <ul class="hx-bullets"><li>Organise teams into workspaces with RBAC groups, service accounts and spend limits through the Admin API</li><li>Replace long-lived keys with Workload Identity Federation; pin data location with inference_geo and use zero data retention where eligible</li><li>Buy through the cloud you already use: Claude on Amazon Bedrock, Google Cloud Vertex AI or Microsoft Foundry</li></ul>
+                <ul class="hx-chips" aria-label="Key APIs"><li>Admin API</li><li>workspaces</li><li>service accounts</li><li>spend limits</li><li>Workload Identity Federation</li><li>inference_geo</li></ul>
+              </div>
+              <div class="hx-learn"><span class="hx-learn-tag">LEARN</span><div class="hx-learn-icons"><div class="hx-learn-item"><span><img src="../../assets/icons/tech/aws-iam.svg" alt="" width="24" height="24" loading="lazy"></span><span>AWS IAM</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/azure-entra.svg" alt="" width="24" height="24" loading="lazy"></span><span>Entra ID</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/terraform.svg" alt="" width="24" height="24" loading="lazy"></span><span>Terraform</span></div></div></div>
+            </div>
+          </article>
         </div>
         <aside class="hx-side">
           <section class="hx-card">
@@ -691,20 +902,47 @@
           </section>
           <section class="hx-card">
             <h3 class="hx-card-head" style="--head:#312e81;"><i data-lucide="award"></i>Skills You Will Gain</h3>
-            <div class="hx-card-body"><div class="hx-skill"><span><i data-lucide="database"></i></span><div><strong>State &amp; Memory</strong><p>Client-owned message history; Compaction + memory tool</p></div></div><div class="hx-skill"><span><i data-lucide="git-branch"></i></span><div><strong>Control Flow</strong><p>Your code + structured outputs; stream, stop_reason, interrupt()</p></div></div><div class="hx-skill"><span><i data-lucide="square-function"></i></span><div><strong>Tools, RAG &amp; MCP</strong><p>@beta_tool + Tool Runner; Document blocks + citations; MCP connector + SDK servers</p></div></div><div class="hx-skill"><span><i data-lucide="shield-check"></i></span><div><strong>Safety &amp; Oversight</strong><p>Hooks + tool allow/deny lists; can_use_tool, permission modes</p></div></div><div class="hx-skill"><span><i data-lucide="rocket"></i></span><div><strong>Production Operations</strong><p>Evals + Batches API; Usage logs, hooks, OpenTelemetry; Pinned models, Managed Agents versions</p></div></div></div>
+            <div class="hx-card-body"><div class="hx-skill"><span><i data-lucide="database"></i></span><div><strong>State &amp; Memory</strong><p>Client-owned message history; Compaction + memory tool</p></div></div><div class="hx-skill"><span><i data-lucide="git-branch"></i></span><div><strong>Control Flow</strong><p>Your code + structured outputs; stream, stop_reason, interrupt()</p></div></div><div class="hx-skill"><span><i data-lucide="square-function"></i></span><div><strong>Tools, RAG &amp; MCP</strong><p>@beta_tool + Tool Runner; Document blocks + citations; MCP connector + SDK servers</p></div></div><div class="hx-skill"><span><i data-lucide="shield-check"></i></span><div><strong>Safety &amp; Oversight</strong><p>Hooks + tool allow/deny lists; can_use_tool, permission modes</p></div></div><div class="hx-skill"><span><i data-lucide="rocket"></i></span><div><strong>Production Operations</strong><p>Evals + Batches API; Usage logs, hooks, OpenTelemetry; Pinned models, Managed Agents versions</p></div></div><div class="hx-skill"><span><i data-lucide="building-2"></i></span><div><strong>Governance</strong><p>Admin API, workspaces, spend limits, identity federation, data residency</p></div></div></div>
           </section>
           <section class="hx-card">
             <h3 class="hx-card-head" style="--head:#0f766e;"><i data-lucide="info"></i>At a Glance</h3>
-            <div class="hx-card-body"><dl class="hx-facts"><div class="hx-fact"><dt>Control model</dt><dd>Your code, or the model&#x27;s tool loop</dd></div><div class="hx-fact"><dt>State lives in</dt><dd>Messages you own; SDK sessions</dd></div><div class="hx-fact"><dt>Language</dt><dd>Python, TypeScript, Java, Go, C#, Ruby, PHP</dd></div><div class="hx-fact"><dt>Ships to</dt><dd>Your infra, Managed Agents, Bedrock, Vertex, Foundry</dd></div></dl></div>
+            <div class="hx-card-body"><dl class="hx-facts"><div class="hx-fact"><dt>Who it&#x27;s for</dt><dd>Platform, AI and solution engineers in large organisations</dd></div><div class="hx-fact"><dt>Control model</dt><dd>Your code, or the model&#x27;s tool loop</dd></div><div class="hx-fact"><dt>State lives in</dt><dd>Messages you own; SDK sessions</dd></div><div class="hx-fact"><dt>Language</dt><dd>Python, TypeScript, Java, Go, C#, Ruby, PHP</dd></div><div class="hx-fact"><dt>Ships to</dt><dd>Your infra, Managed Agents, Bedrock, Vertex, Foundry</dd></div></dl></div>
           </section>
         </aside>
+      </div>
+    </section>
+
+    <section id="ent-workflows" class="hx-workflows" data-track-extra="entrepreneur" aria-labelledby="workflows-title" hidden>
+      <div class="hx-paper hx-matrix-head">
+        <div>
+          <div class="hx-overline">Entrepreneur Track &bull; Run Your Business With Claude</div>
+          <h2 id="workflows-title">9 workflows to automate your business</h2>
+          <p>For each part of your business: what Claude does for you, what to tell Claude, how to start free with Google Sheets or Excel, and which free database to use when you grow.</p>
+        </div>
+        <span class="hx-legend"><i></i>Start with Sheets. Move to a database as you grow.</span>
+      </div>
+      <div class="hx-table-wrap" tabindex="0" aria-label="Business workflows, scrolls horizontally">
+        <table class="hx-table hx-table-workflows">
+          <thead><tr><th scope="col">Workflow</th><th scope="col">What Claude Does For You</th><th scope="col">What to Tell Claude</th><th scope="col"><span class="hx-th-icon"><i data-lucide="sheet"></i></span>No-Code Way (Sheets / Excel)</th><th scope="col"><span class="hx-th-icon"><i data-lucide="database"></i></span>Developer Way (Free Databases)</th></tr></thead>
+          <tbody>
+            <tr><th scope="row"><div class="hx-row" style="--row:#0f766e;"><span><i data-lucide="workflow"></i></span>Workflows (Daily Autopilot)</div></th><td><div class="hx-cell"><p>Ties the modules below together so routine work runs by itself every morning, and you only check and approve.</p></div></td><td><div class="hx-cell"><ul class="hx-ctx" style="--node:#0f766e;"><li>Your list of daily tasks and the order to run them.</li><li>Who must approve what before it goes out.</li><li>What to do when a step fails: retry, skip or alert you on WhatsApp or email.</li></ul></div></td><td><div class="hx-cell"><strong>Google Sheets + Apps Script</strong><p>A time trigger runs every morning, sends new rows to Claude and writes the results back. Tools like n8n, Make or Zapier work too.</p></div></td><td><div class="hx-cell"><strong>Supabase (free) + scheduled jobs</strong><p>A <code>jobs</code> table tracks each run&#x27;s status; Managed Agents scheduled deployments or a cron job fire the runs.</p></div></td></tr>
+            <tr><th scope="row"><div class="hx-row" style="--row:#db2777;"><span><i data-lucide="megaphone"></i></span>Marketing</div></th><td><div class="hx-cell"><p>Writes Instagram, Facebook, LinkedIn and WhatsApp Status posts, plus festival campaigns for Diwali, Holi, Pongal, Onam, Eid and more.</p></div></td><td><div class="hx-cell"><ul class="hx-ctx" style="--node:#db2777;"><li>Your brand voice and 5 to 10 of your best past posts.</li><li>Character limits and hashtag rules per platform.</li><li>Languages to use (English, Hindi, Hinglish, regional) and your festival calendar.</li></ul></div></td><td><div class="hx-cell"><strong>Google Sheets / Excel</strong><p>One row per post idea; Claude fills the caption and hashtag columns. Tick &#x27;Approved&#x27;, then schedule in Meta Business Suite.</p></div></td><td><div class="hx-cell"><strong>Supabase (free)</strong><p>A <code>posts</code> table with <code>is_approved</code> and <code>is_published</code> flags so nothing goes live without a check.</p></div></td></tr>
+            <tr><th scope="row"><div class="hx-row" style="--row:#ea580c;"><span><i data-lucide="send"></i></span>Outreach</div></th><td><div class="hx-cell"><p>Finds and contacts new customers with personalised emails, LinkedIn messages and WhatsApp messages to people who have opted in.</p></div></td><td><div class="hx-cell"><ul class="hx-ctx" style="--node:#ea580c;"><li>Your ideal customer: city, industry, business size, budget.</li><li>Your offer in two lines and the one action you want (a call, a demo, a visit).</li><li>WhatsApp rules: use approved message templates and only message people who gave consent.</li></ul></div></td><td><div class="hx-cell"><strong>Google Sheets</strong><p>Paste leads from IndiaMART, JustDial, events or your website; Claude writes a personal first message for each row.</p></div></td><td><div class="hx-cell"><strong>SQLite / DuckDB</strong><p>Zero-setup database files on a small VPS; ideal for de-duplicating and filtering thousands of leads.</p></div></td></tr>
+            <tr><th scope="row"><div class="hx-row" style="--row:#2563eb;"><span><i data-lucide="users"></i></span>CRM (Customers &amp; Leads)</div></th><td><div class="hx-cell"><p>Collects enquiries from email, WhatsApp and website forms, scores each lead from 1 to 100 and keeps every customer&#x27;s history in one place.</p></div></td><td><div class="hx-cell"><ul class="hx-ctx" style="--node:#2563eb;"><li>Your lead-scoring rules, such as budget, location and urgency.</li><li>Your sales stages: New, Contacted, Quote Sent, Won, Lost.</li><li>Clear reasons to reject a lead (spam, out of area, too small).</li></ul></div></td><td><div class="hx-cell"><strong>Google Sheets or Zoho CRM free plan</strong><p>Each enquiry becomes a row, matched to the customer by phone number or email.</p></div></td><td><div class="hx-cell"><strong>Postgres (Supabase / Neon free)</strong><p><code>customers</code> and <code>interactions</code> tables, linked so you see every call, chat and order per customer.</p></div></td></tr>
+            <tr><th scope="row"><div class="hx-row" style="--row:#9333ea;"><span><i data-lucide="bell-ring"></i></span>Follow-ups</div></th><td><div class="hx-cell"><p>Makes sure no customer is forgotten: quotation follow-ups, payment reminders and feedback or review requests after delivery.</p></div></td><td><div class="hx-cell"><ul class="hx-ctx" style="--node:#9333ea;"><li>When to follow up, for example Day 1, Day 3 and Day 7.</li><li>A polite, friendly tone; never pushy.</li><li>Stop rules: stop when the customer replies, pays or says no.</li></ul></div></td><td><div class="hx-cell"><strong>Google Sheets</strong><p>A &#x27;Next follow-up date&#x27; column; each morning a script picks today&#x27;s rows and Claude drafts the message for you to send.</p></div></td><td><div class="hx-cell"><strong>SQLite / Supabase</strong><p>A <code>next_followup_at</code> column and a daily job that queues messages for approval.</p></div></td></tr>
+            <tr><th scope="row"><div class="hx-row" style="--row:#0891b2;"><span><i data-lucide="calendar-clock"></i></span>Calendar &amp; Appointments</div></th><td><div class="hx-cell"><p>Books consultations, demos, site visits and clinic or salon slots, handles rescheduling and sends reminders.</p></div></td><td><div class="hx-cell"><ul class="hx-ctx" style="--node:#0891b2;"><li>Working hours, slot length and break or buffer time.</li><li>Holidays and days off; always use Indian time (IST).</li><li>Rules for rescheduling, cancellations and no-shows.</li></ul></div></td><td><div class="hx-cell"><strong>Google Calendar + Sheets</strong><p>Calendar holds the slots and a Sheet logs every booking. Calendly or Zoho Bookings free plans also work.</p></div></td><td><div class="hx-cell"><strong>Postgres + Google Calendar API</strong><p>A <code>bookings</code> table, with Claude checking free slots and booking through a calendar tool.</p></div></td></tr>
+            <tr><th scope="row"><div class="hx-row" style="--row:#7c3aed;"><span><i data-lucide="handshake"></i></span>Partnerships</div></th><td><div class="hx-cell"><p>Tracks distributors, resellers, vendors and collaborators, pulls key dates and next steps from email threads and drafts MoUs or agreements.</p></div></td><td><div class="hx-cell"><ul class="hx-ctx" style="--node:#7c3aed;"><li>Your standard agreement or MoU template and the blanks to fill in.</li><li>Must-have clauses: payment terms, exclusivity, data security.</li><li>Important dates: renewals, payment due dates, notice periods. A lawyer should review every final agreement.</li></ul></div></td><td><div class="hx-cell"><strong>Excel / Google Sheets</strong><p>One deal tracker: partner, stage, deal value in &#8377;, next step and agreement link.</p></div></td><td><div class="hx-cell"><strong>Postgres (Neon / Supabase free)</strong><p><code>partners</code> linked to <code>interactions</code> and <code>agreements</code> tables for a full history.</p></div></td></tr>
+            <tr><th scope="row"><div class="hx-row" style="--row:#ca8a04;"><span><i data-lucide="truck"></i></span>Inventory, Shipping &amp; Service Catalog</div></th><td><div class="hx-cell"><p>Keeps stock counts, warns before items run out, tracks shipments and answers &#x27;Is it available?&#x27;, &#x27;What&#x27;s the price?&#x27; and &#x27;Where is my order?&#x27;</p></div></td><td><div class="hx-cell"><ul class="hx-ctx" style="--node:#ca8a04;"><li>Reorder level for each product (SKU).</li><li>Pricing rules: MRP, discounts, GST-inclusive prices.</li><li>Courier and pincode delivery rules, plus your list of services and what each one depends on.</li></ul></div></td><td><div class="hx-cell"><strong>Excel / Google Sheets</strong><p>Formulas keep live stock counts; Claude reads the sheet to answer customer questions. Shiprocket or courier exports can be pasted in.</p></div></td><td><div class="hx-cell"><strong>Turso (free)</strong><p>Fast SQLite databases that Claude checks through a tool call before it promises stock or a delivery date.</p></div></td></tr>
+            <tr><th scope="row"><div class="hx-row" style="--row:#059669;"><span><i data-lucide="indian-rupee"></i></span>Finance &amp; GST</div></th><td><div class="hx-cell"><p>Reads bills and receipts (photos too), sorts expenses into categories, matches UPI and Razorpay payments, prepares GST summaries and finds savings.</p></div></td><td><div class="hx-cell"><ul class="hx-ctx" style="--node:#059669;"><li>Your expense categories and how you book them.</li><li>Current GST rates and HSN/SAC codes from an official table you keep up to date, not from Claude&#x27;s memory.</li><li>All totals calculated in code or Excel, not by Claude in text. Your CA checks before any filing.</li></ul></div></td><td><div class="hx-cell"><strong>Excel</strong><p>Monthly cash flow, expenses, margins and GST totals; export to Tally or Zoho Books for your accountant.</p></div></td><td><div class="hx-cell"><strong>Supabase / SQLite</strong><p>Audit-ready tables that store the structured data Claude extracts from each bill, with a link to the original.</p></div></td></tr>
+          </tbody>
+        </table>
       </div>
     </section>
 
     <section id="architecture-matrix" aria-labelledby="matrix-title">
       <div class="hx-paper hx-matrix-head">
         <div>
-          <div class="hx-overline">Enterprise AI Architecture Matrix</div>
+          <div class="hx-overline">Enterprise AI Architecture Matrix &bull; Reference for both tracks</div>
           <h2 id="matrix-title">17 architectural layers across 7 agent harnesses</h2>
           <p>How each harness implements the same layer, from sandboxing and state to MCP, guardrails, the skills.md / memory.md / tools.md context files and model tuning.</p>
         </div>
@@ -846,6 +1084,61 @@
     if (window.lucide) {
       lucide.createIcons();
     }
+  </script>
+  <script>
+    (function () {
+      var tabs = Array.prototype.slice.call(document.querySelectorAll('.hx-track'));
+      if (!tabs.length) return;
+      function show(track, focus) {
+        tabs.forEach(function (t) {
+          var on = t.getAttribute('data-track') === track;
+          t.setAttribute('aria-selected', on ? 'true' : 'false');
+          t.tabIndex = on ? 0 : -1;
+          if (on && focus) t.focus();
+          var panel = document.getElementById(t.getAttribute('aria-controls'));
+          if (panel) panel.hidden = !on;
+        });
+        Array.prototype.forEach.call(document.querySelectorAll('[data-track-extra]'), function (el) {
+          el.hidden = el.getAttribute('data-track-extra') !== track;
+        });
+        try { localStorage.setItem('claude-sdk-track', track); } catch (e) {}
+      }
+      function fromHash() {
+        var id = decodeURIComponent(location.hash.slice(1));
+        if (id === 'entrepreneur' || id === 'enterprise') return id;
+        var el = id && document.getElementById(id);
+        var panel = el && el.closest('[data-track-panel], [data-track-extra]');
+        return panel ? (panel.getAttribute('data-track-panel') || panel.getAttribute('data-track-extra')) : null;
+      }
+      var saved = null;
+      try { saved = localStorage.getItem('claude-sdk-track'); } catch (e) {}
+      show(fromHash() || (saved === 'entrepreneur' ? 'entrepreneur' : 'enterprise'));
+      tabs.forEach(function (t, i) {
+        t.addEventListener('click', function () {
+          var track = t.getAttribute('data-track');
+          show(track);
+          if (history.replaceState) history.replaceState(null, '', '#' + track);
+        });
+        t.addEventListener('keydown', function (e) {
+          var k = e.key, n = null;
+          if (k === 'ArrowRight' || k === 'ArrowDown') n = (i + 1) % tabs.length;
+          else if (k === 'ArrowLeft' || k === 'ArrowUp') n = (i - 1 + tabs.length) % tabs.length;
+          else if (k === 'Home') n = 0;
+          else if (k === 'End') n = tabs.length - 1;
+          if (n === null) return;
+          e.preventDefault();
+          show(tabs[n].getAttribute('data-track'), true);
+        });
+      });
+      window.addEventListener('hashchange', function () {
+        var t = fromHash();
+        if (t) {
+          show(t);
+          var el = document.getElementById(location.hash.slice(1));
+          if (el && el.scrollIntoView) el.scrollIntoView();
+        }
+      });
+    })();
   </script>
 </body>
 </html>

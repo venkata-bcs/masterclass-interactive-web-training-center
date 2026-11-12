@@ -1,0 +1,85 @@
+/* SQL Foundations: adds to ../python/python-course.css, which holds the shared player, slide and dashboard styles. */
+.py-wrap { --sql-add:#34d399; --sql-chg:#facc15; --sql-gone:#f87171; }
+
+/* Output */
+.sql-term { white-space:normal; max-height:320px; display:flex; flex-direction:column; gap:6px; }
+.sql-term .prompt { color:#64748b; }
+.sql-term .note { color:#94a3b8; font-style:italic; }
+.sql-res { animation:pyFadeUp .3s ease both; }
+.sql-res.ok { display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; }
+.sql-res.note { color:#94a3b8; font-size:0.8rem; }
+.sql-tag { color:#86efac; font-weight:700; }
+.sql-note { color:#94a3b8; font-size:0.76rem; font-family:var(--font-sans); }
+.sql-res.err { color:#fca5a5; padding:10px 12px; border-radius:8px; background:rgba(239,68,68,0.09); border-left:3px solid var(--sql-gone); overflow-wrap:anywhere; }
+.sql-err-src { margin-top:6px; color:#fecaca; white-space:pre; overflow-x:auto; }
+.sql-why { margin-top:8px; font-family:var(--font-sans); font-size:0.84rem; line-height:1.5; color:#fef2f2; }
+.sql-at { margin-top:4px; font-family:var(--font-sans); font-size:0.72rem; color:#f87171; }
+.sql-err-line { background:rgba(239,68,68,0.16); }
+
+/* Result grid */
+.sql-grid-wrap { overflow-x:auto; }
+.sql-grid { border-collapse:collapse; font-family:var(--font-mono); font-size:0.78rem; min-width:100%; }
+.sql-grid th, .sql-grid td { padding:5px 10px; border:1px solid rgba(255,255,255,0.09); text-align:left; white-space:nowrap; color:#e2e8f0; }
+.sql-grid th { background:rgba(255,255,255,0.05); color:#7dd3fc; font-weight:700; }
+.sql-grid tbody tr { animation:pyFadeUp .3s ease both; }
+.sql-null { color:#64748b; font-style:italic; }
+.sql-empty { color:#64748b; font-style:italic; text-align:center !important; }
+.sql-more { padding:4px 2px; font-size:0.72rem; color:#94a3b8; }
+
+/* Your database panel */
+.sql-db { padding:10px 12px; max-height:420px; overflow-y:auto; display:flex; flex-direction:column; gap:8px; min-height:58px; }
+.sql-empty-db { color:#64748b; font-size:0.84rem; font-style:italic; }
+.sql-unchanged { font-size:0.8rem; font-weight:700; color:#fde68a; padding:6px 10px; border-radius:8px; background:rgba(250,204,21,0.08); border:1px solid rgba(250,204,21,0.25); }
+.sql-legend { display:inline-flex; align-items:center; gap:5px; font-size:0.68rem; color:var(--py-muted); font-family:var(--font-sans); text-transform:none; letter-spacing:0; }
+.sql-legend i { width:9px; height:9px; border-radius:3px; display:inline-block; margin-left:5px; }
+.sql-legend i.add { background:var(--sql-add); } .sql-legend i.chg { background:var(--sql-chg); } .sql-legend i.gone { background:var(--sql-gone); }
+.sql-chips { display:flex; flex-wrap:wrap; gap:6px; }
+.sql-chip { font-size:0.72rem; color:#cbd5e1; padding:3px 9px; border-radius:999px; border:1px solid var(--py-line); background:rgba(255,255,255,0.03); }
+.sql-chip b { font-family:var(--font-mono); color:#fff; }
+.sql-chip.add { border-color:rgba(52,211,153,0.6); background:rgba(52,211,153,0.12); animation:pyPop .4s ease both; }
+.sql-chip.chg { border-color:rgba(250,204,21,0.6); background:rgba(250,204,21,0.12); animation:pyPop .4s ease both; }
+.sql-chip.gone { border-color:rgba(248,113,113,0.6); background:rgba(239,68,68,0.12); text-decoration:line-through; }
+
+.sql-tbl { border:1px solid var(--py-line); border-radius:8px; background:rgba(255,255,255,0.02); }
+.sql-tbl summary { display:flex; align-items:center; flex-wrap:wrap; gap:8px; padding:7px 10px; cursor:pointer; list-style:none; }
+.sql-tbl summary::-webkit-details-marker { display:none; }
+.sql-tbl summary::before { content:"\25B8"; color:#64748b; font-size:0.72rem; transition:transform .15s ease; }
+.sql-tbl[open] summary::before { transform:rotate(90deg); }
+.sql-tbl summary:focus-visible { outline:2px solid var(--py-yellow); outline-offset:-2px; border-radius:8px; }
+.sql-tbl-name { font-family:var(--font-mono); font-size:0.84rem; font-weight:700; color:#fff; }
+.sql-tbl-name .s { color:#64748b; font-weight:500; }
+.sql-tbl-count { font-size:0.72rem; color:#94a3b8; }
+.sql-tbl.dropped .sql-tbl-name { text-decoration:line-through; color:#fca5a5; }
+.sql-tbl .sql-grid-wrap { padding:0 10px 10px; }
+.sql-tbl .sql-more { padding:0 10px 8px; }
+.sql-tbl .sql-grid th .n { display:block; color:#7dd3fc; }
+.sql-tbl .sql-grid th .t { display:block; font-weight:500; font-size:0.66rem; color:#64748b; }
+.sql-tbl .sql-grid th s { color:#f87171; }
+.sql-badge { font-size:0.66rem; font-weight:800; padding:2px 7px; border-radius:999px; }
+.sql-badge.add { color:#052e16; background:var(--sql-add); }
+.sql-badge.chg { color:#422006; background:var(--sql-chg); }
+.sql-badge.gone { color:#450a0a; background:var(--sql-gone); }
+.sql-key { display:inline-block; margin-left:5px; padding:0 4px; border-radius:4px; font-size:0.6rem; font-weight:800; color:#422006; background:var(--py-yellow); font-family:var(--font-sans); }
+.sql-key.fk { color:#2e1065; background:#c4b5fd; }
+
+/* Change colours. They use a border or text too, so meaning does not rest on colour alone. */
+.sql-grid th.add { box-shadow:inset 0 2px 0 var(--sql-add); background:rgba(52,211,153,0.14); }
+.sql-grid th.chg { box-shadow:inset 0 2px 0 var(--sql-chg); background:rgba(250,204,21,0.14); }
+.sql-grid th.gone { box-shadow:inset 0 2px 0 var(--sql-gone); background:rgba(239,68,68,0.14); }
+.sql-grid th.gone .n, .sql-grid th.gone .t { text-decoration:line-through; color:#fca5a5; }
+.sql-grid tr.add td { background:rgba(52,211,153,0.15); }
+.sql-grid td.add { background:rgba(52,211,153,0.1); }
+.sql-grid td.chg { background:rgba(250,204,21,0.2); color:#fef9c3; font-weight:700; box-shadow:inset 2px 0 0 var(--sql-chg); }
+.sql-grid td.gone { background:rgba(239,68,68,0.1); color:#fca5a5; text-decoration:line-through; }
+.sql-grid tr.gone td { background:rgba(239,68,68,0.14); color:#fca5a5; text-decoration:line-through; }
+.sql-grid tbody tr.add { animation:sqlFlashAdd .9s ease both; }
+.sql-grid tbody tr.gone { animation:sqlFlashGone .9s ease both; }
+@keyframes sqlFlashAdd { from { opacity:0; transform:translateX(-10px); } to { opacity:1; transform:none; } }
+@keyframes sqlFlashGone { from { opacity:1; } to { opacity:0.8; } }
+
+/* Database > schema > table */
+.sql-nest { font-size:0.8rem; }
+.sql-nest-box { padding:10px 12px; margin-top:6px; border-radius:10px; border:1px dashed color-mix(in srgb, var(--deck-accent, #38bdf8) 55%, transparent); background:rgba(255,255,255,0.02); animation:pyPop .4s ease both; }
+.sql-nest > .sql-nest-box { margin-top:0; }
+.sql-nest-box b { font-family:var(--font-mono); color:#fff; font-size:0.84rem; }
+.sql-nest-box small { margin-left:8px; color:var(--py-muted); }
