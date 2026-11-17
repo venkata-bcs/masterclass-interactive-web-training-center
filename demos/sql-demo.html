@@ -1,0 +1,2443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SQL Demo Lab | Tinitiate MasterClass Academy</title>
+  <meta name="description" content="Interactive SQL lab for beginners: explore a table's columns and rows, then watch WHERE, JOIN, GROUP BY, ORDER BY and HAVING run step by step with animations.">
+  <link rel="icon" type="image/png" href="../favicon.png">
+  <link rel="stylesheet" href="assets/css/course.css">
+  <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+  <link rel="stylesheet" href="../assets/css/master-global-layout.css">
+  <style>
+    /* ===== SQL Demo Lab (sq-*) ===== */
+    /* Let wide tables / SQL scroll inside their boxes instead of widening the grid column */
+    .main-content { min-width:0; }
+    .sq-card { background:#fff; border:1px solid #e2e8f0; border-radius:14px; padding:18px; margin:0 0 18px; box-shadow:0 1px 2px rgba(15,23,42,.04); }
+    .sq-intro-bar { display:flex; flex-wrap:wrap; gap:14px 24px; align-items:center; justify-content:space-between; }
+    .sq-intro-text p { margin:4px 0 0; font-size:.9rem; color:#475569; }
+    .sq-speed { display:flex; flex-direction:column; gap:4px; }
+    .sq-label { font-size:.72rem; font-weight:800; text-transform:uppercase; letter-spacing:.06em; color:#64748b; margin:14px 0 6px; }
+    .sq-speed .sq-label { margin:0; }
+    .sq-note { font-size:.84rem; color:#475569; margin:12px 0 0; line-height:1.5; }
+    .sq-note a { color:#6d28d9; font-weight:700; }
+
+    .sq-seg { display:inline-flex; flex-wrap:wrap; border:1px solid #cbd5e1; border-radius:10px; overflow:hidden; background:#fff; }
+    .sq-seg button { border:0; border-right:1px solid #e2e8f0; background:#fff; padding:7px 13px; font:inherit; font-size:.82rem; font-weight:700; color:#475569; cursor:pointer; transition:background .2s, color .2s; }
+    .sq-seg button:last-child { border-right:0; }
+    .sq-seg button:hover { background:#f5f3ff; }
+    .sq-seg button.on { background:#7c3aed; color:#fff; }
+
+    .sq-toolbar { display:flex; flex-wrap:wrap; gap:10px 14px; align-items:flex-end; margin-bottom:12px; }
+    .sq-toolbar label { display:flex; flex-direction:column; gap:4px; font-size:.7rem; font-weight:800; color:#64748b; text-transform:uppercase; letter-spacing:.05em; }
+    .sq-toolbar label.sq-check { flex-direction:row; align-items:center; gap:6px; font-family:var(--font-mono); text-transform:none; letter-spacing:0; font-size:.8rem; color:#334155; padding:8px 0; cursor:pointer; }
+    .sq-toolbar select, .sq-toolbar input[type=text], .sq-toolbar input[type=number] { font:inherit; font-size:.88rem; padding:7px 10px; border:1px solid #cbd5e1; border-radius:8px; background:#fff; color:#0f172a; min-width:104px; max-width:170px; }
+    .sq-toolbar input:focus, .sq-toolbar select:focus { outline:2px solid #c4b5fd; border-color:#7c3aed; }
+    .sq-toolbar input.sq-bad { border-color:#ef4444; background:#fef2f2; }
+    .sq-grow { flex:1 1 0; }
+
+    .sq-btn { display:inline-flex; align-items:center; gap:6px; font:inherit; font-size:.86rem; font-weight:800; padding:8px 16px; border-radius:9px; border:1px solid transparent; cursor:pointer; transition:background .2s, opacity .2s; }
+    .sq-btn svg { width:16px; height:16px; }
+    .sq-run { background:#7c3aed; color:#fff; }
+    .sq-run:hover { background:#6d28d9; }
+    .sq-run:disabled { opacity:.45; cursor:not-allowed; }
+    .sq-ghost { background:#fff; color:#334155; border-color:#cbd5e1; }
+    .sq-ghost:hover { background:#f8fafc; }
+
+    .sq-presets { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:12px; }
+    .sq-chip { font-family:var(--font-mono); font-size:.76rem; padding:5px 11px; border-radius:999px; border:1px solid #ddd6fe; background:#f5f3ff; color:#5b21b6; cursor:pointer; transition:background .2s, color .2s; }
+    .sq-chip:hover { background:#ede9fe; }
+    .sq-chip.on { background:#7c3aed; border-color:#7c3aed; color:#fff; }
+
+    .sq-sql { margin:0 0 12px; background:#0f172a; color:#e2e8f0; border-radius:10px; padding:12px 16px; font-family:var(--font-mono); font-size:.84rem; line-height:1.65; overflow-x:auto; white-space:pre; }
+    .sq-kw { color:#c4b5fd; font-weight:700; }
+    .sq-str { color:#86efac; }
+    .sq-num { color:#fcd34d; }
+    .sq-err { color:#fca5a5; }
+    .sq-ok { color:#86efac; }
+    .sq-chip:disabled { opacity:.5; cursor:not-allowed; }
+
+    /* foreign keys */
+    .sq-toolbar .sq-field { display:flex; flex-direction:column; gap:4px; font-size:.7rem; font-weight:800; color:#64748b; text-transform:uppercase; letter-spacing:.05em; }
+    .sq-fk-wrap { display:grid; grid-template-columns:minmax(0,1fr) 64px minmax(0,1.25fr); align-items:start; }
+    .sq-fk-lines { align-self:stretch; width:100%; height:100%; overflow:visible; }
+    .sq-fk-path { fill:none; stroke:#c4b5fd; stroke-width:2; transition:stroke .3s, stroke-width .3s; }
+    .sq-fk-path.hot { stroke:#7c3aed; stroke-width:3.5; }
+    .sq-fk-path.new { stroke:#10b981; stroke-width:3; stroke-dasharray:400; stroke-dashoffset:400; animation:sqDraw .9s ease forwards; }
+    .sq-fk-lines circle { fill:#7c3aed; }
+    @keyframes sqDraw { to { stroke-dashoffset:0; } }
+    #fk-parent tbody tr, #fk-child tbody tr { cursor:pointer; }
+    tr.sq-reject td { background:#fee2e2; color:#991b1b; }
+    tr.sq-reject { animation:sqShake .4s ease; }
+    tr.sq-removing td { opacity:0; transition:opacity .6s; }
+    @keyframes sqShake { 0%,100% { transform:none; } 25% { transform:translateX(-6px); } 75% { transform:translateX(6px); } }
+    .sq-keytag { font-size:.6rem; padding:1px 5px; border-radius:4px; margin-left:4px; font-weight:800; vertical-align:1px; }
+    .sq-keytag.pk { background:#fef3c7; color:#92400e; }
+    .sq-keytag.fk { background:#dbeafe; color:#1e40af; }
+    @media (max-width: 680px) {
+      .sq-fk-wrap { grid-template-columns:1fr; }
+      .sq-fk-lines { display:none; }
+    }
+    .sq-line { display:block; border-radius:5px; padding:0 8px; margin:0 -8px; transition:background .3s; }
+    .sq-line.on { background:rgba(139,92,246,.4); }
+
+    .sq-narrate { min-height:44px; display:block; padding:10px 13px; border-radius:10px; background:#f8fafc; border:1px dashed #cbd5e1; font-size:.88rem; color:#334155; line-height:1.5; }
+    .sq-narrate code, .sq-explain code, .sq-venn-text code { font-family:var(--font-mono); font-size:.8rem; background:#ede9fe; color:#5b21b6; padding:1px 5px; border-radius:4px; }
+
+    .sq-scroll { overflow-x:auto; -webkit-overflow-scrolling:touch; }
+    .sq-table { width:100%; border-collapse:separate; border-spacing:0; font-size:.85rem; border:1px solid #e2e8f0; border-radius:10px; overflow:hidden; background:#fff; }
+    .sq-table caption { caption-side:top; text-align:left; font-family:var(--font-mono); font-weight:800; color:#0f172a; padding:0 0 6px; }
+    .sq-table th { background:#f1f5f9; color:#334155; font-weight:700; text-align:left; padding:8px 11px; border-bottom:1px solid #e2e8f0; font-family:var(--font-mono); font-size:.76rem; white-space:nowrap; transition:background .3s; }
+    .sq-table td { padding:7px 11px; border-bottom:1px solid #f1f5f9; color:#0f172a; white-space:nowrap; transition:background .35s, color .35s, opacity .35s, box-shadow .25s; }
+    .sq-table tbody tr:last-child td { border-bottom:0; }
+    .sq-table .sq-empty td { color:#94a3b8; font-style:italic; text-align:center; }
+    .sq-null { color:#b45309; font-style:italic; font-weight:700; font-family:var(--font-mono); font-size:.74rem; background:#fef3c7; padding:1px 6px; border-radius:4px; }
+    .sq-gutter { color:#94a3b8; font-family:var(--font-mono); font-size:.74rem; width:1%; text-align:center; }
+    .sq-status-h { width:1%; }
+    .sq-status { font-family:var(--font-mono); font-size:.74rem; }
+    .sq-t { color:#047857; }
+    .sq-f { color:#b91c1c; }
+    .sq-verdict { display:inline-block; margin-left:6px; padding:1px 7px; border-radius:999px; font-weight:800; font-size:.68rem; animation:sqPop .3s ease; }
+    .sq-verdict.t { background:#d1fae5; color:#065f46; }
+    .sq-verdict.f { background:#fee2e2; color:#991b1b; }
+
+    /* row states */
+    tr.sq-keep td { background:#ecfdf5; }
+    tr.sq-match td { background:#d1fae5; }
+    tr.sq-nomatch td { background:#fef3c7; }
+    tr.sq-drop td, tr.sq-dropped td { opacity:.38; text-decoration:line-through; }
+    tr.sq-drop td.sq-status { opacity:1; text-decoration:none; }
+    tr.sq-nullrow td { background:#fffbeb; }
+    tr.sq-scan td, tr.sq-active td { background:#ede9fe; }
+    tr.sq-compare td { background:#e0f2fe; }
+    td.sq-focus { box-shadow:inset 0 0 0 2px #7c3aed; font-weight:800; }
+    td.sq-focus2 { box-shadow:inset 0 0 0 2px #c4b5fd; font-weight:700; }
+    tr.sq-rowin { animation:sqRowIn .45s ease both; }
+    tr.sq-rowin td { animation:sqFlash 1.4s ease; }
+    tr.sq-moved td.sq-gutter { color:#7c3aed; font-weight:800; animation:sqPop .4s ease; }
+    @keyframes sqRowIn { from { opacity:0; transform:translateY(-10px); } to { opacity:1; transform:none; } }
+    @keyframes sqFlash { 0% { background:#ddd6fe; } 100% { } }
+    @keyframes sqPop { 0% { transform:scale(.6); opacity:0; } 70% { transform:scale(1.08); opacity:1; } 100% { transform:scale(1); } }
+
+    /* anatomy */
+    .sq-anatomy { display:grid; grid-template-columns:minmax(0,1.45fr) minmax(0,1fr); gap:16px; align-items:start; }
+    #anat-table .sq-table th, #anat-table .sq-table td, #anat-table .sq-table caption { cursor:pointer; }
+    #anat-table .sq-table th:hover, #anat-table .sq-table td:hover { background:#f5f3ff; }
+    #anat-table .sq-table caption:hover { color:#7c3aed; }
+    .sq-table.sq-hl-table { box-shadow:0 0 0 3px #a78bfa; }
+    .sq-table.sq-hl-table caption { color:#7c3aed; }
+    /* visible column dividers in the anatomy table */
+    #anat-table .sq-table th + th, #anat-table .sq-table td + td { border-left:1px solid #cbd5e1; }
+    /* bold box around a whole column */
+    .sq-table .sq-colbox { background:color-mix(in srgb, var(--cb) 8%, #fff); box-shadow:inset 3px 0 0 var(--cb), inset -3px 0 0 var(--cb); }
+    .sq-table th.sq-colbox { background:color-mix(in srgb, var(--cb) 18%, #fff); color:var(--cb); box-shadow:inset 3px 0 0 var(--cb), inset -3px 0 0 var(--cb), inset 0 3px 0 var(--cb); }
+    .sq-table tbody tr:last-child td.sq-colbox { box-shadow:inset 3px 0 0 var(--cb), inset -3px 0 0 var(--cb), inset 0 -3px 0 var(--cb); }
+    .sq-table th.sq-hl-col, .sq-table td.sq-hl-col { background:#ede9fe; }
+    .sq-table th.sq-hl-col { color:#5b21b6; }
+    .sq-table tr.sq-hl-row td { background:#dbeafe; }
+    .sq-table td.sq-hl-gut { background:#dbeafe; color:#1d4ed8; font-weight:800; }
+    .sq-table td.sq-hl-cell { background:#7c3aed !important; color:#fff; font-weight:800; }
+    .sq-explain { background:#faf5ff; border:1px solid #e9d5ff; border-radius:12px; padding:14px 16px; font-size:.88rem; color:#334155; line-height:1.55; }
+    .sq-explain h3 { margin:2px 0 6px; font-size:1.05rem; color:#0f172a; }
+    .sq-explain p { margin:0 0 8px; }
+    .sq-kicker { font-size:.7rem; font-weight:800; letter-spacing:.07em; text-transform:uppercase; color:#7c3aed; }
+    .sq-facts { display:grid; grid-template-columns:auto 1fr; gap:4px 12px; margin:8px 0 0; font-size:.82rem; }
+    .sq-facts dt { font-weight:800; color:#64748b; }
+    .sq-facts dd { margin:0; font-family:var(--font-mono); color:#0f172a; word-break:break-word; }
+    .sq-colchips { display:flex; flex-wrap:wrap; gap:6px; margin-top:6px; }
+
+    /* joins */
+    .sq-venn-wrap { display:flex; flex-wrap:wrap; gap:12px 18px; align-items:center; margin-bottom:12px; }
+    .sq-venn { width:210px; max-width:100%; height:auto; flex:0 0 auto; }
+    .sq-v { fill:#f8fafc; transition:fill .4s; }
+    .sq-v.on { fill:#a78bfa; }
+    .sq-v-line { fill:none; stroke:#6d28d9; stroke-width:1.6; }
+    .sq-v-text { font:700 10px var(--font-mono); fill:#1e1b4b; text-anchor:middle; }
+    .sq-venn-text { flex:1 1 240px; font-size:.88rem; color:#334155; line-height:1.55; }
+    .sq-venn-text strong { color:#0f172a; }
+    .sq-join-top { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:14px; }
+
+    /* buckets */
+    .sq-buckets { display:grid; grid-template-columns:repeat(auto-fill,minmax(190px,1fr)); gap:12px; min-height:20px; }
+    .sq-buckets:empty::before { content:"Press Run to build the groups."; font-size:.84rem; color:#94a3b8; font-style:italic; }
+    .sq-bucket { --g:#7c3aed; border:2px solid var(--g); border-radius:12px; background:color-mix(in srgb, var(--g) 6%, #fff); padding:10px 12px; animation:sqPop .4s ease; transition:opacity .4s, box-shadow .4s, border-style .2s; }
+    .sq-bucket-h { display:flex; justify-content:space-between; align-items:center; font-family:var(--font-mono); font-weight:800; color:var(--g); font-size:.86rem; }
+    .sq-bucket-h small { color:#64748b; font-weight:700; }
+    .sq-bucket-chips { display:flex; flex-wrap:wrap; gap:5px; min-height:26px; margin:8px 0; }
+    .sq-mini { font-family:var(--font-mono); font-size:.72rem; background:#fff; border:1px solid color-mix(in srgb, var(--g) 35%, #fff); color:#0f172a; border-radius:6px; padding:2px 6px; animation:sqPop .35s ease; }
+    .sq-bucket-f { font-family:var(--font-mono); font-size:.72rem; color:#334155; border-top:1px dashed #cbd5e1; padding-top:6px; min-height:18px; line-height:1.5; word-break:break-word; }
+    .sq-bucket-f b { color:var(--g); }
+    .sq-bucket.pass { box-shadow:0 0 0 3px #a7f3d0; }
+    .sq-bucket.fail { opacity:.45; border-style:dashed; }
+    .sq-bucket.fail .sq-bucket-chips { text-decoration:line-through; }
+    tr.sq-gtagged td:first-child { box-shadow:inset 4px 0 0 var(--g); }
+    td.sq-gtag { background:color-mix(in srgb, var(--g) 16%, #fff) !important; color:var(--g); font-weight:800; }
+
+    /* having pipeline */
+    .sq-pipe { display:flex; flex-wrap:wrap; align-items:center; gap:6px; margin-bottom:12px; }
+    .sq-stage { display:inline-flex; align-items:center; gap:6px; padding:6px 10px; border-radius:8px; border:1px solid #cbd5e1; font-family:var(--font-mono); font-size:.75rem; font-weight:800; color:#64748b; background:#fff; transition:all .3s; }
+    .sq-stage b { background:#f1f5f9; color:#334155; border-radius:999px; padding:0 7px; font-size:.7rem; min-width:14px; text-align:center; }
+    .sq-stage.on { background:#7c3aed; border-color:#7c3aed; color:#fff; }
+    .sq-stage.on b { background:#fff; color:#6d28d9; }
+    .sq-stage.done { background:#ede9fe; border-color:#ddd6fe; color:#5b21b6; }
+    .sq-stage.skip { opacity:.4; text-decoration:line-through; }
+    .sq-arrow { color:#94a3b8; font-weight:800; }
+
+    /* execution order */
+    .sq-steps { display:flex; flex-wrap:wrap; gap:6px; }
+    .sq-step { display:inline-flex; align-items:center; gap:6px; font:inherit; font-family:var(--font-mono); font-size:.78rem; font-weight:800; padding:6px 10px; border-radius:8px; border:1px solid #cbd5e1; background:#fff; color:#475569; cursor:pointer; transition:all .25s; }
+    .sq-step span { display:inline-grid; place-items:center; width:18px; height:18px; border-radius:50%; background:#ede9fe; color:#6d28d9; font-size:.68rem; }
+    .sq-step.on { background:#7c3aed; border-color:#7c3aed; color:#fff; }
+    .sq-step.on span { background:#fff; }
+    #ex-explain { margin-top:0; }
+
+    @media (max-width: 900px) {
+      .sq-anatomy { grid-template-columns:1fr; }
+    }
+    @media (max-width: 680px) {
+      .sq-card { padding:14px; }
+      .sq-join-top { grid-template-columns:1fr; }
+      .sq-toolbar label { flex:1 1 130px; }
+      .sq-toolbar select, .sq-toolbar input[type=text], .sq-toolbar input[type=number] { max-width:none; width:100%; }
+      .sq-grow { display:none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .sq-bucket, .sq-mini, .sq-verdict, tr.sq-rowin, tr.sq-rowin td { animation:none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Master Top Navigation Bar -->
+  <header class="master-top-nav">
+    <div class="master-top-nav-inner nav-centered">
+      <a href="../index.html" class="master-brand-wrap" aria-label="Tinitiate MasterClass Academy">
+        <img src="../tinitiate_header-banner.png" alt="Tinitiate Logo" class="master-brand-logo">
+        <span class="master-brand-divider" aria-hidden="true"></span>
+        <img src="../assets/masterclass-academy-logo.png" alt="MasterClass Academy" class="master-brand-wordmark">
+      </a>
+
+      <!-- Primary Navigation Links (NO LOCAL NAVIGATION IN HEADER) -->
+      <nav class="master-menu-links">
+        <a href="../index.html" class="master-nav-btn" title="Main Academy Portal">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          <span>Home</span>
+        </a>
+
+        <!-- MasterClass DropDown with Bulletproof Bridge & SVGs -->
+        <div class="master-dropdown" id="subjectsDropdown">
+          <button type="button" class="master-dropdown-toggle" onclick="toggleSubjectsDropdown(event)" aria-haspopup="true" aria-expanded="false" title="Explore All MasterClasses">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>
+            <span>MasterClass</span>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div class="master-dropdown-menu mega-menu" id="subjectsMegaMenu">
+            <div class="mega-menu-header">
+              <div class="mega-menu-title-wrap">
+                <span class="mega-menu-eyebrow">TINITIATE AI ACADEMY • ARCHITECTURE CURRICULUM</span>
+                <h4 class="mega-menu-title">Explore Engineering Curricula by Domain</h4>
+              </div>
+              <div class="mega-menu-stats-pill">
+                <span>6 Domains</span> &bull; <span>35 Tracks + Vibe Coding (soon)</span>
+              </div>
+            </div>
+
+            <div class="mega-menu-grid">
+        <!-- Category: Foundational -->
+        <div class="mega-category-col" style="--cat-accent:#38bdf8;">
+          <div class="mega-category-header">
+            <a href="../verticals/foundational.html" class="mega-cat-badge" style="color:#38bdf8;" title="Foundational home">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="8" height="8" x="3" y="3" rx="2"/><path d="M7 11v4a2 2 0 0 0 2 2h4"/><rect width="8" height="8" x="13" y="13" rx="2"/></svg>
+              <span>Foundational</span>
+            </a>
+            <span class="mega-cat-count">9 Tracks</span>
+          </div>
+          <div class="mega-category-list">
+          <a href="../foundational/index.html" class="mega-category-item" title="Foundational Master Class: Computer Science &amp; Software Engineering Fundamentals">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m16.24 7.76-2.12 6.36-6.36 2.12 2.12-6.36 6.36-2.12z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Foundational Master Class</span>
+            </span>
+          </a>
+          <a href="../foundational/python/index.html" class="mega-category-item" title="Python: Print, Variables, Datatypes, Operators, Strings &amp; Lists">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" x2="20" y1="19" y2="19"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Python</span>
+            </span>
+          </a>
+          <a href="../foundational/sql/index.html" class="mega-category-item" title="SQL: PostgreSQL DDL &amp; DML, on a real database in your browser">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">SQL</span>
+            </span>
+          </a>
+          <a href="../foundational/data-structures/index.html" class="mega-category-item" title="Data Structures: Trees, Graphs, HashTables & Heaps">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="8" height="8" x="3" y="3" rx="2"/><rect width="8" height="8" x="13" y="13" rx="2"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Data Structures</span>
+            </span>
+          </a>
+          <a href="../foundational/authentication/index.html" class="mega-category-item" title="Authentication: OAuth2, OIDC, JWT, SAML & PKCE">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m21 2-2 2m-1.5 1.5L13 10m0 0a5 5 0 1 1-7-7 5 5 0 0 1 7 7Z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Authentication</span>
+            </span>
+          </a>
+          <a href="../foundational/apis/index.html" class="mega-category-item" title="APIs: REST, GraphQL, gRPC & WebSockets">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 16.326A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 .5 8.973"/><path d="m13 12-3 5h4l-3 5"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">APIs</span>
+            </span>
+          </a>
+          <a href="../foundational/microservices/index.html" class="mega-category-item" title="MicroServices: Sagas, Service Mesh & Event-Driven">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2.97 12.92A2 2 0 0 0 2 14.63v3.24a2 2 0 0 0 .97 1.71l6 3.43a2 2 0 0 0 1.97 0l6-3.43a2 2 0 0 0 .97-1.71v-3.24a2 2 0 0 0-.97-1.71L11 9.49a2 2 0 0 0-2.06 0l-5.97 3.43Z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">MicroServices</span>
+            </span>
+          </a>
+          <a href="../foundational/oop/index.html" class="mega-category-item" title="OOP: SOLID, Polymorphism & Abstraction">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">OOP</span>
+            </span>
+          </a>
+          <a href="../foundational/design-patterns/index.html" class="mega-category-item" title="Design Patterns: GoF Creational, Structural & Behavioral">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Design Patterns</span>
+            </span>
+          </a>
+          </div>
+        </div>
+        <!-- Category: AI -->
+        <div class="mega-category-col" style="--cat-accent:#a855f7;">
+          <div class="mega-category-header">
+            <a href="../verticals/ai.html" class="mega-cat-badge" style="color:#a855f7;" title="AI home">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
+              <span>AI</span>
+            </a>
+            <span class="mega-cat-count">9 Tracks</span>
+          </div>
+          <div class="mega-category-list">
+          <a href="../automation-ml-ai-agentic/index.html" class="mega-category-item" title="AI Master Class: Automation, ML, GenAI &amp; Agentic Systems, MCP &amp; LangChain">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">AI Master Class</span>
+            </span>
+          </a>
+          <a href="../agentic-development/index.html" class="mega-category-item" title="Agentic Development: Agents, Agentic Loops &amp; Governed Agent Swarms">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Agentic Development</span>
+            </span>
+          </a>
+          <a href="../ai/langgraph/index.html" class="mega-category-item" title="Langgraph: Cyclic State Graphs & Multi-Agent DAGs">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><circle cx="18" cy="6" r="3"/><path d="M18 9v1a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V9"/><path d="M12 12v3"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Langgraph</span>
+            </span>
+          </a>
+          <a href="../ai/crewai/index.html" class="mega-category-item" title="CrewAI: Role-Based Agent Crews, Tasks &amp; Flows">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">CrewAI</span>
+            </span>
+          </a>
+          <a href="../ai/aws-bedrock/index.html" class="mega-category-item" title="AWS Bedrock: Managed Foundation Models & Guardrails">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="16" height="16" x="4" y="4" rx="2"/><rect width="6" height="6" x="9" y="9" rx="1"/><path d="M15 2v2"/><path d="M15 20v2"/><path d="M2 15h2"/><path d="M2 9h2"/><path d="M20 15h2"/><path d="M20 9h2"/><path d="M9 2v2"/><path d="M9 20v2"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">AWS Bedrock</span>
+            </span>
+          </a>
+          <a href="../ai/aws-strands/index.html" class="mega-category-item" title="AWS Strands: Model-Driven Agents SDK, Graph &amp; Swarm">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12c2-3 4-3 6 0s4 3 6 0 4-3 6 0"/><path d="M2 6c2-3 4-3 6 0s4 3 6 0 4-3 6 0"/><path d="M2 18c2-3 4-3 6 0s4 3 6 0 4-3 6 0"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">AWS Strands</span>
+            </span>
+          </a>
+          <a href="../ai/azure-foundry/index.html" class="mega-category-item" title="Azure Foundry: Azure AI Studio, Prompt Flow & Evaluators">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="8" x="2" y="2" rx="2" ry="2"/><rect width="20" height="8" x="2" y="14" rx="2" ry="2"/><line x1="6" x2="6.01" y1="6" y2="6"/><line x1="6" x2="6.01" y1="18" y2="18"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Azure Foundry</span>
+            </span>
+          </a>
+          <a href="../ai/claude-sdk/index.html" class="mega-category-item" title="Claude SDK: Anthropic SDK, Tools & Prompt Caching">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Claude SDK</span>
+            </span>
+          </a>
+          <a href="../ai/google-gemini-sdk/index.html" class="mega-category-item" title="Google Gemini SDK: Gen AI SDK, ADK Agents &amp; Context Cache">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Google Gemini SDK</span>
+            </span>
+          </a>
+          </div>
+        </div>
+        <!-- Category: Data Engineering -->
+        <div class="mega-category-col" style="--cat-accent:#0284c7;">
+          <div class="mega-category-header">
+            <a href="../verticals/data-engineering.html" class="mega-cat-badge" style="color:#0284c7;" title="Data Engineering home">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"/></svg>
+              <span>Data Engineering</span>
+            </a>
+            <span class="mega-cat-count">8 Tracks</span>
+          </div>
+          <div class="mega-category-list">
+          <a href="../data-engineering/index.html" class="mega-category-item" title="Data Engineering Master Class: Modern Lakehouse, Fabric & Kafka Streams">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Data Engineering Master Class</span>
+            </span>
+          </a>
+          <a href="../pyspark/index.html" class="mega-category-item" title="PySpark: Cluster Architecture, DAG Execution &amp; Data Ingestion">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">PySpark</span>
+            </span>
+          </a>
+          <a href="../databricks-dataengineering/index.html" class="mega-category-item" title="Databricks: Unity Catalog, Delta Live & Photon">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Databricks</span>
+            </span>
+          </a>
+          <a href="../aws-dataengineering/index.html" class="mega-category-item" title="AWS Data Engineering: EMR, Glue, Redshift, Kinesis & S3">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">AWS Data Engineering</span>
+            </span>
+          </a>
+          <a href="../snowflake-dataengineering/index.html" class="mega-category-item" title="SnowFlake: Snowpark, Dynamic Tables & Warehouses">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" x2="12" y1="2" y2="22"/><line x1="12" x2="12" y1="10" y2="14"/><line x1="2" x2="22" y1="12" y2="12"/><line x1="20" x2="4" y1="4" y2="20"/><line x1="4" x2="20" y1="4" y2="20"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">SnowFlake</span>
+            </span>
+          </a>
+          <a href="../azure-dataengineering/index.html" class="mega-category-item" title="Azure Data Engineering: Fabric, Synapse Analytics & ADLS Gen2">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="8" x="2" y="2" rx="2" ry="2"/><rect width="20" height="8" x="2" y="14" rx="2" ry="2"/><line x1="6" x2="6.01" y1="6" y2="6"/><line x1="6" x2="6.01" y1="18" y2="18"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Azure Data Engineering</span>
+            </span>
+          </a>
+          <a href="../data-engineering/onprem-pandas-polars-sql/index.html" class="mega-category-item" title="On Prem Pandas, Polars, SQL: Vectorized LazyFrames & Local Engines">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" x2="20" y1="19" y2="19"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">On Prem Pandas, Polars, SQL</span>
+            </span>
+          </a>
+          <a href="../data-engineering/duckdb/index.html" class="mega-category-item" title="DuckDB: In-Process Columnar Analytical OLAP">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"/><line x1="16" x2="2" y1="8" y2="22"/><line x1="17.5" x2="9" y1="15" y2="15"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">DuckDB</span>
+            </span>
+          </a>
+          </div>
+        </div>
+        <!-- Category: Data Governance -->
+        <div class="mega-category-col" style="--cat-accent:#10b981;">
+          <div class="mega-category-header">
+            <a href="../verticals/data-governance.html" class="mega-cat-badge" style="color:#10b981;" title="Data Governance home">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg>
+              <span>Data Governance</span>
+            </a>
+            <span class="mega-cat-count">4 Tracks</span>
+          </div>
+          <div class="mega-category-list">
+          <a href="../data-governence/index.html" class="mega-category-item" title="Data Governance Master Class: Catalogs, Sensitive Data Discovery, Lineage &amp; Stewardship">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m16.24 7.76-2.12 6.36-6.36 2.12 2.12-6.36 6.36-2.12z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Data Governance Master Class</span>
+            </span>
+          </a>
+          <a href="../data-governence/atlas/index.html" class="mega-category-item" title="Atlas: Apache Atlas Metadata & Lineage Graph">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Atlas</span>
+            </span>
+          </a>
+          <a href="../data-governence/unity/index.html" class="mega-category-item" title="Unity: Unity Catalog Fine-Grained ABAC & Grants">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Unity</span>
+            </span>
+          </a>
+          <a href="../data-governence/purview-sandbox/index.html" class="mega-category-item" title="Purview: Purview Data Map, Stewardship & Scanning">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Purview</span>
+            </span>
+          </a>
+          </div>
+        </div>
+        <!-- Category: Full Stack -->
+        <div class="mega-category-col" style="--cat-accent:#f43f5e;">
+          <div class="mega-category-header">
+            <a href="../verticals/full-stack.html" class="mega-cat-badge" style="color:#f43f5e;" title="Full Stack home">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+              <span>Full Stack</span>
+            </a>
+            <span class="mega-cat-count">5 Tracks</span>
+          </div>
+          <div class="mega-category-list">
+          <a href="../full-stack/index.html" class="mega-category-item" title="Full Stack Master Class: Enterprise Full Stack Systems Architecture">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m16.24 7.76-2.12 6.36-6.36 2.12 2.12-6.36 6.36-2.12z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Full Stack Master Class</span>
+            </span>
+          </a>
+          <a href="../full-stack/python-fastapi/index.html" class="mega-category-item" title="Python fastAPI: Pydantic v2, Async ASGI & OpenTelemetry">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Python fastAPI</span>
+            </span>
+          </a>
+          <a href="../full-stack/nodejs-react-nextjs/index.html" class="mega-category-item" title="NodeJS React NextJS: React 19, Server Components & App Router">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" x2="22" y1="12" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">NodeJS React NextJS</span>
+            </span>
+          </a>
+          <a href="../full-stack/dotnet-csharp/index.html" class="mega-category-item" title="C#/.Net Full Stack: ASP.NET Core Web API & Entity Framework">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" x2="20" y1="9" y2="9"/><line x1="4" x2="20" y1="15" y2="15"/><line x1="10" x2="8" y1="3" y2="21"/><line x1="16" x2="14" y1="3" y2="21"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">C#/.Net Full Stack</span>
+            </span>
+          </a>
+          <a href="../full-stack/java-fullstack/index.html" class="mega-category-item" title="Java Full Stack: Spring Boot 3, Hibernate JPA & Microservices">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" x2="6" y1="2" y2="4"/><line x1="10" x2="10" y1="2" y2="4"/><line x1="14" x2="14" y1="2" y2="4"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Java Full Stack</span>
+            </span>
+          </a>
+          </div>
+        </div>
+        <!-- Category: Vibe Coding (placeholder) -->
+        <div class="mega-category-col" style="--cat-accent:#e879f9;">
+          <div class="mega-category-header">
+            <a href="../vibe-coding/index.html" class="mega-cat-badge" style="color:#e879f9;" title="Vibe Coding home">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+              <span>Vibe Coding</span>
+            </a>
+            <span class="mega-cat-count">Soon</span>
+          </div>
+          <div class="mega-category-list">
+          <a href="../vibe-coding/index.html" class="mega-category-item" title="Vibe Coding Master Class: coming soon">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Vibe Coding Master Class</span>
+            </span>
+          </a>
+          <span class="mega-category-item mega-item-soon">
+            <span class="mega-item-text">
+              <span class="mega-item-name">Tracks coming soon</span>
+            </span>
+          </span>
+          </div>
+        </div>
+            </div>
+
+            <div class="mega-menu-footer">
+              <div class="mega-footer-left">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+                <span>Each module includes <strong>zero-code visual architectures</strong>, <strong>interactive sandboxes</strong>, and <strong>production blueprints</strong>.</span>
+              </div>
+              <div class="mega-footer-right">
+                <span>Lead Architect: <strong>Venkata Bhattaram</strong></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Placement DropDown -->
+        <div class="master-dropdown placement-dropdown" id="placementDropdown">
+          <button type="button" class="master-dropdown-toggle" onclick="togglePlacementDropdown(event)" aria-haspopup="true" aria-expanded="false" title="Placement assistance guides">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="7" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+            <span>Placement</span>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div class="master-dropdown-menu placement-menu">
+            <div class="demo-menu-label">Placement assistance &bull; 16 guides</div>
+            <div class="placement-sections">
+              <a href="../placement-assistance/index.html" class="master-dropdown-item placement-item is-featured">
+                <span class="dropdown-item-icon icon-place"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg></span>
+                <span class="dropdown-item-title">Placement Master Class</span>
+              </a>
+              <div class="placement-section">
+                <div class="placement-section-title">Communication Skills</div>
+                <a href="../placement-assistance/communication-skills.html" class="master-dropdown-item placement-item">
+                  <span class="dropdown-item-icon icon-place"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 11 18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></svg></span>
+                  <span class="dropdown-item-title">Communication Skills</span>
+                </a>
+                <a href="../communication-skill-prep/index.html" class="master-dropdown-item placement-item" title="Read-Aloud Coach: practice speaking clearly, out loud">
+                  <span class="dropdown-item-icon icon-place"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg></span>
+                  <span class="dropdown-item-title">Communication Skill Prep</span>
+                </a>
+                <a href="../placement-assistance/group-discussion.html" class="master-dropdown-item placement-item">
+                  <span class="dropdown-item-icon icon-place"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="14" x="2" y="7" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></span>
+                  <span class="dropdown-item-title">Group Discussion</span>
+                </a>
+                <a href="../placement-assistance/confidence-mindset.html" class="master-dropdown-item placement-item">
+                  <span class="dropdown-item-icon icon-place"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="14" x="2" y="7" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></span>
+                  <span class="dropdown-item-title">Confidence &amp; Mindset</span>
+                </a>
+              </div>
+              <div class="placement-section">
+                <div class="placement-section-title">Job Readiness</div>
+                <a href="../placement-assistance/resume-prep.html" class="master-dropdown-item placement-item">
+                  <span class="dropdown-item-icon icon-place"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M16 13H8"/><path d="M16 17H8"/></svg></span>
+                  <span class="dropdown-item-title">Resume Prep</span>
+                </a>
+                <a href="../placement-assistance/cover-letters.html" class="master-dropdown-item placement-item">
+                  <span class="dropdown-item-icon icon-place"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg></span>
+                  <span class="dropdown-item-title">Cover Letters</span>
+                </a>
+                <a href="../placement-assistance/linkedin-naukri.html" class="master-dropdown-item placement-item">
+                  <span class="dropdown-item-icon icon-place"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="14" x="2" y="7" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></span>
+                  <span class="dropdown-item-title">LinkedIn &amp; Naukri Profile</span>
+                </a>
+                <a href="../placement-assistance/job-applications.html" class="master-dropdown-item placement-item">
+                  <span class="dropdown-item-icon icon-place"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg></span>
+                  <span class="dropdown-item-title">Job Applications</span>
+                </a>
+                <a href="../placement-assistance/off-campus-jobs.html" class="master-dropdown-item placement-item">
+                  <span class="dropdown-item-icon icon-place"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="14" x="2" y="7" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></span>
+                  <span class="dropdown-item-title">Off-Campus Job Hunt</span>
+                </a>
+              </div>
+              <div class="placement-section">
+                <div class="placement-section-title">Interview Prep</div>
+                <a href="../placement-assistance/interview-prep.html" class="master-dropdown-item placement-item">
+                  <span class="dropdown-item-icon icon-place"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg></span>
+                  <span class="dropdown-item-title">Interview Prep</span>
+                </a>
+                <a href="../placement-assistance/aptitude-coding.html" class="master-dropdown-item placement-item">
+                  <span class="dropdown-item-icon icon-place"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="14" x="2" y="7" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></span>
+                  <span class="dropdown-item-title">Aptitude &amp; Coding Rounds</span>
+                </a>
+                <a href="../placement-assistance/before-interview.html" class="master-dropdown-item placement-item">
+                  <span class="dropdown-item-icon icon-place"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/><path d="m9 16 2 2 4-4"/></svg></span>
+                  <span class="dropdown-item-title">Before the Interview</span>
+                </a>
+                <a href="../placement-assistance/during-interview.html" class="master-dropdown-item placement-item">
+                  <span class="dropdown-item-icon icon-place"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg></span>
+                  <span class="dropdown-item-title">During the Interview</span>
+                </a>
+                <a href="../placement-assistance/after-interview.html" class="master-dropdown-item placement-item">
+                  <span class="dropdown-item-icon icon-place"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="14" x="2" y="7" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></span>
+                  <span class="dropdown-item-title">After the Interview</span>
+                </a>
+                <a href="../placement-assistance/hr-round-salary.html" class="master-dropdown-item placement-item">
+                  <span class="dropdown-item-icon icon-place"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="14" x="2" y="7" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></span>
+                  <span class="dropdown-item-title">HR Round &amp; Salary Talk</span>
+                </a>
+                <a href="../placement-assistance/handling-competition.html" class="master-dropdown-item placement-item">
+                  <span class="dropdown-item-icon icon-place"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg></span>
+                  <span class="dropdown-item-title">Handling Competition</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Demo DropDown -->
+        <div class="master-dropdown demo-dropdown" id="demoDropdown">
+          <button type="button" class="master-dropdown-toggle" onclick="toggleDemoDropdown(event)" aria-haspopup="true" aria-expanded="false" title="Demos">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+            <span>Demo</span>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div class="master-dropdown-menu demo-menu">
+            <a href="../why-tinitiate.html" class="master-dropdown-item">
+              <span class="dropdown-item-icon icon-why"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 6.9L21 9.3l-5.2 4.4L17.5 21 12 17.3 6.5 21l1.7-7.3L3 9.3l6.6-.4z"/></svg></span>
+              <span class="dropdown-item-content"><span class="dropdown-item-title">Why TinitiateAI</span><span class="dropdown-item-sub">What makes the academy different</span></span>
+            </a>
+            <div class="demo-menu-label">Domain demos</div>
+            <a href="../demos/foundational.html" class="master-dropdown-item">
+              <span class="dropdown-item-icon icon-found"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="8" height="8" x="3" y="3" rx="2"/><path d="M7 11v4a2 2 0 0 0 2 2h4"/><rect width="8" height="8" x="13" y="13" rx="2"/></svg></span>
+              <span class="dropdown-item-content"><span class="dropdown-item-title">Foundational</span><span class="dropdown-item-sub">CS fundamentals, Python, SQL & APIs</span></span>
+            </a>
+            <a href="../demos/data-engineering.html" class="master-dropdown-item">
+              <span class="dropdown-item-icon icon-de"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/></svg></span>
+              <span class="dropdown-item-content"><span class="dropdown-item-title">Data Engineering</span><span class="dropdown-item-sub">Pipelines, lakehouses & cloud data</span></span>
+            </a>
+            <a href="../demos/ai-developer.html" class="master-dropdown-item">
+              <span class="dropdown-item-icon icon-ai"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg></span>
+              <span class="dropdown-item-content"><span class="dropdown-item-title">AI Developer</span><span class="dropdown-item-sub">GenAI, agents & LLM application builds</span></span>
+            </a>
+            <a href="../demos/data-governance.html" class="master-dropdown-item">
+              <span class="dropdown-item-icon icon-gov"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg></span>
+              <span class="dropdown-item-content"><span class="dropdown-item-title">Data Governance</span><span class="dropdown-item-sub">Catalogs, lineage & policy</span></span>
+            </a>
+            <a href="../demos/full-stack.html" class="master-dropdown-item">
+              <span class="dropdown-item-icon icon-fs"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/></svg></span>
+              <span class="dropdown-item-content"><span class="dropdown-item-title">Full Stack</span><span class="dropdown-item-sub">Frontend, backend & deployment</span></span>
+            </a>
+          </div>
+        </div>
+      </nav>
+
+    </div>
+  </header>
+
+  <!-- 3-Column Layout -->
+  <div class="layout-container">
+
+    <!-- LEFT: Foundational demos -->
+    <aside class="site-nav-panel" aria-label="Foundational demos">
+      <div class="nav-title">Foundational Demos</div>
+      <ul class="site-menu">
+        <li>
+          <a href="foundational.html">
+            <span style="display:flex;align-items:center;gap:8px;">
+              <i data-lucide="home" style="width:16px;height:16px;color:#38bdf8;"></i>
+              <span>All Foundational Demos</span>
+            </span>
+            <span class="badge-status">Home</span>
+          </a>
+        </li>
+        <li>
+          <a href="python-demo.html">
+            <span style="display:flex;align-items:center;gap:8px;">
+              <i data-lucide="terminal" style="width:16px;height:16px;color:#3776ab;"></i>
+              <span>Python Demo</span>
+            </span>
+            <span class="badge-status">Demo</span>
+          </a>
+        </li>
+        <li>
+          <a href="sql-demo.html" class="current">
+            <span style="display:flex;align-items:center;gap:8px;">
+              <i data-lucide="terminal-square" style="width:16px;height:16px;color:#7c3aed;"></i>
+              <span>SQL Demo</span>
+            </span>
+            <span class="badge-status">Active</span>
+          </a>
+        </li>
+        <li>
+          <a href="../foundational/sql/index.html">
+            <span style="display:flex;align-items:center;gap:8px;">
+              <i data-lucide="database" style="width:16px;height:16px;color:#2563eb;"></i>
+              <span>SQL Course (real PostgreSQL)</span>
+            </span>
+            <span class="badge-status">Course</span>
+          </a>
+        </li>
+        <li>
+          <a href="../foundational/python/index.html">
+            <span style="display:flex;align-items:center;gap:8px;">
+              <i data-lucide="book-open" style="width:16px;height:16px;color:#16a34a;"></i>
+              <span>Python Course</span>
+            </span>
+            <span class="badge-status">Course</span>
+          </a>
+        </li>
+        <li>
+          <a href="../foundational/index.html">
+            <span style="display:flex;align-items:center;gap:8px;">
+              <i data-lucide="graduation-cap" style="width:16px;height:16px;color:#0284c7;"></i>
+              <span>Foundational Master Class</span>
+            </span>
+            <span class="badge-status">Hub</span>
+          </a>
+        </li>
+      </ul>
+    </aside>
+
+    <!-- CENTER: Main Content -->
+    <main class="main-content">
+
+      <!-- ========================================================================= -->
+      <!-- SUBTOPIC: sql-intro [START] -->
+      <!-- ========================================================================= -->
+      <section class="content-section" id="sql-intro">
+        <div class="welcome-card">
+          <span class="eyebrow">Interactive SQL Lab &bull; Watch Queries Run</span>
+          <h1>SQL Demo: See Every Clause in Action</h1>
+          <p class="lead">
+            A SQL query is a list of steps applied to rows. In this lab you pick options, read the SQL they build, press <strong>Run</strong> and watch each step happen: WHERE checks rows, JOIN pairs them, GROUP BY puts them in buckets, ORDER BY sorts them and HAVING filters the buckets.
+          </p>
+        </div>
+
+        <div class="sq-card sq-intro-bar">
+          <div class="sq-intro-text">
+            <strong>How to use this lab</strong>
+            <p>Each section has its own controls. <b>Run</b> plays the animation, <b>Reset</b> puts the data back. Changing an option resets that section.</p>
+          </div>
+          <div class="sq-speed">
+            <span class="sq-label">Animation speed</span>
+            <div class="sq-seg" id="speed-seg" role="group" aria-label="Animation speed">
+              <button type="button" data-speed="1.8">Slow</button>
+              <button type="button" data-speed="1" class="on">Normal</button>
+              <button type="button" data-speed="0.4">Fast</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================================================= -->
+      <!-- SUBTOPIC: table-anatomy [START] -->
+      <!-- ========================================================================= -->
+      <section class="content-section" id="table-anatomy">
+        <div class="welcome-card">
+          <span class="eyebrow">Step 1 &bull; Table, Columns &amp; Rows</span>
+          <h2>Anatomy of a Table</h2>
+          <p class="lead">
+            Click the table name, any column header, any row number or any cell. The panel explains what you clicked and the SQL below shows where it comes from.
+          </p>
+        </div>
+
+        <div class="sq-card">
+          <div class="sq-toolbar">
+            <div class="sq-seg" id="anat-seg" role="group" aria-label="Explain part of the table">
+              <button type="button" data-focus="table" class="on">Table</button>
+              <button type="button" data-focus="columns">Columns</button>
+              <button type="button" data-focus="rows">Rows</button>
+              <button type="button" data-focus="pk">Primary key</button>
+              <button type="button" data-focus="cell">A cell</button>
+            </div>
+          </div>
+          <div class="sq-anatomy">
+            <div class="sq-scroll" id="anat-table"></div>
+            <aside class="sq-explain" id="anat-explain" aria-live="polite"></aside>
+          </div>
+          <div class="sq-label">Table definition (DDL)</div>
+          <pre class="sq-sql" id="anat-ddl"></pre>
+          <div id="anat-insert-wrap" hidden>
+            <div class="sq-label">The statement that created this row (DML)</div>
+            <pre class="sq-sql" id="anat-insert"></pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================================================= -->
+      <!-- SUBTOPIC: foreign-keys [START] -->
+      <!-- ========================================================================= -->
+      <section class="content-section" id="foreign-keys">
+        <div class="welcome-card">
+          <span class="eyebrow">Step 2 &bull; Linking Tables</span>
+          <h2>Foreign Keys: Rows That Point at Other Rows</h2>
+          <p class="lead">
+            A foreign key is a column whose values must exist in another table&rsquo;s primary key. <code>orders.cust_id</code> points at <code>customers.cust_id</code>, so every order must belong to a real customer. Click any row to follow its link, then try statements below. Will the database accept them?
+          </p>
+        </div>
+
+        <div class="sq-card">
+          <div class="sq-toolbar">
+            <div class="sq-field">When a customer is deleted
+              <div class="sq-seg" id="fk-mode" role="group" aria-label="ON DELETE action">
+                <button type="button" data-mode="NO ACTION" class="on">Block (default)</button>
+                <button type="button" data-mode="CASCADE">CASCADE</button>
+                <button type="button" data-mode="SET NULL">SET NULL</button>
+              </div>
+            </div>
+            <span class="sq-grow"></span>
+            <button type="button" class="sq-btn sq-ghost" id="fk-reset"><i data-lucide="rotate-ccw"></i>Reset</button>
+          </div>
+          <div class="sq-label">How the link is declared</div>
+          <pre class="sq-sql" id="fk-ddl"></pre>
+          <div class="sq-label">Try a statement</div>
+          <div class="sq-presets" id="fk-actions"></div>
+          <pre class="sq-sql" id="fk-stmt" hidden></pre>
+          <div class="sq-narrate" id="fk-narr" aria-live="polite"></div>
+          <div class="sq-fk-wrap" id="fk-wrap">
+            <div>
+              <div class="sq-label">customers (parent)</div>
+              <div class="sq-scroll" id="fk-parent"></div>
+            </div>
+            <svg class="sq-fk-lines" id="fk-lines" aria-hidden="true"></svg>
+            <div>
+              <div class="sq-label">orders (child)</div>
+              <div class="sq-scroll" id="fk-child"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================================================= -->
+      <!-- SUBTOPIC: where-filter [START] -->
+      <!-- ========================================================================= -->
+      <section class="content-section" id="where-filter">
+        <div class="welcome-card">
+          <span class="eyebrow">Step 3 &bull; Filtering Rows</span>
+          <h2>WHERE: Keep Only the Rows You Want</h2>
+          <p class="lead">
+            WHERE tests every row against a condition. Rows where the condition is TRUE are kept; rows where it is FALSE (or NULL) are thrown away. Pick a ready-made filter or build your own, then press Run.
+          </p>
+        </div>
+
+        <div class="sq-card">
+          <div class="sq-label">Try a filter</div>
+          <div class="sq-presets" id="wh-presets"></div>
+          <div class="sq-toolbar">
+            <label>Column <select id="wh-col"></select></label>
+            <label>Operator <select id="wh-op"></select></label>
+            <label>Value <input type="text" id="wh-val" autocomplete="off"></label>
+            <span class="sq-grow"></span>
+            <button type="button" class="sq-btn sq-run" id="wh-run"><i data-lucide="play"></i>Run</button>
+            <button type="button" class="sq-btn sq-ghost" id="wh-reset"><i data-lucide="rotate-ccw"></i>Reset</button>
+          </div>
+          <pre class="sq-sql" id="wh-sql"></pre>
+          <div class="sq-narrate" id="wh-narr" aria-live="polite"></div>
+          <div class="sq-label">employees &middot; input (8 rows)</div>
+          <div class="sq-scroll" id="wh-src"></div>
+          <div class="sq-label" id="wh-res-label">Result</div>
+          <div class="sq-scroll" id="wh-res"></div>
+        </div>
+      </section>
+
+      <!-- ========================================================================= -->
+      <!-- SUBTOPIC: joins [START] -->
+      <!-- ========================================================================= -->
+      <section class="content-section" id="joins">
+        <div class="welcome-card">
+          <span class="eyebrow">Step 4 &bull; Combining Tables</span>
+          <h2>JOIN: Match Rows Across Two Tables</h2>
+          <p class="lead">
+            A JOIN pairs each row of one table with the rows of another table that share a value, here <code>cust_id</code>. The join type decides what happens to rows that find no partner.
+          </p>
+        </div>
+
+        <div class="sq-card">
+          <div class="sq-toolbar">
+            <div class="sq-seg" id="jn-seg" role="group" aria-label="Join type">
+              <button type="button" data-type="INNER" class="on">INNER</button>
+              <button type="button" data-type="LEFT">LEFT</button>
+              <button type="button" data-type="RIGHT">RIGHT</button>
+              <button type="button" data-type="FULL">FULL OUTER</button>
+            </div>
+            <span class="sq-grow"></span>
+            <button type="button" class="sq-btn sq-run" id="jn-run"><i data-lucide="play"></i>Run</button>
+            <button type="button" class="sq-btn sq-ghost" id="jn-reset"><i data-lucide="rotate-ccw"></i>Reset</button>
+          </div>
+
+          <div class="sq-venn-wrap">
+            <svg class="sq-venn" viewBox="0 0 230 128" role="img" aria-labelledby="jn-venn-title">
+              <title id="jn-venn-title">Venn diagram of the selected join</title>
+              <defs><clipPath id="sqVennClip"><circle cx="88" cy="62" r="52"/></clipPath></defs>
+              <circle class="sq-v sq-va" cx="88" cy="62" r="52"/>
+              <circle class="sq-v sq-vb" cx="142" cy="62" r="52"/>
+              <circle class="sq-v sq-vab" cx="142" cy="62" r="52" clip-path="url(#sqVennClip)"/>
+              <circle class="sq-v-line" cx="88" cy="62" r="52"/>
+              <circle class="sq-v-line" cx="142" cy="62" r="52"/>
+              <text x="62" y="66" class="sq-v-text">customers</text>
+              <text x="168" y="66" class="sq-v-text">orders</text>
+            </svg>
+            <div class="sq-venn-text" id="jn-explain"></div>
+          </div>
+
+          <pre class="sq-sql" id="jn-sql"></pre>
+          <div class="sq-narrate" id="jn-narr" aria-live="polite"></div>
+
+          <div class="sq-join-top">
+            <div>
+              <div class="sq-label">customers c (left table)</div>
+              <div class="sq-scroll" id="jn-left"></div>
+            </div>
+            <div>
+              <div class="sq-label">orders o (right table)</div>
+              <div class="sq-scroll" id="jn-right"></div>
+            </div>
+          </div>
+          <div class="sq-label" id="jn-res-label">Result</div>
+          <div class="sq-scroll" id="jn-res"></div>
+          <p class="sq-note"><b>Why is order 104 here?</b> It points at customer 5, who does not exist. A real schema would block this with a FOREIGN KEY (see the <a href="#foreign-keys">foreign key demo</a>); it is left in so you can see what RIGHT and FULL joins do with an unmatched row.</p>
+        </div>
+      </section>
+
+      <!-- ========================================================================= -->
+      <!-- SUBTOPIC: group-by [START] -->
+      <!-- ========================================================================= -->
+      <section class="content-section" id="group-by">
+        <div class="welcome-card">
+          <span class="eyebrow">Step 5 &bull; Summarising Rows</span>
+          <h2>GROUP BY: Put Rows into Buckets</h2>
+          <p class="lead">
+            GROUP BY collects rows that share a value into one bucket, then an aggregate function (COUNT, SUM, AVG, MIN, MAX) turns each bucket into a single result row.
+          </p>
+        </div>
+
+        <div class="sq-card">
+          <div class="sq-toolbar">
+            <label>Group by <select id="gb-col"></select></label>
+            <label>Aggregate <select id="gb-agg"></select></label>
+            <span class="sq-grow"></span>
+            <button type="button" class="sq-btn sq-run" id="gb-run"><i data-lucide="play"></i>Run</button>
+            <button type="button" class="sq-btn sq-ghost" id="gb-reset"><i data-lucide="rotate-ccw"></i>Reset</button>
+          </div>
+          <pre class="sq-sql" id="gb-sql"></pre>
+          <div class="sq-narrate" id="gb-narr" aria-live="polite"></div>
+          <div class="sq-label">employees &middot; input (8 rows)</div>
+          <div class="sq-scroll" id="gb-src"></div>
+          <div class="sq-label">Buckets</div>
+          <div class="sq-buckets" id="gb-buckets"></div>
+          <div class="sq-label" id="gb-res-label">Result</div>
+          <div class="sq-scroll" id="gb-res"></div>
+        </div>
+      </section>
+
+      <!-- ========================================================================= -->
+      <!-- SUBTOPIC: order-by [START] -->
+      <!-- ========================================================================= -->
+      <section class="content-section" id="order-by">
+        <div class="welcome-card">
+          <span class="eyebrow">Step 6 &bull; Sorting</span>
+          <h2>ORDER BY: Sort the Result</h2>
+          <p class="lead">
+            A table has no built-in order. If the order matters, you must ask for it with ORDER BY. Add a second sort column to break ties between rows with the same first value.
+          </p>
+        </div>
+
+        <div class="sq-card">
+          <div class="sq-toolbar">
+            <label>Sort by <select id="ob-col1"></select></label>
+            <label>Direction <select id="ob-dir1"><option>ASC</option><option>DESC</option></select></label>
+            <label>Then by <select id="ob-col2"></select></label>
+            <label>Direction <select id="ob-dir2"><option>ASC</option><option>DESC</option></select></label>
+            <span class="sq-grow"></span>
+            <button type="button" class="sq-btn sq-run" id="ob-run"><i data-lucide="play"></i>Run</button>
+            <button type="button" class="sq-btn sq-ghost" id="ob-reset"><i data-lucide="rotate-ccw"></i>Reset</button>
+          </div>
+          <pre class="sq-sql" id="ob-sql"></pre>
+          <div class="sq-narrate" id="ob-narr" aria-live="polite"></div>
+          <div class="sq-label">employees</div>
+          <div class="sq-scroll" id="ob-table"></div>
+        </div>
+      </section>
+
+      <!-- ========================================================================= -->
+      <!-- SUBTOPIC: having [START] -->
+      <!-- ========================================================================= -->
+      <section class="content-section" id="having">
+        <div class="welcome-card">
+          <span class="eyebrow">Step 7 &bull; Filtering Groups</span>
+          <h2>HAVING: Filter the Buckets</h2>
+          <p class="lead">
+            WHERE filters rows <em>before</em> grouping. HAVING filters groups <em>after</em> grouping, so it can test aggregates like <code>COUNT(*)</code> or <code>AVG(salary)</code>. Turn on the WHERE option to see both work in one query.
+          </p>
+        </div>
+
+        <div class="sq-card">
+          <div class="sq-label">Try a condition</div>
+          <div class="sq-presets" id="hv-presets"></div>
+          <div class="sq-toolbar">
+            <label>Group by <select id="hv-col"></select></label>
+            <label>Aggregate <select id="hv-agg"></select></label>
+            <label>Operator <select id="hv-op"></select></label>
+            <label>Value <input type="number" id="hv-val"></label>
+            <label class="sq-check"><input type="checkbox" id="hv-where"> WHERE salary &gt;= 50000</label>
+            <span class="sq-grow"></span>
+            <button type="button" class="sq-btn sq-run" id="hv-run"><i data-lucide="play"></i>Run</button>
+            <button type="button" class="sq-btn sq-ghost" id="hv-reset"><i data-lucide="rotate-ccw"></i>Reset</button>
+          </div>
+          <pre class="sq-sql" id="hv-sql"></pre>
+          <div class="sq-pipe" id="hv-pipe"></div>
+          <div class="sq-narrate" id="hv-narr" aria-live="polite"></div>
+          <div class="sq-label">employees &middot; input (8 rows)</div>
+          <div class="sq-scroll" id="hv-src"></div>
+          <div class="sq-label">Groups</div>
+          <div class="sq-buckets" id="hv-buckets"></div>
+          <div class="sq-label" id="hv-res-label">Result</div>
+          <div class="sq-scroll" id="hv-res"></div>
+        </div>
+      </section>
+
+      <!-- ========================================================================= -->
+      <!-- SUBTOPIC: exec-order [START] -->
+      <!-- ========================================================================= -->
+      <section class="content-section" id="exec-order">
+        <div class="welcome-card">
+          <span class="eyebrow">Putting It Together</span>
+          <h2>The Order SQL Really Runs In</h2>
+          <p class="lead">
+            You write SELECT first, but the database runs it fifth. Knowing the real order explains most beginner errors, such as why WHERE cannot use <code>COUNT(*)</code> but ORDER BY can use a column alias.
+          </p>
+        </div>
+
+        <div class="sq-card">
+          <div class="sq-toolbar">
+            <div class="sq-steps" id="ex-steps" role="group" aria-label="Execution steps"></div>
+            <span class="sq-grow"></span>
+            <button type="button" class="sq-btn sq-run" id="ex-play"><i data-lucide="play"></i>Play</button>
+          </div>
+          <pre class="sq-sql" id="ex-sql"></pre>
+          <div class="sq-explain" id="ex-explain" aria-live="polite"></div>
+          <p class="sq-note">Want to run real SQL? The <a href="../foundational/sql/index.html">SQL Foundations course</a> runs PostgreSQL in your browser.</p>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- RIGHT: Course Navigation -->
+    <nav class="inpage-nav-panel" aria-label="In-page Table of Contents">
+      <div class="nav-title">In-Page Navigation</div>
+      <ul class="inpage-menu" id="inpage-menu">
+        <li><a href="#sql-intro" class="active">1. How the Lab Works</a></li>
+        <li><a href="#table-anatomy">2. Anatomy of a Table</a></li>
+        <li><a href="#foreign-keys">3. Foreign Keys</a></li>
+        <li><a href="#where-filter">4. WHERE Filter</a></li>
+        <li><a href="#joins">5. JOINs</a></li>
+        <li><a href="#group-by">6. GROUP BY</a></li>
+        <li><a href="#order-by">7. ORDER BY</a></li>
+        <li><a href="#having">8. HAVING</a></li>
+        <li><a href="#exec-order">9. Execution Order</a></li>
+      </ul>
+    </nav>
+
+  </div>
+
+  <!-- Master Footer -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-main-grid">
+
+        <!-- Column 1: Company Profile & Social Channels -->
+        <div class="footer-col">
+          <div class="footer-col-title">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="building-2" style="color:#38bdf8;width:22px;height:22px;" class="lucide lucide-building-2"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"></path><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"></path><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"></path><path d="M10 6h4"></path><path d="M10 10h4"></path><path d="M10 14h4"></path><path d="M10 18h4"></path></svg>
+            <span>Tinitiate AI Academy</span>
+          </div>
+          <p class="footer-col-desc">
+            Industry-aligned IT training curriculum designed to transition software engineers, cloud architects, and data professionals into high-impact AI, GenAI, and Distributed Lakehouse Engineering roles.
+          </p>
+          <span class="footer-contact-label">Company Social Channels</span>
+          <div class="footer-socials-grid">
+            <a href="https://www.linkedin.com/company/tinitiate-ai" target="_blank" rel="noopener noreferrer" class="footer-social-btn" title="TinitiateAI on LinkedIn">
+              <span class="footer-social-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="#0a66c2"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.45a1.6 1.6 0 1 0 0 3.2 1.6 1.6 0 0 0 0-3.2Z"></path></svg></span>
+              <span>LinkedIn</span>
+            </a>
+            <a href="https://www.youtube.com/@tinitiateai" target="_blank" rel="noopener noreferrer" class="footer-social-btn" title="TinitiateAI on YouTube">
+              <span class="footer-social-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="#ff0000"><path d="M21.58 7.19a2.76 2.76 0 0 0-1.95-1.95C17.9 4.75 12 4.75 12 4.75s-5.9 0-7.63.49a2.76 2.76 0 0 0-1.95 1.95A28.84 28.84 0 0 0 2 12a28.84 28.84 0 0 0 .42 4.81 2.76 2.76 0 0 0 1.95 1.95c1.73.49 7.63.49 7.63.49s5.9 0 7.63-.49a2.76 2.76 0 0 0 1.95-1.95A28.84 28.84 0 0 0 22 12a28.84 28.84 0 0 0-.42-4.81ZM10 15V9l5.2 3L10 15Z"></path></svg></span>
+              <span>YouTube</span>
+            </a>
+            <a href="https://www.facebook.com/tinitiateai" target="_blank" rel="noopener noreferrer" class="footer-social-btn" title="TinitiateAI on Facebook">
+              <span class="footer-social-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="#1877f2"><path d="M24 12.07C24 5.41 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.04V9.41c0-3.02 1.8-4.7 4.54-4.7 1.31 0 2.68.24 2.68.24v2.97h-1.5c-1.5 0-1.96.93-1.96 1.89v2.26h3.32l-.53 3.5h-2.8V24C19.62 23.1 24 18.1 24 12.07"/></svg></span>
+              <span>Facebook</span>
+            </a>
+            <a href="https://www.instagram.com/tinitiate.ai" target="_blank" rel="noopener noreferrer" class="footer-social-btn" title="TinitiateAI on Instagram">
+              <span class="footer-social-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#e4405f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg></span>
+              <span>Instagram</span>
+            </a>
+            <a href="https://x.com/TinitiateAI" target="_blank" rel="noopener noreferrer" class="footer-social-btn" title="TinitiateAI on X">
+              <span class="footer-social-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="#ffffff"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></span>
+              <span>X</span>
+            </a>
+            <a href="https://github.com/venkata-bcs" target="_blank" rel="noopener noreferrer" class="footer-social-btn" title="Tinitiate GitHub">
+              <span class="footer-social-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="#ffffff"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"></path></svg></span>
+              <span>GitHub</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Column 3: Contact & Call Us -->
+        <div class="footer-col">
+          <div class="footer-col-title">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="phone-call" style="color:#22c55e;width:22px;height:22px;" class="lucide lucide-phone-call"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path><path d="M14.05 2a9 9 0 0 1 8 7.94"></path><path d="M14.05 6A5 5 0 0 1 18 10"></path></svg>
+            <span>Contact &amp; Call Us</span>
+          </div>
+          <div class="footer-contact-block">
+            <div class="footer-contact-item">
+              <div class="footer-contact-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="mail" style="width:18px;height:18px;" class="lucide lucide-mail"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg></div>
+              <div class="footer-contact-details">
+                <span class="footer-contact-label">Email Support</span>
+                <a href="mailto:contact@tinitiateai.com" class="footer-web-link">contact@tinitiateai.com</a>
+              </div>
+            </div>
+            <div class="footer-contact-item">
+              <div class="footer-contact-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="globe" style="width:18px;height:18px;" class="lucide lucide-globe"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path><path d="M2 12h20"></path></svg></div>
+              <div class="footer-contact-details">
+                <span class="footer-contact-label">Official Portal</span>
+                <a href="https://tinitiateai.com" target="_blank" rel="noopener noreferrer" class="footer-web-link">tinitiateai.com</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <script src="../assets/js/master-global-nav.js" defer></script>
+
+  <script>
+  (() => {
+    'use strict';
+
+    /* ------------------------------------------------------------------ */
+    /* Shared helpers                                                      */
+    /* ------------------------------------------------------------------ */
+    const CANCEL = new Error('sq-cancelled');
+    let SPEED = 1;
+    if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) SPEED = 0.4;
+
+    // Each section owns a Runner. start() begins a run; cancel() makes any
+    // pending sleep() of that run reject, which stops its animation.
+    class Runner {
+      constructor() { this.id = 0; }
+      start() { return ++this.id; }
+      cancel() { this.id++; }
+      sleep(t, ms) {
+        return new Promise((res, rej) => setTimeout(() => (t === this.id ? res() : rej(CANCEL)), ms * SPEED));
+      }
+    }
+
+    const $ = (s, r = document) => r.querySelector(s);
+    const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+    const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+    const NULL_HTML = '<span class="sq-null">NULL</span>';
+    const fmt = (v) => (v === null || v === undefined ? NULL_HTML : esc(v));
+    const lit = (v) => (typeof v === 'number' ? String(v) : `'${v}'`);
+    const verdict = (ok) => `<span class="sq-verdict ${ok ? 't' : 'f'}">${ok ? 'TRUE' : 'FALSE'}</span>`;
+    const ignoreCancel = (e) => { if (e !== CANCEL) throw e; };
+
+    const KW = new Set(['SELECT', 'FROM', 'WHERE', 'AND', 'OR', 'NOT', 'INNER', 'LEFT', 'RIGHT', 'FULL', 'OUTER', 'JOIN', 'ON',
+      'GROUP', 'BY', 'ORDER', 'HAVING', 'ASC', 'DESC', 'LIKE', 'AS', 'COUNT', 'SUM', 'AVG', 'MIN', 'MAX', 'ROUND',
+      'CREATE', 'TABLE', 'INSERT', 'INTO', 'VALUES', 'PRIMARY', 'KEY', 'NULL', 'CHECK', 'INT', 'VARCHAR', 'NUMERIC',
+      'REFERENCES', 'DELETE', 'UPDATE', 'SET', 'CASCADE', 'NO', 'ACTION']);
+    // Minimal SQL syntax highlighter: strings, numbers, keywords.
+    const hl = (sql) => esc(sql).replace(/('[^']*')|\b(\d+(?:\.\d+)?)\b|\b([A-Z]+)\b/g, (m, s, n, w) => {
+      if (s) return `<span class="sq-str">${s}</span>`;
+      if (n) return `<span class="sq-num">${n}</span>`;
+      return KW.has(w) ? `<span class="sq-kw">${w}</span>` : m;
+    });
+    const sqlBlock = (lines) => lines.map((l) => `<span class="sq-line">${hl(l)}</span>`).join('');
+
+    // Build an HTML table. cols: [{key,label}], rows: [{...}]
+    function buildTable(cols, rows, opts = {}) {
+      const gut = opts.gutter ? `<th class="sq-gutter">${opts.gutter === true ? '#' : opts.gutter}</th>` : '';
+      const st = opts.status ? `<th class="sq-status-h">${opts.status}</th>` : '';
+      const head = gut + cols.map((c) => `<th data-col="${c.key}">${esc(c.label || c.key)}</th>`).join('') + st;
+      const body = rows.length
+        ? rows.map((r, i) => `<tr data-i="${i}">${opts.gutter ? `<td class="sq-gutter">${i + 1}</td>` : ''}${
+            cols.map((c) => `<td data-col="${c.key}">${fmt(r[c.key])}</td>`).join('')}${opts.status ? '<td class="sq-status"></td>' : ''}</tr>`).join('')
+        : (opts.emptyText ? `<tr class="sq-empty"><td colspan="${cols.length + (opts.gutter ? 1 : 0)}">${opts.emptyText}</td></tr>` : '');
+      return `<table class="sq-table">${opts.caption ? `<caption>${opts.caption}</caption>` : ''}<thead><tr>${head}</tr></thead><tbody>${body}</tbody></table>`;
+    }
+
+    function appendRow(tbody, cells, cls = '') {
+      const empty = tbody.querySelector('.sq-empty');
+      if (empty) empty.remove();
+      const tr = document.createElement('tr');
+      tr.className = ('sq-rowin ' + cls).trim();
+      tr.innerHTML = cells.map((v) => `<td>${fmt(v)}</td>`).join('');
+      tbody.appendChild(tr);
+      return tr;
+    }
+
+    function setSeg(seg, attr, value) {
+      $$('button', seg).forEach((b) => b.classList.toggle('on', b.dataset[attr] === value));
+    }
+
+    /* ------------------------------------------------------------------ */
+    /* Data                                                                */
+    /* ------------------------------------------------------------------ */
+    const EMP_COLS = [
+      { key: 'emp_id', type: 'INT', num: true, constraint: 'PRIMARY KEY',
+        desc: 'Unique employee number. No two rows may share it and it can never be NULL, so it identifies exactly one row.' },
+      { key: 'emp_name', type: 'VARCHAR(50)', num: false, constraint: 'NOT NULL',
+        desc: 'The employee’s first name. Text of up to 50 characters, and it must always be filled in.' },
+      { key: 'dept', type: 'VARCHAR(20)', num: false, constraint: '(none)',
+        desc: 'The department. The same value repeats across rows, which makes it a natural GROUP BY column.' },
+      { key: 'salary', type: 'NUMERIC(10,2)', num: true, constraint: 'CHECK (salary > 0)',
+        desc: 'Annual salary. Because it is a number you can compare it with &gt; and &lt;, and SUM or AVG it.' },
+      { key: 'city', type: 'VARCHAR(30)', num: false, constraint: '(none)',
+        desc: 'The office city. Another repeating text value, useful for filtering and grouping.' },
+    ];
+    const EMPLOYEES = [
+      { emp_id: 1, emp_name: 'Asha', dept: 'IT', salary: 85000, city: 'Hyderabad' },
+      { emp_id: 2, emp_name: 'Ravi', dept: 'Sales', salary: 52000, city: 'Chennai' },
+      { emp_id: 3, emp_name: 'Meera', dept: 'HR', salary: 48000, city: 'Hyderabad' },
+      { emp_id: 4, emp_name: 'John', dept: 'IT', salary: 92000, city: 'Bengaluru' },
+      { emp_id: 5, emp_name: 'Priya', dept: 'Sales', salary: 61000, city: 'Bengaluru' },
+      { emp_id: 6, emp_name: 'Kiran', dept: 'IT', salary: 70000, city: 'Chennai' },
+      { emp_id: 7, emp_name: 'Anil', dept: 'HR', salary: 55000, city: 'Bengaluru' },
+      { emp_id: 8, emp_name: 'Sara', dept: 'Sales', salary: 58000, city: 'Hyderabad' },
+    ];
+    const colInfo = (key) => EMP_COLS.find((c) => c.key === key);
+
+    const CUSTOMERS = [
+      { cust_id: 1, cust_name: 'Asha', city: 'Hyderabad' },
+      { cust_id: 2, cust_name: 'Ravi', city: 'Chennai' },
+      { cust_id: 3, cust_name: 'Meera', city: 'Bengaluru' },
+      { cust_id: 4, cust_name: 'John', city: 'Pune' },
+    ];
+    const ORDERS = [
+      { order_id: 101, cust_id: 1, product: 'Laptop', amount: 1200 },
+      { order_id: 102, cust_id: 2, product: 'Phone', amount: 800 },
+      { order_id: 103, cust_id: 1, product: 'Mouse', amount: 25 },
+      { order_id: 104, cust_id: 5, product: 'Monitor', amount: 300 },
+    ];
+
+    const GROUP_COLORS = ['#2563eb', '#db2777', '#059669', '#d97706', '#7c3aed'];
+    const GROUP_COLS = ['dept', 'city'];
+
+    const sumSal = (rs) => rs.reduce((a, r) => a + r.salary, 0);
+    const AGGS = {
+      count: { label: 'COUNT(*)', expr: 'COUNT(*)', test: 'COUNT(*)', alias: 'emp_count',
+        calc: (rs) => rs.length, show: (rs) => `${rs.length} row${rs.length === 1 ? '' : 's'} counted` },
+      sum: { label: 'SUM(salary)', expr: 'SUM(salary)', test: 'SUM(salary)', alias: 'total_salary',
+        calc: sumSal, show: (rs) => `${rs.map((r) => r.salary).join(' + ')} = ${sumSal(rs)}` },
+      avg: { label: 'AVG(salary)', expr: 'ROUND(AVG(salary), 2)', test: 'AVG(salary)', alias: 'avg_salary',
+        calc: (rs) => Math.round((sumSal(rs) / rs.length) * 100) / 100,
+        show: (rs) => `(${rs.map((r) => r.salary).join(' + ')}) / ${rs.length} = ${(sumSal(rs) / rs.length).toFixed(2)}` },
+      min: { label: 'MIN(salary)', expr: 'MIN(salary)', test: 'MIN(salary)', alias: 'min_salary',
+        calc: (rs) => Math.min(...rs.map((r) => r.salary)), show: (rs) => `smallest of ${rs.map((r) => r.salary).join(', ')} = ${Math.min(...rs.map((r) => r.salary))}` },
+      max: { label: 'MAX(salary)', expr: 'MAX(salary)', test: 'MAX(salary)', alias: 'max_salary',
+        calc: (rs) => Math.max(...rs.map((r) => r.salary)), show: (rs) => `largest of ${rs.map((r) => r.salary).join(', ')} = ${Math.max(...rs.map((r) => r.salary))}` },
+    };
+    const aggValue = (k, rs) => (k === 'avg' ? AGGS.avg.calc(rs).toFixed(2) : AGGS[k].calc(rs));
+
+    // Group rows by a column, keeping first-appearance order.
+    function groupRows(rows, key) {
+      const m = new Map();
+      rows.forEach((r, i) => {
+        if (!m.has(r[key])) m.set(r[key], []);
+        m.get(r[key]).push({ r, i });
+      });
+      return m;
+    }
+
+    const OPS = {
+      '=': (a, b) => a === b, '<>': (a, b) => a !== b, '>': (a, b) => a > b,
+      '>=': (a, b) => a >= b, '<': (a, b) => a < b, '<=': (a, b) => a <= b,
+      LIKE: (a, b) => likeToRegex(b).test(String(a)),
+    };
+    function likeToRegex(p) {
+      const body = String(p).split('').map((ch) => (ch === '%' ? '.*' : ch === '_' ? '.' : ch.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))).join('');
+      return new RegExp('^' + body + '$');
+    }
+
+    /* ------------------------------------------------------------------ */
+    /* Speed control                                                       */
+    /* ------------------------------------------------------------------ */
+    function initSpeed() {
+      const seg = $('#speed-seg');
+      seg.addEventListener('click', (e) => {
+        const b = e.target.closest('button[data-speed]');
+        if (!b) return;
+        SPEED = Number(b.dataset.speed);
+        setSeg(seg, 'speed', b.dataset.speed);
+      });
+    }
+
+    /* ------------------------------------------------------------------ */
+    /* 1. Anatomy of a table                                               */
+    /* ------------------------------------------------------------------ */
+    function initAnatomy() {
+      const host = $('#anat-table'), ex = $('#anat-explain'), ddl = $('#anat-ddl');
+      const insWrap = $('#anat-insert-wrap'), ins = $('#anat-insert'), seg = $('#anat-seg');
+      host.innerHTML = buildTable(EMP_COLS, EMPLOYEES, { gutter: true, caption: 'employees' });
+      const table = $('table', host);
+
+      const DDL = [
+        ['', 'CREATE TABLE employees ('],
+        ['emp_id', '  emp_id    INT            PRIMARY KEY,'],
+        ['emp_name', '  emp_name  VARCHAR(50)    NOT NULL,'],
+        ['dept', '  dept      VARCHAR(20),'],
+        ['salary', '  salary    NUMERIC(10,2)  CHECK (salary > 0),'],
+        ['city', '  city      VARCHAR(30)'],
+        ['', ');'],
+      ];
+      ddl.innerHTML = DDL.map(([k, l]) => `<span class="sq-line" data-col="${k}">${hl(l)}</span>`).join('');
+      const lines = $$('.sq-line', ddl);
+
+      const HL = ['sq-hl-table', 'sq-hl-col', 'sq-hl-row', 'sq-hl-gut', 'sq-hl-cell'];
+      function clear() {
+        table.classList.remove('sq-hl-table');
+        $$('th, td, tr', table).forEach((el) => { el.classList.remove(...HL, 'sq-colbox'); el.style.removeProperty('--cb'); });
+        lines.forEach((l) => l.classList.remove('on'));
+        insWrap.hidden = true;
+      }
+      const colCells = (k) => $$(`[data-col="${k}"]`, table);
+      // Draw a bold coloured box around a whole column (header to last row).
+      const COL_COLORS = ['#7c3aed', '#2563eb', '#059669', '#d97706', '#db2777'];
+      const colBox = (k, color) => colCells(k).forEach((el) => { el.classList.add('sq-colbox'); el.style.setProperty('--cb', color); });
+      const rowTuple = (r) => '(' + EMP_COLS.map((c) => lit(r[c.key])).join(', ') + ')';
+      const panel = (kicker, title, body, facts) => {
+        ex.innerHTML = `<div class="sq-kicker">${kicker}</div><h3>${title}</h3>${body}` +
+          (facts ? `<dl class="sq-facts">${facts.map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join('')}</dl>` : '');
+      };
+
+      function show(kind, a, b) {
+        clear();
+        if (kind === 'table') {
+          table.classList.add('sq-hl-table');
+          lines[0].classList.add('on'); lines[lines.length - 1].classList.add('on');
+          panel('Table = Entity = Relation', 'employees',
+            '<p>A table stores one kind of thing (an <em>entity</em>). Here every row is one employee. The table name is how SQL refers to it: <code>FROM employees</code>.</p>',
+            [['Columns (degree)', EMP_COLS.length], ['Rows (cardinality)', EMPLOYEES.length], ['Cells', EMP_COLS.length * EMPLOYEES.length]]);
+        } else if (kind === 'columns') {
+          EMP_COLS.forEach((c, n) => colBox(c.key, COL_COLORS[n % COL_COLORS.length]));
+          lines.slice(1, -1).forEach((l) => l.classList.add('on'));
+          panel('Columns = Attributes', 'The shape of every row',
+            '<p>Columns run top to bottom: each coloured box in the table is one column. Each one has a <strong>name</strong>, a <strong>data type</strong> and optional <strong>constraints</strong>. Every row must fit this shape. Click a column for details:</p>' +
+            `<div class="sq-colchips">${EMP_COLS.map((c) => `<button type="button" class="sq-chip" data-pick="${c.key}">${c.key}</button>`).join('')}</div>`);
+        } else if (kind === 'col' || kind === 'pk') {
+          const c = colInfo(a);
+          colCells(a).forEach((el) => el.classList.add('sq-hl-col'));
+          colBox(a, '#7c3aed');
+          lines.forEach((l) => { if (l.dataset.col === a) l.classList.add('on'); });
+          const vals = EMPLOYEES.map((r) => r[a]);
+          const distinct = [...new Set(vals)];
+          const facts = [['Data type', c.type], ['Constraint', c.constraint], ['Distinct values', `${distinct.length} of ${vals.length}`]];
+          if (c.num) facts.push(['Range', `${Math.min(...vals)} to ${Math.max(...vals)}`]);
+          else facts.push(['Values', distinct.map((v) => esc(v)).join(', ')]);
+          if (kind === 'pk') {
+            panel('Primary key', 'emp_id identifies each row',
+              '<p>A primary key is a column whose value is unique and never NULL. Give the database a key value and it finds exactly one row: <code>WHERE emp_id = 4</code> can only ever return John.</p><p>Other tables point at it with a <em>foreign key</em>, which is how JOINs connect tables. <a href="#foreign-keys">See the foreign key demo below.</a></p>', facts);
+          } else {
+            panel('Column = Attribute', esc(a), `<p>${c.desc}</p>`, facts);
+          }
+        } else if (kind === 'rows') {
+          $$('td.sq-gutter', table).forEach((td) => td.classList.add('sq-hl-gut'));
+          panel('Rows = Tuples = Records', 'One row per employee',
+            '<p>Rows run left to right. Each row is one complete fact: one value for every column. Click a row number to see it as a tuple.</p><p><strong>Rows have no built-in order.</strong> The numbers on the left are just for this page; the database may return rows in any order unless you use ORDER BY.</p>');
+        } else if (kind === 'row') {
+          const r = EMPLOYEES[a], tr = table.tBodies[0].rows[a];
+          tr.classList.add('sq-hl-row');
+          tr.cells[0].classList.add('sq-hl-gut');
+          ins.innerHTML = sqlBlock([`INSERT INTO employees VALUES ${rowTuple(r)};`]);
+          insWrap.hidden = false;
+          panel('Row = Tuple', `Row ${a + 1}: ${esc(r.emp_name)}`,
+            `<p>As a tuple this row is <code>${esc(rowTuple(r))}</code>. Values are listed in column order.</p>`,
+            EMP_COLS.map((c) => [c.key, esc(lit(r[c.key]))]));
+        } else if (kind === 'cell') {
+          const r = EMPLOYEES[a], tr = table.tBodies[0].rows[a];
+          tr.classList.add('sq-hl-row');
+          colCells(b).forEach((el) => el.classList.add('sq-hl-col'));
+          colBox(b, '#7c3aed');
+          $(`td[data-col="${b}"]`, tr).classList.add('sq-hl-cell');
+          ins.innerHTML = sqlBlock([`SELECT ${b} FROM employees WHERE emp_id = ${r.emp_id};`, `-- returns ${lit(r[b])}`]);
+          insWrap.hidden = false;
+          panel('Cell = Value', `${esc(lit(r[b]))}`,
+            `<p>A cell is where one row meets one column. Every value can be found with three things: the <strong>table</strong> (employees), the <strong>primary key</strong> (emp_id = ${r.emp_id}) and the <strong>column</strong> (${b}).</p>`,
+            [['Table', 'employees'], ['Row (key)', `emp_id = ${r.emp_id}`], ['Column', b], ['Type', colInfo(b).type]]);
+        }
+      }
+
+      table.addEventListener('click', (e) => {
+        const cap = e.target.closest('caption'), th = e.target.closest('th'), td = e.target.closest('td');
+        if (cap) { setSeg(seg, 'focus', 'table'); return show('table'); }
+        if (th && th.dataset.col) { setSeg(seg, 'focus', th.dataset.col === 'emp_id' ? 'pk' : 'columns'); return show(th.dataset.col === 'emp_id' ? 'pk' : 'col', th.dataset.col); }
+        if (td) {
+          const i = Number(td.parentElement.dataset.i);
+          if (td.classList.contains('sq-gutter')) { setSeg(seg, 'focus', 'rows'); return show('row', i); }
+          setSeg(seg, 'focus', 'cell'); return show('cell', i, td.dataset.col);
+        }
+      });
+      ex.addEventListener('click', (e) => {
+        const b = e.target.closest('[data-pick]');
+        if (b) show(b.dataset.pick === 'emp_id' ? 'pk' : 'col', b.dataset.pick);
+      });
+      seg.addEventListener('click', (e) => {
+        const b = e.target.closest('button[data-focus]');
+        if (!b) return;
+        setSeg(seg, 'focus', b.dataset.focus);
+        const f = b.dataset.focus;
+        if (f === 'pk') show('pk', 'emp_id');
+        else if (f === 'cell') show('cell', 3, 'salary');
+        else show(f);
+      });
+      show('table');
+    }
+
+    /* ------------------------------------------------------------------ */
+    /* 2. WHERE                                                            */
+    /* ------------------------------------------------------------------ */
+    /* ------------------------------------------------------------------ */
+    /* Foreign keys                                                        */
+    /* ------------------------------------------------------------------ */
+    function initFK() {
+      const run = new Runner();
+      const modeSeg = $('#fk-mode'), ddl = $('#fk-ddl'), actionsEl = $('#fk-actions'), stmt = $('#fk-stmt'), narr = $('#fk-narr');
+      const pHost = $('#fk-parent'), cHost = $('#fk-child'), svg = $('#fk-lines'), wrap = $('#fk-wrap');
+      const P_COLS = [{ key: 'cust_id', tag: 'PK' }, { key: 'cust_name' }, { key: 'city' }];
+      const C_COLS = [{ key: 'order_id', tag: 'PK' }, { key: 'cust_id', tag: 'FK' }, { key: 'product' }, { key: 'amount' }];
+      const P0 = [
+        { cust_id: 1, cust_name: 'Asha', city: 'Hyderabad' },
+        { cust_id: 2, cust_name: 'Ravi', city: 'Chennai' },
+        { cust_id: 3, cust_name: 'Meera', city: 'Bengaluru' },
+        { cust_id: 4, cust_name: 'John', city: 'Pune' },
+      ];
+      const C0 = [
+        { order_id: 101, cust_id: 1, product: 'Laptop', amount: 1200 },
+        { order_id: 102, cust_id: 2, product: 'Phone', amount: 800 },
+        { order_id: 103, cust_id: 1, product: 'Mouse', amount: 25 },
+        { order_id: 104, cust_id: 3, product: 'Monitor', amount: 300 },
+      ];
+      const FK_NAME = 'orders_cust_id_fkey';
+      let P = [], C = [], mode = 'NO ACTION', focus = null, busy = false;
+
+      const ACTIONS = [
+        { sql: "INSERT INTO orders VALUES (105, 2, 'Keyboard', 45);", go: (t) => doInsert(t, { order_id: 105, cust_id: 2, product: 'Keyboard', amount: 45 }) },
+        { sql: "INSERT INTO orders VALUES (106, 9, 'Webcam', 60);", go: (t) => doInsert(t, { order_id: 106, cust_id: 9, product: 'Webcam', amount: 60 }) },
+        { sql: 'UPDATE orders SET cust_id = 7 WHERE order_id = 102;', go: (t) => doUpdate(t, 102, 7) },
+        { sql: 'DELETE FROM customers WHERE cust_id = 4;', go: (t) => doDelete(t, 4) },
+        { sql: 'DELETE FROM customers WHERE cust_id = 1;', go: (t) => doDelete(t, 1) },
+      ];
+      actionsEl.innerHTML = ACTIONS.map((a, i) => `<button type="button" class="sq-chip" data-a="${i}">${esc(a.sql)}</button>`).join('');
+
+      const table = (cols, rows, key) =>
+        `<table class="sq-table"><thead><tr>${cols.map((c) => `<th data-col="${c.key}">${c.key}${c.tag ? `<span class="sq-keytag ${c.tag.toLowerCase()}">${c.tag}</span>` : ''}</th>`).join('')}</tr></thead><tbody>${
+          rows.map((r) => `<tr data-k="${r[key]}">${cols.map((c) => `<td data-col="${c.key}">${fmt(r[c.key])}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
+      const rowP = (k) => $(`tr[data-k="${k}"]`, pHost);
+      const rowC = (k) => $(`tr[data-k="${k}"]`, cHost);
+      const fkCell = (tr) => $('td[data-col="cust_id"]', tr);
+      const ids = (rows) => rows.map((c) => c.order_id).join(', ');
+
+      function showDDL() {
+        sqlBlockInto(ddl, [
+          'CREATE TABLE customers (cust_id INT PRIMARY KEY, cust_name VARCHAR(30), city VARCHAR(30));',
+          '',
+          'CREATE TABLE orders (',
+          '  order_id  INT PRIMARY KEY,',
+          '  cust_id   INT REFERENCES customers (cust_id)',
+          `            ON DELETE ${mode},${mode === 'NO ACTION' ? '   -- the default: refuse' : ''}`,
+          '  product   VARCHAR(30),',
+          '  amount    NUMERIC(10,2)',
+          ');',
+        ]);
+        $$('.sq-line', ddl).forEach((l, i) => l.classList.toggle('on', i === 4 || i === 5));
+      }
+      function sqlBlockInto(el, lines) { el.innerHTML = sqlBlock(lines); }
+      // Show the statement plus psql-style output lines: [['ok'|'err', text], ...]
+      function showStmt(sql, out = []) {
+        stmt.hidden = false;
+        stmt.innerHTML = `<span class="sq-line">${hl(sql)}</span>` + out.map(([k, txt]) => `<span class="sq-line sq-${k}">${esc(txt)}</span>`).join('');
+      }
+
+      function drawLines(newK) {
+        const sr = svg.getBoundingClientRect();
+        if (!sr.width || getComputedStyle(svg).display === 'none') { svg.innerHTML = ''; return; }
+        svg.setAttribute('viewBox', `0 0 ${sr.width} ${sr.height}`);
+        const w = sr.width;
+        let out = '';
+        C.forEach((c) => {
+          if (c.cust_id === null || c._pending) return;
+          const pr = rowP(c.cust_id), cr = rowC(c.order_id);
+          if (!pr || !cr) return;
+          const a = pr.getBoundingClientRect(), b = cr.getBoundingClientRect();
+          const y1 = a.top + a.height / 2 - sr.top, y2 = b.top + b.height / 2 - sr.top;
+          const hot = focus && ((focus.side === 'p' && focus.k === c.cust_id) || (focus.side === 'c' && focus.k === c.order_id));
+          out += `<path class="sq-fk-path${hot ? ' hot' : ''}${newK === c.order_id ? ' new' : ''}" d="M3 ${y1} C ${w / 2} ${y1}, ${w / 2} ${y2}, ${w - 3} ${y2}"/>` +
+            `<circle cx="3" cy="${y1}" r="3.5"/><circle cx="${w - 3}" cy="${y2}" r="3.5"/>`;
+        });
+        svg.innerHTML = out;
+      }
+
+      function applyFocus() {
+        $$('tbody tr', wrap).forEach((tr) => tr.classList.remove('sq-active', 'sq-match'));
+        if (!focus) return;
+        if (focus.side === 'p') {
+          const tr = rowP(focus.k);
+          if (!tr) { focus = null; return; }
+          tr.classList.add('sq-active');
+          const kids = C.filter((c) => c.cust_id === focus.k);
+          kids.forEach((c) => rowC(c.order_id).classList.add('sq-match'));
+          const p = P.find((r) => r.cust_id === focus.k);
+          narr.innerHTML = kids.length
+            ? `Customer <b>${p.cust_id}</b> (${esc(p.cust_name)}) is referenced by order${kids.length > 1 ? 's' : ''} <b>${ids(kids)}</b>. Deleting this customer would leave ${kids.length > 1 ? 'them' : 'it'} pointing at nothing.`
+            : `Customer <b>${p.cust_id}</b> (${esc(p.cust_name)}) has no orders. Nothing points at this row, so it can be deleted safely.`;
+        } else {
+          const tr = rowC(focus.k), o = C.find((c) => c.order_id === focus.k);
+          if (!tr || !o) { focus = null; return; }
+          tr.classList.add('sq-active');
+          if (o.cust_id === null) { narr.innerHTML = `Order <b>${o.order_id}</b> has <code>cust_id = NULL</code>: it points at no customer. A foreign key allows NULL unless the column is also NOT NULL.`; return; }
+          const p = P.find((r) => r.cust_id === o.cust_id);
+          rowP(o.cust_id).classList.add('sq-match');
+          narr.innerHTML = `Order <b>${o.order_id}</b> has <code>cust_id = ${o.cust_id}</code>, which points at customer <b>${p.cust_id}</b> (${esc(p.cust_name)}, ${esc(p.city)}). A JOIN follows exactly this link.`;
+        }
+      }
+
+      function render(newK) {
+        pHost.innerHTML = table(P_COLS, P, 'cust_id');
+        cHost.innerHTML = table(C_COLS, C, 'order_id');
+        applyFocus();
+        drawLines(newK);
+      }
+
+      // Animate the FK lookup: scan customers for cust_id = v. Returns true if found.
+      async function lookUp(t, v) {
+        for (const p of P) {
+          const tr = rowP(p.cust_id);
+          tr.classList.add('sq-compare');
+          fkCell(tr).classList.add('sq-focus');
+          await run.sleep(t, 330);
+          fkCell(tr).classList.remove('sq-focus');
+          tr.classList.remove('sq-compare');
+          if (p.cust_id === v) { tr.classList.add('sq-match'); return true; }
+        }
+        return false;
+      }
+      const notPresent = (v) => [['err', `ERROR:  insert or update on table "orders" violates foreign key constraint "${FK_NAME}"`], ['err', `DETAIL:  Key (cust_id)=(${v}) is not present in table "customers".`]];
+
+      async function doInsert(t, o) {
+        const sql = `INSERT INTO orders VALUES (${o.order_id}, ${o.cust_id}, '${o.product}', ${o.amount});`;
+        showStmt(sql);
+        narr.innerHTML = `Check 1 &middot; PRIMARY KEY: is <code>order_id = ${o.order_id}</code> new?`;
+        $$('td[data-col="order_id"]', cHost).forEach((td) => td.classList.add('sq-focus'));
+        await run.sleep(t, 700);
+        $$('td[data-col="order_id"]', cHost).forEach((td) => td.classList.remove('sq-focus'));
+        if (C.some((c) => c.order_id === o.order_id)) {
+          rowC(o.order_id).classList.add('sq-reject');
+          showStmt(sql, [['err', 'ERROR:  duplicate key value violates unique constraint "orders_pkey"'], ['err', `DETAIL:  Key (order_id)=(${o.order_id}) already exists.`]]);
+          narr.innerHTML = `Refused by the <b>primary key</b>: order ${o.order_id} already exists (you inserted it earlier). Press Reset to start over.`;
+          return;
+        }
+        C.push({ ...o, _pending: true });
+        render();
+        const tr = rowC(o.order_id);
+        tr.classList.add('sq-rowin', 'sq-compare');
+        narr.innerHTML = `Check 2 &middot; FOREIGN KEY: does <b>customers</b> have <code>cust_id = ${o.cust_id}</code>?`;
+        await run.sleep(t, 500);
+        const found = await lookUp(t, o.cust_id);
+        tr.classList.remove('sq-compare');
+        if (found) {
+          delete C[C.length - 1]._pending;
+          tr.classList.add('sq-match');
+          drawLines(o.order_id);
+          showStmt(sql, [['ok', 'INSERT 0 1']]);
+          narr.innerHTML = `Accepted. Customer ${o.cust_id} exists, so order ${o.order_id} is stored and linked to it (green line).`;
+        } else {
+          tr.classList.add('sq-reject');
+          showStmt(sql, notPresent(o.cust_id));
+          narr.innerHTML = `Refused. There is no customer ${o.cust_id}, so the order would point at nothing (an <em>orphan</em> row). The row is rolled back.`;
+          await run.sleep(t, 1400);
+          C = C.filter((c) => c.order_id !== o.order_id);
+          render();
+        }
+      }
+
+      async function doUpdate(t, id, v) {
+        const sql = `UPDATE orders SET cust_id = ${v} WHERE order_id = ${id};`;
+        showStmt(sql);
+        const o = C.find((c) => c.order_id === id);
+        if (!o) { showStmt(sql, [['ok', 'UPDATE 0']]); narr.innerHTML = `No order ${id} exists, so nothing changes.`; return; }
+        const tr = rowC(id);
+        tr.classList.add('sq-active');
+        fkCell(tr).classList.add('sq-focus');
+        narr.innerHTML = `Order ${id} wants to change <code>cust_id</code> to <b>${v}</b>. Updates are checked too: does customer ${v} exist?`;
+        await run.sleep(t, 800);
+        const found = await lookUp(t, v);
+        fkCell(tr).classList.remove('sq-focus');
+        tr.classList.remove('sq-active');
+        if (found) {
+          o.cust_id = v;
+          render(id);
+          showStmt(sql, [['ok', 'UPDATE 1']]);
+          narr.innerHTML = `Accepted. Order ${id} now points at customer ${v}.`;
+        } else {
+          tr.classList.add('sq-reject');
+          showStmt(sql, notPresent(v));
+          narr.innerHTML = `Refused. Customer ${v} does not exist, so order ${id} keeps <code>cust_id = ${o.cust_id}</code>.`;
+        }
+      }
+
+      async function doDelete(t, k) {
+        const sql = `DELETE FROM customers WHERE cust_id = ${k};`;
+        showStmt(sql);
+        const p = P.find((r) => r.cust_id === k);
+        if (!p) { showStmt(sql, [['ok', 'DELETE 0']]); narr.innerHTML = `Customer ${k} is already gone, so 0 rows are deleted.`; return; }
+        const ptr = rowP(k);
+        ptr.classList.add('sq-active');
+        narr.innerHTML = `Before deleting customer <b>${k}</b> (${esc(p.cust_name)}), the database looks for orders that still point at it&hellip;`;
+        await run.sleep(t, 600);
+        const refs = [];
+        for (const c of C) {
+          const tr = rowC(c.order_id);
+          tr.classList.add('sq-compare');
+          fkCell(tr).classList.add('sq-focus');
+          await run.sleep(t, 300);
+          fkCell(tr).classList.remove('sq-focus');
+          tr.classList.remove('sq-compare');
+          if (c.cust_id === k) { tr.classList.add('sq-nomatch'); refs.push(c); }
+        }
+        if (!refs.length) {
+          ptr.classList.add('sq-removing');
+          await run.sleep(t, 700);
+          P = P.filter((r) => r.cust_id !== k);
+          render();
+          showStmt(sql, [['ok', 'DELETE 1']]);
+          narr.innerHTML = `Accepted. No order references customer ${k}, so deleting it cannot break any link.`;
+          return;
+        }
+        if (mode === 'NO ACTION') {
+          refs.forEach((c) => rowC(c.order_id).classList.add('sq-reject'));
+          showStmt(sql, [['err', `ERROR:  update or delete on table "customers" violates foreign key constraint "${FK_NAME}" on table "orders"`], ['err', `DETAIL:  Key (cust_id)=(${k}) is still referenced from table "orders".`]]);
+          narr.innerHTML = `Refused. Order${refs.length > 1 ? 's' : ''} <b>${ids(refs)}</b> still point${refs.length > 1 ? '' : 's'} at customer ${k}. Delete or move ${refs.length > 1 ? 'them' : 'it'} first, or switch the rule to CASCADE or SET NULL above and try again.`;
+          return;
+        }
+        if (mode === 'CASCADE') {
+          ptr.classList.add('sq-removing');
+          refs.forEach((c) => rowC(c.order_id).classList.add('sq-removing'));
+          await run.sleep(t, 800);
+          P = P.filter((r) => r.cust_id !== k);
+          C = C.filter((c) => c.cust_id !== k);
+          render();
+          showStmt(sql, [['ok', 'DELETE 1']]);
+          narr.innerHTML = `CASCADE: deleting customer ${k} also deleted order${refs.length > 1 ? 's' : ''} <b>${ids(refs)}</b>. psql still says <code>DELETE 1</code> because it only counts rows from <b>customers</b>. Powerful, but use it with care.`;
+          return;
+        }
+        // SET NULL
+        refs.forEach((c) => { fkCell(rowC(c.order_id)).classList.add('sq-focus'); });
+        ptr.classList.add('sq-removing');
+        await run.sleep(t, 800);
+        P = P.filter((r) => r.cust_id !== k);
+        refs.forEach((c) => { c.cust_id = null; });
+        render();
+        refs.forEach((c) => rowC(c.order_id).classList.add('sq-nullrow'));
+        showStmt(sql, [['ok', 'DELETE 1']]);
+        narr.innerHTML = `SET NULL: customer ${k} is deleted and order${refs.length > 1 ? 's' : ''} <b>${ids(refs)}</b> now ha${refs.length > 1 ? 've' : 's'} <code>cust_id = NULL</code>. The orders survive but no longer belong to anyone.`;
+      }
+
+      function setBusy(b) {
+        busy = b;
+        $$('.sq-chip', actionsEl).forEach((c) => { c.disabled = b; });
+      }
+      function reset() {
+        run.cancel();
+        setBusy(false);
+        P = P0.map((r) => ({ ...r }));
+        C = C0.map((r) => ({ ...r }));
+        focus = null;
+        setSeg(modeSeg, 'mode', mode);
+        showDDL();
+        stmt.hidden = true;
+        render();
+        narr.innerHTML = 'Click any row to follow its link. Then pick a statement above: will the database accept it?';
+      }
+
+      actionsEl.addEventListener('click', async (e) => {
+        const b = e.target.closest('[data-a]');
+        if (!b || busy) return;
+        const t = run.start();
+        setBusy(true);
+        focus = null;
+        render();
+        try {
+          await ACTIONS[Number(b.dataset.a)].go(t);
+          setBusy(false);
+        } catch (err) { ignoreCancel(err); }
+      });
+      wrap.addEventListener('click', (e) => {
+        const tr = e.target.closest('tbody tr');
+        if (!tr || busy) return;
+        const side = pHost.contains(tr) ? 'p' : 'c';
+        const k = Number(tr.dataset.k);
+        focus = focus && focus.side === side && focus.k === k ? null : { side, k };
+        applyFocus();
+        drawLines();
+        if (!focus) narr.innerHTML = 'Click any row to follow its link.';
+      });
+      modeSeg.addEventListener('click', (e) => {
+        const b = e.target.closest('button[data-mode]');
+        if (!b) return;
+        mode = b.dataset.mode;
+        reset();
+      });
+      $('#fk-reset').addEventListener('click', reset);
+      if (window.ResizeObserver) new ResizeObserver(() => drawLines()).observe(wrap);
+      window.addEventListener('load', () => drawLines());
+      reset();
+    }
+
+    function initWhere() {
+      const run = new Runner();
+      const colSel = $('#wh-col'), opSel = $('#wh-op'), valIn = $('#wh-val');
+      const runBtn = $('#wh-run'), sqlEl = $('#wh-sql'), narr = $('#wh-narr');
+      const src = $('#wh-src'), res = $('#wh-res'), resLabel = $('#wh-res-label'), presetsEl = $('#wh-presets');
+      const NUM_OPS = ['=', '<>', '>', '>=', '<', '<='], TXT_OPS = ['=', '<>', 'LIKE'];
+      let pred = null;
+
+      function simple(col, op, raw) {
+        const c = colInfo(col);
+        const v = c.num ? Number(raw) : String(raw);
+        if (c.num && (String(raw).trim() === '' || Number.isNaN(v))) return null;
+        const test = (r) => OPS[op](r[col], v);
+        return {
+          sql: `${col} ${op} ${lit(v)}`, cols: [col], test,
+          explain: (r) => `<span class="${test(r) ? 'sq-t' : 'sq-f'}">${esc(`${lit(r[col])} ${op} ${lit(v)}`)}</span>`,
+        };
+      }
+      function combine(a, b, word) {
+        return {
+          sql: `${a.sql} ${word} ${b.sql}`, cols: [...a.cols, ...b.cols],
+          test: word === 'AND' ? (r) => a.test(r) && b.test(r) : (r) => a.test(r) || b.test(r),
+          explain: (r) => `${a.explain(r)} <b>${word}</b> ${b.explain(r)}`,
+        };
+      }
+      const PRESETS = [
+        { label: 'salary > 60000', set: ['salary', '>', '60000'] },
+        { label: "dept = 'IT'", set: ['dept', '=', 'IT'] },
+        { label: "city <> 'Chennai'", set: ['city', '<>', 'Chennai'] },
+        { label: "emp_name LIKE 'A%'", set: ['emp_name', 'LIKE', 'A%'] },
+        { label: "dept = 'Sales' AND salary > 55000", make: () => combine(simple('dept', '=', 'Sales'), simple('salary', '>', '55000'), 'AND') },
+        { label: "city = 'Chennai' OR salary > 90000", make: () => combine(simple('city', '=', 'Chennai'), simple('salary', '>', '90000'), 'OR') },
+      ];
+      presetsEl.innerHTML = PRESETS.map((p, i) => `<button type="button" class="sq-chip" data-p="${i}">${esc(p.label)}</button>`).join('');
+      colSel.innerHTML = EMP_COLS.map((c) => `<option value="${c.key}">${c.key}</option>`).join('');
+
+      function fillOps(keep) {
+        const ops = colInfo(colSel.value).num ? NUM_OPS : TXT_OPS;
+        opSel.innerHTML = ops.map((o) => `<option>${esc(o)}</option>`).join('');
+        opSel.value = ops.includes(keep) ? keep : ops[0];
+        valIn.placeholder = colInfo(colSel.value).num ? 'a number' : "text, % = wildcard";
+      }
+      function fromBuilder() {
+        pred = simple(colSel.value, opSel.value, valIn.value);
+        valIn.classList.toggle('sq-bad', !pred);
+        $$('.sq-chip', presetsEl).forEach((c) => c.classList.toggle('on', !!pred && c.textContent === pred.sql));
+        reset();
+      }
+      function applyPreset(i) {
+        const p = PRESETS[i];
+        if (p.set) {
+          colSel.value = p.set[0]; fillOps(p.set[1]); valIn.value = p.set[2];
+          pred = simple(...p.set);
+        } else {
+          pred = p.make();
+          valIn.value = '';
+          valIn.placeholder = 'type to build your own';
+        }
+        valIn.classList.remove('sq-bad');
+        $$('.sq-chip', presetsEl).forEach((c, j) => c.classList.toggle('on', j === i));
+        reset();
+      }
+
+      function reset() {
+        run.cancel();
+        runBtn.disabled = !pred;
+        sqlEl.innerHTML = pred
+          ? sqlBlock(['SELECT *', 'FROM employees', `WHERE ${pred.sql};`])
+          : `<span class="sq-err">-- Enter a number for ${esc(colSel.value)} to build the query</span>`;
+        src.innerHTML = buildTable(EMP_COLS, EMPLOYEES, { status: 'WHERE check' });
+        res.innerHTML = buildTable(EMP_COLS, [], { emptyText: 'Press Run to filter the rows.' });
+        resLabel.textContent = 'Result';
+        narr.innerHTML = 'Press <b>Run</b>. The database will check the condition on each row, one at a time.';
+      }
+
+      async function go() {
+        if (!pred) return;
+        reset();
+        const t = run.start();
+        runBtn.disabled = true;
+        const rows = $$('tbody tr', src), rbody = $('tbody', res);
+        let kept = 0;
+        try {
+          for (let i = 0; i < EMPLOYEES.length; i++) {
+            const r = EMPLOYEES[i], tr = rows[i];
+            tr.classList.add('sq-scan');
+            pred.cols.forEach((c) => $(`td[data-col="${c}"]`, tr).classList.add('sq-focus'));
+            narr.innerHTML = `Row ${i + 1} (${esc(r.emp_name)}): is <code>${esc(pred.sql)}</code> true?`;
+            await run.sleep(t, 650);
+            const ok = pred.test(r);
+            $('.sq-status', tr).innerHTML = pred.explain(r) + verdict(ok);
+            tr.classList.remove('sq-scan');
+            tr.classList.add(ok ? 'sq-keep' : 'sq-drop');
+            $$('.sq-focus', tr).forEach((td) => td.classList.remove('sq-focus'));
+            if (ok) {
+              kept++;
+              appendRow(rbody, EMP_COLS.map((c) => r[c.key]));
+              resLabel.textContent = `Result (${kept} row${kept === 1 ? '' : 's'})`;
+              narr.innerHTML = `Row ${i + 1} (${esc(r.emp_name)}) is <b class="sq-t">TRUE</b>, so it goes into the result.`;
+            } else {
+              narr.innerHTML = `Row ${i + 1} (${esc(r.emp_name)}) is <b class="sq-f">FALSE</b>, so it is filtered out.`;
+            }
+            await run.sleep(t, 350);
+          }
+          if (!kept) rbody.innerHTML = `<tr class="sq-empty"><td colspan="${EMP_COLS.length}">No rows matched (0 rows).</td></tr>`;
+          resLabel.textContent = `Result (${kept} row${kept === 1 ? '' : 's'})`;
+          narr.innerHTML = `Done. The database scanned <b>${EMPLOYEES.length}</b> rows and returned <b>${kept}</b>. WHERE never changes a row; it only decides which rows are kept.`;
+          runBtn.disabled = false;
+        } catch (e) { ignoreCancel(e); }
+      }
+
+      colSel.addEventListener('change', () => { fillOps(opSel.value); valIn.value = ''; fromBuilder(); });
+      opSel.addEventListener('change', fromBuilder);
+      valIn.addEventListener('input', fromBuilder);
+      presetsEl.addEventListener('click', (e) => { const b = e.target.closest('[data-p]'); if (b) applyPreset(Number(b.dataset.p)); });
+      runBtn.addEventListener('click', go);
+      $('#wh-reset').addEventListener('click', reset);
+      fillOps();
+      applyPreset(0);
+    }
+
+    /* ------------------------------------------------------------------ */
+    /* 3. JOIN                                                             */
+    /* ------------------------------------------------------------------ */
+    function initJoin() {
+      const run = new Runner();
+      const seg = $('#jn-seg'), runBtn = $('#jn-run'), sqlEl = $('#jn-sql'), narr = $('#jn-narr');
+      const left = $('#jn-left'), right = $('#jn-right'), res = $('#jn-res'), resLabel = $('#jn-res-label'), explain = $('#jn-explain');
+      const C_COLS = [{ key: 'cust_id' }, { key: 'cust_name' }, { key: 'city' }];
+      const O_COLS = [{ key: 'order_id' }, { key: 'cust_id' }, { key: 'product' }, { key: 'amount' }];
+      const R_COLS = [{ key: 'a', label: 'c.cust_id' }, { key: 'b', label: 'c.cust_name' }, { key: 'c', label: 'o.order_id' }, { key: 'd', label: 'o.cust_id' }, { key: 'e', label: 'o.amount' }];
+      const TEXT = {
+        INNER: '<strong>INNER JOIN</strong> keeps only pairs that match on both sides. Customers with no orders (Meera, John) and the order with no customer (104) disappear.',
+        LEFT: '<strong>LEFT JOIN</strong> keeps every customer. A customer with no orders still appears once, with <span class="sq-null">NULL</span> in the order columns.',
+        RIGHT: '<strong>RIGHT JOIN</strong> keeps every order. Order 104 has no matching customer, so its customer columns are <span class="sq-null">NULL</span>.',
+        FULL: '<strong>FULL OUTER JOIN</strong> keeps everything from both sides. Matches are paired up; leftovers from either side are padded with <span class="sq-null">NULL</span>.',
+      };
+      let type = 'INNER';
+      const keyCell = (tr) => $('td[data-col="cust_id"]', tr);
+
+      function reset() {
+        run.cancel();
+        runBtn.disabled = false;
+        setSeg(seg, 'type', type);
+        const kw = type === 'FULL' ? 'FULL OUTER JOIN' : `${type} JOIN`;
+        sqlEl.innerHTML = sqlBlock(['SELECT c.cust_id, c.cust_name, o.order_id, o.cust_id, o.amount', 'FROM customers c', `${kw} orders o`, '  ON c.cust_id = o.cust_id;']);
+        explain.innerHTML = TEXT[type];
+        $('.sq-va').classList.toggle('on', type === 'LEFT' || type === 'FULL');
+        $('.sq-vb').classList.toggle('on', type === 'RIGHT' || type === 'FULL');
+        $('.sq-vab').classList.add('on');
+        left.innerHTML = buildTable(C_COLS, CUSTOMERS);
+        right.innerHTML = buildTable(O_COLS, ORDERS);
+        res.innerHTML = buildTable(R_COLS, [], { emptyText: 'Press Run to join the tables.' });
+        resLabel.textContent = 'Result';
+        narr.innerHTML = 'Press <b>Run</b>. For each customer, the database looks through the orders for the same <code>cust_id</code>.';
+      }
+
+      async function go() {
+        reset();
+        const t = run.start();
+        runBtn.disabled = true;
+        const lrows = $$('tbody tr', left), rrows = $$('tbody tr', right), rbody = $('tbody', res);
+        const usedRight = new Set();
+        let count = 0;
+        const add = (c, o, cls) => {
+          appendRow(rbody, [c ? c.cust_id : null, c ? c.cust_name : null, o ? o.order_id : null, o ? o.cust_id : null, o ? o.amount : null], cls);
+          count++;
+          resLabel.textContent = `Result (${count} row${count === 1 ? '' : 's'})`;
+        };
+        try {
+          for (let li = 0; li < CUSTOMERS.length; li++) {
+            const c = CUSTOMERS[li], lt = lrows[li];
+            lt.classList.add('sq-active');
+            keyCell(lt).classList.add('sq-focus');
+            narr.innerHTML = `Customer <b>${c.cust_id}</b> (${esc(c.cust_name)}): looking for orders with <code>cust_id = ${c.cust_id}</code>&hellip;`;
+            await run.sleep(t, 450);
+            let matched = 0;
+            for (let ri = 0; ri < ORDERS.length; ri++) {
+              const o = ORDERS[ri], rt = rrows[ri];
+              rt.classList.add('sq-compare');
+              keyCell(rt).classList.add('sq-focus');
+              await run.sleep(t, 320);
+              if (o.cust_id === c.cust_id) {
+                matched++;
+                usedRight.add(ri);
+                rt.classList.add('sq-match');
+                add(c, o);
+                narr.innerHTML = `Match: customer ${c.cust_id} = order ${o.order_id}'s cust_id ${o.cust_id}. One combined row is added.`;
+                await run.sleep(t, 550);
+              }
+              rt.classList.remove('sq-compare');
+              keyCell(rt).classList.remove('sq-focus');
+            }
+            lt.classList.remove('sq-active');
+            keyCell(lt).classList.remove('sq-focus');
+            if (matched) {
+              lt.classList.add('sq-match');
+              narr.innerHTML = `${esc(c.cust_name)} matched <b>${matched}</b> order${matched === 1 ? '' : 's'}, so ${matched === 1 ? 'one row' : matched + ' rows'} came out. A customer with several orders repeats once per order.`;
+            } else if (type === 'LEFT' || type === 'FULL') {
+              lt.classList.add('sq-nomatch');
+              add(c, null, 'sq-nullrow');
+              narr.innerHTML = `${esc(c.cust_name)} has no orders. ${type} JOIN keeps the customer anyway and fills the order columns with NULL.`;
+            } else {
+              lt.classList.add('sq-dropped');
+              narr.innerHTML = `${esc(c.cust_name)} has no orders. ${type} JOIN drops this customer.`;
+            }
+            await run.sleep(t, 650);
+          }
+          // Orders that never matched a customer
+          for (let ri = 0; ri < ORDERS.length; ri++) {
+            if (usedRight.has(ri)) continue;
+            const o = ORDERS[ri], rt = rrows[ri];
+            rt.classList.add('sq-compare');
+            keyCell(rt).classList.add('sq-focus');
+            narr.innerHTML = `Order ${o.order_id} (cust_id ${o.cust_id}) never matched any customer&hellip;`;
+            await run.sleep(t, 600);
+            rt.classList.remove('sq-compare');
+            keyCell(rt).classList.remove('sq-focus');
+            if (type === 'RIGHT' || type === 'FULL') {
+              rt.classList.add('sq-nomatch');
+              add(null, o, 'sq-nullrow');
+              narr.innerHTML = `${type === 'FULL' ? 'FULL OUTER' : 'RIGHT'} JOIN keeps order ${o.order_id} and fills the customer columns with NULL.`;
+            } else {
+              rt.classList.add('sq-dropped');
+              narr.innerHTML = `${type} JOIN drops order ${o.order_id} because no customer has cust_id ${o.cust_id}.`;
+            }
+            await run.sleep(t, 650);
+          }
+          narr.innerHTML = `Done. <b>${type === 'FULL' ? 'FULL OUTER' : type} JOIN</b> of ${CUSTOMERS.length} customers and ${ORDERS.length} orders returned <b>${count}</b> rows. Try another join type and compare.`;
+          runBtn.disabled = false;
+        } catch (e) { ignoreCancel(e); }
+      }
+
+      seg.addEventListener('click', (e) => {
+        const b = e.target.closest('button[data-type]');
+        if (!b) return;
+        type = b.dataset.type;
+        reset();
+      });
+      runBtn.addEventListener('click', go);
+      $('#jn-reset').addEventListener('click', reset);
+      reset();
+    }
+
+    /* ------------------------------------------------------------------ */
+    /* 4. GROUP BY                                                         */
+    /* ------------------------------------------------------------------ */
+    function bucketCard(key, color, count) {
+      const d = document.createElement('div');
+      d.className = 'sq-bucket';
+      d.style.setProperty('--g', color);
+      d.innerHTML = `<div class="sq-bucket-h"><span>${esc(lit(key))}</span><small>${count ? count + ' rows' : ''}</small></div><div class="sq-bucket-chips"></div><div class="sq-bucket-f"></div>`;
+      return d;
+    }
+    const chip = (r) => {
+      const s = document.createElement('span');
+      s.className = 'sq-mini';
+      s.textContent = `${r.emp_name} · ${r.salary}`;
+      return s;
+    };
+
+    function initGroup() {
+      const run = new Runner();
+      const gSel = $('#gb-col'), aSel = $('#gb-agg'), runBtn = $('#gb-run'), sqlEl = $('#gb-sql'), narr = $('#gb-narr');
+      const src = $('#gb-src'), buckets = $('#gb-buckets'), res = $('#gb-res'), resLabel = $('#gb-res-label');
+      gSel.innerHTML = GROUP_COLS.map((c) => `<option>${c}</option>`).join('');
+      aSel.innerHTML = Object.entries(AGGS).map(([k, a]) => `<option value="${k}">${a.label}</option>`).join('');
+      aSel.value = 'sum';
+
+      function reset() {
+        run.cancel();
+        runBtn.disabled = false;
+        const g = gSel.value, a = AGGS[aSel.value];
+        sqlEl.innerHTML = sqlBlock([`SELECT ${g}, ${a.expr} AS ${a.alias}`, 'FROM employees', `GROUP BY ${g};`]);
+        src.innerHTML = buildTable(EMP_COLS, EMPLOYEES);
+        buckets.innerHTML = '';
+        res.innerHTML = buildTable([{ key: 'g', label: g }, { key: 'v', label: a.alias }], [], { emptyText: 'Press Run to group the rows.' });
+        resLabel.textContent = 'Result';
+        narr.innerHTML = `Press <b>Run</b>. Rows with the same <code>${g}</code> will be collected into one bucket.`;
+      }
+
+      async function go() {
+        reset();
+        const t = run.start();
+        runBtn.disabled = true;
+        const g = gSel.value, aKey = aSel.value, a = AGGS[aKey];
+        const groups = groupRows(EMPLOYEES, g), keys = [...groups.keys()];
+        const color = (k) => GROUP_COLORS[keys.indexOf(k) % GROUP_COLORS.length];
+        const rows = $$('tbody tr', src), rbody = $('tbody', res);
+        try {
+          // Step 1: read the group value of every row
+          narr.innerHTML = `Step 1 of 3: read the <code>${g}</code> value of each row.`;
+          for (let i = 0; i < EMPLOYEES.length; i++) {
+            const tr = rows[i];
+            tr.style.setProperty('--g', color(EMPLOYEES[i][g]));
+            tr.classList.add('sq-gtagged');
+            $(`td[data-col="${g}"]`, tr).classList.add('sq-gtag');
+            await run.sleep(t, 220);
+          }
+          await run.sleep(t, 400);
+          // Step 2: drop each row into its bucket
+          narr.innerHTML = `Step 2 of 3: ${keys.length} different values means ${keys.length} buckets. Each row goes into the bucket for its <code>${g}</code>.`;
+          const cards = new Map(keys.map((k) => [k, bucketCard(k, color(k))]));
+          cards.forEach((c) => buckets.appendChild(c));
+          await run.sleep(t, 500);
+          for (let i = 0; i < EMPLOYEES.length; i++) {
+            const r = EMPLOYEES[i], tr = rows[i];
+            tr.classList.add('sq-scan');
+            $('.sq-bucket-chips', cards.get(r[g])).appendChild(chip(r));
+            await run.sleep(t, 300);
+            tr.classList.remove('sq-scan');
+          }
+          await run.sleep(t, 400);
+          // Step 3: one aggregate per bucket
+          for (const k of keys) {
+            const rs = groups.get(k).map((x) => x.r), card = cards.get(k);
+            narr.innerHTML = `Step 3 of 3: <code>${a.label}</code> squeezes the <b>${esc(lit(k))}</b> bucket (${rs.length} rows) into one value.`;
+            $('.sq-bucket-h small', card).textContent = `${rs.length} rows`;
+            $('.sq-bucket-f', card).innerHTML = `${esc(a.label)}: ${esc(a.show(rs))} &rarr; <b>${aggValue(aKey, rs)}</b>`;
+            appendRow(rbody, [k, aggValue(aKey, rs)]);
+            resLabel.textContent = `Result (${rbody.rows.length} rows)`;
+            await run.sleep(t, 900);
+          }
+          narr.innerHTML = `Done. <b>${EMPLOYEES.length}</b> rows became <b>${keys.length}</b> rows, one per <code>${g}</code>. Groups come back in no guaranteed order; add ORDER BY if order matters.`;
+          runBtn.disabled = false;
+        } catch (e) { ignoreCancel(e); }
+      }
+
+      gSel.addEventListener('change', reset);
+      aSel.addEventListener('change', reset);
+      runBtn.addEventListener('click', go);
+      $('#gb-reset').addEventListener('click', reset);
+      reset();
+    }
+
+    /* ------------------------------------------------------------------ */
+    /* 5. ORDER BY                                                         */
+    /* ------------------------------------------------------------------ */
+    function initOrder() {
+      const run = new Runner();
+      const c1 = $('#ob-col1'), d1 = $('#ob-dir1'), c2 = $('#ob-col2'), d2 = $('#ob-dir2');
+      const runBtn = $('#ob-run'), sqlEl = $('#ob-sql'), narr = $('#ob-narr'), host = $('#ob-table');
+      c1.innerHTML = EMP_COLS.map((c) => `<option>${c.key}</option>`).join('');
+      c1.value = 'salary'; d1.value = 'DESC';
+      c2.innerHTML = '<option value="">(none)</option>' + EMP_COLS.map((c) => `<option>${c.key}</option>`).join('');
+      host.innerHTML = buildTable(EMP_COLS, EMPLOYEES, { gutter: 'pos' });
+      const tbody = $('tbody', host);
+
+      const keys = () => [[c1.value, d1.value], ...(c2.value && c2.value !== c1.value ? [[c2.value, d2.value]] : [])];
+      const cmp = (a, b) => {
+        for (const [k, dir] of keys()) {
+          const va = a[k], vb = b[k];
+          let c = typeof va === 'number' ? va - vb : String(va).localeCompare(String(vb));
+          if (dir === 'DESC') c = -c;
+          if (c) return c;
+        }
+        return 0;
+      };
+
+      // FLIP animation: move rows to a new DOM order, then animate from old positions.
+      function arrange(order, animate) {
+        const els = order.map((i) => $(`tr[data-i="${i}"]`, tbody));
+        const first = new Map(els.map((el) => [el, el.getBoundingClientRect().top]));
+        els.forEach((el) => tbody.appendChild(el));
+        els.forEach((el, pos) => {
+          const moved = el.cells[0].textContent !== String(pos + 1);
+          el.cells[0].textContent = pos + 1;
+          el.classList.toggle('sq-moved', animate && moved);
+          if (!animate) return;
+          const dy = first.get(el) - el.getBoundingClientRect().top;
+          if (!dy) return;
+          el.style.transition = 'none';
+          el.style.transform = `translateY(${dy}px)`;
+        });
+        if (!animate) return;
+        void tbody.offsetHeight;
+        els.forEach((el) => {
+          el.style.transition = `transform ${Math.round(850 * SPEED)}ms cubic-bezier(.2,.8,.2,1)`;
+          el.style.transform = '';
+        });
+      }
+      const clearMarks = () => $$('td', tbody).forEach((td) => td.classList.remove('sq-focus', 'sq-focus2'));
+
+      function sqlText() {
+        c2.disabled = false;
+        d2.disabled = !c2.value;
+        const by = keys().map(([k, d]) => `${k} ${d}`).join(', ');
+        sqlEl.innerHTML = sqlBlock(['SELECT emp_id, emp_name, dept, salary, city', 'FROM employees', `ORDER BY ${by};`]);
+      }
+      function reset(animate = true) {
+        run.cancel();
+        runBtn.disabled = false;
+        sqlText();
+        clearMarks();
+        arrange(EMPLOYEES.map((_, i) => i), animate);
+        narr.innerHTML = 'Rows are shown in the order they were inserted. Without ORDER BY the database is free to return them in any order. Press <b>Run</b> to sort.';
+      }
+
+      async function go() {
+        run.cancel();
+        const t = run.start();
+        runBtn.disabled = true;
+        sqlText();
+        clearMarks();
+        const ks = keys();
+        try {
+          ks.forEach(([k], n) => $$(`td[data-col="${k}"]`, tbody).forEach((td) => td.classList.add(n ? 'sq-focus2' : 'sq-focus')));
+          narr.innerHTML = `Step 1: compare the <code>${ks[0][0]}</code> values (${ks[0][1] === 'ASC' ? 'smallest / A first' : 'largest / Z first'})` +
+            (ks[1] ? `, and use <code>${ks[1][0]}</code> ${ks[1][1]} only to break ties.` : '.');
+          await run.sleep(t, 900);
+          const order = EMPLOYEES.map((_, i) => i).sort((a, b) => cmp(EMPLOYEES[a], EMPLOYEES[b]));
+          narr.innerHTML = 'Step 2: move every row to its sorted position.';
+          arrange(order, true);
+          await run.sleep(t, 1000);
+          // Look for ties on the first key that the second key does not settle
+          const firstKey = ks[0][0];
+          const counts = {};
+          EMPLOYEES.forEach((r) => { counts[r[firstKey]] = (counts[r[firstKey]] || 0) + 1; });
+          const tied = Object.keys(counts).filter((k) => counts[k] > 1);
+          let msg = `Done. Sorted by <code>${ks.map(([k, d]) => k + ' ' + d).join(', ')}</code>.`;
+          if (tied.length && !ks[1]) msg += ` Rows that share a <code>${firstKey}</code> value (${tied.map((v) => esc(v)).join(', ')}) are ties, and their order among themselves is not guaranteed. Add a "Then by" column to fix it.`;
+          else if (tied.length) msg += ` Ties on <code>${firstKey}</code> were broken by <code>${ks[1][0]}</code>.`;
+          narr.innerHTML = msg;
+          runBtn.disabled = false;
+        } catch (e) { ignoreCancel(e); }
+      }
+
+      [c1, d1, c2, d2].forEach((el) => el.addEventListener('change', () => { sqlText(); clearMarks(); }));
+      runBtn.addEventListener('click', go);
+      $('#ob-reset').addEventListener('click', () => reset(true));
+      reset(false);
+    }
+
+    /* ------------------------------------------------------------------ */
+    /* 6. HAVING                                                           */
+    /* ------------------------------------------------------------------ */
+    function initHaving() {
+      const run = new Runner();
+      const gSel = $('#hv-col'), aSel = $('#hv-agg'), opSel = $('#hv-op'), valIn = $('#hv-val'), whereChk = $('#hv-where');
+      const runBtn = $('#hv-run'), sqlEl = $('#hv-sql'), pipe = $('#hv-pipe'), narr = $('#hv-narr');
+      const src = $('#hv-src'), buckets = $('#hv-buckets'), res = $('#hv-res'), resLabel = $('#hv-res-label'), presetsEl = $('#hv-presets');
+      const HOPS = ['>', '>=', '<', '<=', '=', '<>'];
+      const WHERE_MIN = 50000;
+      gSel.innerHTML = GROUP_COLS.map((c) => `<option>${c}</option>`).join('');
+      aSel.innerHTML = Object.entries(AGGS).map(([k, a]) => `<option value="${k}">${a.label}</option>`).join('');
+      opSel.innerHTML = HOPS.map((o) => `<option>${esc(o)}</option>`).join('');
+      const PRESETS = [
+        { label: 'dept: COUNT(*) >= 3', set: ['dept', 'count', '>=', '3', false] },
+        { label: 'dept: AVG(salary) > 55000', set: ['dept', 'avg', '>', '55000', false] },
+        { label: 'city: COUNT(*) >= 3', set: ['city', 'count', '>=', '3', false] },
+        { label: 'dept: COUNT(*) >= 2', set: ['dept', 'count', '>=', '2', false] },
+        { label: 'WHERE salary >= 50000 + dept: COUNT(*) >= 2', set: ['dept', 'count', '>=', '2', true] },
+      ];
+      presetsEl.innerHTML = PRESETS.map((p, i) => `<button type="button" class="sq-chip" data-p="${i}">${esc(p.label)}</button>`).join('');
+      const STAGES = [['from', 'FROM'], ['where', 'WHERE'], ['group', 'GROUP BY'], ['having', 'HAVING'], ['select', 'SELECT']];
+
+      const valid = () => valIn.value.trim() !== '' && !Number.isNaN(Number(valIn.value));
+      function setStage(name, state, count) {
+        const el = $(`[data-stage="${name}"]`, pipe);
+        el.classList.remove('on', 'done', 'skip');
+        if (state) el.classList.add(state);
+        if (count !== undefined) $('b', el).textContent = count;
+      }
+
+      function reset() {
+        run.cancel();
+        const g = gSel.value, a = AGGS[aSel.value];
+        valIn.classList.toggle('sq-bad', !valid());
+        runBtn.disabled = !valid();
+        const lines = [`SELECT ${g}, ${a.expr} AS ${a.alias}`, 'FROM employees'];
+        if (whereChk.checked) lines.push(`WHERE salary >= ${WHERE_MIN}`);
+        lines.push(`GROUP BY ${g}`, valid() ? `HAVING ${a.test} ${opSel.value} ${Number(valIn.value)};` : `HAVING ${a.test} ${opSel.value} ?;`);
+        sqlEl.innerHTML = sqlBlock(lines);
+        pipe.innerHTML = STAGES.map(([k, l], i) => `${i ? '<span class="sq-arrow">&rarr;</span>' : ''}<span class="sq-stage" data-stage="${k}">${l}<b>&ndash;</b></span>`).join('');
+        if (!whereChk.checked) setStage('where', 'skip');
+        src.innerHTML = buildTable(EMP_COLS, EMPLOYEES);
+        buckets.innerHTML = '';
+        res.innerHTML = buildTable([{ key: 'g', label: g }, { key: 'v', label: a.alias }], [], { emptyText: 'Press Run to group and filter.' });
+        resLabel.textContent = 'Result';
+        $$('.sq-chip', presetsEl).forEach((c, i) => {
+          const s = PRESETS[i].set;
+          c.classList.toggle('on', s[0] === g && s[1] === aSel.value && s[2] === opSel.value && s[3] === valIn.value.trim() && s[4] === whereChk.checked);
+        });
+        narr.innerHTML = valid() ? 'Press <b>Run</b> to watch the query move through each stage.' : 'Enter a number to compare the aggregate with.';
+      }
+      function applyPreset(i) {
+        const [g, a, op, v, w] = PRESETS[i].set;
+        gSel.value = g; aSel.value = a; opSel.value = op; valIn.value = v; whereChk.checked = w;
+        reset();
+      }
+
+      async function go() {
+        if (!valid()) return;
+        reset();
+        const t = run.start();
+        runBtn.disabled = true;
+        const g = gSel.value, aKey = aSel.value, a = AGGS[aKey], op = opSel.value, v = Number(valIn.value);
+        const rows = $$('tbody tr', src), rbody = $('tbody', res);
+        try {
+          setStage('from', 'on', EMPLOYEES.length);
+          narr.innerHTML = `FROM: read all <b>${EMPLOYEES.length}</b> rows of employees.`;
+          await run.sleep(t, 800);
+          setStage('from', 'done');
+
+          let input = EMPLOYEES;
+          if (whereChk.checked) {
+            setStage('where', 'on');
+            narr.innerHTML = `WHERE: check <code>salary >= ${WHERE_MIN}</code> on every row, <em>before</em> any grouping.`;
+            input = [];
+            for (let i = 0; i < EMPLOYEES.length; i++) {
+              const r = EMPLOYEES[i], tr = rows[i];
+              const cell = $('td[data-col="salary"]', tr);
+              cell.classList.add('sq-focus');
+              await run.sleep(t, 220);
+              cell.classList.remove('sq-focus');
+              if (r.salary >= WHERE_MIN) input.push(r);
+              else {
+                tr.classList.add('sq-drop');
+                narr.innerHTML = `WHERE removes ${esc(r.emp_name)} (salary ${r.salary}) before grouping. This row will not be counted in any group.`;
+                await run.sleep(t, 700);
+              }
+            }
+            setStage('where', 'done', input.length);
+          }
+
+          setStage('group', 'on');
+          const groups = groupRows(input, g), keys = [...groups.keys()];
+          narr.innerHTML = `GROUP BY ${g}: the <b>${input.length}</b> remaining rows form <b>${keys.length}</b> groups.`;
+          const cards = new Map();
+          keys.forEach((k, n) => {
+            const card = bucketCard(k, GROUP_COLORS[n % GROUP_COLORS.length], groups.get(k).length);
+            cards.set(k, card);
+            buckets.appendChild(card);
+          });
+          for (const k of keys) {
+            for (const { r } of groups.get(k)) {
+              $('.sq-bucket-chips', cards.get(k)).appendChild(chip(r));
+              await run.sleep(t, 140);
+            }
+          }
+          setStage('group', 'done', keys.length);
+          await run.sleep(t, 500);
+
+          setStage('having', 'on');
+          const passed = [];
+          for (const k of keys) {
+            const rs = groups.get(k).map((x) => x.r), card = cards.get(k);
+            const val = a.calc(rs), ok = OPS[op](val, v);
+            const shown = aKey === 'avg' ? (sumSal(rs) / rs.length).toFixed(2) : val;
+            $('.sq-bucket-f', card).innerHTML = `${esc(a.test)} = <b>${shown}</b><br>${esc(`${shown} ${op} ${v}`)}${verdict(ok)}`;
+            card.classList.add(ok ? 'pass' : 'fail');
+            narr.innerHTML = `HAVING on group <b>${esc(lit(k))}</b>: ${esc(a.test)} is ${shown}, and ${shown} ${esc(op)} ${v} is ${ok ? '<b class="sq-t">TRUE</b>, so the group is kept' : '<b class="sq-f">FALSE</b>, so the whole group is removed'}.`;
+            if (ok) passed.push([k, rs]);
+            await run.sleep(t, 1000);
+          }
+          setStage('having', 'done', passed.length);
+
+          setStage('select', 'on');
+          narr.innerHTML = 'SELECT: output one row per surviving group.';
+          for (const [k, rs] of passed) {
+            appendRow(rbody, [k, aggValue(aKey, rs)]);
+            await run.sleep(t, 350);
+          }
+          if (!passed.length) rbody.innerHTML = '<tr class="sq-empty"><td colspan="2">No group passed HAVING (0 rows).</td></tr>';
+          resLabel.textContent = `Result (${passed.length} row${passed.length === 1 ? '' : 's'})`;
+          setStage('select', 'done', passed.length);
+          narr.innerHTML = `Done. WHERE works on <b>rows</b> before grouping; HAVING works on <b>groups</b> after grouping. ${keys.length} group${keys.length === 1 ? '' : 's'} went into HAVING and ${passed.length} came out.`;
+          runBtn.disabled = false;
+        } catch (e) { ignoreCancel(e); }
+      }
+
+      [gSel, aSel, opSel, whereChk].forEach((el) => el.addEventListener('change', reset));
+      valIn.addEventListener('input', reset);
+      presetsEl.addEventListener('click', (e) => { const b = e.target.closest('[data-p]'); if (b) applyPreset(Number(b.dataset.p)); });
+      runBtn.addEventListener('click', go);
+      $('#hv-reset').addEventListener('click', reset);
+      applyPreset(0);
+    }
+
+    /* ------------------------------------------------------------------ */
+    /* 7. Execution order                                                  */
+    /* ------------------------------------------------------------------ */
+    function initExecOrder() {
+      const run = new Runner();
+      const stepsEl = $('#ex-steps'), sqlEl = $('#ex-sql'), ex = $('#ex-explain'), playBtn = $('#ex-play');
+      const LINES = [
+        'SELECT   dept, COUNT(*) AS emp_count',
+        'FROM     employees',
+        'WHERE    salary >= 50000',
+        'GROUP BY dept',
+        'HAVING   COUNT(*) >= 2',
+        'ORDER BY emp_count DESC;',
+      ];
+      const STEPS = [
+        { clause: 'FROM', line: 1, text: 'Find the table and load its rows (and do any JOINs). Nothing else can happen until the rows exist.' },
+        { clause: 'WHERE', line: 2, text: 'Remove single rows that fail the test. Groups do not exist yet, so <code>COUNT(*)</code> is not allowed here, and neither is the alias <code>emp_count</code>, because SELECT has not run.' },
+        { clause: 'GROUP BY', line: 3, text: 'Collect the remaining rows into one bucket per <code>dept</code>.' },
+        { clause: 'HAVING', line: 4, text: 'Remove whole groups that fail the test. Aggregates such as <code>COUNT(*)</code> work here because the groups now exist.' },
+        { clause: 'SELECT', line: 0, text: 'Compute the output columns, one row per group, and give them names such as <code>emp_count</code>.' },
+        { clause: 'ORDER BY', line: 5, text: 'Sort the final rows. SELECT has already run, so ORDER BY may use the alias <code>emp_count</code>.' },
+      ];
+      sqlEl.innerHTML = sqlBlock(LINES);
+      const lines = $$('.sq-line', sqlEl);
+      stepsEl.innerHTML = STEPS.map((s, i) => `<button type="button" class="sq-step" data-s="${i}"><span>${i + 1}</span>${s.clause}</button>`).join('');
+
+      function show(i) {
+        $$('.sq-step', stepsEl).forEach((b, j) => b.classList.toggle('on', j === i));
+        lines.forEach((l, j) => l.classList.toggle('on', j === STEPS[i].line));
+        ex.innerHTML = `<div class="sq-kicker">Runs ${['first', 'second', 'third', 'fourth', 'fifth', 'last'][i]} &middot; written on line ${STEPS[i].line + 1}</div><h3>${STEPS[i].clause}</h3><p>${STEPS[i].text}</p>`;
+      }
+      async function play() {
+        const t = run.start();
+        playBtn.disabled = true;
+        try {
+          for (let i = 0; i < STEPS.length; i++) { show(i); await run.sleep(t, 1900); }
+          playBtn.disabled = false;
+        } catch (e) { ignoreCancel(e); }
+      }
+      stepsEl.addEventListener('click', (e) => {
+        const b = e.target.closest('[data-s]');
+        if (!b) return;
+        run.cancel();
+        playBtn.disabled = false;
+        show(Number(b.dataset.s));
+      });
+      playBtn.addEventListener('click', play);
+      show(0);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initSpeed();
+      initAnatomy();
+      initFK();
+      initWhere();
+      initJoin();
+      initGroup();
+      initOrder();
+      initHaving();
+      initExecOrder();
+      if (window.lucide) lucide.createIcons();
+    });
+  })();
+  </script>
+
+  <script>
+    // Right menu: highlight the section in view (same behaviour as the Python demo)
+    (function () {
+      const links = Array.from(document.querySelectorAll('#inpage-menu a[href^="#"]'));
+      if (!links.length) return;
+      const spy = () => {
+        let active = links[0];
+        links.forEach(a => {
+          const sec = document.querySelector(a.getAttribute('href'));
+          if (sec && sec.getBoundingClientRect().top < 140) active = a;
+        });
+        links.forEach(a => a.classList.toggle('active', a === active));
+      };
+      window.addEventListener('scroll', spy, { passive: true });
+      spy();
+    })();
+  </script>
+</body>
+</html>

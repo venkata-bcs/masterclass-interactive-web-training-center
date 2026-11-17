@@ -76,9 +76,10 @@ code, kbd, samp, pre {
   right: 0;
   height: var(--nav-height);
   z-index: 1000;
-  background: linear-gradient(135deg, #3b0764 0%, #581c87 45%, #6b21a8 100%);
-  border-bottom: 1px solid rgba(216, 180, 254, 0.28);
-  box-shadow: 0 4px 22px -2px rgba(59, 7, 100, 0.45);
+  /* Professional charcoal theme, matched to the MasterClass Academy logo, with a gold hairline */
+  background: linear-gradient(180deg, #23272d 0%, #1b1e23 100%);
+  border-bottom: 1px solid rgba(201, 162, 74, 0.35);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 6px 20px -6px rgba(0, 0, 0, 0.55);
   transition: all 0.25s ease;
 }
 
@@ -113,24 +114,38 @@ code, kbd, samp, pre {
 
 .master-brand-badge {
   display: inline-block;
-  font-size: 0.88rem;
-  font-weight: 800;
-  letter-spacing: 0.05em;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #ffffff;
-  background-color: rgba(255, 255, 255, 0.16);
-  border: 1px solid rgba(255, 255, 255, 0.35);
+  color: #e9d8a6;
+  background-color: rgba(201, 162, 74, 0.1);
+  border: 1px solid rgba(201, 162, 74, 0.4);
   padding: 5px 12px;
   border-radius: 6px;
-  backdrop-filter: blur(8px);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
   transition: all 0.2s ease;
 }
 
 .master-brand-wrap:hover .master-brand-badge {
-  background-color: rgba(255, 255, 255, 0.25);
-  border-color: rgba(255, 255, 255, 0.55);
+  color: #fff3d1;
+  background-color: rgba(201, 162, 74, 0.18);
+  border-color: rgba(201, 162, 74, 0.7);
 }
+
+/* Image wordmark that replaces the text badge (home page) */
+.master-brand-divider {
+  width: 1px;
+  height: 30px;
+  background: linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.28), transparent);
+}
+.master-brand-wordmark {
+  height: 40px;
+  width: auto;
+  display: block;
+  border-radius: 6px;
+  transition: filter 0.2s ease;
+}
+.master-brand-wrap:hover .master-brand-wordmark { filter: brightness(1.12); }
 
 /* Menu Links (Pill Buttons) */
 .master-menu-links {
@@ -151,9 +166,9 @@ code, kbd, samp, pre {
   font-size: 0.86rem;
   font-weight: 600;
   text-decoration: none;
-  color: #f3e8ff;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #d6dbe2;
+  background: transparent;
+  border: 1px solid transparent;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   cursor: pointer;
   white-space: nowrap;
@@ -161,10 +176,8 @@ code, kbd, samp, pre {
 
 .master-nav-btn:hover {
   color: #ffffff;
-  background: rgba(255, 255, 255, 0.18);
-  border-color: rgba(255, 255, 255, 0.4);
-  transform: translateY(-1px);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(201, 162, 74, 0.45);
 }
 
 /* Current Subject Home Highlight Pill */
@@ -173,19 +186,19 @@ code, kbd, samp, pre {
 /* "Why TinitiateAI" header call-to-action: small gold pill with a throbbing glow */
 .master-nav-btn.why-tinitiate-btn {
   position: relative;
-  color: #1c0a00 !important;
-  background: linear-gradient(135deg, #fde047 0%, #f59e0b 100%) !important;
-  border: 1px solid rgba(255, 255, 255, 0.55) !important;
-  padding: 7px 13px;
-  font-weight: 800;
-  animation: why-throb 2s ease-in-out infinite;
+  color: #1b1e23 !important;
+  background: linear-gradient(135deg, #e6c879 0%, #c9a24a 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  padding: 7px 14px;
+  font-weight: 700;
+  animation: why-throb 3s ease-in-out infinite;
 }
-.master-nav-btn.why-tinitiate-btn svg { animation: why-twinkle 2s ease-in-out infinite; }
-.master-nav-btn.why-tinitiate-btn:hover { transform: translateY(-1px) scale(1.04); filter: brightness(1.06); }
-.master-nav-btn.why-tinitiate-btn.is-current { animation: none; box-shadow: 0 0 0 2px #fff, 0 0 18px rgba(250, 204, 21, 0.7); }
+.master-nav-btn.why-tinitiate-btn svg { animation: none; }
+.master-nav-btn.why-tinitiate-btn:hover { transform: translateY(-1px); filter: brightness(1.08); }
+.master-nav-btn.why-tinitiate-btn.is-current { animation: none; box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.85); }
 @keyframes why-throb {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(250, 204, 21, 0.65), 0 0 10px rgba(250, 204, 21, 0.35); }
-  50% { box-shadow: 0 0 0 7px rgba(250, 204, 21, 0), 0 0 22px rgba(250, 204, 21, 0.75); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(201, 162, 74, 0.45); }
+  50% { box-shadow: 0 0 0 5px rgba(201, 162, 74, 0); }
 }
 @keyframes why-twinkle {
   0%, 100% { transform: scale(1) rotate(0); opacity: 1; }
@@ -227,9 +240,9 @@ code, kbd, samp, pre {
   border-radius: 8px;
   font-size: 0.86rem;
   font-weight: 600;
-  color: #f3e8ff;
-  background: rgba(255, 255, 255, 0.12);
-  border: 1px solid rgba(255, 255, 255, 0.26);
+  color: #d6dbe2;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.14);
   cursor: pointer;
   transition: all 0.2s ease;
   user-select: none;
@@ -248,8 +261,8 @@ code, kbd, samp, pre {
 .master-dropdown-toggle:hover,
 .master-dropdown.open .master-dropdown-toggle {
   color: #ffffff;
-  background: rgba(255, 255, 255, 0.22);
-  border-color: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.09);
+  border-color: rgba(201, 162, 74, 0.55);
 }
 
 .master-dropdown.open .master-dropdown-toggle svg:last-child {
@@ -265,12 +278,12 @@ code, kbd, samp, pre {
   max-height: 82vh;
   overflow-y: auto;
   scrollbar-width: thin;
-  scrollbar-color: rgba(216, 180, 254, 0.4) transparent;
-  background: rgba(24, 8, 48, 0.98);
-  border: 1.5px solid rgba(216, 180, 254, 0.45);
+  scrollbar-color: rgba(201, 162, 74, 0.4) transparent;
+  background: rgba(27, 30, 35, 0.98);
+  border: 1.5px solid rgba(201, 162, 74, 0.45);
   border-radius: 12px;
   padding: 10px;
-  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.75), 0 0 25px rgba(124, 58, 237, 0.4);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.75), 0 0 25px rgba(201, 162, 74, 0.12);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   display: none;
@@ -284,7 +297,7 @@ code, kbd, samp, pre {
   width: 6px;
 }
 .master-dropdown-menu::-webkit-scrollbar-thumb {
-  background: rgba(216, 180, 254, 0.4);
+  background: rgba(201, 162, 74, 0.4);
   border-radius: 4px;
 }
 
@@ -324,7 +337,7 @@ code, kbd, samp, pre {
 
 .master-dropdown-item:hover {
   background: rgba(255, 255, 255, 0.14);
-  border-color: rgba(216, 180, 254, 0.4);
+  border-color: rgba(201, 162, 74, 0.4);
   transform: translateX(3px);
 }
 
@@ -354,6 +367,131 @@ code, kbd, samp, pre {
 .icon-databricks { background: rgba(239, 68, 68, 0.28); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.4); }
 .icon-snowflake { background: rgba(56, 189, 248, 0.28); color: #7dd3fc; border: 1px solid rgba(56, 189, 248, 0.4); }
 
+.icon-why { background: rgba(201, 162, 74, 0.28); color: #f3d98f; border: 1px solid rgba(201, 162, 74, 0.5); }
+.icon-found { background: rgba(56, 189, 248, 0.22); color: #7dd3fc; border: 1px solid rgba(56, 189, 248, 0.4); }
+.icon-fs { background: rgba(245, 158, 11, 0.28); color: #fde68a; border: 1px solid rgba(245, 158, 11, 0.4); }
+
+/* Placement dropdown (header): all placement guides in a two-column list */
+.master-dropdown.placement-dropdown {
+  position: relative;
+}
+.placement-dropdown .master-dropdown-menu {
+  left: 50%;
+  right: auto;
+  transform: translateX(-50%);
+  width: 760px;
+  max-width: calc(100vw - 24px);
+}
+.placement-sections {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px 12px;
+}
+.placement-section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+.placement-section-title {
+  padding: 8px 4px 2px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #fdba74;
+}
+.master-dropdown-item.placement-item {
+  gap: 10px;
+  padding: 7px 10px;
+}
+.placement-item .dropdown-item-icon {
+  width: 28px;
+  height: 28px;
+}
+.placement-item .dropdown-item-icon svg {
+  width: 15px;
+  height: 15px;
+}
+.placement-item .dropdown-item-title {
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+.placement-item.is-featured {
+  grid-column: 1 / -1;
+  border-color: rgba(251, 146, 60, 0.45);
+}
+.placement-item.is-featured .dropdown-item-title {
+  font-weight: 800;
+}
+.icon-place { background: rgba(251, 146, 60, 0.2); color: #fdba74; border: 1px solid rgba(251, 146, 60, 0.4); }
+@media (max-width: 768px) {
+  .placement-dropdown .master-dropdown-menu {
+    position: fixed;
+    top: 60px;
+    left: 10px;
+    right: 10px;
+    min-width: 0;
+    width: auto;
+    max-width: none;
+    transform: none;
+    max-height: calc(100vh - 70px);
+  }
+}
+@media (max-width: 820px) {
+  .placement-sections { grid-template-columns: 1fr; }
+}
+
+/* MasterClass menu placeholder rows (e.g. Vibe Coding "coming soon") */
+.mega-category-item.mega-item-soon {
+  color: #7c8594;
+  font-style: italic;
+  font-weight: 500;
+  cursor: default;
+}
+.mega-category-item.mega-item-soon:hover {
+  background: none;
+  border-color: transparent;
+  transform: none;
+}
+
+/* Demo dropdown: a compact list anchored under its own button */
+.master-dropdown.demo-dropdown {
+  position: relative;
+}
+.demo-dropdown .master-dropdown-menu {
+  left: 0;
+  right: auto;
+  min-width: 320px;
+}
+.demo-menu-label {
+  padding: 8px 6px 2px;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #8b95a3;
+}
+.master-dropdown-item.is-current {
+  border-color: rgba(201, 162, 74, 0.7);
+  background: rgba(201, 162, 74, 0.12);
+}
+@media (max-width: 768px) {
+  .demo-dropdown .master-dropdown-menu {
+    position: fixed;
+    top: 60px;
+    left: 10px;
+    right: 10px;
+    min-width: 0;
+    max-height: calc(100vh - 70px);
+  }
+}
+@media (max-width: 640px) {
+  .master-dropdown-toggle span {
+    display: none;
+  }
+}
+
 .dropdown-item-content {
   display: flex;
   flex-direction: column;
@@ -367,7 +505,7 @@ code, kbd, samp, pre {
 
 .dropdown-item-sub {
   font-size: 0.72rem;
-  color: #d8b4fe;
+  color: #aeb6c2;
 }
 
 /* =============================================================================
@@ -384,12 +522,12 @@ code, kbd, samp, pre {
   max-height: 85vh;
   overflow-y: auto;
   scrollbar-width: thin;
-  scrollbar-color: rgba(216, 180, 254, 0.4) transparent;
-  background: rgba(13, 9, 32, 0.98);
-  border: 1.5px solid rgba(168, 85, 247, 0.45);
+  scrollbar-color: rgba(201, 162, 74, 0.4) transparent;
+  background: rgba(22, 25, 30, 0.98);
+  border: 1.5px solid rgba(201, 162, 74, 0.4);
   border-radius: 16px;
   padding: 0;
-  box-shadow: 0 25px 65px -10px rgba(0, 0, 0, 0.85), 0 0 35px rgba(124, 58, 237, 0.3);
+  box-shadow: 0 25px 65px -10px rgba(0, 0, 0, 0.85), 0 0 35px rgba(201, 162, 74, 0.12);
   backdrop-filter: blur(28px);
   -webkit-backdrop-filter: blur(28px);
   z-index: 2000;
@@ -410,7 +548,7 @@ code, kbd, samp, pre {
   font-size: 0.7rem;
   font-weight: 800;
   letter-spacing: 0.08em;
-  color: #c084fc;
+  color: #c9a24a;
   text-transform: uppercase;
   display: block;
 }
@@ -481,6 +619,18 @@ code, kbd, samp, pre {
 .mega-cat-badge svg {
   width: 15px;
   height: 15px;
+}
+
+/* Column headings link to each vertical's home page (verticals/*.html) */
+a.mega-cat-badge {
+  text-decoration: none;
+  border-radius: 6px;
+  transition: filter 0.15s ease;
+}
+a.mega-cat-badge:hover {
+  filter: brightness(1.25);
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
 
 .mega-cat-count {
@@ -631,31 +781,31 @@ code, kbd, samp, pre {
   padding: 6px 16px;
   border-radius: 9px;
   font-size: 0.92rem;
-  color: #e9d5ff;
+  color: #e5e7eb;
   font-weight: 500;
   overflow: hidden;
   cursor: default;
   user-select: none;
   background: 
-    linear-gradient(135deg, rgba(59, 7, 100, 0.95) 0%, rgba(46, 12, 85, 0.95) 100%) padding-box,
+    linear-gradient(135deg, rgba(35, 39, 45, 0.95) 0%, rgba(27, 30, 35, 0.95) 100%) padding-box,
     conic-gradient(
       from var(--border-angle),
       rgba(255, 255, 255, 0.12) 0deg,
       rgba(255, 255, 255, 0.12) 65deg,
-      rgba(192, 132, 252, 0.5) 85deg,
-      #c084fc 100deg,
+      rgba(201, 162, 74, 0.5) 85deg,
+      #c9a24a 100deg,
       #ffffff 115deg,
       #facc15 125deg,
       #ffffff 135deg,
-      #c084fc 150deg,
-      rgba(192, 132, 252, 0.5) 165deg,
+      #c9a24a 150deg,
+      rgba(201, 162, 74, 0.5) 165deg,
       rgba(255, 255, 255, 0.12) 185deg,
       rgba(255, 255, 255, 0.12) 360deg
     ) border-box;
   border: 2px solid transparent;
   animation: rotate-instructor-border 3.2s linear infinite;
-  box-shadow: 0 4px 16px rgba(35, 5, 65, 0.45);
-  filter: drop-shadow(0 0 6px rgba(192, 132, 252, 0.25));
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  filter: drop-shadow(0 0 6px rgba(201, 162, 74, 0.25));
 }
 
 .master-instructor-beam::after {
@@ -704,7 +854,7 @@ code, kbd, samp, pre {
 }
 
 .master-instructor-beam .inst-label {
-  color: #d8b4fe;
+  color: #aeb6c2;
   font-weight: 500;
   font-size: 0.88rem;
   position: relative;
@@ -731,6 +881,162 @@ code, kbd, samp, pre {
   z-index: 2;
 }
 
+/* Instructors dropdown (Why TinitiateAI page): the beam tag is the toggle */
+.master-dropdown.instructors-dropdown {
+  position: relative;
+}
+.master-instructor-beam.instructors-toggle {
+  cursor: pointer;
+  font-family: inherit;
+}
+.instructors-toggle .inst-chevron {
+  width: 13px !important;
+  height: 13px !important;
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.instructors-dropdown.open .inst-chevron {
+  transform: rotate(180deg);
+}
+.instructors-dropdown .master-dropdown-menu {
+  left: auto;
+  right: 0;
+  min-width: 320px;
+}
+.instructor-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+button.instructor-option:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(201, 162, 74, 0.4);
+}
+.instructor-option.is-selected {
+  border-color: rgba(201, 162, 74, 0.6);
+  background: rgba(201, 162, 74, 0.1);
+}
+.instructor-option.is-placeholder {
+  cursor: default;
+  opacity: 0.8;
+}
+.instructor-option .dropdown-item-content {
+  flex: 1;
+}
+.instructor-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: #1b1e23;
+  background: linear-gradient(135deg, #e6c879 0%, #c9a24a 100%);
+}
+.instructor-avatar.is-muted {
+  color: #c4cad3;
+  background: rgba(255, 255, 255, 0.1);
+}
+.instructor-check {
+  flex-shrink: 0;
+  color: #e6c879;
+  visibility: hidden;
+}
+.instructor-option.is-selected .instructor-check {
+  visibility: visible;
+}
+@media (max-width: 768px) {
+  .instructors-dropdown .master-dropdown-menu {
+    position: fixed;
+    top: 60px;
+    left: 10px;
+    right: 10px;
+    min-width: 0;
+  }
+}
+
+/* Instructor + Demo + MasterClass labels don't all fit below ~1500px: drop the social button text */
+@media (max-width: 1500px) {
+  .master-nav-actions .master-nav-social-btn span {
+    display: none;
+  }
+}
+
+/* Empty instructor tag + "Other instructor" name field */
+.master-instructor-beam .inst-name.is-empty {
+  color: #8b95a3;
+  font-weight: 500;
+  font-style: italic;
+}
+.master-nav-social-btn[hidden] {
+  display: none;
+}
+.instructor-other {
+  cursor: default;
+  margin: 0;
+}
+.instructor-other-row {
+  display: flex;
+  gap: 6px;
+  margin-top: 6px;
+}
+.instructor-other-input {
+  flex: 1;
+  min-width: 0;
+  padding: 6px 10px;
+  border-radius: 7px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(0, 0, 0, 0.3);
+  color: #ffffff;
+  font: inherit;
+  font-size: 0.82rem;
+}
+.instructor-other-input:focus {
+  outline: none;
+  border-color: rgba(201, 162, 74, 0.7);
+}
+.instructor-other-btn {
+  padding: 6px 12px;
+  border-radius: 7px;
+  border: 0;
+  background: linear-gradient(135deg, #e6c879 0%, #c9a24a 100%);
+  color: #1b1e23;
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* Home + Why TinitiateAI: brand left, menu centred, actions right.
+   max-content minimums keep the brand from being overlapped when exact centring doesn't fit. */
+.master-top-nav-inner.nav-centered {
+  display: grid;
+  grid-template-columns: minmax(max-content, 1fr) auto minmax(max-content, 1fr);
+}
+.nav-centered > .master-menu-links { justify-self: center; }
+.nav-centered > .master-nav-actions { justify-self: end; }
+/* Below 1600px the full-size brand would push the menu past centre: trim it ~15% */
+@media (max-width: 1600px) {
+  .nav-centered .master-brand-wrap { gap: 10px; }
+  .nav-centered .master-brand-logo { height: 32px; }
+  .nav-centered .master-brand-wordmark { height: 34px; }
+}
+@media (max-width: 1100px) {
+  .master-top-nav-inner.nav-centered { display: flex; }
+}
+
 /* Social Buttons */
 .master-nav-social-btn {
   color: #ffffff;
@@ -740,8 +1046,8 @@ code, kbd, samp, pre {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: rgba(255, 255, 255, 0.14);
-  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.14);
   padding: 7px 13px;
   border-radius: 8px;
   backdrop-filter: blur(8px);
@@ -749,7 +1055,7 @@ code, kbd, samp, pre {
 }
 
 .master-nav-social-btn:hover {
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.1);
   border-color: rgba(255, 255, 255, 0.5);
   color: #ffffff;
   transform: translateY(-1px);
@@ -1048,7 +1354,8 @@ code, kbd, samp, pre {
 
 .footer-main-grid {
   display: grid;
-  grid-template-columns: 1.2fr 1.1fr 1.3fr;
+  grid-template-columns: minmax(0, 1.4fr) auto;
+  justify-content: space-between; /* Contact column sits at the right edge */
   gap: 48px;
   align-items: start;
 }
@@ -1072,6 +1379,7 @@ code, kbd, samp, pre {
 }
 
 .footer-col-desc {
+  max-width: 620px;
   font-size: 0.94rem;
   color: #d4d4d8;
   line-height: 1.6;
@@ -1280,7 +1588,9 @@ code, kbd, samp, pre {
 }
 
 @media (max-width: 640px) {
-  .master-brand-badge {
+  .master-brand-badge,
+  .master-brand-divider,
+  .master-brand-wordmark {
     display: none;
   }
   .master-nav-btn span {

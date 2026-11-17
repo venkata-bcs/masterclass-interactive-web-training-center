@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Claude SDK roadmap 2026 in two tracks, Entrepreneur and Enterprise Claude AI Engineer: state, edges, function calling, RAG, MCP, orchestration, HITL, guardrails, testing, auditing, MLOps and an enterprise architecture matrix.">
+  <title>Claude SDK Roadmap (2026) | Tinitiate MasterClass Academy</title>
+  <link rel="icon" type="image/png" href="../../favicon.png">
+  <link rel="stylesheet" href="../../assets/css/master-global-layout.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap">
+  <link rel="stylesheet" href="../shared/harness.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    .hx-tracks { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin-bottom: 24px; }
+    .hx-track {
+      display: flex; gap: 14px; align-items: flex-start; text-align: left; cursor: pointer; font: inherit;
+      padding: 16px 18px; border-radius: 12px; background: #fff; color: #111827;
+      border: 2px solid var(--hx-divider); box-shadow: var(--hx-elev-1);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+    .hx-track:hover { border-color: color-mix(in srgb, var(--track) 50%, #fff); box-shadow: var(--hx-elev-2); }
+    .hx-track:focus-visible { outline: 3px solid color-mix(in srgb, var(--track) 45%, #fff); outline-offset: 2px; }
+    .hx-track[aria-selected="true"] { border-color: var(--track); background: color-mix(in srgb, var(--track) 7%, #fff); box-shadow: var(--hx-elev-2); }
+    .hx-track-icon { flex: none; width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; color: #fff; background: var(--track); }
+    .hx-track-icon svg { width: 22px; height: 22px; }
+    .hx-track-text { display: grid; gap: 3px; min-width: 0; }
+    .hx-track-kicker { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--track); }
+    .hx-track-text strong { font-size: 1.08rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0.01em; }
+    .hx-track-text span:last-child { font-size: 0.86rem; line-height: 1.45; color: var(--hx-text-2); }
+    .hx-poster-body[hidden], .hx-workflows[hidden] { display: none; }
+    .hx-workflows { margin-bottom: 32px; }
+    .hx-table-workflows { min-width: 1080px; }
+    .hx-table-workflows td { width: 20%; }
+    .hx-table-workflows td:nth-of-type(1) { width: 16%; }
+    .hx-table-workflows .hx-cell p { font-size: 0.82rem; }
+    .hx-table-workflows code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.76rem; background: var(--hx-chip); padding: 1px 5px; border-radius: 4px; }
+    .hx-ctx { list-style: none; padding: 0; margin: 0; display: grid; gap: 4px; }
+    .hx-ctx li { position: relative; padding-left: 13px; font-size: 0.8rem; line-height: 1.45; color: #374151; }
+    .hx-ctx li::before { content: ""; position: absolute; left: 0; top: 0.55em; width: 6px; height: 6px; border-radius: 50%; background: var(--node); }
+    .hx-th-icon { display: inline-grid; place-items: center; width: 22px; height: 22px; margin-right: 6px; vertical-align: middle; color: var(--hx-accent); }
+    .hx-th-icon svg { width: 16px; height: 16px; }
+    @media (max-width: 680px) { .hx-tracks { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body class="theme-dark hx-body">
+
+  <!-- Master Top Navigation Bar -->
+  <header class="master-top-nav">
+    <div class="master-top-nav-inner">
+      <a href="../../index.html" class="master-brand-wrap" aria-label="Tinitiate MasterClass Academy">
+        <img src="../../tinitiate_header-banner.png" alt="Tinitiate Logo" class="master-brand-logo">
+        <span class="master-brand-badge">Claude SDK</span>
+      </a>
+
+      <!-- Primary Navigation Links (NO LOCAL NAVIGATION IN HEADER) -->
+      <nav class="master-menu-links">
+        <a href="../../index.html" class="master-nav-btn" title="Main Academy Portal">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          <span>Home</span>
+        </a>
+
+        <!-- Subjects DropDown with Bulletproof Bridge & SVGs -->
+        <div class="master-dropdown" id="subjectsDropdown">
+          <button type="button" class="master-dropdown-toggle" onclick="toggleSubjectsDropdown(event)" aria-haspopup="true" aria-expanded="false" title="Explore All Subjects">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>
+            <span>Subjects</span>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div class="master-dropdown-menu mega-menu" id="subjectsMegaMenu">
+            <div class="mega-menu-header">
+              <div class="mega-menu-title-wrap">
+                <span class="mega-menu-eyebrow">TINITIATE AI ACADEMY • ARCHITECTURE CURRICULUM</span>
+                <h4 class="mega-menu-title">Explore Engineering Curricula by Domain</h4>
+              </div>
+              <div class="mega-menu-stats-pill">
+                <span>6 Domains</span> • <span>35 Tracks + 15 Placement Guides</span>
+              </div>
+            </div>
+
+            <div class="mega-menu-grid">
+        <!-- Category: Foundational -->
+        <div class="mega-category-col" style="--cat-accent:#38bdf8;">
+          <div class="mega-category-header">
+            <span class="mega-cat-badge" style="color:#38bdf8;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="8" height="8" x="3" y="3" rx="2"/><path d="M7 11v4a2 2 0 0 0 2 2h4"/><rect width="8" height="8" x="13" y="13" rx="2"/></svg>
+              <span>Foundational</span>
+            </span>
+            <span class="mega-cat-count">9 Tracks</span>
+          </div>
+          <div class="mega-category-list">
+          <a href="../../foundational/index.html" class="mega-category-item" title="Foundational Master Class: Computer Science &amp; Software Engineering Fundamentals">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m16.24 7.76-2.12 6.36-6.36 2.12 2.12-6.36 6.36-2.12z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Foundational Master Class</span>
+            </span>
+          </a>
+          <a href="../../foundational/python/index.html" class="mega-category-item" title="Python: Print, Variables, Datatypes, Operators, Strings &amp; Lists">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" x2="20" y1="19" y2="19"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Python</span>
+            </span>
+          </a>
+          <a href="../../foundational/sql/index.html" class="mega-category-item" title="SQL: PostgreSQL DDL &amp; DML, on a real database in your browser">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">SQL</span>
+            </span>
+          </a>
+          <a href="../../foundational/data-structures/index.html" class="mega-category-item" title="Data Structures: Trees, Graphs, HashTables & Heaps">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="8" height="8" x="3" y="3" rx="2"/><rect width="8" height="8" x="13" y="13" rx="2"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Data Structures</span>
+            </span>
+          </a>
+          <a href="../../foundational/authentication/index.html" class="mega-category-item" title="Authentication: OAuth2, OIDC, JWT, SAML & PKCE">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m21 2-2 2m-1.5 1.5L13 10m0 0a5 5 0 1 1-7-7 5 5 0 0 1 7 7Z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Authentication</span>
+            </span>
+          </a>
+          <a href="../../foundational/apis/index.html" class="mega-category-item" title="APIs: REST, GraphQL, gRPC & WebSockets">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 16.326A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 .5 8.973"/><path d="m13 12-3 5h4l-3 5"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">APIs</span>
+            </span>
+          </a>
+          <a href="../../foundational/microservices/index.html" class="mega-category-item" title="MicroServices: Sagas, Service Mesh & Event-Driven">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2.97 12.92A2 2 0 0 0 2 14.63v3.24a2 2 0 0 0 .97 1.71l6 3.43a2 2 0 0 0 1.97 0l6-3.43a2 2 0 0 0 .97-1.71v-3.24a2 2 0 0 0-.97-1.71L11 9.49a2 2 0 0 0-2.06 0l-5.97 3.43Z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">MicroServices</span>
+            </span>
+          </a>
+          <a href="../../foundational/oop/index.html" class="mega-category-item" title="OOP: SOLID, Polymorphism & Abstraction">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">OOP</span>
+            </span>
+          </a>
+          <a href="../../foundational/design-patterns/index.html" class="mega-category-item" title="Design Patterns: GoF Creational, Structural & Behavioral">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Design Patterns</span>
+            </span>
+          </a>
+          </div>
+        </div>
+        <!-- Category: AI -->
+        <div class="mega-category-col" style="--cat-accent:#a855f7;">
+          <div class="mega-category-header">
+            <span class="mega-cat-badge" style="color:#a855f7;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
+              <span>AI</span>
+            </span>
+            <span class="mega-cat-count">9 Tracks</span>
+          </div>
+          <div class="mega-category-list">
+          <a href="../../automation-ml-ai-agentic/index.html" class="mega-category-item" title="AI Master Class: Automation, ML, GenAI &amp; Agentic Systems, MCP &amp; LangChain">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">AI Master Class</span>
+            </span>
+          </a>
+          <a href="../../agentic-development/index.html" class="mega-category-item" title="Agentic Development: Agents, Agentic Loops &amp; Governed Agent Swarms">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Agentic Development</span>
+            </span>
+          </a>
+          <a href="../../ai/langgraph/index.html" class="mega-category-item" title="Langgraph: Cyclic State Graphs & Multi-Agent DAGs">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><circle cx="18" cy="6" r="3"/><path d="M18 9v1a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V9"/><path d="M12 12v3"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Langgraph</span>
+            </span>
+          </a>
+          <a href="../../ai/crewai/index.html" class="mega-category-item" title="CrewAI: Role-Based Agent Crews, Tasks &amp; Flows">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">CrewAI</span>
+            </span>
+          </a>
+          <a href="../../ai/aws-bedrock/index.html" class="mega-category-item" title="AWS Bedrock: Managed Foundation Models & Guardrails">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="16" height="16" x="4" y="4" rx="2"/><rect width="6" height="6" x="9" y="9" rx="1"/><path d="M15 2v2"/><path d="M15 20v2"/><path d="M2 15h2"/><path d="M2 9h2"/><path d="M20 15h2"/><path d="M20 9h2"/><path d="M9 2v2"/><path d="M9 20v2"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">AWS Bedrock</span>
+            </span>
+          </a>
+          <a href="../../ai/aws-strands/index.html" class="mega-category-item" title="AWS Strands: Model-Driven Agents SDK, Graph &amp; Swarm">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12c2-3 4-3 6 0s4 3 6 0 4-3 6 0"/><path d="M2 6c2-3 4-3 6 0s4 3 6 0 4-3 6 0"/><path d="M2 18c2-3 4-3 6 0s4 3 6 0 4-3 6 0"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">AWS Strands</span>
+            </span>
+          </a>
+          <a href="../../ai/azure-foundry/index.html" class="mega-category-item" title="Azure Foundry: Azure AI Studio, Prompt Flow & Evaluators">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="8" x="2" y="2" rx="2" ry="2"/><rect width="20" height="8" x="2" y="14" rx="2" ry="2"/><line x1="6" x2="6.01" y1="6" y2="6"/><line x1="6" x2="6.01" y1="18" y2="18"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Azure Foundry</span>
+            </span>
+          </a>
+          <a href="../../ai/claude-sdk/index.html" class="mega-category-item" title="Claude SDK: Anthropic SDK, Tools & Prompt Caching">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Claude SDK</span>
+            </span>
+          </a>
+          <a href="../../ai/google-gemini-sdk/index.html" class="mega-category-item" title="Google Gemini SDK: Gen AI SDK, ADK Agents &amp; Context Cache">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Google Gemini SDK</span>
+            </span>
+          </a>
+          </div>
+        </div>
+        <!-- Category: Data Engineering -->
+        <div class="mega-category-col" style="--cat-accent:#0284c7;">
+          <div class="mega-category-header">
+            <span class="mega-cat-badge" style="color:#0284c7;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"/></svg>
+              <span>Data Engineering</span>
+            </span>
+            <span class="mega-cat-count">8 Tracks</span>
+          </div>
+          <div class="mega-category-list">
+          <a href="../../data-engineering/index.html" class="mega-category-item" title="Data Engineering Master Class: Modern Lakehouse, Fabric & Kafka Streams">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Data Engineering Master Class</span>
+            </span>
+          </a>
+          <a href="../../pyspark/index.html" class="mega-category-item" title="PySpark: Cluster Architecture, DAG Execution &amp; Data Ingestion">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">PySpark</span>
+            </span>
+          </a>
+          <a href="../../databricks-dataengineering/index.html" class="mega-category-item" title="Databricks: Unity Catalog, Delta Live & Photon">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Databricks</span>
+            </span>
+          </a>
+          <a href="../../aws-dataengineering/index.html" class="mega-category-item" title="AWS Data Engineering: EMR, Glue, Redshift, Kinesis & S3">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">AWS Data Engineering</span>
+            </span>
+          </a>
+          <a href="../../snowflake-dataengineering/index.html" class="mega-category-item" title="SnowFlake: Snowpark, Dynamic Tables & Warehouses">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" x2="12" y1="2" y2="22"/><line x1="12" x2="12" y1="10" y2="14"/><line x1="2" x2="22" y1="12" y2="12"/><line x1="20" x2="4" y1="4" y2="20"/><line x1="4" x2="20" y1="4" y2="20"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">SnowFlake</span>
+            </span>
+          </a>
+          <a href="../../azure-dataengineering/index.html" class="mega-category-item" title="Azure Data Engineering: Fabric, Synapse Analytics & ADLS Gen2">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="8" x="2" y="2" rx="2" ry="2"/><rect width="20" height="8" x="2" y="14" rx="2" ry="2"/><line x1="6" x2="6.01" y1="6" y2="6"/><line x1="6" x2="6.01" y1="18" y2="18"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Azure Data Engineering</span>
+            </span>
+          </a>
+          <a href="../../data-engineering/onprem-pandas-polars-sql/index.html" class="mega-category-item" title="On Prem Pandas, Polars, SQL: Vectorized LazyFrames & Local Engines">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" x2="20" y1="19" y2="19"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">On Prem Pandas, Polars, SQL</span>
+            </span>
+          </a>
+          <a href="../../data-engineering/duckdb/index.html" class="mega-category-item" title="DuckDB: In-Process Columnar Analytical OLAP">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"/><line x1="16" x2="2" y1="8" y2="22"/><line x1="17.5" x2="9" y1="15" y2="15"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">DuckDB</span>
+            </span>
+          </a>
+          </div>
+        </div>
+        <!-- Category: Data Governance -->
+        <div class="mega-category-col" style="--cat-accent:#10b981;">
+          <div class="mega-category-header">
+            <span class="mega-cat-badge" style="color:#10b981;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg>
+              <span>Data Governance</span>
+            </span>
+            <span class="mega-cat-count">4 Tracks</span>
+          </div>
+          <div class="mega-category-list">
+          <a href="../../data-governence/index.html" class="mega-category-item" title="Data Governance Master Class: Catalogs, Sensitive Data Discovery, Lineage &amp; Stewardship">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m16.24 7.76-2.12 6.36-6.36 2.12 2.12-6.36 6.36-2.12z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Data Governance Master Class</span>
+            </span>
+          </a>
+          <a href="../../data-governence/atlas/index.html" class="mega-category-item" title="Atlas: Apache Atlas Metadata & Lineage Graph">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Atlas</span>
+            </span>
+          </a>
+          <a href="../../data-governence/unity/index.html" class="mega-category-item" title="Unity: Unity Catalog Fine-Grained ABAC & Grants">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Unity</span>
+            </span>
+          </a>
+          <a href="../../data-governence/purview-sandbox/index.html" class="mega-category-item" title="Purview: Purview Data Map, Stewardship & Scanning">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Purview</span>
+            </span>
+          </a>
+          </div>
+        </div>
+        <!-- Category: Full Stack -->
+        <div class="mega-category-col" style="--cat-accent:#f43f5e;">
+          <div class="mega-category-header">
+            <span class="mega-cat-badge" style="color:#f43f5e;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+              <span>Full Stack</span>
+            </span>
+            <span class="mega-cat-count">5 Tracks</span>
+          </div>
+          <div class="mega-category-list">
+          <a href="../../full-stack/index.html" class="mega-category-item" title="Full Stack Master Class: Enterprise Full Stack Systems Architecture">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m16.24 7.76-2.12 6.36-6.36 2.12 2.12-6.36 6.36-2.12z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Full Stack Master Class</span>
+            </span>
+          </a>
+          <a href="../../full-stack/python-fastapi/index.html" class="mega-category-item" title="Python fastAPI: Pydantic v2, Async ASGI & OpenTelemetry">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Python fastAPI</span>
+            </span>
+          </a>
+          <a href="../../full-stack/nodejs-react-nextjs/index.html" class="mega-category-item" title="NodeJS React NextJS: React 19, Server Components & App Router">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" x2="22" y1="12" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">NodeJS React NextJS</span>
+            </span>
+          </a>
+          <a href="../../full-stack/dotnet-csharp/index.html" class="mega-category-item" title="C#/.Net Full Stack: ASP.NET Core Web API & Entity Framework">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" x2="20" y1="9" y2="9"/><line x1="4" x2="20" y1="15" y2="15"/><line x1="10" x2="8" y1="3" y2="21"/><line x1="16" x2="14" y1="3" y2="21"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">C#/.Net Full Stack</span>
+            </span>
+          </a>
+          <a href="../../full-stack/java-fullstack/index.html" class="mega-category-item" title="Java Full Stack: Spring Boot 3, Hibernate JPA & Microservices">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" x2="6" y1="2" y2="4"/><line x1="10" x2="10" y1="2" y2="4"/><line x1="14" x2="14" y1="2" y2="4"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Java Full Stack</span>
+            </span>
+          </a>
+          </div>
+        </div>
+        <!-- Category: Placement Assistance -->
+        <div class="mega-category-col" style="--cat-accent:#fb923c;">
+          <div class="mega-category-header">
+            <span class="mega-cat-badge" style="color:#fb923c;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="14" x="2" y="7" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+              <span>Placement</span>
+            </span>
+            <span class="mega-cat-count">15 Guides</span>
+          </div>
+          <div class="mega-category-list">
+          <a href="../../placement-assistance/index.html" class="mega-category-item" title="Placement Master Class: Resume to offer letter: all 15 placement guides for freshers">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Placement Master Class</span>
+            </span>
+          </a>
+          <a href="../../placement-assistance/interview-prep.html" class="mega-category-item" title="Interview Prep: rounds, top questions &amp; a 30-day plan">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Interview Prep</span>
+            </span>
+          </a>
+          <a href="../../placement-assistance/resume-prep.html" class="mega-category-item" title="Resume Prep: an ATS-friendly 1-page resume for freshers">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M16 13H8"/><path d="M16 17H8"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Resume Prep</span>
+            </span>
+          </a>
+          <a href="../../placement-assistance/job-applications.html" class="mega-category-item" title="Job Applications: apply smart, referrals &amp; avoiding scams">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Job Applications</span>
+            </span>
+          </a>
+          <a href="../../placement-assistance/cover-letters.html" class="mega-category-item" title="Cover Letters: a 3-paragraph formula &amp; cold emails">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Cover Letters</span>
+            </span>
+          </a>
+          <a href="../../placement-assistance/before-interview.html" class="mega-category-item" title="Before the Interview: countdown, research &amp; setup">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/><path d="m9 16 2 2 4-4"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Before Interview</span>
+            </span>
+          </a>
+          <a href="../../placement-assistance/during-interview.html" class="mega-category-item" title="During the Interview: strong start, think aloud &amp; smart questions">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">During Interview</span>
+            </span>
+          </a>
+          <a href="../../placement-assistance/handling-competition.html" class="mega-category-item" title="Handling Competition: stand out among lakhs of freshers">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Handling Competition</span>
+            </span>
+          </a>
+          <a href="../../placement-assistance/communication-skills.html" class="mega-category-item" title="Communication Skills: clear English, structure &amp; practice">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 11 18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Communication Skills</span>
+            </span>
+          </a>
+          </div>
+        </div>
+            </div>
+
+            <div class="mega-menu-footer">
+              <div class="mega-footer-left">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+                <span>Each module includes <strong>zero-code visual architectures</strong>, <strong>interactive sandboxes</strong>, and <strong>production blueprints</strong>.</span>
+              </div>
+              <div class="mega-footer-right">
+                <span>Lead Architect: <strong>Venkata Bhattaram</strong></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Right Actions: Instructor Rotating Border Beam + LinkedIn + GitHub -->
+      <div class="master-nav-actions">
+        <div class="master-instructor-beam" title="Lead Course Instructor &amp; Enterprise Architect">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+          <span class="inst-label">Instructor:</span>
+          <span class="inst-name">Venkata Bhattaram</span>
+        </div>
+
+        <a href="https://www.linkedin.com/in/venkata-bhattaram/" target="_blank" rel="noopener noreferrer" class="master-nav-social-btn linkedin" title="Venkata Bhattaram on LinkedIn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.45a1.6 1.6 0 1 0 0 3.2 1.6 1.6 0 0 0 0-3.2Z"/></svg>
+          <span>LinkedIn</span>
+        </a>
+
+        <a href="https://github.com/venkata-bcs" target="_blank" rel="noopener noreferrer" class="master-nav-social-btn github" title="Venkata Bhattaram on GitHub">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>
+          <span>GitHub</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Banner -->
+  <main class="hx-page" data-harness="claude-sdk" style="--hx-accent:#d97757;">
+
+    <section class="hx-paper hx-poster" id="roadmap" aria-labelledby="roadmap-title">
+      <header class="hx-poster-head">
+        <div>
+          <div class="hx-overline">Tinitiate AI IT Training &bull; 2026 Edition</div>
+          <h1 class="hx-poster-title" id="roadmap-title">CLAUDE SDK ROADMAP (2026)</h1>
+          <span class="hx-pill">Two tracks: Entrepreneur &amp; Enterprise Claude AI Engineer</span>
+          <p class="hx-lede">Build on Claude at the level of control you need: the Messages API and Tool Runner for agents with your own tools, the Claude Agent SDK for the Claude Code harness with built-in file, shell and web tools, and Managed Agents when Anthropic should host the loop and sandbox. Pick the <b>Entrepreneur</b> track to ship a product fast, or the <b>Enterprise Claude AI Engineer</b> track to run governed agents at scale.</p>
+        </div>
+        <div class="hx-head-art" aria-hidden="true">
+          <div class="hx-head-logo"><img src="../../assets/icons/tech/claude.svg" alt="" width="56" height="56" loading="lazy"></div>
+          <div class="hx-head-tiles"><span><img src="../../assets/icons/tech/anthropic.svg" alt="" width="24" height="24" loading="lazy"></span><span><img src="../../assets/icons/tech/python.svg" alt="" width="24" height="24" loading="lazy"></span><span><img src="../../assets/icons/tech/mcp.svg" alt="" width="24" height="24" loading="lazy"></span><span><img src="../../assets/icons/tech/markdown.svg" alt="" width="24" height="24" loading="lazy"></span><span><img src="../../assets/icons/tech/pydantic.svg" alt="" width="24" height="24" loading="lazy"></span><span><img src="../../assets/icons/tech/opentelemetry.svg" alt="" width="24" height="24" loading="lazy"></span></div>
+        </div>
+      </header>
+      <div class="hx-tracks" role="tablist" aria-label="Choose a learning track">
+        <button type="button" class="hx-track" role="tab" id="tab-entrepreneur" data-track="entrepreneur" aria-controls="track-entrepreneur" aria-selected="false" tabindex="-1" style="--track:#ea580c;">
+          <span class="hx-track-icon"><i data-lucide="rocket"></i></span>
+          <span class="hx-track-text"><span class="hx-track-kicker">Track A &bull; 12 steps + 9 workflows</span><strong>Entrepreneur</strong><span>Build your AI product and run your business with Claude: marketing, CRM, follow-ups, appointments, GST and more.</span></span>
+        </button>
+        <button type="button" class="hx-track" role="tab" id="tab-enterprise" data-track="enterprise" aria-controls="track-enterprise" aria-selected="true" tabindex="0" style="--track:#2563eb;">
+          <span class="hx-track-icon"><i data-lucide="building-2"></i></span>
+          <span class="hx-track-text"><span class="hx-track-kicker">Track B &bull; 20 steps</span><strong>Enterprise Claude AI Engineer</strong><span>Build governed, observable production agents on the Claude platform at company scale.</span></span>
+        </button>
+      </div>
+
+      <div class="hx-poster-body" id="track-entrepreneur" role="tabpanel" aria-labelledby="tab-entrepreneur" data-track-panel="entrepreneur" hidden>
+        <div class="hx-spine">
+          <article class="hx-step" id="ent-problem" style="--node:#0891b2;">
+            <div class="hx-step-nodes"><span class="hx-step-num">01</span><span class="hx-step-icon"><i data-lucide="lightbulb"></i></span></div>
+            <div class="hx-step-card">
+              <div class="hx-step-main">
+                <h3 class="hx-step-title">Pick One Problem &amp; Try Claude</h3>
+                <ul class="hx-bullets"><li>Choose one task that eats your time every day, for example replying to WhatsApp enquiries, making quotations or writing Instagram posts</li><li>Try your instructions (the prompt) in the Claude Console Workbench first; once it works, call the same thing from Python in a few lines</li><li><b>Which model?</b> Start with claude-opus-5-5 for the best answers. Switch to Sonnet or Haiku later to save money, but only after testing that quality is still good</li></ul>
+                <ul class="hx-chips" aria-label="What you will use"><li>Console Workbench</li><li>pip install anthropic</li><li>claude-opus-5-5</li><li>claude-sonnet-5-5</li><li>claude-haiku-5-5</li></ul>
+              </div>
+              <div class="hx-learn"><span class="hx-learn-tag">LEARN</span><div class="hx-learn-icons"><div class="hx-learn-item"><span><img src="../../assets/icons/tech/claude.svg" alt="" width="24" height="24" loading="lazy"></span><span>Claude</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/anthropic.svg" alt="" width="24" height="24" loading="lazy"></span><span>Anthropic</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/python.svg" alt="" width="24" height="24" loading="lazy"></span><span>Python</span></div></div></div>
+            </div>
+          </article>
+          <article class="hx-step" id="ent-claude-code" style="--node:#059669;">
+            <div class="hx-step-nodes"><span class="hx-step-num">02</span><span class="hx-step-icon"><i data-lucide="terminal"></i></span></div>
+            <div class="hx-step-card">
+              <div class="hx-step-main">
+                <h3 class="hx-step-title">Claude Code: Your Coding Partner</h3>
+                <ul class="hx-bullets"><li>Claude Code writes, fixes and explains code with you in the terminal or VS Code, so one person can build what used to need a team</li><li>Write your business rules and tech choices once in a CLAUDE.md file so Claude remembers them every time</li><li>Make small changes, read every change before you accept it, and keep your code in Git</li></ul>
+                <ul class="hx-chips" aria-label="What you will use"><li>Claude Code</li><li>CLAUDE.md</li><li>skills</li><li>Git</li></ul>
+              </div>
+              <div class="hx-learn"><span class="hx-learn-tag">LEARN</span><div class="hx-learn-icons"><div class="hx-learn-item"><span><img src="../../assets/icons/tech/claude.svg" alt="" width="24" height="24" loading="lazy"></span><span>Claude</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/vscode.svg" alt="" width="24" height="24" loading="lazy"></span><span>VS Code</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/git.svg" alt="" width="24" height="24" loading="lazy"></span><span>Git</span></div></div></div>
+            </div>
+          </article>
+          <article class="hx-step" id="ent-structured" style="--node:#2563eb;">
+            <div class="hx-step-nodes"><span class="hx-step-num">03</span><span class="hx-step-icon"><i data-lucide="braces"></i></span></div>
+            <div class="hx-step-card">
+              <div class="hx-step-main">
+                <h3 class="hx-step-title">Get Clean, Ready-to-Use Answers</h3>
+                <ul class="hx-bullets"><li>Ask Claude to reply in a fixed format, like filling a form: name, phone, city, product, order value in &#8377;</li><li>Your app, database or Google Sheet can then use the answer directly, with no copy-paste</li><li>messages.parse checks every answer against the format you define with Pydantic</li></ul>
+                <ul class="hx-chips" aria-label="What you will use"><li>client.messages.parse</li><li>output_config.format</li><li>Pydantic</li><li>strict: true</li></ul>
+              </div>
+              <div class="hx-learn"><span class="hx-learn-tag">LEARN</span><div class="hx-learn-icons"><div class="hx-learn-item"><span><img src="../../assets/icons/tech/pydantic.svg" alt="" width="24" height="24" loading="lazy"></span><span>Pydantic</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/python.svg" alt="" width="24" height="24" loading="lazy"></span><span>Python</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/claude.svg" alt="" width="24" height="24" loading="lazy"></span><span>Claude</span></div></div></div>
+            </div>
+          </article>
+          <article class="hx-step" id="ent-ux" style="--node:#7c3aed;">
+            <div class="hx-step-nodes"><span class="hx-step-num">04</span><span class="hx-step-icon"><i data-lucide="messages-square"></i></span></div>
+            <div class="hx-step-card">
+              <div class="hx-step-main">
+                <h3 class="hx-step-title">Chat That Feels Fast</h3>
+                <ul class="hx-bullets"><li>Show the reply word by word as Claude writes it (streaming), so customers are not left staring at a loading screen</li><li>Reply in English, Hindi, Hinglish or your customer&#x27;s own language; tell Claude which one in your instructions</li><li>Keep your API key on your server, never inside the website or mobile app</li></ul>
+                <ul class="hx-chips" aria-label="What you will use"><li>messages.stream</li><li>FastAPI</li><li>multilingual replies</li><li>stop_reason</li></ul>
+              </div>
+              <div class="hx-learn"><span class="hx-learn-tag">LEARN</span><div class="hx-learn-icons"><div class="hx-learn-item"><span><img src="../../assets/icons/tech/fastapi.svg" alt="" width="24" height="24" loading="lazy"></span><span>FastAPI</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/react.svg" alt="" width="24" height="24" loading="lazy"></span><span>React</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/streamlit.svg" alt="" width="24" height="24" loading="lazy"></span><span>Streamlit</span></div></div></div>
+            </div>
+          </article>
+          <article class="hx-step" id="ent-tools" style="--node:#db2777;">
+            <div class="hx-step-nodes"><span class="hx-step-num">05</span><span class="hx-step-icon"><i data-lucide="wrench"></i></span></div>
+            <div class="hx-step-card">
+              <div class="hx-step-main">
+                <h3 class="hx-step-title">Let Claude Take Actions</h3>
+                <ul class="hx-bullets"><li>Give Claude &#x27;tools&#x27;: small functions it can call, such as check stock, create a quotation, book a slot or look up an order</li><li>Built-in tools for web search, reading web pages and running code are ready to use, with nothing for you to host</li></ul>
+                <ul class="hx-chips" aria-label="What you will use"><li>@beta_tool</li><li>tool_runner</li><li>web_search</li><li>web_fetch</li><li>code_execution</li></ul>
+              </div>
+              <div class="hx-learn"><span class="hx-learn-tag">LEARN</span><div class="hx-learn-icons"><div class="hx-learn-item"><span><img src="../../assets/icons/tech/claude.svg" alt="" width="24" height="24" loading="lazy"></span><span>Claude</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/python.svg" alt="" width="24" height="24" loading="lazy"></span><span>Python</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/anthropic.svg" alt="" width="24" height="24" loading="lazy"></span><span>Anthropic</span></div></div></div>
+            </div>
+          </article>
+          <article class="hx-step" id="ent-data" style="--node:#ea580c;">
+            <div class="hx-step-nodes"><span class="hx-step-num">06</span><span class="hx-step-icon"><i data-lucide="library"></i></span></div>
+            <div class="hx-step-card">
+              <div class="hx-step-main">
+                <h3 class="hx-step-title">Answer From Your Own Documents</h3>
+                <ul class="hx-bullets"><li>Upload your price list, product catalogue, FAQs and policy PDFs so Claude answers from your facts, not guesses</li><li>Turn on citations so every answer shows which document and line it came from</li><li>Start with free Postgres (Supabase or Neon) and add vector search only when you have lots of documents</li></ul>
+                <ul class="hx-chips" aria-label="What you will use"><li>Files API</li><li>citations</li><li>pgvector</li><li>prompt caching</li></ul>
+              </div>
+              <div class="hx-learn"><span class="hx-learn-tag">LEARN</span><div class="hx-learn-icons"><div class="hx-learn-item"><span><img src="../../assets/icons/tech/postgresql.svg" alt="" width="24" height="24" loading="lazy"></span><span>Postgres</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/pinecone.svg" alt="" width="24" height="24" loading="lazy"></span><span>Pinecone</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/claude.svg" alt="" width="24" height="24" loading="lazy"></span><span>Claude</span></div></div></div>
+            </div>
+          </article>
+          <article class="hx-step" id="ent-mcp" style="--node:#c026d3;">
+            <div class="hx-step-nodes"><span class="hx-step-num">07</span><span class="hx-step-icon"><i data-lucide="plug"></i></span></div>
+            <div class="hx-step-card">
+              <div class="hx-step-main">
+                <h3 class="hx-step-title">Connect the Apps You Already Use</h3>
+                <ul class="hx-bullets"><li>MCP is a standard plug that connects Claude to your apps (Google Workspace, CRMs, payment or shipping tools) without custom integration code</li><li>Later, publish your own product as an MCP server so other businesses can plug it into Claude</li></ul>
+                <ul class="hx-chips" aria-label="What you will use"><li>MCP connector</li><li>mcp_servers</li><li>mcp_toolset</li></ul>
+              </div>
+              <div class="hx-learn"><span class="hx-learn-tag">LEARN</span><div class="hx-learn-icons"><div class="hx-learn-item"><span><img src="../../assets/icons/tech/mcp.svg" alt="" width="24" height="24" loading="lazy"></span><span>MCP</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/claude.svg" alt="" width="24" height="24" loading="lazy"></span><span>Claude</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/nodejs.svg" alt="" width="24" height="24" loading="lazy"></span><span>Node.js</span></div></div></div>
+            </div>
+          </article>
+          <article class="hx-step" id="ent-managed" style="--node:#0d9488;">
+            <div class="hx-step-nodes"><span class="hx-step-num">08</span><span class="hx-step-icon"><i data-lucide="cloud"></i></span></div>
+            <div class="hx-step-card">
+              <div class="hx-step-main">
+                <h3 class="hx-step-title">Run AI Agents Without Managing Servers</h3>
+                <ul class="hx-bullets"><li>With Managed Agents, Anthropic runs the agent and its workspace for you; you only describe what the agent should do</li><li>Schedule jobs to run on their own: a 9 AM daily follow-up run, a weekly sales summary, a month-end GST report</li><li>Keep passwords and API keys in a vault, never inside your prompts</li></ul>
+                <ul class="hx-chips" aria-label="What you will use"><li>Managed Agents</li><li>scheduled deployments</li><li>vaults</li><li>ant apply</li></ul>
+              </div>
+              <div class="hx-learn"><span class="hx-learn-tag">LEARN</span><div class="hx-learn-icons"><div class="hx-learn-item"><span><img src="../../assets/icons/tech/claude.svg" alt="" width="24" height="24" loading="lazy"></span><span>Claude</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/yaml.svg" alt="" width="24" height="24" loading="lazy"></span><span>YAML</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/anthropic.svg" alt="" width="24" height="24" loading="lazy"></span><span>Anthropic</span></div></div></div>
+            </div>
+          </article>
+          <article class="hx-step" id="ent-ops" style="--node:#0369a1;">
+            <div class="hx-step-nodes"><span class="hx-step-num">09</span><span class="hx-step-icon"><i data-lucide="workflow"></i></span></div>
+            <div class="hx-step-card">
+              <div class="hx-step-main">
+                <h3 class="hx-step-title">Automate Your Business: 9 Workflows</h3>
+                <ul class="hx-bullets"><li>Use Claude across your business: workflows, marketing, outreach, CRM, follow-ups, calendar &amp; appointments, partnerships, inventory &amp; shipping, and finance &amp; GST</li><li><b>No-code way:</b> keep data in Google Sheets or Excel; Claude fills in the columns and a small script sends the results out</li><li><b>Developer way:</b> use free databases (Supabase, Neon, SQLite, DuckDB, Turso) that Claude reads and updates through tools</li><li>See the table below for what to tell Claude in each workflow</li></ul>
+                <ul class="hx-chips" aria-label="What you will use"><li>Google Sheets</li><li>Apps Script</li><li>WhatsApp Business</li><li>Supabase</li><li>SQLite</li><li>Turso</li></ul>
+              </div>
+              <div class="hx-learn"><span class="hx-learn-tag">LEARN</span><div class="hx-learn-icons"><div class="hx-learn-item"><span><img src="../../assets/icons/tech/postgresql.svg" alt="" width="24" height="24" loading="lazy"></span><span>Postgres</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/duckdb.svg" alt="" width="24" height="24" loading="lazy"></span><span>DuckDB</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/claude.svg" alt="" width="24" height="24" loading="lazy"></span><span>Claude</span></div></div></div>
+            </div>
+          </article>
+          <article class="hx-step" id="ent-economics" style="--node:#ca8a04;">
+            <div class="hx-step-nodes"><span class="hx-step-num">10</span><span class="hx-step-icon"><i data-lucide="indian-rupee"></i></span></div>
+            <div class="hx-step-card">
+              <div class="hx-step-main">
+                <h3 class="hx-step-title">Keep Your AI Costs Low</h3>
+                <ul class="hx-bullets"><li>Know how much each task costs you in &#8377; before you decide your selling price; Claude reports token usage on every call</li><li>Save money with prompt caching (reuse the same long instructions), batch jobs for non-urgent work (half price) and a lower effort setting for simple tasks</li><li>Use Haiku for big, simple jobs and keep Opus for the work customers judge you on</li></ul>
+                <ul class="hx-chips" aria-label="What you will use"><li>usage</li><li>prompt caching</li><li>Message Batches</li><li>effort</li><li>model routing</li></ul>
+              </div>
+              <div class="hx-learn"><span class="hx-learn-tag">LEARN</span><div class="hx-learn-icons"><div class="hx-learn-item"><span><img src="../../assets/icons/tech/anthropic.svg" alt="" width="24" height="24" loading="lazy"></span><span>Anthropic</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/python.svg" alt="" width="24" height="24" loading="lazy"></span><span>Python</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/postgresql.svg" alt="" width="24" height="24" loading="lazy"></span><span>Postgres</span></div></div></div>
+            </div>
+          </article>
+          <article class="hx-step" id="ent-quality" style="--node:#65a30d;">
+            <div class="hx-step-nodes"><span class="hx-step-num">11</span><span class="hx-step-icon"><i data-lucide="badge-check"></i></span></div>
+            <div class="hx-step-card">
+              <div class="hx-step-main">
+                <h3 class="hx-step-title">Build Customer Trust</h3>
+                <ul class="hx-bullets"><li>Keep 30 to 50 real customer questions with good answers, and re-check them every time you change a prompt or model</li><li>Make sure a person approves anything that sends money, messages or documents to customers</li><li>Follow India&#x27;s DPDP Act: collect only the customer data you need, take consent before WhatsApp or email marketing, and delete data when asked</li><li>If Claude declines a request, show a polite fallback message instead of an error</li></ul>
+                <ul class="hx-chips" aria-label="What you will use"><li>test set</li><li>human approval</li><li>DPDP Act</li><li>refusal handling</li></ul>
+              </div>
+              <div class="hx-learn"><span class="hx-learn-tag">LEARN</span><div class="hx-learn-icons"><div class="hx-learn-item"><span><img src="../../assets/icons/tech/pytest.svg" alt="" width="24" height="24" loading="lazy"></span><span>pytest</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/claude.svg" alt="" width="24" height="24" loading="lazy"></span><span>Claude</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/python.svg" alt="" width="24" height="24" loading="lazy"></span><span>Python</span></div></div></div>
+            </div>
+          </article>
+          <article class="hx-step" id="ent-launch" style="--node:#6366f1;">
+            <div class="hx-step-nodes"><span class="hx-step-num">12</span><span class="hx-step-icon"><i data-lucide="rocket"></i></span></div>
+            <div class="hx-step-card">
+              <div class="hx-step-main">
+                <h3 class="hx-step-title">Launch &amp; Grow</h3>
+                <ul class="hx-bullets"><li>Put your app online as a Docker container on Cloud Run or a low-cost VPS; the SDK retries busy or failed calls for you</li><li>Fix the model version in your code and upgrade only after your test set passes</li><li>When bigger companies become customers, move to the Enterprise track for SSO, audit logs and data residency</li></ul>
+                <ul class="hx-chips" aria-label="What you will use"><li>Docker</li><li>retries</li><li>pinned model ids</li><li>GitHub Actions</li></ul>
+              </div>
+              <div class="hx-learn"><span class="hx-learn-tag">LEARN</span><div class="hx-learn-icons"><div class="hx-learn-item"><span><img src="../../assets/icons/tech/docker.svg" alt="" width="24" height="24" loading="lazy"></span><span>Docker</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/google-cloud-run.svg" alt="" width="24" height="24" loading="lazy"></span><span>Cloud Run</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/github-actions.svg" alt="" width="24" height="24" loading="lazy"></span><span>GitHub Actions</span></div></div></div>
+            </div>
+          </article>
+        </div>
+        <aside class="hx-side">
+          <section class="hx-card">
+            <h3 class="hx-card-head" style="--head:#1e293b;"><i data-lucide="wrench"></i>Essential Tools</h3>
+            <div class="hx-card-body"><div class="hx-tool"><img src="../../assets/icons/tech/claude.svg" alt="" width="22" height="22" loading="lazy"><span>Claude</span></div><div class="hx-tool"><img src="../../assets/icons/tech/anthropic.svg" alt="" width="22" height="22" loading="lazy"><span>Anthropic</span></div><div class="hx-tool"><img src="../../assets/icons/tech/python.svg" alt="" width="22" height="22" loading="lazy"><span>Python</span></div><div class="hx-tool"><img src="../../assets/icons/tech/fastapi.svg" alt="" width="22" height="22" loading="lazy"><span>FastAPI</span></div><div class="hx-tool"><img src="../../assets/icons/tech/postgresql.svg" alt="" width="22" height="22" loading="lazy"><span>Postgres</span></div><div class="hx-tool"><img src="../../assets/icons/tech/mcp.svg" alt="" width="22" height="22" loading="lazy"><span>MCP</span></div><div class="hx-tool"><img src="../../assets/icons/tech/docker.svg" alt="" width="22" height="22" loading="lazy"><span>Docker</span></div><div class="hx-tool"><i data-lucide="sheet" style="width:22px;height:22px;color:#16a34a;"></i><span>Google Sheets / Excel</span></div></div>
+          </section>
+          <section class="hx-card">
+            <h3 class="hx-card-head" style="--head:#9a3412;"><i data-lucide="award"></i>What You Will Be Able To Do</h3>
+            <div class="hx-card-body"><div class="hx-skill"><span><i data-lucide="lightbulb"></i></span><div><strong>Turn an idea into a working demo</strong><p>Write good prompts and make your first Claude API call</p></div></div><div class="hx-skill"><span><i data-lucide="terminal"></i></span><div><strong>Build faster with AI</strong><p>Use Claude Code to write and fix code as a team of one</p></div></div><div class="hx-skill"><span><i data-lucide="square-function"></i></span><div><strong>Add smart features</strong><p>Clean answers, fast chat, actions, your own documents, app connections</p></div></div><div class="hx-skill"><span><i data-lucide="workflow"></i></span><div><strong>Automate your business</strong><p>Marketing, outreach, CRM, follow-ups, appointments, partners, stock and GST</p></div></div><div class="hx-skill"><span><i data-lucide="indian-rupee"></i></span><div><strong>Protect your margins</strong><p>Caching, batch jobs and the right model for each task</p></div></div><div class="hx-skill"><span><i data-lucide="rocket"></i></span><div><strong>Launch with confidence</strong><p>Testing, human approval, DPDP-friendly data handling</p></div></div></div>
+          </section>
+          <section class="hx-card">
+            <h3 class="hx-card-head" style="--head:#0f766e;"><i data-lucide="info"></i>At a Glance</h3>
+            <div class="hx-card-body"><dl class="hx-facts"><div class="hx-fact"><dt>Who it&#x27;s for</dt><dd>Founders, small business owners, freelancers, D2C brands and service businesses</dd></div><div class="hx-fact"><dt>Goal</dt><dd>Launch a paid AI product and run daily operations on autopilot</dd></div><div class="hx-fact"><dt>Start with</dt><dd>Google Sheets / Excel; no coding needed for the first workflows</dd></div><div class="hx-fact"><dt>Grow into</dt><dd>Python + FastAPI with free Supabase, Neon, SQLite or Turso</dd></div><div class="hx-fact"><dt>Ships to</dt><dd>Managed Agents, Cloud Run or a low-cost VPS</dd></div></dl></div>
+          </section>
+        </aside>
+      </div>
+
+      <div class="hx-poster-body" id="track-enterprise" role="tabpanel" aria-labelledby="tab-enterprise" data-track-panel="enterprise">
+        <div class="hx-spine">
+          <article class="hx-step" id="step-setup" style="--node:#0891b2;">
+            <div class="hx-step-nodes"><span class="hx-step-num">01</span><span class="hx-step-icon"><i data-lucide="plug-zap"></i></span></div>
+            <div class="hx-step-card">
+              <div class="hx-step-main">
+                <h3 class="hx-step-title">Setup, Models &amp; Credentials</h3>
+                <ul class="hx-bullets"><li>Install the API SDK (anthropic) and, if you want the Claude Code harness, claude-agent-sdk</li><li>The client reads ANTHROPIC_API_KEY</li><li>The same models are available on Amazon Bedrock, Google Vertex AI and Microsoft Foundry through dedicated clients</li></ul>
+                <ul class="hx-chips" aria-label="Key APIs"><li>anthropic</li><li>claude-agent-sdk</li><li>Anthropic()</li><li>messages.create</li><li>AnthropicBedrockMantle / AnthropicVertex / AnthropicFoundry</li></ul>
+              </div>
+              <div class="hx-learn"><span class="hx-learn-tag">LEARN</span><div class="hx-learn-icons"><div class="hx-learn-item"><span><img src="../../assets/icons/tech/claude.svg" alt="" width="24" height="24" loading="lazy"></span><span>Claude</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/anthropic.svg" alt="" width="24" height="24" loading="lazy"></span><span>Anthropic</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/python.svg" alt="" width="24" height="24" loading="lazy"></span><span>Python</span></div></div></div>
+            </div>
+          </article>
+          <article class="hx-step" id="step-anatomy" style="--node:#059669;">
+            <div class="hx-step-nodes"><span class="hx-step-num">02</span><span class="hx-step-icon"><i data-lucide="box"></i></span></div>
+            <div class="hx-step-card">
+              <div class="hx-step-main">
+                <h3 class="hx-step-title">Harness, Runtime &amp; Sandbox</h3>
+                <ul class="hx-bullets"><li>Four ways to build: a manual loop over messages.create; the Tool Runner, where the SDK drives the loop over tools you define; Managed Agents, where Anthropic hosts the loop and a sandbox; or the Claude Agent SDK, which runs the Claude Code harness on your infrastructure</li><li><b>Sandbox:</b> Server-side code execution tool; Managed Agents give each session a container</li></ul>
+                <ul class="hx-chips" aria-label="Key APIs"><li>manual loop</li><li>tool_runner</li><li>Managed Agents</li><li>claude_agent_sdk.query</li><li>ClaudeAgentOptions</li></ul>
+              </div>
+              <div class="hx-learn"><span class="hx-learn-tag">LEARN</span><div class="hx-learn-icons"><div class="hx-learn-item"><span><img src="../../assets/icons/tech/claude.svg" alt="" width="24" height="24" loading="lazy"></span><span>Claude</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/docker.svg" alt="" width="24" height="24" loading="lazy"></span><span>Docker</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/anthropic.svg" alt="" width="24" height="24" loading="lazy"></span><span>Anthropic</span></div></div></div>
+            </div>
+          </article>
+          <article class="hx-step" id="step-state" style="--node:#2563eb;">
+            <div class="hx-step-nodes"><span class="hx-step-num">03</span><span class="hx-step-icon"><i data-lucide="database"></i></span></div>
+            <div class="hx-step-card">
+              <div class="hx-step-main">
+                <h3 class="hx-step-title">State &amp; Data Management</h3>
+                <ul class="hx-bullets"><li>The Messages API is stateless: you own the conversation and send it each turn</li><li>Append the assistant&#x27;s full content blocks (tool_use, thinking, compaction), not only its text</li><li>The Agent SDK manages session state for you</li></ul>
+                <ul class="hx-chips" aria-label="Key APIs"><li>messages[]</li><li>role: user / assistant</li><li>content blocks</li><li>mid-conversation system messages</li></ul>
+              </div>
+              <div class="hx-learn"><span class="hx-learn-tag">LEARN</span><div class="hx-learn-icons"><div class="hx-learn-item"><span><img src="../../assets/icons/tech/claude.svg" alt="" width="24" height="24" loading="lazy"></span><span>Claude</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/anthropic.svg" alt="" width="24" height="24" loading="lazy"></span><span>Anthropic</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/python.svg" alt="" width="24" height="24" loading="lazy"></span><span>Python</span></div></div></div>
+            </div>
+          </article>
+          <article class="hx-step" id="step-memory" style="--node:#7c3aed;">
+            <div class="hx-step-nodes"><span class="hx-step-num">04</span><span class="hx-step-icon"><i data-lucide="hard-drive"></i></span></div>
+            <div class="hx-step-card">
+              <div class="hx-step-main">
+                <h3 class="hx-step-title">Memory &amp; Persistence</h3>
+                <ul class="hx-bullets"><li>Server-side compaction summarises old context automatically as a thread grows</li><li>The memory tool lets Claude read and write files in a memory directory you host, for knowledge that outlives a conversation</li><li>Agent SDK sessions resume by id</li></ul>
+                <ul class="hx-chips" aria-label="Key APIs"><li>compact_20260112</li><li>memory_20250818</li><li>context editing</li><li>resume=session_id</li></ul>
+              </div>
+              <div class="hx-learn"><span class="hx-learn-tag">LEARN</span><div class="hx-learn-icons"><div class="hx-learn-item"><span><img src="../../assets/icons/tech/claude.svg" alt="" width="24" height="24" loading="lazy"></span><span>Claude</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/markdown.svg" alt="" width="24" height="24" loading="lazy"></span><span>Markdown</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/anthropic.svg" alt="" width="24" height="24" loading="lazy"></span><span>Anthropic</span></div></div></div>
+            </div>
+          </article>
+          <article class="hx-step" id="step-edges" style="--node:#db2777;">
+            <div class="hx-step-nodes"><span class="hx-step-num">05</span><span class="hx-step-icon"><i data-lucide="git-branch"></i></span></div>
+            <div class="hx-step-card">
+              <div class="hx-step-main">
+                <h3 class="hx-step-title">Edges, Routing &amp; Control Flow</h3>
+                <ul class="hx-bullets"><li>There is no graph DSL: in a workflow, control flow is your code; in an agent, the model chooses the next tool</li><li>Use structured outputs to get a reliable decision, then branch on it in code</li></ul>
+                <ul class="hx-chips" aria-label="Key APIs"><li>output_config.format</li><li>json_schema</li><li>code-driven routing</li><li>stop_reason</li></ul>
+              </div>
+              <div class="hx-learn"><span class="hx-learn-tag">LEARN</span><div class="hx-learn-icons"><div class="hx-learn-item"><span><img src="../../assets/icons/tech/claude.svg" alt="" width="24" height="24" loading="lazy"></span><span>Claude</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/anthropic.svg" alt="" width="24" height="24" loading="lazy"></span><span>Anthropic</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/python.svg" alt="" width="24" height="24" loading="lazy"></span><span>Python</span></div></div></div>
+            </div>
+          </article>
+          <article class="hx-step" id="step-lifecycle" style="--node:#ea580c;">
+            <div class="hx-step-nodes"><span class="hx-step-num">06</span><span class="hx-step-icon"><i data-lucide="circle-play"></i></span></div>
+            <div class="hx-step-card">
+              <div class="hx-step-main">
+                <h3 class="hx-step-title">Calling, Starting &amp; Stopping</h3>
+                <ul class="hx-bullets"><li>Stream long or tool-heavy responses and read stop_reason: end_turn, tool_use, max_tokens, pause_turn or refusal</li><li>In the Agent SDK, ClaudeSDKClient keeps an interactive session open and interrupt() stops it mid-run</li></ul>
+                <ul class="hx-chips" aria-label="Key APIs"><li>messages.stream</li><li>get_final_message</li><li>stop_reason</li><li>ClaudeSDKClient</li><li>interrupt()</li></ul>
+              </div>
+              <div class="hx-learn"><span class="hx-learn-tag">LEARN</span><div class="hx-learn-icons"><div class="hx-learn-item"><span><img src="../../assets/icons/tech/claude.svg" alt="" width="24" height="24" loading="lazy"></span><span>Claude</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/anthropic.svg" alt="" width="24" height="24" loading="lazy"></span><span>Anthropic</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/python.svg" alt="" width="24" height="24" loading="lazy"></span><span>Python</span></div></div></div>
+            </div>
+          </article>
+          <article class="hx-step" id="step-errors" style="--node:#ca8a04;">
+            <div class="hx-step-nodes"><span class="hx-step-num">07</span><span class="hx-step-icon"><i data-lucide="life-buoy"></i></span></div>
+            <div class="hx-step-card">
+              <div class="hx-step-main">
+                <h3 class="hx-step-title">Errors, Retries &amp; Limits</h3>
+                <ul class="hx-bullets"><li>The SDK retries 408, 409, 429 and 5xx responses and connection errors with backoff (two retries by default)</li><li>Catch typed errors from most to least specific, and check for a refusal stop reason before reading content</li></ul>
+                <ul class="hx-chips" aria-label="Key APIs"><li>max_retries</li><li>RateLimitError</li><li>APIStatusError</li><li>APIConnectionError</li><li>stop_reason == refusal</li></ul>
+              </div>
+              <div class="hx-learn"><span class="hx-learn-tag">LEARN</span><div class="hx-learn-icons"><div class="hx-learn-item"><span><img src="../../assets/icons/tech/claude.svg" alt="" width="24" height="24" loading="lazy"></span><span>Claude</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/anthropic.svg" alt="" width="24" height="24" loading="lazy"></span><span>Anthropic</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/python.svg" alt="" width="24" height="24" loading="lazy"></span><span>Python</span></div></div></div>
+            </div>
+          </article>
+          <article class="hx-step" id="step-tools" style="--node:#0d9488;">
+            <div class="hx-step-nodes"><span class="hx-step-num">08</span><span class="hx-step-icon"><i data-lucide="square-function"></i></span></div>
+            <div class="hx-step-card">
+              <div class="hx-step-main">
+                <h3 class="hx-step-title">Function Calling &amp; Tools</h3>
+                <ul class="hx-bullets"><li>Define tools with JSON schema, or with @beta_tool where the signature and docstring become the schema</li><li>The Tool Runner calls the API, runs your functions and loops until Claude is done. strict: true guarantees schema-valid inputs</li></ul>
+                <ul class="hx-chips" aria-label="Key APIs"><li>@beta_tool</li><li>client.beta.messages.tool_runner</li><li>until_done()</li><li>strict: true</li><li>parallel tool use</li></ul>
+              </div>
+              <div class="hx-learn"><span class="hx-learn-tag">LEARN</span><div class="hx-learn-icons"><div class="hx-learn-item"><span><img src="../../assets/icons/tech/claude.svg" alt="" width="24" height="24" loading="lazy"></span><span>Claude</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/pydantic.svg" alt="" width="24" height="24" loading="lazy"></span><span>Pydantic</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/anthropic.svg" alt="" width="24" height="24" loading="lazy"></span><span>Anthropic</span></div></div></div>
+            </div>
+          </article>
+          <article class="hx-step" id="step-rag" style="--node:#4f46e5;">
+            <div class="hx-step-nodes"><span class="hx-step-num">09</span><span class="hx-step-icon"><i data-lucide="library"></i></span></div>
+            <div class="hx-step-card">
+              <div class="hx-step-main">
+                <h3 class="hx-step-title">RAG Pipeline</h3>
+                <ul class="hx-bullets"><li>Retrieve with your own search, pass the passages as document blocks with citations enabled, and Claude returns answers whose text blocks cite the exact source spans</li><li>Cache the stable part of the corpus to cut cost on repeat questions</li></ul>
+                <ul class="hx-chips" aria-label="Key APIs"><li>document blocks</li><li>citations: enabled</li><li>Files API</li><li>prompt caching</li><li>web_search tool</li></ul>
+              </div>
+              <div class="hx-learn"><span class="hx-learn-tag">LEARN</span><div class="hx-learn-icons"><div class="hx-learn-item"><span><img src="../../assets/icons/tech/claude.svg" alt="" width="24" height="24" loading="lazy"></span><span>Claude</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/pinecone.svg" alt="" width="24" height="24" loading="lazy"></span><span>Pinecone</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/anthropic.svg" alt="" width="24" height="24" loading="lazy"></span><span>Anthropic</span></div></div></div>
+            </div>
+          </article>
+          <article class="hx-step" id="step-mcp" style="--node:#c026d3;">
+            <div class="hx-step-nodes"><span class="hx-step-num">10</span><span class="hx-step-icon"><i data-lucide="plug"></i></span></div>
+            <div class="hx-step-card">
+              <div class="hx-step-main">
+                <h3 class="hx-step-title">MCP Integration</h3>
+                <ul class="hx-bullets"><li>The MCP connector lets the API call remote MCP servers directly: declare the server in mcp_servers and reference it with an mcp_toolset tool</li><li>In the Agent SDK, pass mcp_servers or build in-process tools with create_sdk_mcp_server</li></ul>
+                <ul class="hx-chips" aria-label="Key APIs"><li>mcp_servers</li><li>mcp_toolset</li><li>mcp-client-2025-11-20</li><li>create_sdk_mcp_server</li></ul>
+              </div>
+              <div class="hx-learn"><span class="hx-learn-tag">LEARN</span><div class="hx-learn-icons"><div class="hx-learn-item"><span><img src="../../assets/icons/tech/claude.svg" alt="" width="24" height="24" loading="lazy"></span><span>Claude</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/mcp.svg" alt="" width="24" height="24" loading="lazy"></span><span>MCP</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/anthropic.svg" alt="" width="24" height="24" loading="lazy"></span><span>Anthropic</span></div></div></div>
+            </div>
+          </article>
+          <article class="hx-step" id="step-context" style="--node:#0369a1;">
+            <div class="hx-step-nodes"><span class="hx-step-num">11</span><span class="hx-step-icon"><i data-lucide="file-text"></i></span></div>
+            <div class="hx-step-card">
+              <div class="hx-step-main">
+                <h3 class="hx-step-title">Context Files: skills.md, memory.md, tools.md</h3>
+                <ul class="hx-bullets"><li><b>skills.md:</b> Agent Skills (SKILL.md). Skill folders with SKILL.md load on demand in the API and Agent SDK</li><li><b>memory.md:</b> CLAUDE.md + memory tool. The Agent SDK loads CLAUDE.md; the memory tool reads and writes memory files</li><li><b>tools.md:</b> JSON-schema tools. Name, description and input_schema; MCP servers describe their own tools</li></ul>
+                <ul class="hx-chips" aria-label="Key APIs"><li>Agent Skills (SKILL.md)</li><li>CLAUDE.md + memory tool</li><li>JSON-schema tools</li></ul>
+              </div>
+              <div class="hx-learn"><span class="hx-learn-tag">LEARN</span><div class="hx-learn-icons"><div class="hx-learn-item"><span><img src="../../assets/icons/tech/markdown.svg" alt="" width="24" height="24" loading="lazy"></span><span>Markdown</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/claude.svg" alt="" width="24" height="24" loading="lazy"></span><span>Claude</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/anthropic.svg" alt="" width="24" height="24" loading="lazy"></span><span>Anthropic</span></div></div></div>
+            </div>
+          </article>
+          <article class="hx-step" id="step-orchestration" style="--node:#16a34a;">
+            <div class="hx-step-nodes"><span class="hx-step-num">12</span><span class="hx-step-icon"><i data-lucide="network"></i></span></div>
+            <div class="hx-step-card">
+              <div class="hx-step-main">
+                <h3 class="hx-step-title">Multi-Agent Orchestration</h3>
+                <ul class="hx-bullets"><li>In the Agent SDK, define subagents with their own prompt and tool set; the main agent delegates and each subagent keeps its own context</li><li>Managed Agents can fan work out across several agents server-side</li><li>With the API, an orchestrator calls worker models as tools</li></ul>
+                <ul class="hx-chips" aria-label="Key APIs"><li>AgentDefinition</li><li>agents={...}</li><li>subagent context isolation</li><li>Managed Agents multiagent</li></ul>
+              </div>
+              <div class="hx-learn"><span class="hx-learn-tag">LEARN</span><div class="hx-learn-icons"><div class="hx-learn-item"><span><img src="../../assets/icons/tech/claude.svg" alt="" width="24" height="24" loading="lazy"></span><span>Claude</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/anthropic.svg" alt="" width="24" height="24" loading="lazy"></span><span>Anthropic</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/python.svg" alt="" width="24" height="24" loading="lazy"></span><span>Python</span></div></div></div>
+            </div>
+          </article>
+          <article class="hx-step" id="step-hitl" style="--node:#9333ea;">
+            <div class="hx-step-nodes"><span class="hx-step-num">13</span><span class="hx-step-icon"><i data-lucide="user-check"></i></span></div>
+            <div class="hx-step-card">
+              <div class="hx-step-main">
+                <h3 class="hx-step-title">Human-in-the-Loop (HITL)</h3>
+                <ul class="hx-bullets"><li>In the Agent SDK, can_use_tool is called before tool use so a person can allow or deny it; permission modes set the default</li><li>With the API, your loop pauses before running a tool_use block until someone approves</li></ul>
+                <ul class="hx-chips" aria-label="Key APIs"><li>can_use_tool</li><li>PermissionResultAllow / Deny</li><li>permission_mode</li><li>approval before tool_result</li></ul>
+              </div>
+              <div class="hx-learn"><span class="hx-learn-tag">LEARN</span><div class="hx-learn-icons"><div class="hx-learn-item"><span><img src="../../assets/icons/tech/claude.svg" alt="" width="24" height="24" loading="lazy"></span><span>Claude</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/anthropic.svg" alt="" width="24" height="24" loading="lazy"></span><span>Anthropic</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/python.svg" alt="" width="24" height="24" loading="lazy"></span><span>Python</span></div></div></div>
+            </div>
+          </article>
+          <article class="hx-step" id="step-guardrails" style="--node:#dc2626;">
+            <div class="hx-step-nodes"><span class="hx-step-num">14</span><span class="hx-step-icon"><i data-lucide="shield-check"></i></span></div>
+            <div class="hx-step-card">
+              <div class="hx-step-main">
+                <h3 class="hx-step-title">Guardrails &amp; Safety</h3>
+                <ul class="hx-bullets"><li>Hooks run your code at fixed points: PreToolUse can deny a call, PostToolUse can inspect results</li><li>Combine with allowed and disallowed tools, a sandboxed working directory, and stop_reason checks for refusals</li></ul>
+                <ul class="hx-chips" aria-label="Key APIs"><li>hooks</li><li>PreToolUse / PostToolUse</li><li>HookMatcher</li><li>disallowed_tools</li><li>permissionDecision</li></ul>
+              </div>
+              <div class="hx-learn"><span class="hx-learn-tag">LEARN</span><div class="hx-learn-icons"><div class="hx-learn-item"><span><img src="../../assets/icons/tech/claude.svg" alt="" width="24" height="24" loading="lazy"></span><span>Claude</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/anthropic.svg" alt="" width="24" height="24" loading="lazy"></span><span>Anthropic</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/python.svg" alt="" width="24" height="24" loading="lazy"></span><span>Python</span></div></div></div>
+            </div>
+          </article>
+          <article class="hx-step" id="step-testing" style="--node:#65a30d;">
+            <div class="hx-step-nodes"><span class="hx-step-num">15</span><span class="hx-step-icon"><i data-lucide="flask-conical"></i></span></div>
+            <div class="hx-step-card">
+              <div class="hx-step-main">
+                <h3 class="hx-step-title">Testing &amp; Evaluation</h3>
+                <ul class="hx-bullets"><li>Build an eval set from real or synthetic cases, grade with code where possible and an LLM judge where not, and run it on every prompt or model change</li><li>The Message Batches API runs large eval sets at half the cost</li></ul>
+                <ul class="hx-chips" aria-label="Key APIs"><li>eval datasets</li><li>code graders</li><li>LLM-as-judge</li><li>Message Batches</li><li>count_tokens</li></ul>
+              </div>
+              <div class="hx-learn"><span class="hx-learn-tag">LEARN</span><div class="hx-learn-icons"><div class="hx-learn-item"><span><img src="../../assets/icons/tech/claude.svg" alt="" width="24" height="24" loading="lazy"></span><span>Claude</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/anthropic.svg" alt="" width="24" height="24" loading="lazy"></span><span>Anthropic</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/pytest.svg" alt="" width="24" height="24" loading="lazy"></span><span>pytest</span></div></div></div>
+            </div>
+          </article>
+          <article class="hx-step" id="step-auditing" style="--node:#d97706;">
+            <div class="hx-step-nodes"><span class="hx-step-num">16</span><span class="hx-step-icon"><i data-lucide="scan-search"></i></span></div>
+            <div class="hx-step-card">
+              <div class="hx-step-main">
+                <h3 class="hx-step-title">Auditing &amp; Tracing</h3>
+                <ul class="hx-bullets"><li>Log the request id, model, stop reason and token usage of every call, including cache reads</li><li>Agent SDK hooks record every tool call; OpenTelemetry exports traces; Managed Agents sessions are inspectable event by event in the Console</li></ul>
+                <ul class="hx-chips" aria-label="Key APIs"><li>_request_id</li><li>usage</li><li>PostToolUse hooks</li><li>OpenTelemetry</li><li>Console session viewer</li></ul>
+              </div>
+              <div class="hx-learn"><span class="hx-learn-tag">LEARN</span><div class="hx-learn-icons"><div class="hx-learn-item"><span><img src="../../assets/icons/tech/claude.svg" alt="" width="24" height="24" loading="lazy"></span><span>Claude</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/anthropic.svg" alt="" width="24" height="24" loading="lazy"></span><span>Anthropic</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/opentelemetry.svg" alt="" width="24" height="24" loading="lazy"></span><span>OpenTelemetry</span></div></div></div>
+            </div>
+          </article>
+          <article class="hx-step" id="step-mlops" style="--node:#6366f1;">
+            <div class="hx-step-nodes"><span class="hx-step-num">17</span><span class="hx-step-icon"><i data-lucide="rocket"></i></span></div>
+            <div class="hx-step-card">
+              <div class="hx-step-main">
+                <h3 class="hx-step-title">MLOps, LLMOps &amp; Edge Deployment</h3>
+                <ul class="hx-bullets"><li>Pin model ids and migrate with evals</li><li>Managed Agents stores versioned agent configs (kept in git and synced with ant apply) and runs scheduled deployments</li><li>Agent SDK services ship as containers with a sandboxed filesystem</li><li><b>Edge:</b> Cloud API. Models run in the cloud; an edge host can run the Agent SDK and call the API</li></ul>
+                <ul class="hx-chips" aria-label="Key APIs"><li>pinned model ids</li><li>ant apply</li><li>Managed Agents versions</li><li>scheduled deployments</li><li>containers</li></ul>
+              </div>
+              <div class="hx-learn"><span class="hx-learn-tag">LEARN</span><div class="hx-learn-icons"><div class="hx-learn-item"><span><img src="../../assets/icons/tech/claude.svg" alt="" width="24" height="24" loading="lazy"></span><span>Claude</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/anthropic.svg" alt="" width="24" height="24" loading="lazy"></span><span>Anthropic</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/github-actions.svg" alt="" width="24" height="24" loading="lazy"></span><span>GitHub Actions</span></div></div></div>
+            </div>
+          </article>
+          <article class="hx-step" id="step-tuning" style="--node:#475569;">
+            <div class="hx-step-nodes"><span class="hx-step-num">18</span><span class="hx-step-icon"><i data-lucide="sliders-horizontal"></i></span></div>
+            <div class="hx-step-card">
+              <div class="hx-step-main">
+                <h3 class="hx-step-title">LLM Training &amp; Tuning</h3>
+                <ul class="hx-bullets"><li>Claude is steered rather than fine-tuned on the first-party API</li><li>The levers are system prompts, Agent Skills, few-shot examples, structured outputs and the effort setting</li><li>Measure every change with evals and pin model ids</li></ul>
+                <ul class="hx-chips" aria-label="Key APIs"><li>system prompt</li><li>Agent Skills</li><li>output_config.effort</li><li>evals</li></ul>
+              </div>
+              <div class="hx-learn"><span class="hx-learn-tag">LEARN</span><div class="hx-learn-icons"><div class="hx-learn-item"><span><img src="../../assets/icons/tech/claude.svg" alt="" width="24" height="24" loading="lazy"></span><span>Claude</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/anthropic.svg" alt="" width="24" height="24" loading="lazy"></span><span>Anthropic</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/python.svg" alt="" width="24" height="24" loading="lazy"></span><span>Python</span></div></div></div>
+            </div>
+          </article>
+          <article class="hx-step" id="step-security" style="--node:#be123c;">
+            <div class="hx-step-nodes"><span class="hx-step-num">19</span><span class="hx-step-icon"><i data-lucide="lock"></i></span></div>
+            <div class="hx-step-card">
+              <div class="hx-step-main">
+                <h3 class="hx-step-title">Security, Identity &amp; Cost</h3>
+                <ul class="hx-bullets"><li>Cache the stable prefix (tools, system prompt, corpus) so repeats cost a fraction, tune effort per route, and count tokens before large requests</li><li>Restrict tools and filesystem scope; keep credentials in vaults or host-side tools</li></ul>
+                <ul class="hx-chips" aria-label="Key APIs"><li>cache_control</li><li>output_config.effort</li><li>count_tokens</li><li>allowed_tools</li><li>vault credentials</li></ul>
+              </div>
+              <div class="hx-learn"><span class="hx-learn-tag">LEARN</span><div class="hx-learn-icons"><div class="hx-learn-item"><span><img src="../../assets/icons/tech/anthropic.svg" alt="" width="24" height="24" loading="lazy"></span><span>Anthropic</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/claude.svg" alt="" width="24" height="24" loading="lazy"></span><span>Claude</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/python.svg" alt="" width="24" height="24" loading="lazy"></span><span>Python</span></div></div></div>
+            </div>
+          </article>
+          <article class="hx-step" id="step-governance" style="--node:#0f766e;">
+            <div class="hx-step-nodes"><span class="hx-step-num">20</span><span class="hx-step-icon"><i data-lucide="building-2"></i></span></div>
+            <div class="hx-step-card">
+              <div class="hx-step-main">
+                <h3 class="hx-step-title">Enterprise Platform &amp; Governance</h3>
+                <ul class="hx-bullets"><li>Organise teams into workspaces with RBAC groups, service accounts and spend limits through the Admin API</li><li>Replace long-lived keys with Workload Identity Federation; pin data location with inference_geo and use zero data retention where eligible</li><li>Buy through the cloud you already use: Claude on Amazon Bedrock, Google Cloud Vertex AI or Microsoft Foundry</li></ul>
+                <ul class="hx-chips" aria-label="Key APIs"><li>Admin API</li><li>workspaces</li><li>service accounts</li><li>spend limits</li><li>Workload Identity Federation</li><li>inference_geo</li></ul>
+              </div>
+              <div class="hx-learn"><span class="hx-learn-tag">LEARN</span><div class="hx-learn-icons"><div class="hx-learn-item"><span><img src="../../assets/icons/tech/aws-iam.svg" alt="" width="24" height="24" loading="lazy"></span><span>AWS IAM</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/azure-entra.svg" alt="" width="24" height="24" loading="lazy"></span><span>Entra ID</span></div><div class="hx-learn-item"><span><img src="../../assets/icons/tech/terraform.svg" alt="" width="24" height="24" loading="lazy"></span><span>Terraform</span></div></div></div>
+            </div>
+          </article>
+        </div>
+        <aside class="hx-side">
+          <section class="hx-card">
+            <h3 class="hx-card-head" style="--head:#1e293b;"><i data-lucide="wrench"></i>Essential Tools</h3>
+            <div class="hx-card-body"><div class="hx-tool"><img src="../../assets/icons/tech/claude.svg" alt="" width="22" height="22" loading="lazy"><span>Claude</span></div><div class="hx-tool"><img src="../../assets/icons/tech/anthropic.svg" alt="" width="22" height="22" loading="lazy"><span>Anthropic</span></div><div class="hx-tool"><img src="../../assets/icons/tech/python.svg" alt="" width="22" height="22" loading="lazy"><span>Python</span></div><div class="hx-tool"><img src="../../assets/icons/tech/mcp.svg" alt="" width="22" height="22" loading="lazy"><span>MCP</span></div><div class="hx-tool"><img src="../../assets/icons/tech/markdown.svg" alt="" width="22" height="22" loading="lazy"><span>Markdown</span></div><div class="hx-tool"><img src="../../assets/icons/tech/pydantic.svg" alt="" width="22" height="22" loading="lazy"><span>Pydantic</span></div><div class="hx-tool"><img src="../../assets/icons/tech/opentelemetry.svg" alt="" width="22" height="22" loading="lazy"><span>OpenTelemetry</span></div><div class="hx-tool"><img src="../../assets/icons/tech/docker.svg" alt="" width="22" height="22" loading="lazy"><span>Docker</span></div></div>
+          </section>
+          <section class="hx-card">
+            <h3 class="hx-card-head" style="--head:#312e81;"><i data-lucide="award"></i>Skills You Will Gain</h3>
+            <div class="hx-card-body"><div class="hx-skill"><span><i data-lucide="database"></i></span><div><strong>State &amp; Memory</strong><p>Client-owned message history; Compaction + memory tool</p></div></div><div class="hx-skill"><span><i data-lucide="git-branch"></i></span><div><strong>Control Flow</strong><p>Your code + structured outputs; stream, stop_reason, interrupt()</p></div></div><div class="hx-skill"><span><i data-lucide="square-function"></i></span><div><strong>Tools, RAG &amp; MCP</strong><p>@beta_tool + Tool Runner; Document blocks + citations; MCP connector + SDK servers</p></div></div><div class="hx-skill"><span><i data-lucide="shield-check"></i></span><div><strong>Safety &amp; Oversight</strong><p>Hooks + tool allow/deny lists; can_use_tool, permission modes</p></div></div><div class="hx-skill"><span><i data-lucide="rocket"></i></span><div><strong>Production Operations</strong><p>Evals + Batches API; Usage logs, hooks, OpenTelemetry; Pinned models, Managed Agents versions</p></div></div><div class="hx-skill"><span><i data-lucide="building-2"></i></span><div><strong>Governance</strong><p>Admin API, workspaces, spend limits, identity federation, data residency</p></div></div></div>
+          </section>
+          <section class="hx-card">
+            <h3 class="hx-card-head" style="--head:#0f766e;"><i data-lucide="info"></i>At a Glance</h3>
+            <div class="hx-card-body"><dl class="hx-facts"><div class="hx-fact"><dt>Who it&#x27;s for</dt><dd>Platform, AI and solution engineers in large organisations</dd></div><div class="hx-fact"><dt>Control model</dt><dd>Your code, or the model&#x27;s tool loop</dd></div><div class="hx-fact"><dt>State lives in</dt><dd>Messages you own; SDK sessions</dd></div><div class="hx-fact"><dt>Language</dt><dd>Python, TypeScript, Java, Go, C#, Ruby, PHP</dd></div><div class="hx-fact"><dt>Ships to</dt><dd>Your infra, Managed Agents, Bedrock, Vertex, Foundry</dd></div></dl></div>
+          </section>
+        </aside>
+      </div>
+    </section>
+
+    <section id="ent-workflows" class="hx-workflows" data-track-extra="entrepreneur" aria-labelledby="workflows-title" hidden>
+      <div class="hx-paper hx-matrix-head">
+        <div>
+          <div class="hx-overline">Entrepreneur Track &bull; Run Your Business With Claude</div>
+          <h2 id="workflows-title">9 workflows to automate your business</h2>
+          <p>For each part of your business: what Claude does for you, what to tell Claude, how to start free with Google Sheets or Excel, and which free database to use when you grow.</p>
+        </div>
+        <span class="hx-legend"><i></i>Start with Sheets. Move to a database as you grow.</span>
+      </div>
+      <div class="hx-table-wrap" tabindex="0" aria-label="Business workflows, scrolls horizontally">
+        <table class="hx-table hx-table-workflows">
+          <thead><tr><th scope="col">Workflow</th><th scope="col">What Claude Does For You</th><th scope="col">What to Tell Claude</th><th scope="col"><span class="hx-th-icon"><i data-lucide="sheet"></i></span>No-Code Way (Sheets / Excel)</th><th scope="col"><span class="hx-th-icon"><i data-lucide="database"></i></span>Developer Way (Free Databases)</th></tr></thead>
+          <tbody>
+            <tr><th scope="row"><div class="hx-row" style="--row:#0f766e;"><span><i data-lucide="workflow"></i></span>Workflows (Daily Autopilot)</div></th><td><div class="hx-cell"><p>Ties the modules below together so routine work runs by itself every morning, and you only check and approve.</p></div></td><td><div class="hx-cell"><ul class="hx-ctx" style="--node:#0f766e;"><li>Your list of daily tasks and the order to run them.</li><li>Who must approve what before it goes out.</li><li>What to do when a step fails: retry, skip or alert you on WhatsApp or email.</li></ul></div></td><td><div class="hx-cell"><strong>Google Sheets + Apps Script</strong><p>A time trigger runs every morning, sends new rows to Claude and writes the results back. Tools like n8n, Make or Zapier work too.</p></div></td><td><div class="hx-cell"><strong>Supabase (free) + scheduled jobs</strong><p>A <code>jobs</code> table tracks each run&#x27;s status; Managed Agents scheduled deployments or a cron job fire the runs.</p></div></td></tr>
+            <tr><th scope="row"><div class="hx-row" style="--row:#db2777;"><span><i data-lucide="megaphone"></i></span>Marketing</div></th><td><div class="hx-cell"><p>Writes Instagram, Facebook, LinkedIn and WhatsApp Status posts, plus festival campaigns for Diwali, Holi, Pongal, Onam, Eid and more.</p></div></td><td><div class="hx-cell"><ul class="hx-ctx" style="--node:#db2777;"><li>Your brand voice and 5 to 10 of your best past posts.</li><li>Character limits and hashtag rules per platform.</li><li>Languages to use (English, Hindi, Hinglish, regional) and your festival calendar.</li></ul></div></td><td><div class="hx-cell"><strong>Google Sheets / Excel</strong><p>One row per post idea; Claude fills the caption and hashtag columns. Tick &#x27;Approved&#x27;, then schedule in Meta Business Suite.</p></div></td><td><div class="hx-cell"><strong>Supabase (free)</strong><p>A <code>posts</code> table with <code>is_approved</code> and <code>is_published</code> flags so nothing goes live without a check.</p></div></td></tr>
+            <tr><th scope="row"><div class="hx-row" style="--row:#ea580c;"><span><i data-lucide="send"></i></span>Outreach</div></th><td><div class="hx-cell"><p>Finds and contacts new customers with personalised emails, LinkedIn messages and WhatsApp messages to people who have opted in.</p></div></td><td><div class="hx-cell"><ul class="hx-ctx" style="--node:#ea580c;"><li>Your ideal customer: city, industry, business size, budget.</li><li>Your offer in two lines and the one action you want (a call, a demo, a visit).</li><li>WhatsApp rules: use approved message templates and only message people who gave consent.</li></ul></div></td><td><div class="hx-cell"><strong>Google Sheets</strong><p>Paste leads from IndiaMART, JustDial, events or your website; Claude writes a personal first message for each row.</p></div></td><td><div class="hx-cell"><strong>SQLite / DuckDB</strong><p>Zero-setup database files on a small VPS; ideal for de-duplicating and filtering thousands of leads.</p></div></td></tr>
+            <tr><th scope="row"><div class="hx-row" style="--row:#2563eb;"><span><i data-lucide="users"></i></span>CRM (Customers &amp; Leads)</div></th><td><div class="hx-cell"><p>Collects enquiries from email, WhatsApp and website forms, scores each lead from 1 to 100 and keeps every customer&#x27;s history in one place.</p></div></td><td><div class="hx-cell"><ul class="hx-ctx" style="--node:#2563eb;"><li>Your lead-scoring rules, such as budget, location and urgency.</li><li>Your sales stages: New, Contacted, Quote Sent, Won, Lost.</li><li>Clear reasons to reject a lead (spam, out of area, too small).</li></ul></div></td><td><div class="hx-cell"><strong>Google Sheets or Zoho CRM free plan</strong><p>Each enquiry becomes a row, matched to the customer by phone number or email.</p></div></td><td><div class="hx-cell"><strong>Postgres (Supabase / Neon free)</strong><p><code>customers</code> and <code>interactions</code> tables, linked so you see every call, chat and order per customer.</p></div></td></tr>
+            <tr><th scope="row"><div class="hx-row" style="--row:#9333ea;"><span><i data-lucide="bell-ring"></i></span>Follow-ups</div></th><td><div class="hx-cell"><p>Makes sure no customer is forgotten: quotation follow-ups, payment reminders and feedback or review requests after delivery.</p></div></td><td><div class="hx-cell"><ul class="hx-ctx" style="--node:#9333ea;"><li>When to follow up, for example Day 1, Day 3 and Day 7.</li><li>A polite, friendly tone; never pushy.</li><li>Stop rules: stop when the customer replies, pays or says no.</li></ul></div></td><td><div class="hx-cell"><strong>Google Sheets</strong><p>A &#x27;Next follow-up date&#x27; column; each morning a script picks today&#x27;s rows and Claude drafts the message for you to send.</p></div></td><td><div class="hx-cell"><strong>SQLite / Supabase</strong><p>A <code>next_followup_at</code> column and a daily job that queues messages for approval.</p></div></td></tr>
+            <tr><th scope="row"><div class="hx-row" style="--row:#0891b2;"><span><i data-lucide="calendar-clock"></i></span>Calendar &amp; Appointments</div></th><td><div class="hx-cell"><p>Books consultations, demos, site visits and clinic or salon slots, handles rescheduling and sends reminders.</p></div></td><td><div class="hx-cell"><ul class="hx-ctx" style="--node:#0891b2;"><li>Working hours, slot length and break or buffer time.</li><li>Holidays and days off; always use Indian time (IST).</li><li>Rules for rescheduling, cancellations and no-shows.</li></ul></div></td><td><div class="hx-cell"><strong>Google Calendar + Sheets</strong><p>Calendar holds the slots and a Sheet logs every booking. Calendly or Zoho Bookings free plans also work.</p></div></td><td><div class="hx-cell"><strong>Postgres + Google Calendar API</strong><p>A <code>bookings</code> table, with Claude checking free slots and booking through a calendar tool.</p></div></td></tr>
+            <tr><th scope="row"><div class="hx-row" style="--row:#7c3aed;"><span><i data-lucide="handshake"></i></span>Partnerships</div></th><td><div class="hx-cell"><p>Tracks distributors, resellers, vendors and collaborators, pulls key dates and next steps from email threads and drafts MoUs or agreements.</p></div></td><td><div class="hx-cell"><ul class="hx-ctx" style="--node:#7c3aed;"><li>Your standard agreement or MoU template and the blanks to fill in.</li><li>Must-have clauses: payment terms, exclusivity, data security.</li><li>Important dates: renewals, payment due dates, notice periods. A lawyer should review every final agreement.</li></ul></div></td><td><div class="hx-cell"><strong>Excel / Google Sheets</strong><p>One deal tracker: partner, stage, deal value in &#8377;, next step and agreement link.</p></div></td><td><div class="hx-cell"><strong>Postgres (Neon / Supabase free)</strong><p><code>partners</code> linked to <code>interactions</code> and <code>agreements</code> tables for a full history.</p></div></td></tr>
+            <tr><th scope="row"><div class="hx-row" style="--row:#ca8a04;"><span><i data-lucide="truck"></i></span>Inventory, Shipping &amp; Service Catalog</div></th><td><div class="hx-cell"><p>Keeps stock counts, warns before items run out, tracks shipments and answers &#x27;Is it available?&#x27;, &#x27;What&#x27;s the price?&#x27; and &#x27;Where is my order?&#x27;</p></div></td><td><div class="hx-cell"><ul class="hx-ctx" style="--node:#ca8a04;"><li>Reorder level for each product (SKU).</li><li>Pricing rules: MRP, discounts, GST-inclusive prices.</li><li>Courier and pincode delivery rules, plus your list of services and what each one depends on.</li></ul></div></td><td><div class="hx-cell"><strong>Excel / Google Sheets</strong><p>Formulas keep live stock counts; Claude reads the sheet to answer customer questions. Shiprocket or courier exports can be pasted in.</p></div></td><td><div class="hx-cell"><strong>Turso (free)</strong><p>Fast SQLite databases that Claude checks through a tool call before it promises stock or a delivery date.</p></div></td></tr>
+            <tr><th scope="row"><div class="hx-row" style="--row:#059669;"><span><i data-lucide="indian-rupee"></i></span>Finance &amp; GST</div></th><td><div class="hx-cell"><p>Reads bills and receipts (photos too), sorts expenses into categories, matches UPI and Razorpay payments, prepares GST summaries and finds savings.</p></div></td><td><div class="hx-cell"><ul class="hx-ctx" style="--node:#059669;"><li>Your expense categories and how you book them.</li><li>Current GST rates and HSN/SAC codes from an official table you keep up to date, not from Claude&#x27;s memory.</li><li>All totals calculated in code or Excel, not by Claude in text. Your CA checks before any filing.</li></ul></div></td><td><div class="hx-cell"><strong>Excel</strong><p>Monthly cash flow, expenses, margins and GST totals; export to Tally or Zoho Books for your accountant.</p></div></td><td><div class="hx-cell"><strong>Supabase / SQLite</strong><p>Audit-ready tables that store the structured data Claude extracts from each bill, with a link to the original.</p></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="architecture-matrix" aria-labelledby="matrix-title">
+      <div class="hx-paper hx-matrix-head">
+        <div>
+          <div class="hx-overline">Enterprise AI Architecture Matrix &bull; Reference for both tracks</div>
+          <h2 id="matrix-title">17 architectural layers across 7 agent harnesses</h2>
+          <p>How each harness implements the same layer, from sandboxing and state to MCP, guardrails, the skills.md / memory.md / tools.md context files and model tuning.</p>
+        </div>
+        <span class="hx-legend"><i></i>Claude SDK column</span>
+      </div>
+      <div class="hx-table-wrap" tabindex="0" aria-label="Architecture matrix, scrolls horizontally">
+        <table class="hx-table">
+          <thead><tr><th scope="col">Layer</th><th scope="col"><a class="hx-col" href="../langgraph/index.html"><span><img src="../../assets/icons/tech/langgraph.svg" alt="" width="22" height="22" loading="lazy"></span>LangGraph</a></th><th scope="col"><a class="hx-col" href="../crewai/index.html"><span><img src="../../assets/icons/tech/crewai-icon.svg" alt="" width="22" height="22" loading="lazy"></span>CrewAI</a></th><th scope="col"><a class="hx-col" href="../aws-bedrock/index.html"><span><img src="../../assets/icons/tech/aws.svg" alt="" width="22" height="22" loading="lazy"></span>AWS Bedrock</a></th><th scope="col"><a class="hx-col" href="../aws-strands/index.html"><span><img src="../../assets/icons/tech/aws.svg" alt="" width="22" height="22" loading="lazy"></span>AWS Strands Agents</a></th><th scope="col"><a class="hx-col" href="../azure-foundry/index.html"><span><img src="../../assets/icons/tech/azure.svg" alt="" width="22" height="22" loading="lazy"></span>Azure Foundry</a></th><th scope="col" class="is-current"><a class="hx-col" href="../claude-sdk/index.html"><span><img src="../../assets/icons/tech/claude.svg" alt="" width="22" height="22" loading="lazy"></span>Claude SDK</a></th><th scope="col"><a class="hx-col" href="../google-gemini-sdk/index.html"><span><img src="../../assets/icons/tech/google-gemini-icon.svg" alt="" width="22" height="22" loading="lazy"></span>Google Gemini SDK</a></th></tr></thead>
+          <tbody>
+            <tr><th scope="row"><div class="hx-row" style="--row:#6366f1;"><span><i data-lucide="box"></i></span>Harness &amp; Sandbox</div></th><td><div class="hx-cell"><div class="hx-cell-icons"><span title="LangGraph"><img src="../../assets/icons/tech/langgraph.svg" alt="" width="16" height="16" loading="lazy"></span><span title="Docker"><img src="../../assets/icons/tech/docker.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>Your runtime</strong><p>No built-in sandbox; graphs run in LangSmith Deployment or your own containers.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="CrewAI"><img src="../../assets/icons/tech/crewai-icon.svg" alt="" width="16" height="16" loading="lazy"></span><span title="Docker"><img src="../../assets/icons/tech/docker.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>Docker code mode</strong><p>allow_code_execution with code_execution_mode=&quot;safe&quot; runs agent code in Docker.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="AWS"><img src="../../assets/icons/tech/aws.svg" alt="" width="16" height="16" loading="lazy"></span><span title="Lambda"><img src="../../assets/icons/tech/aws-lambda.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>AgentCore Runtime</strong><p>Per-session microVM isolation, managed Code Interpreter; action groups run in Lambda.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="AWS"><img src="../../assets/icons/tech/aws.svg" alt="" width="16" height="16" loading="lazy"></span><span title="Docker"><img src="../../assets/icons/tech/docker.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>In-process + AgentCore</strong><p>The loop runs in your process; AgentCore Runtime adds session isolation.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="Azure"><img src="../../assets/icons/tech/azure.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>Agent Service</strong><p>Hosted runs with a sandboxed Code Interpreter for generated code.</p></div></td><td class="is-current"><div class="hx-cell"><div class="hx-cell-icons"><span title="Claude"><img src="../../assets/icons/tech/claude.svg" alt="" width="16" height="16" loading="lazy"></span><span title="Docker"><img src="../../assets/icons/tech/docker.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>Code execution + containers</strong><p>Server-side code execution tool; Managed Agents give each session a container.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="Gemini"><img src="../../assets/icons/tech/google-gemini-icon.svg" alt="" width="16" height="16" loading="lazy"></span><span title="Google Cloud"><img src="../../assets/icons/tech/google-cloud.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>Code execution + Agent Engine</strong><p>Built-in code_execution tool and ADK code executors; Agent Engine hosting.</p></div></td></tr>
+            <tr><th scope="row"><div class="hx-row" style="--row:#0284c7;"><span><i data-lucide="database"></i></span>State &amp; Data</div></th><td><div class="hx-cell"><div class="hx-cell-icons"><span title="LangGraph"><img src="../../assets/icons/tech/langgraph.svg" alt="" width="16" height="16" loading="lazy"></span><span title="Postgres"><img src="../../assets/icons/tech/postgresql.svg" alt="" width="16" height="16" loading="lazy"></span><span title="Redis"><img src="../../assets/icons/tech/redis.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>Typed state + checkpointers</strong><p>Reducers merge updates; Postgres, SQLite or Redis checkpointers enable resume and time travel.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="CrewAI"><img src="../../assets/icons/tech/crewai-icon.svg" alt="" width="16" height="16" loading="lazy"></span><span title="Pydantic"><img src="../../assets/icons/tech/pydantic.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>Flow state + crew memory</strong><p>Pydantic Flow state with @persist; short-term, long-term and entity memory.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="AWS"><img src="../../assets/icons/tech/aws.svg" alt="" width="16" height="16" loading="lazy"></span><span title="DynamoDB"><img src="../../assets/icons/tech/aws-dynamodb.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>Session state APIs</strong><p>sessionAttributes, prompt attributes, session summaries and AgentCore Memory.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="AWS"><img src="../../assets/icons/tech/aws.svg" alt="" width="16" height="16" loading="lazy"></span><span title="S3"><img src="../../assets/icons/tech/aws-s3.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>agent.state + sessions</strong><p>JSON agent.state, conversation managers and File or S3 session managers.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="Azure"><img src="../../assets/icons/tech/azure.svg" alt="" width="16" height="16" loading="lazy"></span><span title="Cosmos DB"><img src="../../assets/icons/tech/azure-cosmos.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>Threads</strong><p>Server-side threads and runs; Standard setup stores threads in your Cosmos DB.</p></div></td><td class="is-current"><div class="hx-cell"><div class="hx-cell-icons"><span title="Anthropic"><img src="../../assets/icons/tech/anthropic.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>Client-owned messages</strong><p>History sent each turn, compaction and the memory tool; SDK sessions resume by id.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="Gemini"><img src="../../assets/icons/tech/google-gemini-icon.svg" alt="" width="16" height="16" loading="lazy"></span><span title="Postgres"><img src="../../assets/icons/tech/postgresql.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>Scoped session state</strong><p>session.state with user:, app: and temp: prefixes; database or Vertex AI sessions.</p></div></td></tr>
+            <tr><th scope="row"><div class="hx-row" style="--row:#0891b2;"><span><i data-lucide="square-function"></i></span>Function Calling</div></th><td><div class="hx-cell"><div class="hx-cell-icons"><span title="LangChain"><img src="../../assets/icons/tech/langchain.svg" alt="" width="16" height="16" loading="lazy"></span><span title="Pydantic"><img src="../../assets/icons/tech/pydantic.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>@tool + ToolNode</strong><p>Docstrings and type hints become the schema; ToolNode runs calls inside the graph.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="CrewAI"><img src="../../assets/icons/tech/crewai-icon.svg" alt="" width="16" height="16" loading="lazy"></span><span title="Pydantic"><img src="../../assets/icons/tech/pydantic.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>@tool / BaseTool</strong><p>Pydantic args_schema validation, the crewai-tools library and per-task tools.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="AWS"><img src="../../assets/icons/tech/aws.svg" alt="" width="16" height="16" loading="lazy"></span><span title="Lambda"><img src="../../assets/icons/tech/aws-lambda.svg" alt="" width="16" height="16" loading="lazy"></span><span title="OpenAPI"><img src="../../assets/icons/tech/openapi.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>Action groups / toolConfig</strong><p>OpenAPI or function schemas executed by Lambda; Converse toolSpec schemas.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="AWS"><img src="../../assets/icons/tech/aws.svg" alt="" width="16" height="16" loading="lazy"></span><span title="Python"><img src="../../assets/icons/tech/python.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>@tool decorator</strong><p>Typed Python functions become tools; strands-agents-tools ships ready-made tools.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="Azure"><img src="../../assets/icons/tech/azure.svg" alt="" width="16" height="16" loading="lazy"></span><span title="Functions"><img src="../../assets/icons/tech/azure-functions.svg" alt="" width="16" height="16" loading="lazy"></span><span title="OpenAPI"><img src="../../assets/icons/tech/openapi.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>FunctionTool + OpenAPI</strong><p>Auto function calling plus Azure Functions, OpenAPI and Logic Apps tools.</p></div></td><td class="is-current"><div class="hx-cell"><div class="hx-cell-icons"><span title="Claude"><img src="../../assets/icons/tech/claude.svg" alt="" width="16" height="16" loading="lazy"></span><span title="Pydantic"><img src="../../assets/icons/tech/pydantic.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>Tool Runner + strict tools</strong><p>JSON-schema tools with strict: true and parallel calls; the Tool Runner drives the loop.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="Gemini"><img src="../../assets/icons/tech/google-gemini-icon.svg" alt="" width="16" height="16" loading="lazy"></span><span title="Python"><img src="../../assets/icons/tech/python.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>Automatic function calling</strong><p>Python functions as tools; FunctionDeclarations for manual control.</p></div></td></tr>
+            <tr><th scope="row"><div class="hx-row" style="--row:#0d9488;"><span><i data-lucide="cpu"></i></span>Edge Deployment</div></th><td><div class="hx-cell"><div class="hx-cell-icons"><span title="Python"><img src="../../assets/icons/tech/python.svg" alt="" width="16" height="16" loading="lazy"></span><span title="Ollama"><img src="../../assets/icons/tech/ollama.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>Runs anywhere</strong><p>Pure Python or JS; pair with local models through Ollama on edge servers.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="CrewAI"><img src="../../assets/icons/tech/crewai-icon.svg" alt="" width="16" height="16" loading="lazy"></span><span title="Ollama"><img src="../../assets/icons/tech/ollama.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>Local Python</strong><p>Runs on local hardware with Ollama or llama.cpp models through LiteLLM.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="AWS"><img src="../../assets/icons/tech/aws.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>Cloud service</strong><p>No on-device runtime; use AWS IoT Greengrass with local models at the edge.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="AWS"><img src="../../assets/icons/tech/aws.svg" alt="" width="16" height="16" loading="lazy"></span><span title="Ollama"><img src="../../assets/icons/tech/ollama.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>Local model providers</strong><p>OllamaModel and other local providers; the Python agent runs on edge hosts.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="Azure"><img src="../../assets/icons/tech/azure.svg" alt="" width="16" height="16" loading="lazy"></span><span title="ONNX"><img src="../../assets/icons/tech/onnx.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>Foundry Local</strong><p>Run models on-device with Foundry Local and ONNX Runtime; Azure IoT Edge.</p></div></td><td class="is-current"><div class="hx-cell"><div class="hx-cell-icons"><span title="Claude"><img src="../../assets/icons/tech/claude.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>Cloud API</strong><p>Models run in the cloud; an edge host can run the Agent SDK and call the API.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="Gemini"><img src="../../assets/icons/tech/google-gemini-icon.svg" alt="" width="16" height="16" loading="lazy"></span><span title="Ollama"><img src="../../assets/icons/tech/ollama.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>Gemini Nano + Gemma</strong><p>Gemini Nano on Android and Chrome; open Gemma models locally.</p></div></td></tr>
+            <tr><th scope="row"><div class="hx-row" style="--row:#16a34a;"><span><i data-lucide="circle-play"></i></span>Start &amp; Stop</div></th><td><div class="hx-cell"><div class="hx-cell-icons"><span title="LangGraph"><img src="../../assets/icons/tech/langgraph.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>invoke / stream / resume</strong><p>recursion_limit caps steps; cancel and resume from the last checkpoint.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="CrewAI"><img src="../../assets/icons/tech/crewai-icon.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>kickoff / max_iter</strong><p>kickoff, kickoff_async, kickoff_for_each; max_iter and max_execution_time stop runs.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="AWS"><img src="../../assets/icons/tech/aws.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>invoke_agent / endSession</strong><p>Streaming sessions by sessionId; endSession closes; stopReason on Converse.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="AWS"><img src="../../assets/icons/tech/aws.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>agent() / stream_async</strong><p>Sync, async and streaming calls; Swarm and Graph timeouts and handoff limits.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="Azure"><img src="../../assets/icons/tech/azure.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>Runs: create / cancel</strong><p>Run statuses from queued to completed; runs.cancel and token caps.</p></div></td><td class="is-current"><div class="hx-cell"><div class="hx-cell-icons"><span title="Claude"><img src="../../assets/icons/tech/claude.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>stream + stop_reason</strong><p>end_turn, tool_use, pause_turn and refusal; ClaudeSDKClient.interrupt().</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="Gemini"><img src="../../assets/icons/tech/google-gemini-icon.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>run_async events</strong><p>Event stream to a final response; max_llm_calls; escalate exits loops.</p></div></td></tr>
+            <tr><th scope="row"><div class="hx-row" style="--row:#65a30d;"><span><i data-lucide="flask-conical"></i></span>Testing &amp; Eval</div></th><td><div class="hx-cell"><div class="hx-cell-icons"><span title="LangChain"><img src="../../assets/icons/tech/langchain.svg" alt="" width="16" height="16" loading="lazy"></span><span title="pytest"><img src="../../assets/icons/tech/pytest.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>LangSmith evals</strong><p>Unit-test nodes; datasets, LLM judges and trajectory evals.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="CrewAI"><img src="../../assets/icons/tech/crewai-icon.svg" alt="" width="16" height="16" loading="lazy"></span><span title="pytest"><img src="../../assets/icons/tech/pytest.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>crewai test</strong><p>Scores each task over N runs; crewai train adds human feedback.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="AWS"><img src="../../assets/icons/tech/aws.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>Bedrock Evaluations</strong><p>LLM-as-judge jobs for models, Knowledge Bases and agents; test-alias traces.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="AWS"><img src="../../assets/icons/tech/aws.svg" alt="" width="16" height="16" loading="lazy"></span><span title="pytest"><img src="../../assets/icons/tech/pytest.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>pytest + metrics</strong><p>Test tools as functions and assert on tool metrics; LLM-judge eval sets.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="Azure"><img src="../../assets/icons/tech/azure.svg" alt="" width="16" height="16" loading="lazy"></span><span title="Python"><img src="../../assets/icons/tech/python.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>azure-ai-evaluation</strong><p>Groundedness, intent, tool-call accuracy and safety evaluators; red teaming.</p></div></td><td class="is-current"><div class="hx-cell"><div class="hx-cell-icons"><span title="Anthropic"><img src="../../assets/icons/tech/anthropic.svg" alt="" width="16" height="16" loading="lazy"></span><span title="pytest"><img src="../../assets/icons/tech/pytest.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>Evals + Batches</strong><p>Code and LLM graders; large eval sets through the Batches API.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="Gemini"><img src="../../assets/icons/tech/google-gemini-icon.svg" alt="" width="16" height="16" loading="lazy"></span><span title="pytest"><img src="../../assets/icons/tech/pytest.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>adk eval</strong><p>Tool-trajectory and response-match scores; AgentEvaluator in pytest.</p></div></td></tr>
+            <tr><th scope="row"><div class="hx-row" style="--row:#ca8a04;"><span><i data-lucide="scan-search"></i></span>Auditing &amp; Tracing</div></th><td><div class="hx-cell"><div class="hx-cell-icons"><span title="LangChain"><img src="../../assets/icons/tech/langchain.svg" alt="" width="16" height="16" loading="lazy"></span><span title="OpenTelemetry"><img src="../../assets/icons/tech/opentelemetry.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>LangSmith traces</strong><p>Node-level trace trees; checkpoint history as a replayable audit log.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="CrewAI"><img src="../../assets/icons/tech/crewai-icon.svg" alt="" width="16" height="16" loading="lazy"></span><span title="OpenTelemetry"><img src="../../assets/icons/tech/opentelemetry.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>Event listeners</strong><p>Event-bus listeners, log files, and Langfuse or AgentOps integrations.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="CloudWatch"><img src="../../assets/icons/tech/aws-cloudwatch.svg" alt="" width="16" height="16" loading="lazy"></span><span title="CloudTrail"><img src="../../assets/icons/tech/aws-cloudtrail.svg" alt="" width="16" height="16" loading="lazy"></span><span title="S3"><img src="../../assets/icons/tech/aws-s3.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>Invocation logs + CloudTrail</strong><p>Prompt and response logs to CloudWatch or S3; API audit in CloudTrail.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="OpenTelemetry"><img src="../../assets/icons/tech/opentelemetry.svg" alt="" width="16" height="16" loading="lazy"></span><span title="X-Ray"><img src="../../assets/icons/tech/aws-xray.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>OpenTelemetry built in</strong><p>Spans for every cycle, model and tool call to X-Ray, CloudWatch or Langfuse.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="Monitor"><img src="../../assets/icons/tech/azure-monitor.svg" alt="" width="16" height="16" loading="lazy"></span><span title="OpenTelemetry"><img src="../../assets/icons/tech/opentelemetry.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>Application Insights</strong><p>OpenTelemetry tracing of runs and tool calls; Azure Monitor.</p></div></td><td class="is-current"><div class="hx-cell"><div class="hx-cell-icons"><span title="Anthropic"><img src="../../assets/icons/tech/anthropic.svg" alt="" width="16" height="16" loading="lazy"></span><span title="OpenTelemetry"><img src="../../assets/icons/tech/opentelemetry.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>Usage logs + hooks</strong><p>Request ids and token usage; Agent SDK hooks log tool calls.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="Google Cloud"><img src="../../assets/icons/tech/google-cloud.svg" alt="" width="16" height="16" loading="lazy"></span><span title="OpenTelemetry"><img src="../../assets/icons/tech/opentelemetry.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>Cloud Trace</strong><p>ADK spans; events record author, calls and state deltas.</p></div></td></tr>
+            <tr><th scope="row"><div class="hx-row" style="--row:#ea580c;"><span><i data-lucide="network"></i></span>Orchestration</div></th><td><div class="hx-cell"><div class="hx-cell-icons"><span title="LangGraph"><img src="../../assets/icons/tech/langgraph.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>Supervisor / swarm graphs</strong><p>Subgraphs, Command handoffs, Send fan-out, prebuilt supervisor and swarm.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="CrewAI"><img src="../../assets/icons/tech/crewai-icon.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>Crews + Flows</strong><p>Sequential or hierarchical crews; Flows chain crews with routers.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="AWS"><img src="../../assets/icons/tech/aws.svg" alt="" width="16" height="16" loading="lazy"></span><span title="Step Functions"><img src="../../assets/icons/tech/aws-step-functions.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>Multi-agent collaboration</strong><p>Supervisor and collaborator agents; Flows and Step Functions.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="AWS"><img src="../../assets/icons/tech/aws.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>Swarm, Graph, agents-as-tools</strong><p>Model-driven or explicit multi-agent patterns; A2A protocol.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="Azure"><img src="../../assets/icons/tech/azure.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>Connected agents</strong><p>Agents as tools; Agent Framework sequential, concurrent, handoff and group chat.</p></div></td><td class="is-current"><div class="hx-cell"><div class="hx-cell-icons"><span title="Claude"><img src="../../assets/icons/tech/claude.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>Subagents</strong><p>Agent SDK subagents with isolated context; Managed Agents multi-agent workflows.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="Gemini"><img src="../../assets/icons/tech/google-gemini-icon.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>Workflow agents</strong><p>Sequential, Parallel and Loop agents; sub-agent transfer; AgentTool; A2A.</p></div></td></tr>
+            <tr><th scope="row"><div class="hx-row" style="--row:#dc2626;"><span><i data-lucide="shield-check"></i></span>Guardrails</div></th><td><div class="hx-cell"><div class="hx-cell-icons"><span title="LangGraph"><img src="../../assets/icons/tech/langgraph.svg" alt="" width="16" height="16" loading="lazy"></span><span title="LangChain"><img src="../../assets/icons/tech/langchain.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>Guard nodes + middleware</strong><p>Validator nodes route to END; PII and call-limit middleware.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="CrewAI"><img src="../../assets/icons/tech/crewai-icon.svg" alt="" width="16" height="16" loading="lazy"></span><span title="Pydantic"><img src="../../assets/icons/tech/pydantic.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>Task guardrails</strong><p>Function or LLM guardrails retry failing outputs with feedback.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="AWS"><img src="../../assets/icons/tech/aws.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>Bedrock Guardrails</strong><p>Content filters, denied topics, PII masking, grounding and Automated Reasoning checks.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="AWS"><img src="../../assets/icons/tech/aws.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>Guardrails + hooks</strong><p>Bedrock Guardrails on the model; hooks block or cancel tool calls.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="Azure"><img src="../../assets/icons/tech/azure.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>Content Safety</strong><p>Content filters, Prompt Shields, groundedness and protected-material detection.</p></div></td><td class="is-current"><div class="hx-cell"><div class="hx-cell-icons"><span title="Claude"><img src="../../assets/icons/tech/claude.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>Hooks + permissions</strong><p>PreToolUse hooks deny calls; tool allow and deny lists; refusal stop reason.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="Gemini"><img src="../../assets/icons/tech/google-gemini-icon.svg" alt="" width="16" height="16" loading="lazy"></span><span title="Google Cloud"><img src="../../assets/icons/tech/google-cloud.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>Callbacks + Model Armor</strong><p>before_model and before_tool callbacks; safety settings; Model Armor.</p></div></td></tr>
+            <tr><th scope="row"><div class="hx-row" style="--row:#db2777;"><span><i data-lucide="library"></i></span>RAG Pipeline</div></th><td><div class="hx-cell"><div class="hx-cell-icons"><span title="LangChain"><img src="../../assets/icons/tech/langchain.svg" alt="" width="16" height="16" loading="lazy"></span><span title="Pinecone"><img src="../../assets/icons/tech/pinecone.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>Agentic RAG graphs</strong><p>Retrieve, grade and rewrite loops over any LangChain vector store.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="CrewAI"><img src="../../assets/icons/tech/crewai-icon.svg" alt="" width="16" height="16" loading="lazy"></span><span title="Qdrant"><img src="../../assets/icons/tech/qdrant.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>Knowledge + RAG tools</strong><p>Knowledge sources per agent or crew; PDF, web and vector search tools.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="AWS"><img src="../../assets/icons/tech/aws.svg" alt="" width="16" height="16" loading="lazy"></span><span title="OpenSearch"><img src="../../assets/icons/tech/opensearch.svg" alt="" width="16" height="16" loading="lazy"></span><span title="S3"><img src="../../assets/icons/tech/aws-s3.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>Knowledge Bases</strong><p>Managed ingestion, chunking and vector stores with filters and citations.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="AWS"><img src="../../assets/icons/tech/aws.svg" alt="" width="16" height="16" loading="lazy"></span><span title="OpenSearch"><img src="../../assets/icons/tech/opensearch.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>retrieve tool</strong><p>Queries Bedrock Knowledge Bases; custom vector tools for other stores.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="Azure"><img src="../../assets/icons/tech/azure.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>AI Search + File Search</strong><p>Hybrid vector and semantic search, managed vector stores, Bing grounding.</p></div></td><td class="is-current"><div class="hx-cell"><div class="hx-cell-icons"><span title="Claude"><img src="../../assets/icons/tech/claude.svg" alt="" width="16" height="16" loading="lazy"></span><span title="Pinecone"><img src="../../assets/icons/tech/pinecone.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>Citations</strong><p>Bring your own retrieval; document blocks return cited spans.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="Gemini"><img src="../../assets/icons/tech/google-gemini-icon.svg" alt="" width="16" height="16" loading="lazy"></span><span title="Google Cloud"><img src="../../assets/icons/tech/google-cloud.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>File Search / RAG Engine</strong><p>Managed File Search stores; Vertex AI RAG Engine and Search grounding.</p></div></td></tr>
+            <tr><th scope="row"><div class="hx-row" style="--row:#c026d3;"><span><i data-lucide="plug"></i></span>MCP Integration</div></th><td><div class="hx-cell"><div class="hx-cell-icons"><span title="MCP"><img src="../../assets/icons/tech/mcp.svg" alt="" width="16" height="16" loading="lazy"></span><span title="LangChain"><img src="../../assets/icons/tech/langchain.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>MCP adapters</strong><p>MultiServerMCPClient loads stdio and HTTP servers as LangChain tools.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="MCP"><img src="../../assets/icons/tech/mcp.svg" alt="" width="16" height="16" loading="lazy"></span><span title="CrewAI"><img src="../../assets/icons/tech/crewai-icon.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>MCPServerAdapter</strong><p>Stdio, SSE and streamable-HTTP servers exposed as CrewAI tools.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="MCP"><img src="../../assets/icons/tech/mcp.svg" alt="" width="16" height="16" loading="lazy"></span><span title="AWS"><img src="../../assets/icons/tech/aws.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>AgentCore Gateway</strong><p>Turns Lambda and OpenAPI targets into a secured MCP endpoint.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="MCP"><img src="../../assets/icons/tech/mcp.svg" alt="" width="16" height="16" loading="lazy"></span><span title="AWS"><img src="../../assets/icons/tech/aws.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>MCPClient</strong><p>Native MCP client for stdio, SSE and streamable HTTP.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="MCP"><img src="../../assets/icons/tech/mcp.svg" alt="" width="16" height="16" loading="lazy"></span><span title="Azure"><img src="../../assets/icons/tech/azure.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>McpTool</strong><p>Remote MCP servers with tool allow-lists and approval modes.</p></div></td><td class="is-current"><div class="hx-cell"><div class="hx-cell-icons"><span title="MCP"><img src="../../assets/icons/tech/mcp.svg" alt="" width="16" height="16" loading="lazy"></span><span title="Claude"><img src="../../assets/icons/tech/claude.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>MCP connector</strong><p>The API calls remote MCP servers directly; the Agent SDK runs local ones.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="MCP"><img src="../../assets/icons/tech/mcp.svg" alt="" width="16" height="16" loading="lazy"></span><span title="Gemini"><img src="../../assets/icons/tech/google-gemini-icon.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>MCPToolset</strong><p>Connects ADK agents to MCP servers with tool filters.</p></div></td></tr>
+            <tr><th scope="row"><div class="hx-row" style="--row:#9333ea;"><span><i data-lucide="rocket"></i></span>MLOps / LLMOps</div></th><td><div class="hx-cell"><div class="hx-cell-icons"><span title="LangChain"><img src="../../assets/icons/tech/langchain.svg" alt="" width="16" height="16" loading="lazy"></span><span title="Docker"><img src="../../assets/icons/tech/docker.svg" alt="" width="16" height="16" loading="lazy"></span><span title="GitHub Actions"><img src="../../assets/icons/tech/github-actions.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>LangSmith Deployment</strong><p>langgraph.json, container builds, assistant versions and eval gates.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="CrewAI"><img src="../../assets/icons/tech/crewai-icon.svg" alt="" width="16" height="16" loading="lazy"></span><span title="Docker"><img src="../../assets/icons/tech/docker.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>CrewAI AMP</strong><p>crewai deploy exposes crews as APIs; versioned YAML configs.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="CloudFormation"><img src="../../assets/icons/tech/aws-cloudformation.svg" alt="" width="16" height="16" loading="lazy"></span><span title="AWS"><img src="../../assets/icons/tech/aws.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>Versions + aliases</strong><p>Immutable agent versions, alias rollouts, CloudFormation or CDK.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="AWS"><img src="../../assets/icons/tech/aws.svg" alt="" width="16" height="16" loading="lazy"></span><span title="Docker"><img src="../../assets/icons/tech/docker.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>AgentCore / Lambda</strong><p>BedrockAgentCoreApp entrypoint; Lambda, Fargate or EKS.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="Azure DevOps"><img src="../../assets/icons/tech/azure-devops.svg" alt="" width="16" height="16" loading="lazy"></span><span title="GitHub Actions"><img src="../../assets/icons/tech/github-actions.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>GenAIOps</strong><p>Evals in CI, Bicep or Terraform deploys, continuous evaluation.</p></div></td><td class="is-current"><div class="hx-cell"><div class="hx-cell-icons"><span title="Anthropic"><img src="../../assets/icons/tech/anthropic.svg" alt="" width="16" height="16" loading="lazy"></span><span title="GitHub Actions"><img src="../../assets/icons/tech/github-actions.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>Pinned models + versions</strong><p>Eval-gated model changes; Managed Agents versions and schedules.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="Google Cloud"><img src="../../assets/icons/tech/google-cloud.svg" alt="" width="16" height="16" loading="lazy"></span><span title="Cloud Run"><img src="../../assets/icons/tech/google-cloud-run.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>Agent Engine / Cloud Run</strong><p>adk deploy to Vertex AI Agent Engine or Cloud Run.</p></div></td></tr>
+            <tr><th scope="row"><div class="hx-row" style="--row:#7c3aed;"><span><i data-lucide="user-check"></i></span>Human-in-the-Loop</div></th><td><div class="hx-cell"><div class="hx-cell-icons"><span title="LangGraph"><img src="../../assets/icons/tech/langgraph.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>interrupt()</strong><p>Pause any node; resume with Command(resume=...) to approve or edit.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="CrewAI"><img src="../../assets/icons/tech/crewai-icon.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>human_input=True</strong><p>Tasks pause for reviewer feedback; Flow routers queue risky cases.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="AWS"><img src="../../assets/icons/tech/aws.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>Return of control</strong><p>Hands planned actions back to the app; per-function user confirmation.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="AWS"><img src="../../assets/icons/tech/aws.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>Interrupts</strong><p>BeforeToolCall hooks pause for approval; handoff_to_user tool.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="Azure"><img src="../../assets/icons/tech/azure.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>requires_action</strong><p>Runs pause for tool outputs or MCP approvals before continuing.</p></div></td><td class="is-current"><div class="hx-cell"><div class="hx-cell-icons"><span title="Claude"><img src="../../assets/icons/tech/claude.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>can_use_tool</strong><p>Approve or deny each tool call; permission modes set defaults.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="Gemini"><img src="../../assets/icons/tech/google-gemini-icon.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>Tool confirmation</strong><p>require_confirmation on tools; long-running tools for async approvals.</p></div></td></tr>
+            <tr><th scope="row"><div class="hx-row" style="--row:#4f46e5;"><span><i data-lucide="file-badge"></i></span><code>skills.md</code></div></th><td><div class="hx-cell"><div class="hx-cell-icons"><span title="Markdown"><img src="../../assets/icons/tech/markdown.svg" alt="" width="16" height="16" loading="lazy"></span><span title="LangGraph"><img src="../../assets/icons/tech/langgraph.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>Prompts per node</strong><p>Load skill files into node prompts and route to them with conditional edges.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="YAML"><img src="../../assets/icons/tech/yaml.svg" alt="" width="16" height="16" loading="lazy"></span><span title="CrewAI"><img src="../../assets/icons/tech/crewai-icon.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>agents.yaml</strong><p>Role, goal and backstory per agent carry each skill description.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="Markdown"><img src="../../assets/icons/tech/markdown.svg" alt="" width="16" height="16" loading="lazy"></span><span title="AWS"><img src="../../assets/icons/tech/aws.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>Agent instructions</strong><p>Instructions plus prompt-override templates per orchestration step.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="Markdown"><img src="../../assets/icons/tech/markdown.svg" alt="" width="16" height="16" loading="lazy"></span><span title="AWS"><img src="../../assets/icons/tech/aws.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>system_prompt</strong><p>Load skill files into the system prompt or specialist agents-as-tools.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="Markdown"><img src="../../assets/icons/tech/markdown.svg" alt="" width="16" height="16" loading="lazy"></span><span title="Azure"><img src="../../assets/icons/tech/azure.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>Agent instructions</strong><p>Instructions per agent; connected agents for separate skills.</p></div></td><td class="is-current"><div class="hx-cell"><div class="hx-cell-icons"><span title="Markdown"><img src="../../assets/icons/tech/markdown.svg" alt="" width="16" height="16" loading="lazy"></span><span title="Claude"><img src="../../assets/icons/tech/claude.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>Agent Skills (SKILL.md)</strong><p>Skill folders with SKILL.md load on demand in the API and Agent SDK.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="Markdown"><img src="../../assets/icons/tech/markdown.svg" alt="" width="16" height="16" loading="lazy"></span><span title="Gemini"><img src="../../assets/icons/tech/google-gemini-icon.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>Instructions + sub-agents</strong><p>Skill text in instructions; sub-agent descriptions drive routing.</p></div></td></tr>
+            <tr><th scope="row"><div class="hx-row" style="--row:#2563eb;"><span><i data-lucide="brain"></i></span><code>memory.md</code></div></th><td><div class="hx-cell"><div class="hx-cell-icons"><span title="Markdown"><img src="../../assets/icons/tech/markdown.svg" alt="" width="16" height="16" loading="lazy"></span><span title="Postgres"><img src="../../assets/icons/tech/postgresql.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>Store namespaces</strong><p>Memory notes in the long-term Store, written by a memory node.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="Mem0"><img src="../../assets/icons/tech/mem0.svg" alt="" width="16" height="16" loading="lazy"></span><span title="CrewAI"><img src="../../assets/icons/tech/crewai-icon.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>Knowledge + external memory</strong><p>Text knowledge sources or Mem0-backed external memory.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="AWS"><img src="../../assets/icons/tech/aws.svg" alt="" width="16" height="16" loading="lazy"></span><span title="DynamoDB"><img src="../../assets/icons/tech/aws-dynamodb.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>AgentCore Memory</strong><p>Session summaries and long-term memory strategies.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="AWS"><img src="../../assets/icons/tech/aws.svg" alt="" width="16" height="16" loading="lazy"></span><span title="Mem0"><img src="../../assets/icons/tech/mem0.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>Sessions + mem0 tool</strong><p>Session managers persist state; the mem0_memory tool keeps long-term notes.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="Cosmos DB"><img src="../../assets/icons/tech/azure-cosmos.svg" alt="" width="16" height="16" loading="lazy"></span><span title="Azure"><img src="../../assets/icons/tech/azure.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>Threads + files</strong><p>Thread history plus a File Search store holding memory notes.</p></div></td><td class="is-current"><div class="hx-cell"><div class="hx-cell-icons"><span title="Markdown"><img src="../../assets/icons/tech/markdown.svg" alt="" width="16" height="16" loading="lazy"></span><span title="Claude"><img src="../../assets/icons/tech/claude.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>CLAUDE.md + memory tool</strong><p>The Agent SDK loads CLAUDE.md; the memory tool reads and writes memory files.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="Google Cloud"><img src="../../assets/icons/tech/google-cloud.svg" alt="" width="16" height="16" loading="lazy"></span><span title="Markdown"><img src="../../assets/icons/tech/markdown.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>Memory Bank</strong><p>MemoryService and load_memory recall long-term facts.</p></div></td></tr>
+            <tr><th scope="row"><div class="hx-row" style="--row:#0369a1;"><span><i data-lucide="file-cog"></i></span><code>tools.md</code></div></th><td><div class="hx-cell"><div class="hx-cell-icons"><span title="Pydantic"><img src="../../assets/icons/tech/pydantic.svg" alt="" width="16" height="16" loading="lazy"></span><span title="LangChain"><img src="../../assets/icons/tech/langchain.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>Tool docstrings</strong><p>Generate tools.md from @tool names, docstrings and Pydantic args.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="Pydantic"><img src="../../assets/icons/tech/pydantic.svg" alt="" width="16" height="16" loading="lazy"></span><span title="CrewAI"><img src="../../assets/icons/tech/crewai-icon.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>BaseTool schemas</strong><p>name, description and args_schema document each tool.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="OpenAPI"><img src="../../assets/icons/tech/openapi.svg" alt="" width="16" height="16" loading="lazy"></span><span title="AWS"><img src="../../assets/icons/tech/aws.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>OpenAPI schemas</strong><p>Action-group OpenAPI or function-detail definitions.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="Python"><img src="../../assets/icons/tech/python.svg" alt="" width="16" height="16" loading="lazy"></span><span title="AWS"><img src="../../assets/icons/tech/aws.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>@tool docstrings</strong><p>Docstrings become tool specs; tools can load from a directory.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="OpenAPI"><img src="../../assets/icons/tech/openapi.svg" alt="" width="16" height="16" loading="lazy"></span><span title="Azure"><img src="../../assets/icons/tech/azure.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>OpenAPI specs</strong><p>Function definitions and OpenAPI tool specs per agent.</p></div></td><td class="is-current"><div class="hx-cell"><div class="hx-cell-icons"><span title="Claude"><img src="../../assets/icons/tech/claude.svg" alt="" width="16" height="16" loading="lazy"></span><span title="MCP"><img src="../../assets/icons/tech/mcp.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>JSON-schema tools</strong><p>Name, description and input_schema; MCP servers describe their own tools.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="Python"><img src="../../assets/icons/tech/python.svg" alt="" width="16" height="16" loading="lazy"></span><span title="Gemini"><img src="../../assets/icons/tech/google-gemini-icon.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>FunctionDeclarations</strong><p>Function docstrings or explicit declarations describe each tool.</p></div></td></tr>
+            <tr><th scope="row"><div class="hx-row" style="--row:#475569;"><span><i data-lucide="sliders-horizontal"></i></span>LLM Training / Tuning</div></th><td><div class="hx-cell"><div class="hx-cell-icons"><span title="LangChain"><img src="../../assets/icons/tech/langchain.svg" alt="" width="16" height="16" loading="lazy"></span><span title="Hugging Face"><img src="../../assets/icons/tech/huggingface.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>Model-agnostic</strong><p>Use LangSmith traces as datasets; fine-tune in your model platform.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="CrewAI"><img src="../../assets/icons/tech/crewai-icon.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>crewai train</strong><p>Human feedback improves agent guidance; tuned models via LiteLLM.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="AWS"><img src="../../assets/icons/tech/aws.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>Custom models</strong><p>Fine-tuning, continued pre-training, distillation and model import.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="AWS"><img src="../../assets/icons/tech/aws.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>Bedrock or SageMaker models</strong><p>Point the model provider at a tuned Bedrock or SageMaker model.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="Azure"><img src="../../assets/icons/tech/azure.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>Fine-tuning + distillation</strong><p>Supervised, preference and reinforcement fine-tuning for supported models.</p></div></td><td class="is-current"><div class="hx-cell"><div class="hx-cell-icons"><span title="Anthropic"><img src="../../assets/icons/tech/anthropic.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>Prompting over tuning</strong><p>Steer with prompts, Skills, examples and effort; no first-party fine-tuning.</p></div></td><td><div class="hx-cell"><div class="hx-cell-icons"><span title="Google Cloud"><img src="../../assets/icons/tech/google-cloud.svg" alt="" width="16" height="16" loading="lazy"></span><span title="Gemini"><img src="../../assets/icons/tech/google-gemini-icon.svg" alt="" width="16" height="16" loading="lazy"></span></div><strong>Vertex AI tuning</strong><p>Supervised and preference tuning for Gemini; LoRA for Gemma.</p></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Master Footer -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-main-grid">
+
+        <!-- Column 1: Company Profile & Social Channels -->
+        <div class="footer-col">
+          <div class="footer-col-title">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="building-2" style="color:#38bdf8;width:22px;height:22px;" class="lucide lucide-building-2"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"></path><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"></path><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"></path><path d="M10 6h4"></path><path d="M10 10h4"></path><path d="M10 14h4"></path><path d="M10 18h4"></path></svg>
+            <span>Tinitiate AI Academy</span>
+          </div>
+          <p class="footer-col-desc">
+            Industry-aligned IT training curriculum designed to transition software engineers, cloud architects, and data professionals into high-impact AI, GenAI, and Distributed Lakehouse Engineering roles.
+          </p>
+          <span class="footer-contact-label">Company Social Channels</span>
+          <div class="footer-socials-grid">
+            <a href="https://linkedin.com/company/tinitiate" target="_blank" rel="noopener noreferrer" class="footer-social-btn" title="Tinitiate LinkedIn">
+              <span class="footer-social-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="#0a66c2"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.45a1.6 1.6 0 1 0 0 3.2 1.6 1.6 0 0 0 0-3.2Z"></path></svg></span>
+              <span>LinkedIn</span>
+            </a>
+            <a href="https://youtube.com/@tinitiate" target="_blank" rel="noopener noreferrer" class="footer-social-btn" title="Tinitiate YouTube">
+              <span class="footer-social-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="#ff0000"><path d="M21.58 7.19a2.76 2.76 0 0 0-1.95-1.95C17.9 4.75 12 4.75 12 4.75s-5.9 0-7.63.49a2.76 2.76 0 0 0-1.95 1.95A28.84 28.84 0 0 0 2 12a28.84 28.84 0 0 0 .42 4.81 2.76 2.76 0 0 0 1.95 1.95c1.73.49 7.63.49 7.63.49s5.9 0 7.63-.49a2.76 2.76 0 0 0 1.95-1.95A28.84 28.84 0 0 0 22 12a28.84 28.84 0 0 0-.42-4.81ZM10 15V9l5.2 3L10 15Z"></path></svg></span>
+              <span>YouTube</span>
+            </a>
+            <a href="https://github.com/venkata-bcs" target="_blank" rel="noopener noreferrer" class="footer-social-btn" title="Tinitiate GitHub">
+              <span class="footer-social-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="#ffffff"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"></path></svg></span>
+              <span>GitHub</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Column 2: Lead Instructor Profiles -->
+        <div class="footer-col">
+          <div class="footer-col-title">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user-check" style="color:#a855f7;width:22px;height:22px;" class="lucide lucide-user-check"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><polyline points="16 11 18 13 22 9"></polyline></svg>
+            <span>Venkata Bhattaram</span>
+          </div>
+          <p class="footer-col-desc">
+            Lead AI Instructor &amp; Enterprise Architect. Connect directly for course consultations, curriculum design, and technical advisory.
+          </p>
+          <span class="footer-contact-label">Venkata Bhattaram's Profiles</span>
+          <div class="footer-socials-grid">
+            <a href="https://www.linkedin.com/in/venkata-bhattaram/" target="_blank" rel="noopener noreferrer" class="footer-social-btn" title="Venkata Bhattaram LinkedIn">
+              <span class="footer-social-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="#0a66c2"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.45a1.6 1.6 0 1 0 0 3.2 1.6 1.6 0 0 0 0-3.2Z"></path></svg></span>
+              <span>LinkedIn</span>
+            </a>
+            <a href="https://github.com/venkata-bcs" target="_blank" rel="noopener noreferrer" class="footer-social-btn" title="Venkata Bhattaram GitHub">
+              <span class="footer-social-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="#ffffff"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"></path></svg></span>
+              <span>GitHub</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Column 3: Contact & Call Us -->
+        <div class="footer-col">
+          <div class="footer-col-title">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="phone-call" style="color:#22c55e;width:22px;height:22px;" class="lucide lucide-phone-call"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path><path d="M14.05 2a9 9 0 0 1 8 7.94"></path><path d="M14.05 6A5 5 0 0 1 18 10"></path></svg>
+            <span>Contact &amp; Call Us</span>
+          </div>
+          <div class="footer-contact-block">
+            <div class="footer-contact-item">
+              <div class="footer-contact-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="mail" style="width:18px;height:18px;" class="lucide lucide-mail"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg></div>
+              <div class="footer-contact-details">
+                <span class="footer-contact-label">Email Support</span>
+                <a href="mailto:contact@tinitiateai.com" class="footer-web-link">contact@tinitiateai.com</a>
+              </div>
+            </div>
+            <div class="footer-contact-item">
+              <div class="footer-contact-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="globe" style="width:18px;height:18px;" class="lucide lucide-globe"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path><path d="M2 12h20"></path></svg></div>
+              <div class="footer-contact-details">
+                <span class="footer-contact-label">Official Portal</span>
+                <a href="https://tinitiateai.com" target="_blank" rel="noopener noreferrer" class="footer-web-link">tinitiateai.com</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Curriculum Portals Bar -->
+      <div class="footer-portals-bar">
+        <span class="footer-contact-label" style="margin:0;">MasterClass Portals:</span>
+        <div class="footer-portals-list">
+          <a href="../../index.html" class="footer-portal-chip"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="home" style="width:14px;height:14px;" class="lucide lucide-home"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>Academy Home</a>
+          <a href="../../automation-ml-ai-agentic/index.html" class="footer-portal-chip"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="bot" style="width:14px;height:14px;" class="lucide lucide-bot"><path d="M12 8V4H8"></path><rect width="16" height="12" x="4" y="8" rx="2"></rect><path d="M2 14h2"></path><path d="M20 14h2"></path><path d="M15 13v2"></path><path d="M9 13v2"></path></svg>AI Systems Hub</a>
+          <a href="../../data-engineering/index.html" class="footer-portal-chip"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="database" style="width:14px;height:14px;" class="lucide lucide-database"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M3 5V19A9 3 0 0 0 21 19V5"></path><path d="M3 12A9 3 0 0 0 21 12"></path></svg>Data Engineering Hub</a>
+          <a href="../../data-governence/purview-sandbox/index.html" class="footer-portal-chip"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="shield-check" style="width:14px;height:14px;" class="lucide lucide-shield-check"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path><path d="m9 12 2 2 4-4"></path></svg>Data Governance</a>
+          <a href="../../pyspark/index.html" class="footer-portal-chip"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="zap" style="width:14px;height:14px;" class="lucide lucide-zap"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"></path></svg>PySpark Architecture</a>
+        </div>
+      </div>
+
+      <!-- Bottom Bar -->
+      <div class="footer-bottom-bar">
+        <div>
+          © 2026 <strong>Venkata Bhattaram</strong> • <a href="https://tinitiateai.com" target="_blank" rel="noopener noreferrer" style="color:#ffffff;text-decoration:none;font-weight:700;">TinitiateAI.com</a> • All Rights Reserved.
+        </div>
+        <div class="footer-bottom-links">
+          <span>Lead Instructor: <strong>Venkata Bhattaram</strong></span>
+          <a href="https://github.com/venkata-bcs" target="_blank" rel="noopener noreferrer">github.com/venkata-bcs</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../../assets/js/master-global-nav.js"></script>
+  <script>
+    if (window.lucide) {
+      lucide.createIcons();
+    }
+  </script>
+  <script>
+    (function () {
+      var tabs = Array.prototype.slice.call(document.querySelectorAll('.hx-track'));
+      if (!tabs.length) return;
+      function show(track, focus) {
+        tabs.forEach(function (t) {
+          var on = t.getAttribute('data-track') === track;
+          t.setAttribute('aria-selected', on ? 'true' : 'false');
+          t.tabIndex = on ? 0 : -1;
+          if (on && focus) t.focus();
+          var panel = document.getElementById(t.getAttribute('aria-controls'));
+          if (panel) panel.hidden = !on;
+        });
+        Array.prototype.forEach.call(document.querySelectorAll('[data-track-extra]'), function (el) {
+          el.hidden = el.getAttribute('data-track-extra') !== track;
+        });
+        try { localStorage.setItem('claude-sdk-track', track); } catch (e) {}
+      }
+      function fromHash() {
+        var id = decodeURIComponent(location.hash.slice(1));
+        if (id === 'entrepreneur' || id === 'enterprise') return id;
+        var el = id && document.getElementById(id);
+        var panel = el && el.closest('[data-track-panel], [data-track-extra]');
+        return panel ? (panel.getAttribute('data-track-panel') || panel.getAttribute('data-track-extra')) : null;
+      }
+      var saved = null;
+      try { saved = localStorage.getItem('claude-sdk-track'); } catch (e) {}
+      show(fromHash() || (saved === 'entrepreneur' ? 'entrepreneur' : 'enterprise'));
+      tabs.forEach(function (t, i) {
+        t.addEventListener('click', function () {
+          var track = t.getAttribute('data-track');
+          show(track);
+          if (history.replaceState) history.replaceState(null, '', '#' + track);
+        });
+        t.addEventListener('keydown', function (e) {
+          var k = e.key, n = null;
+          if (k === 'ArrowRight' || k === 'ArrowDown') n = (i + 1) % tabs.length;
+          else if (k === 'ArrowLeft' || k === 'ArrowUp') n = (i - 1 + tabs.length) % tabs.length;
+          else if (k === 'Home') n = 0;
+          else if (k === 'End') n = tabs.length - 1;
+          if (n === null) return;
+          e.preventDefault();
+          show(tabs[n].getAttribute('data-track'), true);
+        });
+      });
+      window.addEventListener('hashchange', function () {
+        var t = fromHash();
+        if (t) {
+          show(t);
+          var el = document.getElementById(location.hash.slice(1));
+          if (el && el.scrollIntoView) el.scrollIntoView();
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

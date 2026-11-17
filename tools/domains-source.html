@@ -1,0 +1,503 @@
+<!-- Source of truth for the per-vertical topic cards. Read by tools/build_vertical_pages.py
+     (verticals/*.html and the topic section on each vertical's Master Class page).
+     Edit the cards here, then run: python tools/build_vertical_pages.py -->
+<!-- SUBJECT-DOMAINS:START -->
+    <!-- =======================================================================
+         SUBJECT DOMAINS: one section per Subjects-menu domain, one card per topic
+         ======================================================================= -->
+    <div class="domains-wrap" id="subject-domains">
+      <div class="section-eyebrow-box">
+        <div class="section-title-wrap">
+          <h2 class="section-title">
+            <i data-lucide="layout-grid" style="color:var(--md-primary);width:24px;height:24px;"></i>
+            Explore by Domain
+          </h2>
+          <span class="section-subtitle">Every subject in the academy, grouped into its 6 domains. Pick a topic to open its course or jump straight into the demo.</span>
+        </div>
+      </div>
+      <nav class="domain-jump" aria-label="Jump to domain">
+        <a href="#domain-foundational" class="domain-chip" style="--domain-accent:#38bdf8;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="8" height="8" x="3" y="3" rx="2"/><path d="M7 11v4a2 2 0 0 0 2 2h4"/><rect width="8" height="8" x="13" y="13" rx="2"/></svg><span>Foundational</span><span class="domain-chip-count">8</span></a><a href="#domain-ai" class="domain-chip" style="--domain-accent:#a855f7;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg><span>AI</span><span class="domain-chip-count">7</span></a><a href="#domain-data-engineering" class="domain-chip" style="--domain-accent:#0284c7;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"/></svg><span>Data Engineering</span><span class="domain-chip-count">8</span></a><a href="#domain-data-governance" class="domain-chip" style="--domain-accent:#10b981;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg><span>Data Governance</span><span class="domain-chip-count">4</span></a><a href="#domain-full-stack" class="domain-chip" style="--domain-accent:#f43f5e;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg><span>Full Stack</span><span class="domain-chip-count">5</span></a><a href="#domain-placement" class="domain-chip" style="--domain-accent:#fb923c;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="14" x="2" y="7" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg><span>Placement Assistance</span><span class="domain-chip-count">16</span></a>
+      </nav>
+    <section class="domain-section" id="domain-foundational" style="--domain-accent:#38bdf8;">
+      <div class="domain-header">
+        <span class="domain-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="8" height="8" x="3" y="3" rx="2"/><path d="M7 11v4a2 2 0 0 0 2 2h4"/><rect width="8" height="8" x="13" y="13" rx="2"/></svg></span>
+        <div class="domain-title-wrap">
+          <h3 class="domain-title">Foundational<span class="domain-count">9 Tracks</span></h3>
+          <p class="domain-blurb">The engineering bedrock every track builds on: Python, data structures, auth, APIs, services and design.</p>
+        </div>
+        
+      <a href="verticals/foundational.html" class="domain-more-link">Foundational home<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a></div>
+      <div class="topic-grid">
+          <article class="topic-card is-flagship">
+            <a href="foundational/index.html" class="topic-card-link">
+              <span class="topic-head"><span class="topic-icon"><i data-lucide="graduation-cap"></i></span><span class="topic-flag"><i data-lucide="graduation-cap"></i>Master Class</span></span>
+              <h4 class="topic-name">Foundational Master Class</h4>
+              <p class="topic-desc">Computer Science &amp; Software Engineering Fundamentals</p>
+            </a>
+            <div class="topic-actions"><a href="foundational/index.html" class="topic-btn topic-btn-primary">Open course<i data-lucide="arrow-up-right"></i></a><a href="foundational/demo.html" class="topic-btn topic-btn-ghost"><i data-lucide="play"></i>Demo</a></div>
+          </article>
+          <article class="topic-card">
+            <a href="foundational/python/index.html" class="topic-card-link">
+              <span class="topic-head"><span class="topic-icon has-logo"><img src="assets/icons/tech/python.svg" alt="Python" width="22" height="22" loading="lazy"></span></span>
+              <h4 class="topic-name">Python</h4>
+              <p class="topic-desc">Print, Variables, Datatypes, Operators, Strings &amp; Lists</p>
+            </a>
+            <div class="topic-actions"><a href="foundational/python/index.html" class="topic-btn topic-btn-primary">Open course<i data-lucide="arrow-up-right"></i></a><a href="foundational/python/print.html" class="topic-btn topic-btn-ghost"><i data-lucide="play"></i>Start</a></div>
+          </article>
+          <article class="topic-card">
+            <a href="foundational/sql/index.html" class="topic-card-link">
+              <span class="topic-head"><span class="topic-icon has-logo"><img src="assets/icons/tech/postgresql.svg" alt="PostgreSQL" width="22" height="22" loading="lazy"></span></span>
+              <h4 class="topic-name">SQL</h4>
+              <p class="topic-desc">PostgreSQL DDL &amp; DML, on a real database in your browser</p>
+            </a>
+            <div class="topic-actions"><a href="foundational/sql/index.html" class="topic-btn topic-btn-primary">Open course<i data-lucide="arrow-up-right"></i></a><a href="foundational/sql/ddl.html" class="topic-btn topic-btn-ghost"><i data-lucide="play"></i>Start</a></div>
+          </article>
+          <article class="topic-card">
+            <a href="foundational/data-structures/index.html" class="topic-card-link">
+              <span class="topic-head"><span class="topic-icon"><i data-lucide="network"></i></span></span>
+              <h4 class="topic-name">Data Structures</h4>
+              <p class="topic-desc">Trees, Graphs, HashTables &amp; Heaps</p>
+            </a>
+            <div class="topic-actions"><a href="foundational/data-structures/index.html" class="topic-btn topic-btn-primary">Open course<i data-lucide="arrow-up-right"></i></a><a href="foundational/data-structures/demo.html" class="topic-btn topic-btn-ghost"><i data-lucide="play"></i>Demo</a></div>
+          </article>
+          <article class="topic-card">
+            <a href="foundational/authentication/index.html" class="topic-card-link">
+              <span class="topic-head"><span class="topic-icon"><i data-lucide="key-round"></i></span></span>
+              <h4 class="topic-name">Authentication</h4>
+              <p class="topic-desc">OAuth2, OIDC, JWT, SAML &amp; PKCE</p>
+            </a>
+            <div class="topic-actions"><a href="foundational/authentication/index.html" class="topic-btn topic-btn-primary">Open course<i data-lucide="arrow-up-right"></i></a><a href="foundational/authentication/demo.html" class="topic-btn topic-btn-ghost"><i data-lucide="play"></i>Demo</a></div>
+          </article>
+          <article class="topic-card">
+            <a href="foundational/apis/index.html" class="topic-card-link">
+              <span class="topic-head"><span class="topic-icon"><i data-lucide="webhook"></i></span></span>
+              <h4 class="topic-name">APIs</h4>
+              <p class="topic-desc">REST, GraphQL, gRPC &amp; WebSockets</p>
+            </a>
+            <div class="topic-actions"><a href="foundational/apis/index.html" class="topic-btn topic-btn-primary">Open course<i data-lucide="arrow-up-right"></i></a><a href="foundational/apis/demo.html" class="topic-btn topic-btn-ghost"><i data-lucide="play"></i>Demo</a></div>
+          </article>
+          <article class="topic-card">
+            <a href="foundational/microservices/index.html" class="topic-card-link">
+              <span class="topic-head"><span class="topic-icon"><i data-lucide="boxes"></i></span></span>
+              <h4 class="topic-name">MicroServices</h4>
+              <p class="topic-desc">Sagas, Service Mesh &amp; Event-Driven</p>
+            </a>
+            <div class="topic-actions"><a href="foundational/microservices/index.html" class="topic-btn topic-btn-primary">Open course<i data-lucide="arrow-up-right"></i></a><a href="foundational/microservices/demo.html" class="topic-btn topic-btn-ghost"><i data-lucide="play"></i>Demo</a></div>
+          </article>
+          <article class="topic-card">
+            <a href="foundational/oop/index.html" class="topic-card-link">
+              <span class="topic-head"><span class="topic-icon"><i data-lucide="blocks"></i></span></span>
+              <h4 class="topic-name">OOP</h4>
+              <p class="topic-desc">SOLID, Polymorphism &amp; Abstraction</p>
+            </a>
+            <div class="topic-actions"><a href="foundational/oop/index.html" class="topic-btn topic-btn-primary">Open course<i data-lucide="arrow-up-right"></i></a><a href="foundational/oop/demo.html" class="topic-btn topic-btn-ghost"><i data-lucide="play"></i>Demo</a></div>
+          </article>
+          <article class="topic-card">
+            <a href="foundational/design-patterns/index.html" class="topic-card-link">
+              <span class="topic-head"><span class="topic-icon"><i data-lucide="puzzle"></i></span></span>
+              <h4 class="topic-name">Design Patterns</h4>
+              <p class="topic-desc">GoF Creational, Structural &amp; Behavioral</p>
+            </a>
+            <div class="topic-actions"><a href="foundational/design-patterns/index.html" class="topic-btn topic-btn-primary">Open course<i data-lucide="arrow-up-right"></i></a><a href="foundational/design-patterns/demo.html" class="topic-btn topic-btn-ghost"><i data-lucide="play"></i>Demo</a></div>
+          </article>
+      </div>
+    </section>
+    <section class="domain-section" id="domain-ai" style="--domain-accent:#a855f7;">
+      <div class="domain-header">
+        <span class="domain-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg></span>
+        <div class="domain-title-wrap">
+          <h3 class="domain-title">AI<span class="domain-count">9 Tracks</span></h3>
+          <p class="domain-blurb">From automation to agentic systems, plus hands-on SDK tracks for the major model platforms.</p>
+        </div>
+        
+      <a href="verticals/ai.html" class="domain-more-link">AI home<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a></div>
+      <div class="topic-grid">
+          <article class="topic-card is-flagship">
+            <a href="automation-ml-ai-agentic/index.html" class="topic-card-link">
+              <span class="topic-head"><span class="topic-icon"><i data-lucide="brain-circuit"></i></span><span class="topic-flag"><i data-lucide="graduation-cap"></i>Master Class</span></span>
+              <h4 class="topic-name">AI Master Class</h4>
+              <p class="topic-desc">Automation, ML, GenAI &amp; Agentic Systems, MCP &amp; LangChain</p>
+            </a>
+            <div class="topic-actions"><a href="automation-ml-ai-agentic/index.html" class="topic-btn topic-btn-primary">Open course<i data-lucide="arrow-up-right"></i></a><a href="automation-ml-ai-agentic/demo.html" class="topic-btn topic-btn-ghost"><i data-lucide="play"></i>Demo</a></div>
+          </article>
+          <article class="topic-card">
+            <a href="agentic-development/index.html" class="topic-card-link">
+              <span class="topic-head"><span class="topic-icon"><i data-lucide="network"></i></span></span>
+              <h4 class="topic-name">Agentic Development</h4>
+              <p class="topic-desc">Agents, Agentic Loops &amp; Governed Agent Swarms</p>
+            </a>
+            <div class="topic-actions"><a href="agentic-development/index.html" class="topic-btn topic-btn-primary">Open course<i data-lucide="arrow-up-right"></i></a><a href="agentic-development/agents/index.html" class="topic-btn topic-btn-ghost"><i data-lucide="play"></i>Start Part 1</a></div>
+          </article>
+          <article class="topic-card">
+            <a href="ai/langgraph/index.html" class="topic-card-link">
+              <span class="topic-head"><span class="topic-icon has-logo"><img src="assets/icons/tech/langgraph.svg" alt="LangGraph" width="22" height="22" loading="lazy"></span></span>
+              <h4 class="topic-name">Langgraph</h4>
+              <p class="topic-desc">Cyclic State Graphs &amp; Multi-Agent DAGs</p>
+            </a>
+            <div class="topic-actions"><a href="ai/langgraph/index.html" class="topic-btn topic-btn-primary">Open course<i data-lucide="arrow-up-right"></i></a><a href="ai/langgraph/demo.html" class="topic-btn topic-btn-ghost"><i data-lucide="play"></i>Demo</a></div>
+          </article>
+          <article class="topic-card">
+            <a href="ai/crewai/index.html" class="topic-card-link">
+              <span class="topic-head"><span class="topic-icon has-logo"><img src="assets/icons/tech/crewai.svg" alt="CrewAI" width="22" height="22" loading="lazy"></span></span>
+              <h4 class="topic-name">CrewAI</h4>
+              <p class="topic-desc">Role-Based Agent Crews, Tasks &amp; Flows</p>
+            </a>
+            <div class="topic-actions"><a href="ai/crewai/index.html" class="topic-btn topic-btn-primary">Open course<i data-lucide="arrow-up-right"></i></a><a href="ai/crewai/demo.html" class="topic-btn topic-btn-ghost"><i data-lucide="play"></i>Demo</a></div>
+          </article>
+          <article class="topic-card">
+            <a href="ai/aws-bedrock/index.html" class="topic-card-link">
+              <span class="topic-head"><span class="topic-icon has-logo"><img src="assets/icons/tech/aws.svg" alt="AWS" width="22" height="22" loading="lazy"></span></span>
+              <h4 class="topic-name">AWS Bedrock</h4>
+              <p class="topic-desc">Managed Foundation Models &amp; Guardrails</p>
+            </a>
+            <div class="topic-actions"><a href="ai/aws-bedrock/index.html" class="topic-btn topic-btn-primary">Open course<i data-lucide="arrow-up-right"></i></a><a href="ai/aws-bedrock/demo.html" class="topic-btn topic-btn-ghost"><i data-lucide="play"></i>Demo</a></div>
+          </article>
+          <article class="topic-card">
+            <a href="ai/aws-strands/index.html" class="topic-card-link">
+              <span class="topic-head"><span class="topic-icon has-logo"><img src="assets/icons/tech/aws.svg" alt="AWS" width="22" height="22" loading="lazy"></span></span>
+              <h4 class="topic-name">AWS Strands</h4>
+              <p class="topic-desc">Model-Driven Agents SDK, Graph &amp; Swarm</p>
+            </a>
+            <div class="topic-actions"><a href="ai/aws-strands/index.html" class="topic-btn topic-btn-primary">Open course<i data-lucide="arrow-up-right"></i></a></div>
+          </article>
+          <article class="topic-card">
+            <a href="ai/azure-foundry/index.html" class="topic-card-link">
+              <span class="topic-head"><span class="topic-icon has-logo"><img src="assets/icons/tech/azure.svg" alt="Microsoft Azure" width="22" height="22" loading="lazy"></span></span>
+              <h4 class="topic-name">Azure Foundry</h4>
+              <p class="topic-desc">Azure AI Studio, Prompt Flow &amp; Evaluators</p>
+            </a>
+            <div class="topic-actions"><a href="ai/azure-foundry/index.html" class="topic-btn topic-btn-primary">Open course<i data-lucide="arrow-up-right"></i></a><a href="ai/azure-foundry/demo.html" class="topic-btn topic-btn-ghost"><i data-lucide="play"></i>Demo</a></div>
+          </article>
+          <article class="topic-card">
+            <a href="ai/claude-sdk/index.html" class="topic-card-link">
+              <span class="topic-head"><span class="topic-icon has-logo"><img src="assets/icons/tech/claude.svg" alt="Claude" width="22" height="22" loading="lazy"></span></span>
+              <h4 class="topic-name">Claude SDK</h4>
+              <p class="topic-desc">Anthropic SDK, Tools &amp; Prompt Caching</p>
+            </a>
+            <div class="topic-actions"><a href="ai/claude-sdk/index.html" class="topic-btn topic-btn-primary">Open course<i data-lucide="arrow-up-right"></i></a><a href="ai/claude-sdk/demo.html" class="topic-btn topic-btn-ghost"><i data-lucide="play"></i>Demo</a></div>
+          </article>
+          <article class="topic-card">
+            <a href="ai/google-gemini-sdk/index.html" class="topic-card-link">
+              <span class="topic-head"><span class="topic-icon has-logo"><img src="assets/icons/tech/google-gemini.svg" alt="Google Gemini" width="22" height="22" loading="lazy"></span></span>
+              <h4 class="topic-name">Google Gemini SDK</h4>
+              <p class="topic-desc">Gen AI SDK, ADK Agents &amp; Context Cache</p>
+            </a>
+            <div class="topic-actions"><a href="ai/google-gemini-sdk/index.html" class="topic-btn topic-btn-primary">Open course<i data-lucide="arrow-up-right"></i></a><a href="ai/google-gemini-sdk/demo.html" class="topic-btn topic-btn-ghost"><i data-lucide="play"></i>Demo</a></div>
+          </article>
+      </div>
+    </section>
+    <section class="domain-section" id="domain-data-engineering" style="--domain-accent:#0284c7;">
+      <div class="domain-header">
+        <span class="domain-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"/></svg></span>
+        <div class="domain-title-wrap">
+          <h3 class="domain-title">Data Engineering<span class="domain-count">8 Tracks</span></h3>
+          <p class="domain-blurb">Lakehouses, warehouses and streaming on every major cloud, plus fast local engines.</p>
+        </div>
+        
+      <a href="verticals/data-engineering.html" class="domain-more-link">Data Engineering home<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a></div>
+      <div class="topic-grid">
+          <article class="topic-card is-flagship">
+            <a href="data-engineering/index.html" class="topic-card-link">
+              <span class="topic-head"><span class="topic-icon"><i data-lucide="database"></i></span><span class="topic-flag"><i data-lucide="graduation-cap"></i>Master Class</span></span>
+              <h4 class="topic-name">Data Engineering Master Class</h4>
+              <p class="topic-desc">Modern Lakehouse, Fabric &amp; Kafka Streams</p>
+            </a>
+            <div class="topic-actions"><a href="data-engineering/index.html" class="topic-btn topic-btn-primary">Open course<i data-lucide="arrow-up-right"></i></a><a href="data-engineering/demo.html" class="topic-btn topic-btn-ghost"><i data-lucide="play"></i>Demo</a></div>
+          </article>
+          <article class="topic-card is-flagship">
+            <a href="pyspark/index.html" class="topic-card-link">
+              <span class="topic-head"><span class="topic-icon has-logo"><img src="assets/icons/tech/spark.svg" alt="Apache Spark" width="22" height="22" loading="lazy"></span><span class="topic-flag"><i data-lucide="award"></i>Flagship hub</span></span>
+              <h4 class="topic-name">PySpark</h4>
+              <p class="topic-desc">Cluster Architecture, DAG Execution &amp; Data Ingestion</p>
+            </a>
+            <div class="topic-actions"><a href="pyspark/index.html" class="topic-btn topic-btn-primary">Open course<i data-lucide="arrow-up-right"></i></a><a href="pyspark/demo.html" class="topic-btn topic-btn-ghost"><i data-lucide="play"></i>Demo</a></div>
+          </article>
+          <article class="topic-card">
+            <a href="databricks-dataengineering/index.html" class="topic-card-link">
+              <span class="topic-head"><span class="topic-icon has-logo"><img src="assets/icons/tech/databricks.svg" alt="Databricks" width="22" height="22" loading="lazy"></span></span>
+              <h4 class="topic-name">Databricks</h4>
+              <p class="topic-desc">Unity Catalog, Delta Live &amp; Photon</p>
+            </a>
+            <div class="topic-actions"><a href="databricks-dataengineering/index.html" class="topic-btn topic-btn-primary">Open course<i data-lucide="arrow-up-right"></i></a><a href="databricks-dataengineering/demo.html" class="topic-btn topic-btn-ghost"><i data-lucide="play"></i>Demo</a></div>
+          </article>
+          <article class="topic-card">
+            <a href="aws-dataengineering/index.html" class="topic-card-link">
+              <span class="topic-head"><span class="topic-icon has-logo"><img src="assets/icons/tech/aws.svg" alt="AWS" width="22" height="22" loading="lazy"></span></span>
+              <h4 class="topic-name">AWS Data Engineering</h4>
+              <p class="topic-desc">EMR, Glue, Redshift, Kinesis &amp; S3</p>
+            </a>
+            <div class="topic-actions"><a href="aws-dataengineering/index.html" class="topic-btn topic-btn-primary">Open course<i data-lucide="arrow-up-right"></i></a><a href="aws-dataengineering/demo.html" class="topic-btn topic-btn-ghost"><i data-lucide="play"></i>Demo</a></div>
+          </article>
+          <article class="topic-card">
+            <a href="snowflake-dataengineering/index.html" class="topic-card-link">
+              <span class="topic-head"><span class="topic-icon has-logo"><img src="assets/icons/tech/snowflake.svg" alt="Snowflake" width="22" height="22" loading="lazy"></span></span>
+              <h4 class="topic-name">SnowFlake</h4>
+              <p class="topic-desc">Snowpark, Dynamic Tables &amp; Warehouses</p>
+            </a>
+            <div class="topic-actions"><a href="snowflake-dataengineering/index.html" class="topic-btn topic-btn-primary">Open course<i data-lucide="arrow-up-right"></i></a><a href="snowflake-dataengineering/demo.html" class="topic-btn topic-btn-ghost"><i data-lucide="play"></i>Demo</a></div>
+          </article>
+          <article class="topic-card">
+            <a href="azure-dataengineering/index.html" class="topic-card-link">
+              <span class="topic-head"><span class="topic-icon has-logo"><img src="assets/icons/tech/azure.svg" alt="Microsoft Azure" width="22" height="22" loading="lazy"></span></span>
+              <h4 class="topic-name">Azure Data Engineering</h4>
+              <p class="topic-desc">Fabric, Synapse Analytics &amp; ADLS Gen2</p>
+            </a>
+            <div class="topic-actions"><a href="azure-dataengineering/index.html" class="topic-btn topic-btn-primary">Open course<i data-lucide="arrow-up-right"></i></a><a href="azure-dataengineering/demo.html" class="topic-btn topic-btn-ghost"><i data-lucide="play"></i>Demo</a></div>
+          </article>
+          <article class="topic-card">
+            <a href="data-engineering/onprem-pandas-polars-sql/index.html" class="topic-card-link">
+              <span class="topic-head"><span class="topic-icon has-logo"><img src="assets/icons/tech/pandas.svg" alt="pandas" width="22" height="22" loading="lazy"></span></span>
+              <h4 class="topic-name">On Prem Pandas, Polars, SQL</h4>
+              <p class="topic-desc">Vectorized LazyFrames &amp; Local Engines</p>
+            </a>
+            <div class="topic-actions"><a href="data-engineering/onprem-pandas-polars-sql/index.html" class="topic-btn topic-btn-primary">Open course<i data-lucide="arrow-up-right"></i></a><a href="data-engineering/onprem-pandas-polars-sql/demo.html" class="topic-btn topic-btn-ghost"><i data-lucide="play"></i>Demo</a></div>
+          </article>
+          <article class="topic-card">
+            <a href="data-engineering/duckdb/index.html" class="topic-card-link">
+              <span class="topic-head"><span class="topic-icon has-logo"><img src="assets/icons/tech/duckdb.svg" alt="DuckDB" width="22" height="22" loading="lazy"></span></span>
+              <h4 class="topic-name">DuckDB</h4>
+              <p class="topic-desc">In-Process Columnar Analytical OLAP</p>
+            </a>
+            <div class="topic-actions"><a href="data-engineering/duckdb/index.html" class="topic-btn topic-btn-primary">Open course<i data-lucide="arrow-up-right"></i></a><a href="data-engineering/duckdb/demo.html" class="topic-btn topic-btn-ghost"><i data-lucide="play"></i>Demo</a></div>
+          </article>
+      </div>
+    </section>
+    <section class="domain-section" id="domain-data-governance" style="--domain-accent:#10b981;">
+      <div class="domain-header">
+        <span class="domain-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg></span>
+        <div class="domain-title-wrap">
+          <h3 class="domain-title">Data Governance<span class="domain-count">4 Tracks</span></h3>
+          <p class="domain-blurb">Catalogs, lineage, fine-grained access and stewardship across Atlas, Unity and Purview.</p>
+        </div>
+        
+      <a href="verticals/data-governance.html" class="domain-more-link">Data Governance home<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a></div>
+      <div class="topic-grid">
+          <article class="topic-card is-flagship">
+            <a href="data-governence/index.html" class="topic-card-link">
+              <span class="topic-head"><span class="topic-icon"><i data-lucide="shield-check"></i></span><span class="topic-flag"><i data-lucide="graduation-cap"></i>Master Class</span></span>
+              <h4 class="topic-name">Data Governance Master Class</h4>
+              <p class="topic-desc">Catalogs, Sensitive Data Discovery, Lineage &amp; Stewardship</p>
+            </a>
+            <div class="topic-actions"><a href="data-governence/index.html" class="topic-btn topic-btn-primary">Open course<i data-lucide="arrow-up-right"></i></a><a href="data-governence/demo.html" class="topic-btn topic-btn-ghost"><i data-lucide="play"></i>Demo</a></div>
+          </article>
+          <article class="topic-card">
+            <a href="data-governence/atlas/index.html" class="topic-card-link">
+              <span class="topic-head"><span class="topic-icon has-logo"><img src="assets/icons/tech/apache.svg" alt="Apache" width="22" height="22" loading="lazy"></span></span>
+              <h4 class="topic-name">Atlas</h4>
+              <p class="topic-desc">Apache Atlas Metadata &amp; Lineage Graph</p>
+            </a>
+            <div class="topic-actions"><a href="data-governence/atlas/index.html" class="topic-btn topic-btn-primary">Open course<i data-lucide="arrow-up-right"></i></a><a href="data-governence/atlas/demo.html" class="topic-btn topic-btn-ghost"><i data-lucide="play"></i>Demo</a></div>
+          </article>
+          <article class="topic-card">
+            <a href="data-governence/unity/index.html" class="topic-card-link">
+              <span class="topic-head"><span class="topic-icon has-logo"><img src="assets/icons/tech/databricks.svg" alt="Databricks" width="22" height="22" loading="lazy"></span></span>
+              <h4 class="topic-name">Unity</h4>
+              <p class="topic-desc">Unity Catalog Fine-Grained ABAC &amp; Grants</p>
+            </a>
+            <div class="topic-actions"><a href="data-governence/unity/index.html" class="topic-btn topic-btn-primary">Open course<i data-lucide="arrow-up-right"></i></a><a href="data-governence/unity/demo.html" class="topic-btn topic-btn-ghost"><i data-lucide="play"></i>Demo</a></div>
+          </article>
+          <article class="topic-card is-flagship">
+            <a href="data-governence/purview-sandbox/index.html" class="topic-card-link">
+              <span class="topic-head"><span class="topic-icon has-logo"><img src="assets/icons/tech/microsoft.svg" alt="Microsoft" width="22" height="22" loading="lazy"></span><span class="topic-flag"><i data-lucide="award"></i>Flagship hub</span></span>
+              <h4 class="topic-name">Purview</h4>
+              <p class="topic-desc">Purview Data Map, Stewardship &amp; Scanning</p>
+            </a>
+            <div class="topic-actions"><a href="data-governence/purview-sandbox/index.html" class="topic-btn topic-btn-primary">Open course<i data-lucide="arrow-up-right"></i></a><a href="data-governence/purview-sandbox/demo.html" class="topic-btn topic-btn-ghost"><i data-lucide="play"></i>Demo</a></div>
+          </article>
+      </div>
+    </section>
+    <section class="domain-section" id="domain-full-stack" style="--domain-accent:#f43f5e;">
+      <div class="domain-header">
+        <span class="domain-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></span>
+        <div class="domain-title-wrap">
+          <h3 class="domain-title">Full Stack<span class="domain-count">5 Tracks</span></h3>
+          <p class="domain-blurb">End-to-end application stacks in Python, JavaScript, C# and Java.</p>
+        </div>
+        
+      <a href="verticals/full-stack.html" class="domain-more-link">Full Stack home<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a></div>
+      <div class="topic-grid">
+          <article class="topic-card is-flagship">
+            <a href="full-stack/index.html" class="topic-card-link">
+              <span class="topic-head"><span class="topic-icon"><i data-lucide="layers"></i></span><span class="topic-flag"><i data-lucide="graduation-cap"></i>Master Class</span></span>
+              <h4 class="topic-name">Full Stack Master Class</h4>
+              <p class="topic-desc">Enterprise Full Stack Systems Architecture</p>
+            </a>
+            <div class="topic-actions"><a href="full-stack/index.html" class="topic-btn topic-btn-primary">Open course<i data-lucide="arrow-up-right"></i></a><a href="full-stack/demo.html" class="topic-btn topic-btn-ghost"><i data-lucide="play"></i>Demo</a></div>
+          </article>
+          <article class="topic-card">
+            <a href="full-stack/python-fastapi/index.html" class="topic-card-link">
+              <span class="topic-head"><span class="topic-icon has-logo"><img src="assets/icons/tech/fastapi.svg" alt="FastAPI" width="22" height="22" loading="lazy"></span></span>
+              <h4 class="topic-name">Python fastAPI</h4>
+              <p class="topic-desc">Pydantic v2, Async ASGI &amp; OpenTelemetry</p>
+            </a>
+            <div class="topic-actions"><a href="full-stack/python-fastapi/index.html" class="topic-btn topic-btn-primary">Open course<i data-lucide="arrow-up-right"></i></a><a href="full-stack/python-fastapi/demo.html" class="topic-btn topic-btn-ghost"><i data-lucide="play"></i>Demo</a></div>
+          </article>
+          <article class="topic-card">
+            <a href="full-stack/nodejs-react-nextjs/index.html" class="topic-card-link">
+              <span class="topic-head"><span class="topic-icon has-logo"><img src="assets/icons/tech/react.svg" alt="React" width="22" height="22" loading="lazy"></span></span>
+              <h4 class="topic-name">NodeJS React NextJS</h4>
+              <p class="topic-desc">React 19, Server Components &amp; App Router</p>
+            </a>
+            <div class="topic-actions"><a href="full-stack/nodejs-react-nextjs/index.html" class="topic-btn topic-btn-primary">Open course<i data-lucide="arrow-up-right"></i></a><a href="full-stack/nodejs-react-nextjs/demo.html" class="topic-btn topic-btn-ghost"><i data-lucide="play"></i>Demo</a></div>
+          </article>
+          <article class="topic-card">
+            <a href="full-stack/dotnet-csharp/index.html" class="topic-card-link">
+              <span class="topic-head"><span class="topic-icon has-logo"><img src="assets/icons/tech/dotnet.svg" alt=".NET" width="22" height="22" loading="lazy"></span></span>
+              <h4 class="topic-name">C#/.Net Full Stack</h4>
+              <p class="topic-desc">ASP.NET Core Web API &amp; Entity Framework</p>
+            </a>
+            <div class="topic-actions"><a href="full-stack/dotnet-csharp/index.html" class="topic-btn topic-btn-primary">Open course<i data-lucide="arrow-up-right"></i></a><a href="full-stack/dotnet-csharp/demo.html" class="topic-btn topic-btn-ghost"><i data-lucide="play"></i>Demo</a></div>
+          </article>
+          <article class="topic-card">
+            <a href="full-stack/java-fullstack/index.html" class="topic-card-link">
+              <span class="topic-head"><span class="topic-icon has-logo"><img src="assets/icons/tech/java.svg" alt="Java" width="22" height="22" loading="lazy"></span></span>
+              <h4 class="topic-name">Java Full Stack</h4>
+              <p class="topic-desc">Spring Boot 3, Hibernate JPA &amp; Microservices</p>
+            </a>
+            <div class="topic-actions"><a href="full-stack/java-fullstack/index.html" class="topic-btn topic-btn-primary">Open course<i data-lucide="arrow-up-right"></i></a><a href="full-stack/java-fullstack/demo.html" class="topic-btn topic-btn-ghost"><i data-lucide="play"></i>Demo</a></div>
+          </article>
+      </div>
+    </section>
+    <section class="domain-section" id="domain-placement" style="--domain-accent:#fb923c;">
+      <div class="domain-header">
+        <span class="domain-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="14" x="2" y="7" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></span>
+        <div class="domain-title-wrap">
+          <h3 class="domain-title">Placement Assistance<span class="domain-count">15 Guides</span></h3>
+          <p class="domain-blurb">Step-by-step guides that take freshers from resume to offer letter.</p>
+        </div>
+        
+      <a href="verticals/placement.html" class="domain-more-link">Placement Assistance home<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a></div>
+      <div class="topic-grid">
+          <article class="topic-card is-flagship">
+            <a href="placement-assistance/index.html" class="topic-card-link">
+              <span class="topic-head"><span class="topic-icon"><i data-lucide="graduation-cap"></i></span><span class="topic-flag"><i data-lucide="graduation-cap"></i>Master Class</span></span>
+              <h4 class="topic-name">Placement Master Class</h4>
+              <p class="topic-desc">Resume to offer letter: all 15 placement guides for freshers</p>
+            </a>
+            <div class="topic-actions"><a href="placement-assistance/index.html" class="topic-btn topic-btn-primary">Open guide<i data-lucide="arrow-up-right"></i></a></div>
+          </article>
+          <article class="topic-card">
+            <a href="placement-assistance/resume-prep.html" class="topic-card-link">
+              <span class="topic-head"><span class="topic-icon"><i data-lucide="file-user"></i></span></span>
+              <h4 class="topic-name">Resume Prep</h4>
+              <p class="topic-desc">Recruiters spend only a few seconds on the first look. Your resume&#x27;s job is simple: make those seconds count and get you the interview call.</p>
+            </a>
+            <div class="topic-actions"><a href="placement-assistance/resume-prep.html" class="topic-btn topic-btn-primary">Open guide<i data-lucide="arrow-up-right"></i></a></div>
+          </article>
+          <article class="topic-card">
+            <a href="placement-assistance/job-applications.html" class="topic-card-link">
+              <span class="topic-head"><span class="topic-icon"><i data-lucide="send"></i></span></span>
+              <h4 class="topic-name">Job Applications</h4>
+              <p class="topic-desc">Sending hundreds of random applications feels productive. A focused, tracked and tailored system usually gets you far more interview calls.</p>
+            </a>
+            <div class="topic-actions"><a href="placement-assistance/job-applications.html" class="topic-btn topic-btn-primary">Open guide<i data-lucide="arrow-up-right"></i></a></div>
+          </article>
+          <article class="topic-card">
+            <a href="placement-assistance/cover-letters.html" class="topic-card-link">
+              <span class="topic-head"><span class="topic-icon"><i data-lucide="mail"></i></span></span>
+              <h4 class="topic-name">Cover Letters</h4>
+              <p class="topic-desc">A good cover letter is short, specific and shows you actually care about this job. Here is a simple formula you can reuse in 15 minutes.</p>
+            </a>
+            <div class="topic-actions"><a href="placement-assistance/cover-letters.html" class="topic-btn topic-btn-primary">Open guide<i data-lucide="arrow-up-right"></i></a></div>
+          </article>
+          <article class="topic-card">
+            <a href="placement-assistance/linkedin-naukri.html" class="topic-card-link">
+              <span class="topic-head"><span class="topic-icon"><i data-lucide="linkedin"></i></span></span>
+              <h4 class="topic-name">LinkedIn &amp; Naukri Profile</h4>
+              <p class="topic-desc">Recruiters search for candidates every day. A complete, keyword-rich profile means they can find you, even if you never applied.</p>
+            </a>
+            <div class="topic-actions"><a href="placement-assistance/linkedin-naukri.html" class="topic-btn topic-btn-primary">Open guide<i data-lucide="arrow-up-right"></i></a></div>
+          </article>
+          <article class="topic-card">
+            <a href="placement-assistance/off-campus-jobs.html" class="topic-card-link">
+              <span class="topic-head"><span class="topic-icon"><i data-lucide="map-pin"></i></span></span>
+              <h4 class="topic-name">Off-Campus Job Hunt</h4>
+              <p class="topic-desc">If good companies don&#x27;t visit your college, go to them. Off-campus hiring is open, skills-based, and it&#x27;s how many tier-2 and tier-3 students land great jobs.</p>
+            </a>
+            <div class="topic-actions"><a href="placement-assistance/off-campus-jobs.html" class="topic-btn topic-btn-primary">Open guide<i data-lucide="arrow-up-right"></i></a></div>
+          </article>
+          <article class="topic-card">
+            <a href="placement-assistance/aptitude-coding.html" class="topic-card-link">
+              <span class="topic-head"><span class="topic-icon"><i data-lucide="code-xml"></i></span></span>
+              <h4 class="topic-name">Aptitude &amp; Coding Rounds</h4>
+              <p class="topic-desc">Most hiring starts with an online test. It&#x27;s the biggest filter, and also the most predictable. Practise the right topics daily and you will clear it.</p>
+            </a>
+            <div class="topic-actions"><a href="placement-assistance/aptitude-coding.html" class="topic-btn topic-btn-primary">Open guide<i data-lucide="arrow-up-right"></i></a></div>
+          </article>
+          <article class="topic-card">
+            <a href="placement-assistance/group-discussion.html" class="topic-card-link">
+              <span class="topic-head"><span class="topic-icon"><i data-lucide="users"></i></span></span>
+              <h4 class="topic-name">Group Discussion</h4>
+              <p class="topic-desc">A GD isn&#x27;t a fight to be the loudest. Evaluators look for clear thinking, good listening and the person who moves the discussion forward.</p>
+            </a>
+            <div class="topic-actions"><a href="placement-assistance/group-discussion.html" class="topic-btn topic-btn-primary">Open guide<i data-lucide="arrow-up-right"></i></a></div>
+          </article>
+          <article class="topic-card">
+            <a href="placement-assistance/interview-prep.html" class="topic-card-link">
+              <span class="topic-head"><span class="topic-icon"><i data-lucide="clipboard-list"></i></span></span>
+              <h4 class="topic-name">Interview Prep</h4>
+              <p class="topic-desc">Interviews follow patterns. Know the rounds, prepare your stories, and practise out loud. That is 80% of the game.</p>
+            </a>
+            <div class="topic-actions"><a href="placement-assistance/interview-prep.html" class="topic-btn topic-btn-primary">Open guide<i data-lucide="arrow-up-right"></i></a></div>
+          </article>
+          <article class="topic-card">
+            <a href="placement-assistance/before-interview.html" class="topic-card-link">
+              <span class="topic-head"><span class="topic-icon"><i data-lucide="calendar-check"></i></span></span>
+              <h4 class="topic-name">Before the Interview</h4>
+              <p class="topic-desc">Most interview mistakes happen because of poor preparation, not lack of knowledge. Follow this countdown and walk in calm.</p>
+            </a>
+            <div class="topic-actions"><a href="placement-assistance/before-interview.html" class="topic-btn topic-btn-primary">Open guide<i data-lucide="arrow-up-right"></i></a></div>
+          </article>
+          <article class="topic-card">
+            <a href="placement-assistance/during-interview.html" class="topic-card-link">
+              <span class="topic-head"><span class="topic-icon"><i data-lucide="messages-square"></i></span></span>
+              <h4 class="topic-name">During the Interview</h4>
+              <p class="topic-desc">You&#x27;ve prepared. Now it&#x27;s about showing it: a strong start, clear answers, honest &quot;I don&#x27;t know&quot;s and good questions at the end.</p>
+            </a>
+            <div class="topic-actions"><a href="placement-assistance/during-interview.html" class="topic-btn topic-btn-primary">Open guide<i data-lucide="arrow-up-right"></i></a></div>
+          </article>
+          <article class="topic-card">
+            <a href="placement-assistance/after-interview.html" class="topic-card-link">
+              <span class="topic-head"><span class="topic-icon"><i data-lucide="mail-check"></i></span></span>
+              <h4 class="topic-name">After the Interview</h4>
+              <p class="topic-desc">A thank-you note, a polite follow-up and a smart response to results, good or bad, keep doors open and make you better every time.</p>
+            </a>
+            <div class="topic-actions"><a href="placement-assistance/after-interview.html" class="topic-btn topic-btn-primary">Open guide<i data-lucide="arrow-up-right"></i></a></div>
+          </article>
+          <article class="topic-card">
+            <a href="placement-assistance/hr-round-salary.html" class="topic-card-link">
+              <span class="topic-head"><span class="topic-icon"><i data-lucide="badge-indian-rupee"></i></span></span>
+              <h4 class="topic-name">HR Round &amp; Salary Talk</h4>
+              <p class="topic-desc">The HR round checks attitude and fit, and it&#x27;s where salary comes up. Know the terms and prepare honest, positive answers.</p>
+            </a>
+            <div class="topic-actions"><a href="placement-assistance/hr-round-salary.html" class="topic-btn topic-btn-primary">Open guide<i data-lucide="arrow-up-right"></i></a></div>
+          </article>
+          <article class="topic-card">
+            <a href="placement-assistance/handling-competition.html" class="topic-card-link">
+              <span class="topic-head"><span class="topic-icon"><i data-lucide="trophy"></i></span></span>
+              <h4 class="topic-name">Handling Competition</h4>
+              <p class="topic-desc">Yes, the competition is big. But most applicants look the same on paper. A little extra proof, focus and communication puts you far ahead.</p>
+            </a>
+            <div class="topic-actions"><a href="placement-assistance/handling-competition.html" class="topic-btn topic-btn-primary">Open guide<i data-lucide="arrow-up-right"></i></a></div>
+          </article>
+          <article class="topic-card">
+            <a href="placement-assistance/communication-skills.html" class="topic-card-link">
+              <span class="topic-head"><span class="topic-icon"><i data-lucide="mic"></i></span></span>
+              <h4 class="topic-name">Communication Skills</h4>
+              <p class="topic-desc">You don&#x27;t need a fancy accent or big words. Interviewers want clear, confident and structured answers. Twenty minutes a day is enough to get there.</p>
+            </a>
+            <div class="topic-actions"><a href="placement-assistance/communication-skills.html" class="topic-btn topic-btn-primary">Open guide<i data-lucide="arrow-up-right"></i></a></div>
+          </article>
+          <article class="topic-card">
+            <a href="placement-assistance/confidence-mindset.html" class="topic-card-link">
+              <span class="topic-head"><span class="topic-icon"><i data-lucide="sparkles"></i></span></span>
+              <h4 class="topic-name">Confidence &amp; Mindset</h4>
+              <p class="topic-desc">Many students from tier-2 and tier-3 colleges feel they are behind before they even start. Here is the truth, and a toolkit to build real confidence.</p>
+            </a>
+            <div class="topic-actions"><a href="placement-assistance/confidence-mindset.html" class="topic-btn topic-btn-primary">Open guide<i data-lucide="arrow-up-right"></i></a></div>
+          </article>
+      </div>
+    </section>
+    </div>
+
+    <!-- SUBJECT-DOMAINS:END -->

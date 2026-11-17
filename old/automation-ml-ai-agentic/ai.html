@@ -1,0 +1,3069 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>01. Artificial Intelligence (AI) — Tinitiate AI IT Training</title>
+  <meta name="description" content="What is AI, How it Works, and Types of AI (GenAI, ML, Agents) explained for First-Year CS Grads with Interactive 2D D3.js motion graphics across Social Media, Finance, Real Estate, Retail, and Logistics.">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="stylesheet" href="assets/css/course.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
+  <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+  <!-- D3.js v7 for Interactive 2D Data Visualizations & Motion Graphics -->
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <link rel="stylesheet" href="../assets/css/master-global-layout.css">
+</head>
+<body>
+
+  <!-- Site Header (Violet Theme with Glowing Border Beam & Shining Slash) -->
+    <!-- ========================================================================= -->
+  <!-- TOP MENU BAR: Unified Master Header Across All Subjects                   -->
+  <!-- ========================================================================= -->
+    <!-- ========================================================================= -->
+  <!-- TOP MENU BAR: Unified Royal Violet Theme & Visual Dropdown                -->
+  <!-- ========================================================================= -->
+    <!-- ========================================================================= -->
+  <!-- TOP MENU BAR: Unified Royal Violet Theme & Visual Dropdown                -->
+  <!-- ========================================================================= -->
+    <!-- ========================================================================= -->
+  <!-- TOP MENU BAR: Unified Royal Violet Theme & Visual Dropdown                -->
+  <!-- ========================================================================= -->
+  <header class="master-top-nav">
+    <div class="master-top-nav-inner">
+      <a href="../index.html" class="master-brand-wrap" aria-label="Tinitiate MasterClass Academy">
+        <img src="../tinitiate_header-banner.png" alt="Tinitiate Logo" class="master-brand-logo">
+        <span class="master-brand-badge">AI & Agentic Systems</span>
+      </a>
+
+      <!-- Primary Navigation Links (NO LOCAL NAVIGATION IN HEADER) -->
+      <nav class="master-menu-links">
+        <a href="../index.html" class="master-nav-btn" title="Main Academy Portal">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          <span>Home</span>
+        </a>
+
+        <!-- Subjects DropDown with Bulletproof Bridge & SVGs -->
+        <div class="master-dropdown" id="subjectsDropdown">
+          <button type="button" class="master-dropdown-toggle" onclick="toggleSubjectsDropdown(event)" aria-haspopup="true" aria-expanded="false" title="Explore All Subjects">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>
+            <span>Subjects</span>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div class="master-dropdown-menu mega-menu" id="subjectsMegaMenu">
+            <div class="mega-menu-header">
+              <div class="mega-menu-title-wrap">
+                <span class="mega-menu-eyebrow">TINITIATE AI ACADEMY • ARCHITECTURE CURRICULUM</span>
+                <h4 class="mega-menu-title">Explore Engineering Curricula by Domain</h4>
+              </div>
+              <div class="mega-menu-stats-pill">
+                <span>6 Domains</span> • <span>35 Tracks + 15 Placement Guides</span>
+              </div>
+            </div>
+
+            <div class="mega-menu-grid">
+        <!-- Category: Foundational -->
+        <div class="mega-category-col" style="--cat-accent:#38bdf8;">
+          <div class="mega-category-header">
+            <span class="mega-cat-badge" style="color:#38bdf8;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="8" height="8" x="3" y="3" rx="2"/><path d="M7 11v4a2 2 0 0 0 2 2h4"/><rect width="8" height="8" x="13" y="13" rx="2"/></svg>
+              <span>Foundational</span>
+            </span>
+            <span class="mega-cat-count">9 Tracks</span>
+          </div>
+          <div class="mega-category-list">
+          <a href="../foundational/index.html" class="mega-category-item" title="Foundational Master Class: Computer Science &amp; Software Engineering Fundamentals">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m16.24 7.76-2.12 6.36-6.36 2.12 2.12-6.36 6.36-2.12z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Foundational Master Class</span>
+            </span>
+          </a>
+          <a href="../foundational/python/index.html" class="mega-category-item" title="Python: Print, Variables, Datatypes, Operators, Strings &amp; Lists">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" x2="20" y1="19" y2="19"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Python</span>
+            </span>
+          </a>
+          <a href="../foundational/sql/index.html" class="mega-category-item" title="SQL: PostgreSQL DDL &amp; DML, on a real database in your browser">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">SQL</span>
+            </span>
+          </a>
+          <a href="../foundational/data-structures/index.html" class="mega-category-item" title="Data Structures: Trees, Graphs, HashTables & Heaps">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="8" height="8" x="3" y="3" rx="2"/><rect width="8" height="8" x="13" y="13" rx="2"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Data Structures</span>
+            </span>
+          </a>
+          <a href="../foundational/authentication/index.html" class="mega-category-item" title="Authentication: OAuth2, OIDC, JWT, SAML & PKCE">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m21 2-2 2m-1.5 1.5L13 10m0 0a5 5 0 1 1-7-7 5 5 0 0 1 7 7Z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Authentication</span>
+            </span>
+          </a>
+          <a href="../foundational/apis/index.html" class="mega-category-item" title="APIs: REST, GraphQL, gRPC & WebSockets">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 16.326A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 .5 8.973"/><path d="m13 12-3 5h4l-3 5"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">APIs</span>
+            </span>
+          </a>
+          <a href="../foundational/microservices/index.html" class="mega-category-item" title="MicroServices: Sagas, Service Mesh & Event-Driven">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2.97 12.92A2 2 0 0 0 2 14.63v3.24a2 2 0 0 0 .97 1.71l6 3.43a2 2 0 0 0 1.97 0l6-3.43a2 2 0 0 0 .97-1.71v-3.24a2 2 0 0 0-.97-1.71L11 9.49a2 2 0 0 0-2.06 0l-5.97 3.43Z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">MicroServices</span>
+            </span>
+          </a>
+          <a href="../foundational/oop/index.html" class="mega-category-item" title="OOP: SOLID, Polymorphism & Abstraction">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">OOP</span>
+            </span>
+          </a>
+          <a href="../foundational/design-patterns/index.html" class="mega-category-item" title="Design Patterns: GoF Creational, Structural & Behavioral">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Design Patterns</span>
+            </span>
+          </a>
+          </div>
+        </div>
+        <!-- Category: AI -->
+        <div class="mega-category-col" style="--cat-accent:#a855f7;">
+          <div class="mega-category-header">
+            <span class="mega-cat-badge" style="color:#a855f7;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
+              <span>AI</span>
+            </span>
+            <span class="mega-cat-count">9 Tracks</span>
+          </div>
+          <div class="mega-category-list">
+          <a href="../automation-ml-ai-agentic/index.html" class="mega-category-item" title="AI Master Class: Automation, ML, GenAI &amp; Agentic Systems, MCP &amp; LangChain">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">AI Master Class</span>
+            </span>
+          </a>
+          <a href="../agentic-development/index.html" class="mega-category-item" title="Agentic Development: Agents, Agentic Loops &amp; Governed Agent Swarms">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Agentic Development</span>
+            </span>
+          </a>
+          <a href="../ai/langgraph/index.html" class="mega-category-item" title="Langgraph: Cyclic State Graphs & Multi-Agent DAGs">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><circle cx="18" cy="6" r="3"/><path d="M18 9v1a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V9"/><path d="M12 12v3"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Langgraph</span>
+            </span>
+          </a>
+          <a href="../ai/crewai/index.html" class="mega-category-item" title="CrewAI: Role-Based Agent Crews, Tasks &amp; Flows">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">CrewAI</span>
+            </span>
+          </a>
+          <a href="../ai/aws-bedrock/index.html" class="mega-category-item" title="AWS Bedrock: Managed Foundation Models & Guardrails">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="16" height="16" x="4" y="4" rx="2"/><rect width="6" height="6" x="9" y="9" rx="1"/><path d="M15 2v2"/><path d="M15 20v2"/><path d="M2 15h2"/><path d="M2 9h2"/><path d="M20 15h2"/><path d="M20 9h2"/><path d="M9 2v2"/><path d="M9 20v2"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">AWS Bedrock</span>
+            </span>
+          </a>
+          <a href="../ai/aws-strands/index.html" class="mega-category-item" title="AWS Strands: Model-Driven Agents SDK, Graph &amp; Swarm">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12c2-3 4-3 6 0s4 3 6 0 4-3 6 0"/><path d="M2 6c2-3 4-3 6 0s4 3 6 0 4-3 6 0"/><path d="M2 18c2-3 4-3 6 0s4 3 6 0 4-3 6 0"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">AWS Strands</span>
+            </span>
+          </a>
+          <a href="../ai/azure-foundry/index.html" class="mega-category-item" title="Azure Foundry: Azure AI Studio, Prompt Flow & Evaluators">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="8" x="2" y="2" rx="2" ry="2"/><rect width="20" height="8" x="2" y="14" rx="2" ry="2"/><line x1="6" x2="6.01" y1="6" y2="6"/><line x1="6" x2="6.01" y1="18" y2="18"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Azure Foundry</span>
+            </span>
+          </a>
+          <a href="../ai/claude-sdk/index.html" class="mega-category-item" title="Claude SDK: Anthropic SDK, Tools & Prompt Caching">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Claude SDK</span>
+            </span>
+          </a>
+          <a href="../ai/google-gemini-sdk/index.html" class="mega-category-item" title="Google Gemini SDK: Gen AI SDK, ADK Agents &amp; Context Cache">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Google Gemini SDK</span>
+            </span>
+          </a>
+          </div>
+        </div>
+        <!-- Category: Data Engineering -->
+        <div class="mega-category-col" style="--cat-accent:#0284c7;">
+          <div class="mega-category-header">
+            <span class="mega-cat-badge" style="color:#0284c7;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"/></svg>
+              <span>Data Engineering</span>
+            </span>
+            <span class="mega-cat-count">8 Tracks</span>
+          </div>
+          <div class="mega-category-list">
+          <a href="../data-engineering/index.html" class="mega-category-item" title="Data Engineering Master Class: Modern Lakehouse, Fabric & Kafka Streams">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Data Engineering Master Class</span>
+            </span>
+          </a>
+          <a href="../pyspark/index.html" class="mega-category-item" title="PySpark: Cluster Architecture, DAG Execution &amp; Data Ingestion">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">PySpark</span>
+            </span>
+          </a>
+          <a href="../databricks-dataengineering/index.html" class="mega-category-item" title="Databricks: Unity Catalog, Delta Live & Photon">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Databricks</span>
+            </span>
+          </a>
+          <a href="../aws-dataengineering/index.html" class="mega-category-item" title="AWS Data Engineering: EMR, Glue, Redshift, Kinesis & S3">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">AWS Data Engineering</span>
+            </span>
+          </a>
+          <a href="../snowflake-dataengineering/index.html" class="mega-category-item" title="SnowFlake: Snowpark, Dynamic Tables & Warehouses">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" x2="12" y1="2" y2="22"/><line x1="12" x2="12" y1="10" y2="14"/><line x1="2" x2="22" y1="12" y2="12"/><line x1="20" x2="4" y1="4" y2="20"/><line x1="4" x2="20" y1="4" y2="20"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">SnowFlake</span>
+            </span>
+          </a>
+          <a href="../azure-dataengineering/index.html" class="mega-category-item" title="Azure Data Engineering: Fabric, Synapse Analytics & ADLS Gen2">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="8" x="2" y="2" rx="2" ry="2"/><rect width="20" height="8" x="2" y="14" rx="2" ry="2"/><line x1="6" x2="6.01" y1="6" y2="6"/><line x1="6" x2="6.01" y1="18" y2="18"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Azure Data Engineering</span>
+            </span>
+          </a>
+          <a href="../data-engineering/onprem-pandas-polars-sql/index.html" class="mega-category-item" title="On Prem Pandas, Polars, SQL: Vectorized LazyFrames & Local Engines">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" x2="20" y1="19" y2="19"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">On Prem Pandas, Polars, SQL</span>
+            </span>
+          </a>
+          <a href="../data-engineering/duckdb/index.html" class="mega-category-item" title="DuckDB: In-Process Columnar Analytical OLAP">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"/><line x1="16" x2="2" y1="8" y2="22"/><line x1="17.5" x2="9" y1="15" y2="15"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">DuckDB</span>
+            </span>
+          </a>
+          </div>
+        </div>
+        <!-- Category: Data Governance -->
+        <div class="mega-category-col" style="--cat-accent:#10b981;">
+          <div class="mega-category-header">
+            <span class="mega-cat-badge" style="color:#10b981;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg>
+              <span>Data Governance</span>
+            </span>
+            <span class="mega-cat-count">4 Tracks</span>
+          </div>
+          <div class="mega-category-list">
+          <a href="../data-governence/index.html" class="mega-category-item" title="Data Governance Master Class: Catalogs, Sensitive Data Discovery, Lineage &amp; Stewardship">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m16.24 7.76-2.12 6.36-6.36 2.12 2.12-6.36 6.36-2.12z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Data Governance Master Class</span>
+            </span>
+          </a>
+          <a href="../data-governence/atlas/index.html" class="mega-category-item" title="Atlas: Apache Atlas Metadata & Lineage Graph">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Atlas</span>
+            </span>
+          </a>
+          <a href="../data-governence/unity/index.html" class="mega-category-item" title="Unity: Unity Catalog Fine-Grained ABAC & Grants">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Unity</span>
+            </span>
+          </a>
+          <a href="../data-governence/purview-sandbox/index.html" class="mega-category-item" title="Purview: Purview Data Map, Stewardship & Scanning">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Purview</span>
+            </span>
+          </a>
+          </div>
+        </div>
+        <!-- Category: Full Stack -->
+        <div class="mega-category-col" style="--cat-accent:#f43f5e;">
+          <div class="mega-category-header">
+            <span class="mega-cat-badge" style="color:#f43f5e;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+              <span>Full Stack</span>
+            </span>
+            <span class="mega-cat-count">5 Tracks</span>
+          </div>
+          <div class="mega-category-list">
+          <a href="../full-stack/index.html" class="mega-category-item" title="Full Stack Master Class: Enterprise Full Stack Systems Architecture">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m16.24 7.76-2.12 6.36-6.36 2.12 2.12-6.36 6.36-2.12z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Full Stack Master Class</span>
+            </span>
+          </a>
+          <a href="../full-stack/python-fastapi/index.html" class="mega-category-item" title="Python fastAPI: Pydantic v2, Async ASGI & OpenTelemetry">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Python fastAPI</span>
+            </span>
+          </a>
+          <a href="../full-stack/nodejs-react-nextjs/index.html" class="mega-category-item" title="NodeJS React NextJS: React 19, Server Components & App Router">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" x2="22" y1="12" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">NodeJS React NextJS</span>
+            </span>
+          </a>
+          <a href="../full-stack/dotnet-csharp/index.html" class="mega-category-item" title="C#/.Net Full Stack: ASP.NET Core Web API & Entity Framework">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" x2="20" y1="9" y2="9"/><line x1="4" x2="20" y1="15" y2="15"/><line x1="10" x2="8" y1="3" y2="21"/><line x1="16" x2="14" y1="3" y2="21"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">C#/.Net Full Stack</span>
+            </span>
+          </a>
+          <a href="../full-stack/java-fullstack/index.html" class="mega-category-item" title="Java Full Stack: Spring Boot 3, Hibernate JPA & Microservices">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" x2="6" y1="2" y2="4"/><line x1="10" x2="10" y1="2" y2="4"/><line x1="14" x2="14" y1="2" y2="4"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Java Full Stack</span>
+            </span>
+          </a>
+          </div>
+        </div>
+        <!-- Category: Placement Assistance -->
+        <div class="mega-category-col" style="--cat-accent:#fb923c;">
+          <div class="mega-category-header">
+            <span class="mega-cat-badge" style="color:#fb923c;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="14" x="2" y="7" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+              <span>Placement</span>
+            </span>
+            <span class="mega-cat-count">15 Guides</span>
+          </div>
+          <div class="mega-category-list">
+          <a href="../placement-assistance/index.html" class="mega-category-item" title="Placement Master Class: Resume to offer letter: all 15 placement guides for freshers">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Placement Master Class</span>
+            </span>
+          </a>
+          <a href="../placement-assistance/interview-prep.html" class="mega-category-item" title="Interview Prep: rounds, top questions &amp; a 30-day plan">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Interview Prep</span>
+            </span>
+          </a>
+          <a href="../placement-assistance/resume-prep.html" class="mega-category-item" title="Resume Prep: an ATS-friendly 1-page resume for freshers">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M16 13H8"/><path d="M16 17H8"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Resume Prep</span>
+            </span>
+          </a>
+          <a href="../placement-assistance/job-applications.html" class="mega-category-item" title="Job Applications: apply smart, referrals &amp; avoiding scams">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Job Applications</span>
+            </span>
+          </a>
+          <a href="../placement-assistance/cover-letters.html" class="mega-category-item" title="Cover Letters: a 3-paragraph formula &amp; cold emails">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Cover Letters</span>
+            </span>
+          </a>
+          <a href="../placement-assistance/before-interview.html" class="mega-category-item" title="Before the Interview: countdown, research &amp; setup">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/><path d="m9 16 2 2 4-4"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Before Interview</span>
+            </span>
+          </a>
+          <a href="../placement-assistance/during-interview.html" class="mega-category-item" title="During the Interview: strong start, think aloud &amp; smart questions">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">During Interview</span>
+            </span>
+          </a>
+          <a href="../placement-assistance/handling-competition.html" class="mega-category-item" title="Handling Competition: stand out among lakhs of freshers">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Handling Competition</span>
+            </span>
+          </a>
+          <a href="../placement-assistance/communication-skills.html" class="mega-category-item" title="Communication Skills: clear English, structure &amp; practice">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 11 18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Communication Skills</span>
+            </span>
+          </a>
+          </div>
+        </div>
+            </div>
+
+            <div class="mega-menu-footer">
+              <div class="mega-footer-left">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+                <span>Each module includes <strong>zero-code visual architectures</strong>, <strong>interactive sandboxes</strong>, and <strong>production blueprints</strong>.</span>
+              </div>
+              <div class="mega-footer-right">
+                <span>Lead Architect: <strong>Venkata Bhattaram</strong></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Right Actions: Instructor Rotating Border Beam + LinkedIn + GitHub -->
+      <div class="master-nav-actions">
+        <div class="master-instructor-beam" title="Lead Course Instructor &amp; Enterprise Architect">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+          <span class="inst-label">Instructor:</span>
+          <span class="inst-name">Venkata Bhattaram</span>
+        </div>
+
+        <a href="https://www.linkedin.com/in/venkata-bhattaram/" target="_blank" rel="noopener noreferrer" class="master-nav-social-btn linkedin" title="Venkata Bhattaram on LinkedIn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.45a1.6 1.6 0 1 0 0 3.2 1.6 1.6 0 0 0 0-3.2Z"/></svg>
+          <span>LinkedIn</span>
+        </a>
+
+        <a href="https://github.com/venkata-bcs" target="_blank" rel="noopener noreferrer" class="master-nav-social-btn github" title="Venkata Bhattaram on GitHub">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>
+          <span>GitHub</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- 3-Column Layout -->
+  <div class="layout-container">
+
+    <!-- LEFT: Inpage Navigation -->
+    <aside class="site-nav-panel" aria-label="Course Navigation">
+      <div class="nav-title">Course Modules</div>
+      <ul class="site-menu">
+        <li>
+          <a href="index.html">
+            <span>Home</span>
+            <span class="badge-status">Home</span>
+          </a>
+        </li>
+        <li>
+          <a href="demo.html">
+            <span style="display:flex;align-items:center;gap:8px;">
+              <i data-lucide="play-circle" style="width:16px;height:16px;color:#10b981;"></i>
+              <span>Interactive Demo Lab</span>
+            </span>
+            <span class="badge-status">Demo</span>
+          </a>
+        </li>
+        <li>
+          <a href="ai.html" class="current">
+            <span>AI</span>
+            <span class="badge-status">Active</span>
+          </a>
+        </li>
+        <li>
+          <a href="ml.html">
+            <span>ML</span>
+            <span class="badge-status">Module</span>
+          </a>
+        </li>
+        <li>
+          <a href="genai.html">
+            <span>GenAI</span>
+            <span class="badge-status">Module</span>
+          </a>
+        </li>
+        <li>
+          <a href="agents.html">
+            <span>Agents</span>
+            <span class="badge-status">Module</span>
+          </a>
+        </li>
+        <li>
+          <a href="agentic-loops.html">
+            <span>Agentic Loops</span>
+            <span class="badge-status">Module</span>
+          </a>
+        </li>
+      </ul>
+    </aside>
+
+    <!-- CENTER: Main Content -->
+    <main class="main-content">
+
+      <!-- H1 Section: Welcome & CS Grad Framing -->
+      
+      <!-- ========================================================================= -->
+      <!-- SUBTOPIC: what-is-ai [START] -->
+      <!-- ========================================================================= -->
+      <section class="content-section" id="what-is-ai">
+        <div class="welcome-card">
+          <span class="eyebrow">Module 01 &bull; Foundations of Intelligence</span>
+          <h1>01. Artificial Intelligence (AI) Explained for CS Students</h1>
+          <p class="lead">
+            Demystifying Artificial Intelligence through the eyes of a First-Year Computer Science graduate: from procedural algorithms and linear algebra to continuous loss optimization, transformer architectures, and autonomous agentic workflows.
+          </p>
+          <div class="instructor-callout">
+            <i data-lucide="award" style="width:20px;height:20px;color:#111827;flex-shrink:0;"></i>
+            <div>
+              <strong>Instructor Insight (&copy; Venkata Bhattaram):</strong>
+              "In CS101, you write algorithms by crafting explicit <code>if/else</code> statements and while loops to transform inputs into outputs. In AI, you invert this process: you feed the computer massive amounts of <em>Input Data</em> and <em>Desired Outputs</em>, and an optimization algorithm automatically discovers the statistical function <code>f(x)</code> by tuning billions of floating-point numbers. It's not magic—it's high-dimensional linear algebra and calculus executed at lightspeed on GPUs."
+            </div>
+          </div>
+        </div>
+
+        <!-- The Paradigm Shift: Simple Cake Analogy & Animated Flow Diagram -->
+        <div class="ai-interactive-card">
+          <div class="section-title-wrap" style="margin-bottom:12px;">
+            <div>
+              <span class="eyebrow" style="background:#ede9fe;color:#6d28d9;">The Big Idea &bull; Plain English</span>
+              <h3 style="margin:0;font-size:1.3rem;">Classical Programming vs. Artificial Intelligence</h3>
+            </div>
+          </div>
+          
+          <!-- Simple Cake Analogy for Beginners & Kids -->
+          <div class="cs-analogy-box" style="background:linear-gradient(135deg, #fdf4ff 0%, #f5f3ff 100%);border-left-color:#c026d3;margin-bottom:20px;">
+            <div class="cs-analogy-header" style="color:#86198f;">
+              <i data-lucide="cake" style="width:20px;height:20px;"></i>
+              The Cake Recipe Analogy: How to Explain It to Anyone
+            </div>
+            <div class="cs-analogy-content" style="color:#4a044e;font-size:0.95rem;">
+              <strong>1. Traditional Coding is like writing an exact recipe by hand:</strong><br>
+              You write: <em>"Add 2 cups flour &rarr; mix 3 eggs &rarr; bake at 350&deg;F for 25 minutes."</em> If you forget to write <em>"add sugar"</em>, the cake tastes terrible and the computer crashes! You must know every single step in advance.
+              <br><br>
+              <strong>2. Artificial Intelligence is like having an apprentice chef taste 10,000 cakes:</strong><br>
+              Instead of writing the recipe, you give the computer <strong>10,000 photos and ingredient lists of delicious cakes</strong>. The AI tastes, tests, and adjusts its own internal dials until <strong>it figures out the secret recipe all by itself!</strong>
+            </div>
+          </div>
+
+          <!-- Animated Side-by-Side Flow Diagram -->
+          <div class="paradigm-flow-container">
+            <!-- Flow 1: Classical Programming -->
+            <div class="paradigm-track">
+              <div class="paradigm-track-header">
+                <div class="paradigm-track-title" style="color:#38bdf8;">
+                  <i data-lucide="code-2" style="width:18px;height:18px;"></i>
+                  <span>1. Classical Programming: You Write the Rules by Hand</span>
+                </div>
+                <span style="font-size:0.75rem;color:#94a3b8;font-family:var(--font-mono);font-weight:600;">Deterministic Workflow</span>
+              </div>
+
+              <div class="paradigm-flow-row">
+                <!-- Step 1: Human Rules -->
+                <div class="flow-step-box">
+                  <div class="flow-step-icon" style="background:rgba(56,189,248,0.15);color:#38bdf8;">
+                    <i data-lucide="book-open"></i>
+                  </div>
+                  <div class="flow-step-title">1. Your Rules / Code</div>
+                  <div class="flow-step-desc">Exact if/else steps you write by hand</div>
+                </div>
+
+                <div class="flow-connector"></div>
+
+                <!-- Step 2: Input Data -->
+                <div class="flow-step-box">
+                  <div class="flow-step-icon" style="background:rgba(56,189,248,0.15);color:#38bdf8;">
+                    <i data-lucide="database"></i>
+                  </div>
+                  <div class="flow-step-title">2. Input Data</div>
+                  <div class="flow-step-desc">Ingredients (Text, numbers, clicks)</div>
+                </div>
+
+                <div class="flow-connector"></div>
+
+                <!-- Step 3: Computer CPU -->
+                <div class="flow-step-box">
+                  <div class="flow-step-icon" style="background:rgba(148,163,184,0.15);color:#94a3b8;">
+                    <i data-lucide="cpu"></i>
+                  </div>
+                  <div class="flow-step-title">3. Computer (CPU)</div>
+                  <div class="flow-step-desc">Blindly executes your written instructions</div>
+                </div>
+
+                <div class="flow-connector"></div>
+
+                <!-- Step 4: Output -->
+                <div class="flow-step-box" style="border-color:#38bdf8;background:rgba(56,189,248,0.08);">
+                  <div class="flow-step-icon" style="background:rgba(56,189,248,0.25);color:#38bdf8;">
+                    <i data-lucide="check-circle-2"></i>
+                  </div>
+                  <div class="flow-step-title" style="color:#38bdf8;">4. Output Answer</div>
+                  <div class="flow-step-desc">Result (breaks if edge cases are missed!)</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Flow 2: Artificial Intelligence -->
+            <div class="paradigm-track" style="border-color:#7c3aed;background:linear-gradient(180deg,#090d16 0%,#130a24 100%);">
+              <div class="paradigm-track-header">
+                <div class="paradigm-track-title" style="color:#c084fc;">
+                  <i data-lucide="sparkles" style="width:18px;height:18px;"></i>
+                  <span>2. Artificial Intelligence: The Computer Discovers the Recipe!</span>
+                </div>
+                <span style="font-size:0.75rem;color:#c084fc;font-family:var(--font-mono);font-weight:700;">Machine Learning Inversion</span>
+              </div>
+
+              <div class="paradigm-flow-row">
+                <!-- Step 1: Input Examples -->
+                <div class="flow-step-box">
+                  <div class="flow-step-icon" style="background:rgba(192,132,252,0.15);color:#c084fc;">
+                    <i data-lucide="images"></i>
+                  </div>
+                  <div class="flow-step-title">1. Lots of Examples</div>
+                  <div class="flow-step-desc">10,000 photos of cats &amp; dogs</div>
+                </div>
+
+                <div class="flow-connector purple"></div>
+
+                <!-- Step 2: Target Answers -->
+                <div class="flow-step-box">
+                  <div class="flow-step-icon" style="background:rgba(192,132,252,0.15);color:#c084fc;">
+                    <i data-lucide="tag"></i>
+                  </div>
+                  <div class="flow-step-title">2. Correct Answers</div>
+                  <div class="flow-step-desc">Labels ("Cat", "Dog")</div>
+                </div>
+
+                <div class="flow-connector purple"></div>
+
+                <!-- Step 3: AI Learning Engine -->
+                <div class="flow-step-box primary-engine">
+                  <div class="flow-step-icon" style="background:rgba(250,204,21,0.2);color:#facc15;">
+                    <i data-lucide="brain-circuit"></i>
+                  </div>
+                  <div class="flow-step-title" style="color:#facc15;">3. AI Learning Engine</div>
+                  <div class="flow-step-desc" style="color:#e9d5ff;">Tests, adjusts weights, tunes dials</div>
+                </div>
+
+                <div class="flow-connector green"></div>
+
+                <!-- Step 4: The Model (The Learned Recipe) -->
+                <div class="flow-step-box" style="border-color:#4ade80;background:rgba(74,222,128,0.08);">
+                  <div class="flow-step-icon" style="background:rgba(74,222,128,0.2);color:#4ade80;">
+                    <i data-lucide="award"></i>
+                  </div>
+                  <div class="flow-step-title" style="color:#4ade80;">4. The AI Model (Recipe!)</div>
+                  <div class="flow-step-desc">Can now recognize brand new pets it never saw!</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="font-size:0.86rem;color:#64748b;margin-top:10px;display:flex;align-items:center;gap:6px;">
+            <i data-lucide="zap" style="width:16px;height:16px;color:#facc15;"></i>
+            <span><strong>Key Takeaway:</strong> In classical coding, <em>you are the brain</em>. In AI, <em>you build a system that learns how to think</em>.</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 2: How AI Works (Under the Hood) -->
+      
+      <!-- ========================================================================= -->
+      <!-- SUBTOPIC: how-ai-works [START] -->
+      <!-- ========================================================================= -->
+      <section class="content-section" id="how-ai-works">
+        <div class="section-title-wrap">
+          <div>
+            <span class="eyebrow">The Core Mechanism</span>
+            <h2>How AI Actually Works: What Happens Inside?</h2>
+            <p style="margin:4px 0 0 0;font-size:0.92rem;color:var(--text-muted);">
+              From raw clues and sensory inputs to detective layers and final answers.
+            </p>
+          </div>
+        </div>
+
+        <div class="spectrum-cards-grid" style="grid-template-columns: repeat(3, 1fr); margin-bottom: 24px;">
+          <!-- Pillar 1 -->
+          <div class="spectrum-card" id="engine-tensors">
+            <div class="spectrum-header-row">
+              <span class="spectrum-badge" style="background:#dbeafe;color:#1e40af;">Step 01 &bull; Senses</span>
+              <i data-lucide="binary" style="width:18px;height:18px;color:#2563eb;"></i>
+            </div>
+            <h4 class="spectrum-title">Turn Everything into Numbers</h4>
+            <div class="spectrum-formula">Words &amp; Photos &rarr; Numbers</div>
+            <p class="spectrum-body">
+              Computers cannot see colors or read letters. Every photo becomes a grid of number pixels (0 to 255). Every word becomes a list of numbers called a <strong>vector</strong>.
+            </p>
+            <div class="spectrum-footer-meta">
+              <span>Human Senses</span>
+              <strong>Numerical Tensors</strong>
+            </div>
+          </div>
+
+          <!-- Pillar 2 -->
+          <div class="spectrum-card" id="engine-forward">
+            <div class="spectrum-header-row">
+              <span class="spectrum-badge" style="background:#f3e8ff;color:#6b21a8;">Step 02 &bull; Thinking</span>
+              <i data-lucide="cpu" style="width:18px;height:18px;color:#7c3aed;"></i>
+            </div>
+            <h4 class="spectrum-title">Multiply by Importance (Weights)</h4>
+            <div class="spectrum-formula">Answer = Clue &times; Weight + Bias</div>
+            <p class="spectrum-body">
+              Each connection has a volume dial called a <strong>weight</strong>. If barking is very important for being a dog, that dial is turned way up! If tail wagging is less important, that dial is turned down.
+            </p>
+            <div class="spectrum-footer-meta">
+              <span>Thinking Engine</span>
+              <strong>Volume Dials (Weights)</strong>
+            </div>
+          </div>
+
+          <!-- Pillar 3 -->
+          <div class="spectrum-card" id="engine-backprop">
+            <div class="spectrum-header-row">
+              <span class="spectrum-badge" style="background:#fef3c7;color:#92400e;">Step 03 &bull; Learning</span>
+              <i data-lucide="git-pull-request" style="width:18px;height:18px;color:#d97706;"></i>
+            </div>
+            <h4 class="spectrum-title">Fixing Mistakes (Learning)</h4>
+            <div class="spectrum-formula">Mistake &rarr; Turn Dials in Reverse</div>
+            <p class="spectrum-body">
+              When the AI guesses wrong (thinking a dog is a cat), it measures how big the mistake was (<strong>Loss</strong>). Then it slightly tweaks every volume dial in reverse so it won't make that mistake next time!
+            </p>
+            <div class="spectrum-footer-meta">
+              <span>Self-Correction</span>
+              <strong>Feedback Loop</strong>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 3: Interactive 2D Neural Engine Simulator (Simplified for Beginners & Kids) -->
+      
+      <!-- ========================================================================= -->
+      <!-- SUBTOPIC: interactive-simulator [START] -->
+      <!-- ========================================================================= -->
+      <section class="content-section" id="interactive-simulator">
+        <div class="section-title-wrap">
+          <div>
+            <span class="eyebrow">Interactive 2D Lab</span>
+            <h2>2D Interactive Neural Engine Simulator</h2>
+            <p style="margin:4px 0 0 0;font-size:0.92rem;color:var(--text-muted);">
+              Explore how artificial brains think. Switch between friendly "Kid Mode" and technical "CS Mode", and see what happens when you add more layers!
+            </p>
+          </div>
+          <div class="author-copyright-badge">
+            <i data-lucide="sparkles" style="width:16px;height:16px;color:#7c3aed;"></i>
+            <span>Interactive Simulator: <strong>D3.js 2D Engine</strong></span>
+          </div>
+        </div>
+
+        <!-- Kid / Beginner Friendly Explainer Cards -->
+        <div class="ai-interactive-card" style="background:linear-gradient(135deg, #ffffff 0%, #faf5ff 100%);border-color:#ddd6fe;margin-top:0;">
+          <div class="section-title-wrap" style="margin-bottom:14px;">
+            <div>
+              <span class="eyebrow" style="color:#7c3aed;background:#ede9fe;">Beginner Guide &bull; No Math Required</span>
+              <h3 style="margin:0;font-size:1.25rem;color:#4c1d95;">What Are Neural Layers in Plain English? (Kid-Friendly Guide)</h3>
+            </div>
+          </div>
+
+          <div class="kids-explainer-grid">
+            <!-- Card 1: Input Layer -->
+            <div class="kids-layer-card" style="border-top:4px solid #0284c7;">
+              <div class="kids-layer-icon-badge" style="background:#e0f2fe;color:#0284c7;">👀</div>
+              <div class="kids-layer-subtitle">Stage 01</div>
+              <div class="kids-layer-title">Input Layer = The Senses</div>
+              <div class="kids-layer-text">
+                Just like your eyes, ears, and hands! It takes in raw clues from the world.
+                <br><br>
+                <strong>Example (Pet AI):</strong> "Has fur? 🐾", "Barks? 🐶", "Meows? 🐱", "Loves bones? 🦴".
+              </div>
+            </div>
+
+            <!-- Card 2: Hidden Layers -->
+            <div class="kids-layer-card" style="border-top:4px solid #7c3aed;">
+              <div class="kids-layer-icon-badge" style="background:#f3e8ff;color:#7c3aed;">🕵️‍♂️</div>
+              <div class="kids-layer-subtitle">Stage 02</div>
+              <div class="kids-layer-title">Hidden Layers = Detective Team</div>
+              <div class="kids-layer-text">
+                A team of detectives passing secret clues forward!
+                <br><br>
+                &bull; <strong>Junior Detectives:</strong> Spot basic lines and sounds.<br>
+                &bull; <strong>Senior Detectives:</strong> Combine lines into ears, nose, or tail.<br>
+                &bull; <strong>Master Detectives:</strong> Put all parts together into a pet face!
+              </div>
+            </div>
+
+            <!-- Card 3: Output Layer -->
+            <div class="kids-layer-card" style="border-top:4px solid #16a34a;">
+              <div class="kids-layer-icon-badge" style="background:#dcfce7;color:#16a34a;">🎯</div>
+              <div class="kids-layer-subtitle">Stage 03</div>
+              <div class="kids-layer-title">Output Layer = The Final Answer</div>
+              <div class="kids-layer-text">
+                The chief detective announces the final decision!
+                <br><br>
+                Instead of guessing blindly, it gives percentage confidence:
+                <br>
+                <strong>🐶 Dog (96%)</strong> &bull; <strong>🐱 Cat (3%)</strong> &bull; <strong>🐰 Bunny (1%)</strong>.
+              </div>
+            </div>
+          </div>
+
+          <!-- What happens if you add layers? -->
+          <div class="layer-depth-box">
+            <div style="flex:1;">
+              <div style="font-size:0.95rem;font-weight:800;color:#3b0764;display:flex;align-items:center;gap:6px;margin-bottom:6px;">
+                <i data-lucide="layers" style="width:18px;height:18px;color:#7c3aed;"></i>
+                <span>What Happens If You Add More Layers? (Why is it called "Deep Learning"?)</span>
+              </div>
+              <div style="font-size:0.86rem;color:#4c1d95;line-height:1.55;">
+                &bull; <strong>1 Layer (Shallow Brain):</strong> Can only solve baby puzzles (like separating red and blue marbles with a straight line).<br>
+                &bull; <strong>2 to 4 Layers (Smart Brain):</strong> Can recognize pet faces, handwriting, and songs.<br>
+                &bull; <strong>50 to 100+ Layers ("Deep Learning"):</strong> Can understand full human conversations, write code, play grandmaster chess, and drive autonomous cars! <em>More layers = Deeper, more complex thoughts.</em>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- The D3 Simulator Container -->
+        <div class="ai-canvas-wrapper">
+          <div class="ai-canvas-header">
+            <div class="ai-canvas-title">
+              <i data-lucide="brain-circuit" style="width:18px;height:18px;color:#a855f7;"></i>
+              <span id="simulator-header-text">Interactive Neural Brain &bull; Live 2D Flow</span>
+            </div>
+            
+            <!-- Controls Strip with Mode Toggle and Add/Remove Layers -->
+            <div class="ai-controls-strip">
+              <!-- Mode Switcher -->
+              <button class="ai-sim-btn accent" id="btn-toggle-kid-mode">
+                <span id="mode-icon">🧒</span> <span id="mode-text">Switch to CS Mode</span>
+              </button>
+
+              <!-- Layer Depth Controls -->
+              <button class="ai-sim-btn" id="btn-remove-layer" title="Remove a hidden layer">
+                <i data-lucide="minus" style="width:13px;height:13px;"></i> Remove Layer
+              </button>
+              <span id="layer-depth-indicator" style="font-size:0.75rem;font-weight:700;color:#facc15;background:rgba(250,204,21,0.12);padding:4px 8px;border-radius:4px;border:1px solid rgba(250,204,21,0.3);">
+                2 Hidden Layers
+              </span>
+              <button class="ai-sim-btn" id="btn-add-layer" title="Add a hidden layer">
+                <i data-lucide="plus" style="width:13px;height:13px;"></i> Add Layer
+              </button>
+
+              <!-- Simulation triggers -->
+              <button class="ai-sim-btn primary" id="btn-forward-pulse">
+                <i data-lucide="play" style="width:14px;height:14px;"></i> Test Prediction
+              </button>
+              <button class="ai-sim-btn" id="btn-backprop-pulse" style="border-color:#f43f5e;color:#f43f5e;">
+                <i data-lucide="rotate-ccw" style="width:14px;height:14px;"></i> Teach Brain (Fix Error)
+              </button>
+            </div>
+          </div>
+
+          <!-- Real-World Example Selector Bar on Top of Live 2D Flow -->
+          <div class="ai-usecases-bar">
+            <span class="ai-usecase-label">
+              <i data-lucide="sparkles" style="width:13px;height:13px;color:#c084fc;"></i> Real AI Tasks:
+            </span>
+            <button class="usecase-pill active" data-usecase="animal" id="pill-animal">
+              <span>🐾 Classify Animal</span>
+              <span class="pill-badge">Vision AI</span>
+            </button>
+            <button class="usecase-pill" data-usecase="sales" id="pill-sales">
+              <span>📈 Predict Sales Next Season</span>
+              <span class="pill-badge">Forecasting</span>
+            </button>
+            <button class="usecase-pill" data-usecase="code" id="pill-code">
+              <span>💻 Generate Code Assistant</span>
+              <span class="pill-badge">GenAI / LLM</span>
+            </button>
+            <button class="usecase-pill" data-usecase="spam" id="pill-spam">
+              <span>📧 Spam & Scam Filter</span>
+              <span class="pill-badge">Cybersecurity</span>
+            </button>
+            <button class="usecase-pill" data-usecase="car" id="pill-car">
+              <span>🚗 Self-Driving Car Eyes</span>
+              <span class="pill-badge">Autonomous</span>
+            </button>
+            <button class="usecase-pill" data-usecase="medical" id="pill-medical">
+              <span>🩺 Doctor Diagnostic Helper</span>
+              <span class="pill-badge">Healthcare AI</span>
+            </button>
+          </div>
+
+          <!-- Dynamic Use Case Scenario Info Strip -->
+          <div class="ai-usecase-scenario-strip" id="usecase-scenario-strip">
+            <div class="scenario-desc-box">
+              <i data-lucide="info" style="width:16px;height:16px;color:#38bdf8;flex-shrink:0;"></i>
+              <span id="usecase-scenario-desc">
+                <strong>Real-World Goal:</strong> Identify if an animal is a Dog, Cat, or Bird by checking sensory clues like fur, bark sounds, and wings.
+              </span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <span class="scenario-tag-badge" id="usecase-industry-badge">
+                <i data-lucide="check-circle" style="width:12px;height:12px;"></i> Google Lens &bull; Apple Photos
+              </span>
+            </div>
+          </div>
+
+          <!-- Dynamic Alert Banner for Layer Adjustments -->
+          <div id="layer-status-banner" style="background:#130e26;padding:8px 18px;border-bottom:1px solid #1e293b;font-size:0.8rem;color:#d8b4fe;display:flex;align-items:center;gap:8px;">
+            <i data-lucide="sparkles" style="width:15px;height:15px;color:#facc15;"></i>
+            <span id="layer-status-text"><strong>Kid Mode Active:</strong> Showing real-world animal detective clues. Click any task on top (like "Predict Sales" or "Generate Code") to watch the brain adapt!</span>
+          </div>
+
+          <!-- SVG Canvas container where D3 mounts -->
+          <div class="ai-svg-container" id="d3-neural-canvas"></div>
+
+          <!-- Real-Time Friendly Inspector Strip -->
+          <div class="ai-math-inspector">
+            <div class="inspector-metric-box">
+              <div class="inspector-metric-label" id="insp-label-1">Selected Clue / Detective</div>
+              <div class="inspector-metric-val" id="metric-formula" style="color:#c084fc;">🐶 Clue: "Barks" (Strong Signal)</div>
+            </div>
+            <div class="inspector-metric-box">
+              <div class="inspector-metric-label" id="insp-label-2">Detective Confidence</div>
+              <div class="inspector-metric-val" id="metric-val" style="color:#38bdf8;">96% Positive</div>
+            </div>
+            <div class="inspector-metric-box">
+              <div class="inspector-metric-label" id="insp-label-3">Learning Adjustment</div>
+              <div class="inspector-metric-val" id="metric-grad" style="color:#facc15;">+0.04 (Strengthening Link)</div>
+            </div>
+            <div class="inspector-metric-box">
+              <div class="inspector-metric-label" id="insp-label-4">Brain Speed</div>
+              <div class="inspector-metric-val" id="metric-latency" style="color:#4ade80;">1.2 ms (Instant!)</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="font-size:0.84rem;color:#64748b;margin-top:6px;display:flex;align-items:center;gap:6px;">
+          <i data-lucide="mouse-pointer" style="width:14px;height:14px;"></i>
+          <span><strong>Try it out:</strong> Click any detective node above to see what clue it is looking for. Click <em>"Add Layer"</em> to see what happens when the brain gets deeper!</span>
+        </div>
+      </section>
+
+      <!-- Section 4: The Spectrum of AI (Rule-Based -> Classical ML -> Deep Learning -> GenAI -> Agents) -->
+      
+      <!-- ========================================================================= -->
+      <!-- SUBTOPIC: ai-types [START] -->
+      <!-- ========================================================================= -->
+      <section class="content-section" id="ai-types">
+        <div class="section-title-wrap">
+          <div>
+            <span class="eyebrow">Taxonomy &amp; Architectural Evolution</span>
+            <h2>The 5 Types of AI: From If-Else to Autonomous Agents</h2>
+            <p style="margin:4px 0 0 0;font-size:0.92rem;color:var(--text-muted);">
+              How computer science evolved from hand-crafted expert systems into autonomous reasoning loops.
+            </p>
+          </div>
+        </div>
+
+        <div class="spectrum-cards-grid">
+          <!-- Type 1: Rule-Based -->
+          <div class="spectrum-card" id="type-rules">
+            <div class="spectrum-header-row">
+              <span class="spectrum-badge" style="background:#e0f2fe;color:#0369a1;">Level 01</span>
+              <i data-lucide="git-branch" style="width:18px;height:18px;color:#0284c7;"></i>
+            </div>
+            <h3 class="spectrum-title">1. Rule-Based AI</h3>
+            <div class="spectrum-formula">If (Condition) Then Action</div>
+            <p class="spectrum-body">
+              <strong>How it works:</strong> Human programmers explicitly write every conditional rule, decision tree, or state transition. Examples include expert systems, tax calculators, and chess tree search (Minimax + Alpha-Beta pruning).
+            </p>
+            <p class="spectrum-body" style="font-size:0.8rem;color:#64748b;">
+              &bull; <strong>Limitation:</strong> Combinatorial explosion. Cannot handle unstructured noise, sensory images, or ambiguous human language.
+            </p>
+            <div class="spectrum-footer-meta">
+              <span>Programmer Effort: <strong>100%</strong></span>
+              <span>Compute: <strong>CPU O(N)</strong></span>
+            </div>
+          </div>
+
+          <!-- Type 2: Classical ML -->
+          <div class="spectrum-card" id="type-ml">
+            <div class="spectrum-header-row">
+              <span class="spectrum-badge" style="background:#dcfce7;color:#15803d;">Level 02</span>
+              <i data-lucide="scatter-chart" style="width:18px;height:18px;color:#16a34a;"></i>
+            </div>
+            <h3 class="spectrum-title">2. Classical Machine Learning</h3>
+            <div class="spectrum-formula">y = f(x; &theta;) via Feature Eng.</div>
+            <p class="spectrum-body">
+              <strong>How it works:</strong> Humans extract statistical features (word counts, averages, edge gradients). Algorithms (Random Forests, Logistic Regression, XGBoost, SVM) find optimal hyperplanes or split thresholds.
+            </p>
+            <p class="spectrum-body" style="font-size:0.8rem;color:#64748b;">
+              &bull; <strong>Best For:</strong> Tabular enterprise data, credit card scoring, structured customer churn prediction.
+            </p>
+            <div class="spectrum-footer-meta">
+              <span>Requires: <strong>Feature Eng.</strong></span>
+              <span>Compute: <strong>Medium CPU/GPU</strong></span>
+            </div>
+          </div>
+
+          <!-- Type 3: Deep Learning -->
+          <div class="spectrum-card" id="type-dl">
+            <div class="spectrum-header-row">
+              <span class="spectrum-badge" style="background:#fae8ff;color:#86198f;">Level 03</span>
+              <i data-lucide="layers" style="width:18px;height:18px;color:#c026d3;"></i>
+            </div>
+            <h3 class="spectrum-title">3. Deep Learning (DL)</h3>
+            <div class="spectrum-formula">y = f<sub>L</sub>(... f<sub>1</sub>(X &middot; W<sub>1</sub>)...)</div>
+            <p class="spectrum-body">
+              <strong>How it works:</strong> End-to-end representation learning. No manual feature engineering! Stacks 10 to 100+ neural layers. CNNs discover visual edges &rarr; textures &rarr; faces. RNNs/Transformers learn sequence contexts.
+            </p>
+            <p class="spectrum-body" style="font-size:0.8rem;color:#64748b;">
+              &bull; <strong>Best For:</strong> Autonomous vehicle computer vision, speech recognition (Whisper), biomedical imaging.
+            </p>
+            <div class="spectrum-footer-meta">
+              <span>Representation: <strong>Latent Space</strong></span>
+              <span>Compute: <strong>High GPU (CUDA)</strong></span>
+            </div>
+          </div>
+
+          <!-- Type 4: GenAI & LLMs -->
+          <div class="spectrum-card" id="type-genai">
+            <div class="spectrum-header-row">
+              <span class="spectrum-badge" style="background:#fee2e2;color:#b91c1c;">Level 04</span>
+              <i data-lucide="sparkles" style="width:18px;height:18px;color:#dc2626;"></i>
+            </div>
+            <h3 class="spectrum-title">4. Generative AI (GenAI)</h3>
+            <div class="spectrum-formula">P(w<sub>t</sub> | w<sub>1</sub>, ..., w<sub>t-1</sub>)</div>
+            <p class="spectrum-body">
+              <strong>How it works:</strong> Foundation models trained on trillions of tokens across the internet. Instead of merely classifying, they generate novel text, code, audio, and photorealistic images via self-attention and diffusion.
+            </p>
+            <p class="spectrum-body" style="font-size:0.8rem;color:#64748b;">
+              &bull; <strong>Best For:</strong> Code synthesis, automated technical documentation, creative assets, multilingual translation.
+            </p>
+            <div class="spectrum-footer-meta">
+              <span>Architecture: <strong>Transformers</strong></span>
+              <span>Compute: <strong>Superclusters (H100)</strong></span>
+            </div>
+          </div>
+
+          <!-- Type 5: Agentic Systems -->
+          <div class="spectrum-card" id="type-agents">
+            <div class="spectrum-header-row">
+              <span class="spectrum-badge" style="background:#fef3c7;color:#b45309;">Level 05</span>
+              <i data-lucide="bot" style="width:18px;height:18px;color:#d97706;"></i>
+            </div>
+            <h3 class="spectrum-title">5. Autonomous Agents</h3>
+            <div class="spectrum-formula">Perceive &rarr; Reason &rarr; Tool &rarr; Act</div>
+            <p class="spectrum-body">
+              <strong>How it works:</strong> Combines LLM reasoning with a feedback loop, memory store, and external tools (APIs, SQL databases, code sandboxes, MCP). An agent executes multi-step plans without human hand-holding.
+            </p>
+            <p class="spectrum-body" style="font-size:0.8rem;color:#64748b;">
+              &bull; <strong>Best For:</strong> Autonomous software development, complex claims processing, robotic process automation (RPA 2.0).
+            </p>
+            <div class="spectrum-footer-meta">
+              <span>Runtime: <strong>ReAct Loop &bull; MCP</strong></span>
+              <span>Compute: <strong>Distributed Hybrid</strong></span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 5: Multi-Domain 2D Interactive Lab (Social Media, Finance, Real Estate, Retail, Logistics) -->
+      
+      <!-- ========================================================================= -->
+      <!-- SUBTOPIC: domain-showcase [START] -->
+      <!-- ========================================================================= -->
+      <section class="content-section" id="domain-showcase">
+        <div class="section-title-wrap">
+          <div>
+            <span class="eyebrow">Real-World Enterprise Applications</span>
+            <h2>Multi-Domain AI Lab &bull; Interactive 2D Motion Graphics</h2>
+            <p style="margin:4px 0 0 0;font-size:0.92rem;color:var(--text-muted);">
+              Select any industry below to experience live interactive 2D simulations, algorithmic breakdowns, and production architectures.
+            </p>
+          </div>
+        </div>
+
+        <div class="domain-showcase-container">
+          <!-- Navigation Tabs for the 5 Domains -->
+          <div class="domain-tabs-nav" role="tablist">
+            <button class="domain-tab-btn active" data-domain="social" id="tab-social">
+              <i data-lucide="share-2" style="width:16px;height:16px;"></i> Social Media
+            </button>
+            <button class="domain-tab-btn" data-domain="finance" id="tab-finance">
+              <i data-lucide="landmark" style="width:16px;height:16px;"></i> Finance
+            </button>
+            <button class="domain-tab-btn" data-domain="realestate" id="tab-realestate">
+              <i data-lucide="home" style="width:16px;height:16px;"></i> Real Estate
+            </button>
+            <button class="domain-tab-btn" data-domain="retail" id="tab-retail">
+              <i data-lucide="shopping-cart" style="width:16px;height:16px;"></i> Retail
+            </button>
+            <button class="domain-tab-btn" data-domain="logistics" id="tab-logistics">
+              <i data-lucide="truck" style="width:16px;height:16px;"></i> Logistics
+            </button>
+          </div>
+
+          <!-- DOMAIN 1: SOCIAL MEDIA -->
+          <div class="domain-pane active" id="pane-social">
+            <div class="domain-content-grid">
+              <!-- Header & Description ABOVE Interactive Box -->
+              <div class="domain-header-intro">
+                <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:8px;">
+                  <h3 style="margin:0;font-size:1.35rem;color:#0f172a;display:flex;align-items:center;gap:8px;">
+                    <i data-lucide="share-2" style="width:22px;height:22px;color:#e11d48;"></i>
+                    How AI Powers Social Media Platforms
+                  </h3>
+                  <span class="scenario-tag-badge" style="background:rgba(225,29,72,0.12);color:#f43f5e;border-color:rgba(244,63,94,0.3);">
+                    Two-Tower DNN &bull; Graph Neural Networks (GNN)
+                  </span>
+                </div>
+                <p style="font-size:0.92rem;color:#475569;line-height:1.6;margin:0;">
+                  When you open Instagram, TikTok, or X, an AI model ranks billions of candidate posts down to your top 10 items in under <strong>40 milliseconds</strong>.
+                </p>
+              </div>
+
+              <!-- Wide Interactive Box -->
+              <div class="domain-interactive-box">
+                <div class="domain-sim-header">
+                  <span>Feed Ranking &amp; Graph Neural Network (GNN) Simulation</span>
+                  <div class="ai-canvas-status" style="color:#f43f5e;background:rgba(244,63,94,0.12);border-color:rgba(244,63,94,0.25);">
+                    <span class="ai-canvas-status-dot" style="background:#f43f5e;box-shadow:0 0 8px #f43f5e;"></span>
+                    <span>1.2B Edges Live</span>
+                  </div>
+                </div>
+                <!-- 2D Canvas Area (Wider!) -->
+                <div class="domain-canvas-area" id="canvas-domain-social"></div>
+                <div class="ai-controls-strip">
+                  <button class="ai-sim-btn primary" id="btn-social-viral" style="background:#e11d48;border-color:#f43f5e;">
+                    <i data-lucide="flame" style="width:14px;height:14px;"></i> Inject Viral Post
+                  </button>
+                  <button class="ai-sim-btn" id="btn-social-moderate">
+                    <i data-lucide="shield-alert" style="width:14px;height:14px;"></i> Run Toxic Content Filter
+                  </button>
+                  <span style="font-size:0.75rem;color:#94a3b8;margin-left:auto;" id="social-status-text">Simulating User Feed Affinity</span>
+                </div>
+              </div>
+
+              <!-- Specifications Cards Below -->
+              <div class="domain-specs-grid">
+                <div class="domain-spec-card">
+                  <span class="domain-spec-label">INPUT</span>
+                  <span>User interaction history, watch-time duration, social graph embeddings, post metadata, multimodal video features.</span>
+                </div>
+                <div class="domain-spec-card">
+                  <span class="domain-spec-label">MODEL</span>
+                  <span>Two-Tower Deep Neural Network (User Tower &bull; Item Tower) &plus; Graph Attention Networks (GAT) for community clustering.</span>
+                </div>
+                <div class="domain-spec-card">
+                  <span class="domain-spec-label">OBJECTIVE</span>
+                  <span><strong>P(Engage) = Softmax(W &middot; [u<sub>vector</sub> &odot; v<sub>vector</sub>])</strong> to maximize active session duration while penalizing toxicity.</span>
+                </div>
+                <div class="domain-spec-card">
+                  <span class="domain-spec-label">TECH STACK</span>
+                  <span>PyTorch, Faiss Vector Search, Apache Kafka, Redis Feature Store, Ray Distributed Training.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- DOMAIN 2: FINANCE -->
+          <div class="domain-pane" id="pane-finance">
+            <div class="domain-content-grid">
+              <!-- Header & Description ABOVE Interactive Box -->
+              <div class="domain-header-intro">
+                <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:8px;">
+                  <h3 style="margin:0;font-size:1.35rem;color:#0f172a;display:flex;align-items:center;gap:8px;">
+                    <i data-lucide="landmark" style="width:22px;height:22px;color:#059669;"></i>
+                    How AI Powers Financial Systems
+                  </h3>
+                  <span class="scenario-tag-badge" style="background:rgba(5,150,105,0.12);color:#10b981;border-color:rgba(16,185,129,0.3);">
+                    Sub-8ms Fraud Anomaly Detection &bull; High-Frequency Flow
+                  </span>
+                </div>
+                <p style="font-size:0.92rem;color:#475569;line-height:1.6;margin:0;">
+                  Modern financial institutions rely on AI to stop fraudulent transactions before cards are swiped and to calculate real-time portfolio risk across international markets.
+                </p>
+              </div>
+
+              <!-- Wide Interactive Box -->
+              <div class="domain-interactive-box">
+                <div class="domain-sim-header">
+                  <span>Real-Time Fraud Detection &amp; High-Frequency Order Flow</span>
+                  <div class="ai-canvas-status" style="color:#10b981;background:rgba(16,185,129,0.12);border-color:rgba(16,185,129,0.25);">
+                    <span class="ai-canvas-status-dot" style="background:#10b981;box-shadow:0 0 8px #10b981;"></span>
+                    <span>Latency: &lt; 8ms</span>
+                  </div>
+                </div>
+                <div class="domain-canvas-area" id="canvas-domain-finance"></div>
+                <div class="ai-controls-strip">
+                  <button class="ai-sim-btn primary" id="btn-finance-fraud" style="background:#059669;border-color:#10b981;">
+                    <i data-lucide="alert-triangle" style="width:14px;height:14px;"></i> Inject Credit Card Anomaly
+                  </button>
+                  <button class="ai-sim-btn" id="btn-finance-market">
+                    <i data-lucide="trending-up" style="width:14px;height:14px;"></i> Simulate Flash Market Volatility
+                  </button>
+                  <span style="font-size:0.75rem;color:#94a3b8;margin-left:auto;" id="finance-status-text">Scanning 10,000 Trans/Sec</span>
+                </div>
+              </div>
+
+              <!-- Specifications Cards Below -->
+              <div class="domain-specs-grid">
+                <div class="domain-spec-card">
+                  <span class="domain-spec-label">INPUT</span>
+                  <span>Transaction amount, geolocation velocity (distance / time delta), merchant category code, device fingerprint, historical spending entropy.</span>
+                </div>
+                <div class="domain-spec-card">
+                  <span class="domain-spec-label">MODEL</span>
+                  <span>Gradient Boosted Decision Trees (XGBoost / LightGBM) for sub-10ms latency &plus; Deep Autoencoders for unsupervised zero-day anomaly detection.</span>
+                </div>
+                <div class="domain-spec-card">
+                  <span class="domain-spec-label">OBJECTIVE</span>
+                  <span>Minimize False Positives (don't block valid customers) while maintaining <strong>99.8%</strong> recall on stolen credentials.</span>
+                </div>
+                <div class="domain-spec-card">
+                  <span class="domain-spec-label">TECH STACK</span>
+                  <span>C++ Inference Engines, ONNX Runtime, Apache Flink, Snowflake Feature Store, Scikit-learn.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- DOMAIN 3: REAL ESTATE -->
+          <div class="domain-pane" id="pane-realestate">
+            <div class="domain-content-grid">
+              <!-- Header & Description ABOVE Interactive Box -->
+              <div class="domain-header-intro">
+                <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:8px;">
+                  <h3 style="margin:0;font-size:1.35rem;color:#0f172a;display:flex;align-items:center;gap:8px;">
+                    <i data-lucide="home" style="width:22px;height:22px;color:#d97706;"></i>
+                    How AI Powers Real Estate (PropTech)
+                  </h3>
+                  <span class="scenario-tag-badge" style="background:rgba(217,119,6,0.12);color:#f59e0b;border-color:rgba(245,158,11,0.3);">
+                    Automated Valuation Models (AVM) &bull; Vision Transformers
+                  </span>
+                </div>
+                <p style="font-size:0.92rem;color:#475569;line-height:1.6;margin:0;">
+                  Companies like Zillow, Redfin, and commercial REITs price multi-million dollar properties using spatial regressions, satellite computer vision, and neighborhood graph embeddings.
+                </p>
+              </div>
+
+              <!-- Wide Interactive Box -->
+              <div class="domain-interactive-box">
+                <div class="domain-sim-header">
+                  <span>Automated Valuation Models (AVMs) &amp; Spatial Clustering</span>
+                  <div class="ai-canvas-status" style="color:#f59e0b;background:rgba(245,158,11,0.12);border-color:rgba(245,158,11,0.25);">
+                    <span class="ai-canvas-status-dot" style="background:#f59e0b;box-shadow:0 0 8px #f59e0b;"></span>
+                    <span>Spatial Mesh Active</span>
+                  </div>
+                </div>
+                <div class="domain-canvas-area" id="canvas-domain-realestate"></div>
+                <div class="ai-controls-strip">
+                  <button class="ai-sim-btn primary" id="btn-re-reno" style="background:#d97706;border-color:#f59e0b;">
+                    <i data-lucide="hammer" style="width:14px;height:14px;"></i> Add Luxury Renovation (+20%)
+                  </button>
+                  <button class="ai-sim-btn" id="btn-re-rate">
+                    <i data-lucide="percent" style="width:14px;height:14px;"></i> Shift Mortgage Rates (+1.5%)
+                  </button>
+                  <span style="font-size:0.75rem;color:#94a3b8;margin-left:auto;" id="re-status-text">Valuation Confidence: 94.6%</span>
+                </div>
+              </div>
+
+              <!-- Specifications Cards Below -->
+              <div class="domain-specs-grid">
+                <div class="domain-spec-card">
+                  <span class="domain-spec-label">INPUT</span>
+                  <span>Square footage, lot size, school district ratings, satellite aerial imagery, property interior listing photos, recent neighborhood comps.</span>
+                </div>
+                <div class="domain-spec-card">
+                  <span class="domain-spec-label">MODEL</span>
+                  <span>Vision Transformers (ViT) to score kitchen/bathroom finish quality &plus; Spatial Hedonic Regressions &plus; Geo-spatial k-NN Ensembles.</span>
+                </div>
+                <div class="domain-spec-card">
+                  <span class="domain-spec-label">OBJECTIVE</span>
+                  <span>Minimize Median Absolute Percentage Error (<strong>MAPE &le; 2.4%</strong>) across varying macroeconomic interest rate cycles.</span>
+                </div>
+                <div class="domain-spec-card">
+                  <span class="domain-spec-label">TECH STACK</span>
+                  <span>PostGIS Spatial DB, PyTorch Vision, CatBoost, GeoPandas, FastAPI.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- DOMAIN 4: RETAIL & E-COMMERCE -->
+          <div class="domain-pane" id="pane-retail">
+            <div class="domain-content-grid">
+              <!-- Header & Description ABOVE Interactive Box -->
+              <div class="domain-header-intro">
+                <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:8px;">
+                  <h3 style="margin:0;font-size:1.35rem;color:#0f172a;display:flex;align-items:center;gap:8px;">
+                    <i data-lucide="shopping-cart" style="width:22px;height:22px;color:#7c3aed;"></i>
+                    How AI Powers Retail &amp; E-Commerce
+                  </h3>
+                  <span class="scenario-tag-badge" style="background:rgba(124,58,237,0.12);color:#a855f7;border-color:rgba(168,85,247,0.3);">
+                    Dual-Encoder Vector Recommenders &bull; Dynamic Pricing
+                  </span>
+                </div>
+                <p style="font-size:0.92rem;color:#475569;line-height:1.6;margin:0;">
+                  From Amazon's "Frequently Bought Together" to dynamic pricing algorithms that adjust inventory prices according to supply elasticity and competitor movements.
+                </p>
+              </div>
+
+              <!-- Wide Interactive Box -->
+              <div class="domain-interactive-box">
+                <div class="domain-sim-header">
+                  <span>Collaborative Filtering &amp; Dynamic Price Elasticity</span>
+                  <div class="ai-canvas-status" style="color:#a855f7;background:rgba(168,85,247,0.12);border-color:rgba(168,85,247,0.25);">
+                    <span class="ai-canvas-status-dot" style="background:#a855f7;box-shadow:0 0 8px #a855f7;"></span>
+                    <span>Cosine Match: 0.94</span>
+                  </div>
+                </div>
+                <div class="domain-canvas-area" id="canvas-domain-retail"></div>
+                <div class="ai-controls-strip">
+                  <button class="ai-sim-btn primary" id="btn-retail-cart" style="background:#7c3aed;border-color:#8b5cf6;">
+                    <i data-lucide="plus-circle" style="width:14px;height:14px;"></i> Add High-End GPU to Cart
+                  </button>
+                  <button class="ai-sim-btn" id="btn-retail-discount">
+                    <i data-lucide="tag" style="width:14px;height:14px;"></i> Test Bundle Recommendation
+                  </button>
+                  <span style="font-size:0.75rem;color:#94a3b8;margin-left:auto;" id="retail-status-text">Basket Conversion Lift: +18.4%</span>
+                </div>
+              </div>
+
+              <!-- Specifications Cards Below -->
+              <div class="domain-specs-grid">
+                <div class="domain-spec-card">
+                  <span class="domain-spec-label">INPUT</span>
+                  <span>Browsing clickstream sessions, search query semantics, cart abandonment signals, current warehouse inventory stock levels.</span>
+                </div>
+                <div class="domain-spec-card">
+                  <span class="domain-spec-label">MODEL</span>
+                  <span>Matrix Factorization &plus; Dual-Encoder Vector Embeddings &plus; Reinforcement Learning (Multi-Armed Bandits) for pricing discovery.</span>
+                </div>
+                <div class="domain-spec-card">
+                  <span class="domain-spec-label">OBJECTIVE</span>
+                  <span>Maximize Gross Merchandise Value (GMV) and Customer Lifetime Value (LTV) while preventing inventory overstocking.</span>
+                </div>
+                <div class="domain-spec-card">
+                  <span class="domain-spec-label">TECH STACK</span>
+                  <span>Qdrant / Milvus Vector DB, Scikit-learn, Ray Tune, PyTorch, BigQuery.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- DOMAIN 5: LOGISTICS & SUPPLY CHAIN -->
+          <div class="domain-pane" id="pane-logistics">
+            <div class="domain-content-grid">
+              <!-- Header & Description ABOVE Interactive Box -->
+              <div class="domain-header-intro">
+                <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:8px;">
+                  <h3 style="margin:0;font-size:1.35rem;color:#0f172a;display:flex;align-items:center;gap:8px;">
+                    <i data-lucide="truck" style="width:22px;height:22px;color:#0284c7;"></i>
+                    How AI Powers Logistics &amp; Supply Chain
+                  </h3>
+                  <span class="scenario-tag-badge" style="background:rgba(2,132,199,0.12);color:#0ea5e9;border-color:rgba(14,165,233,0.3);">
+                    Deep Reinforcement Learning (PPO) &bull; Combinatorial VRP
+                  </span>
+                </div>
+                <p style="font-size:0.92rem;color:#475569;line-height:1.6;margin:0;">
+                  Companies like FedEx, Amazon Robotics, and Maersk solve NP-hard combinatorial optimization problems to route thousands of packages across unpredictable real-world traffic.
+                </p>
+              </div>
+
+              <!-- Wide Interactive Box -->
+              <div class="domain-interactive-box">
+                <div class="domain-sim-header">
+                  <span>Vehicle Routing Optimization (VRP) &amp; Warehouse Robotics</span>
+                  <div class="ai-canvas-status" style="color:#0ea5e9;background:rgba(14,165,233,0.12);border-color:rgba(14,165,233,0.25);">
+                    <span class="ai-canvas-status-dot" style="background:#0ea5e9;box-shadow:0 0 8px #0ea5e9;"></span>
+                    <span>Fleet Active (12 Vans)</span>
+                  </div>
+                </div>
+                <div class="domain-canvas-area" id="canvas-domain-logistics"></div>
+                <div class="ai-controls-strip">
+                  <button class="ai-sim-btn primary" id="btn-logistics-jam" style="background:#0284c7;border-color:#38bdf8;">
+                    <i data-lucide="alert-octagon" style="width:14px;height:14px;"></i> Trigger Highway Bottleneck
+                  </button>
+                  <button class="ai-sim-btn" id="btn-logistics-reroute">
+                    <i data-lucide="navigation" style="width:14px;height:14px;"></i> Re-Optimize Fleet (Dijkstra+RL)
+                  </button>
+                  <span style="font-size:0.75rem;color:#94a3b8;margin-left:auto;" id="logistics-status-text">ETA Variance: &plusmn;2.1 mins</span>
+                </div>
+              </div>
+
+              <!-- Specifications Cards Below -->
+              <div class="domain-specs-grid">
+                <div class="domain-spec-card">
+                  <span class="domain-spec-label">INPUT</span>
+                  <span>Real-time GPS vehicle coordinates, live Doppler weather feeds, traffic telemetry, package dimensions and delivery priority windows.</span>
+                </div>
+                <div class="domain-spec-card">
+                  <span class="domain-spec-label">MODEL</span>
+                  <span>Deep Reinforcement Learning (PPO) &plus; Graph Convolutional Networks (GCN) combined with Google OR-Tools constraint programming.</span>
+                </div>
+                <div class="domain-spec-card">
+                  <span class="domain-spec-label">OBJECTIVE</span>
+                  <span>Minimize total fuel burn and carbon emissions while fulfilling <strong>99.9%</strong> on-time Delivery Service Level Agreements (SLA).</span>
+                </div>
+                <div class="domain-spec-card">
+                  <span class="domain-spec-label">TECH STACK</span>
+                  <span>Google OR-Tools, NetworkX, MQTT IoT telemetry, C++ Path Planning, AWS IoT Core.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Section 6: First-Year CS Grad Mental Models & Cheat Sheet -->
+      
+      <!-- ========================================================================= -->
+      <!-- SUBTOPIC: cs-cheat-sheet [START] -->
+      <!-- ========================================================================= -->
+      <section class="content-section" id="cs-cheat-sheet">
+        <div class="section-title-wrap">
+          <div>
+            <span class="eyebrow">CS Graduate Mental Models</span>
+            <h2>How to Think About AI as a Computer Scientist</h2>
+            <p style="margin:4px 0 0 0;font-size:0.92rem;color:var(--text-muted);">
+              A direct mapping from traditional computer science concepts to modern AI terminology.
+            </p>
+          </div>
+        </div>
+
+        <div class="ai-interactive-card" style="padding:0;overflow:hidden;">
+          <table class="cs-cheat-table">
+            <thead>
+              <tr>
+                <th style="width:25%;">CS 101 Concept</th>
+                <th style="width:25%;">AI / ML Equivalent</th>
+                <th style="width:50%;">First-Year Student Mental Model</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Source Code / Algorithm</strong></td>
+                <td><span style="color:#7c3aed;font-weight:700;">Model Architecture &amp; Weights (W)</span></td>
+                <td>Instead of human-written code paths, intelligence resides inside a multi-gigabyte matrix checkpoint of floating-point weights.</td>
+              </tr>
+              <tr>
+                <td><strong>Compiler (e.g., GCC / Clang)</strong></td>
+                <td><span style="color:#2563eb;font-weight:700;">Optimizer (e.g., AdamW / SGD)</span></td>
+                <td>Compiling translates code to machine instructions. Training iteratively transforms raw random weights into a coherent model via gradient descent.</td>
+              </tr>
+              <tr>
+                <td><strong>Function Execution <code>foo()</code></strong></td>
+                <td><span style="color:#059669;font-weight:700;">Model Inference (Forward Pass)</span></td>
+                <td>Passing an input vector through the frozen network to compute predicted logits or generated tokens.</td>
+              </tr>
+              <tr>
+                <td><strong>RAM / Call Stack</strong></td>
+                <td><span style="color:#d97706;font-weight:700;">GPU VRAM &amp; KV Cache Context Window</span></td>
+                <td>Just as recursing too deeply causes a Stack Overflow, exceeding context limits causes Out-Of-Memory (OOM) or KV-cache truncation.</td>
+              </tr>
+              <tr>
+                <td><strong>APIs / System Calls</strong></td>
+                <td><span style="color:#dc2626;font-weight:700;">Model Context Protocol (MCP) &amp; Tools</span></td>
+                <td>How an AI model safely reaches outside its weight parameters to query databases, read disk files, and invoke external microservices.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Section 7: 10-Line PyTorch Code Blueprint -->
+      
+      <!-- ========================================================================= -->
+      <!-- SUBTOPIC: python-blueprint [START] -->
+      <!-- ========================================================================= -->
+      <section class="content-section" id="python-blueprint">
+        <div class="section-title-wrap">
+          <div>
+            <span class="eyebrow">Hands-On Laboratory</span>
+            <h2>The Minimal AI Architecture in Pure PyTorch</h2>
+            <p style="margin:4px 0 0 0;font-size:0.92rem;color:var(--text-muted);">
+              Every deep neural network in production boils down to this exact training loop.
+            </p>
+          </div>
+        </div>
+
+        <div class="code-compare-panel" style="margin:16px 0;">
+          <div class="code-compare-bar">
+            <span style="color:#f8fafc;font-weight:700;">minimal_ai_pipeline.py &bull; PyTorch 2.5+</span>
+            <span style="color:#a855f7;">Forward Pass + Backprop Loop</span>
+          </div>
+          <pre class="code-compare-body"><code>import torch
+import torch.nn as nn
+
+# 1. Define the Neural Architecture (Graph)
+model = nn.Sequential(
+    nn.Linear(in_features=4, out_features=16),  # Matrix W1: [16 x 4]
+    nn.ReLU(),                                  # Non-linear activation f(z) = max(0, z)
+    nn.Linear(in_features=16, out_features=2)   # Matrix W2: [2 x 16] (Output Logits)
+)
+
+# 2. Define Loss Criterion & Optimizer
+criterion = nn.CrossEntropyLoss()
+optimizer = torch.optim.AdamW(model.parameters(), lr=0.01)
+
+# 3. Dummy Synthetic Batch (e.g. 8 samples, 4 features)
+X_train = torch.randn(8, 4)
+y_true = torch.tensor([1, 0, 1, 1, 0, 0, 1, 0])
+
+# 4. The Fundamental AI Loop
+for epoch in range(100):
+    optimizer.zero_grad()               # Reset gradients from previous step
+    y_pred = model(X_train)             # FORWARD PASS: Tensor dot products
+    loss = criterion(y_pred, y_true)    # COMPUTE ERROR: Cross-Entropy
+    loss.backward()                     # BACKPROPAGATION: Chain-rule gradients
+    optimizer.step()                    # UPDATE WEIGHTS: W = W - lr * grad
+
+print(f"Final Model Loss: {loss.item():.4f} | Training Complete!")</code></pre>
+        </div>
+
+        <div style="margin-top:20px;">
+          <a href="ml.html" style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:#7c3aed;color:#ffffff;border-radius:6px;text-decoration:none;font-weight:700;font-size:0.92rem;box-shadow:0 4px 12px rgba(124, 58, 237, 0.3);">
+            Continue to Module 02: Machine Learning Deep Dive &rarr;
+          </a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- RIGHT: Course Navigation -->
+    <nav class="inpage-nav-panel" aria-label="In-page Table of Contents">
+      <div class="nav-title">In-Page Navigation</div>
+      <ul class="inpage-menu" id="inpage-menu">
+        <li><a href="#what-is-ai" class="active">1. What is AI? (CS Grad Lens)</a></li>
+        <li><a href="#how-ai-works">2. How AI Works: The Core Math</a></li>
+        <li class="sub-item"><a href="#engine-tensors">&bull; Arrays to Tensors</a></li>
+        <li class="sub-item"><a href="#engine-forward">&bull; Forward Pass &amp; Dot Products</a></li>
+        <li class="sub-item"><a href="#engine-backprop">&bull; Loss &amp; Gradient Descent</a></li>
+        <li><a href="#interactive-simulator">3. 2D Interactive Neural Engine</a></li>
+        <li><a href="#ai-types">4. The Spectrum: From If-Else to Agents</a></li>
+        <li class="sub-item"><a href="#type-rules">&bull; 1. Rule-Based Systems</a></li>
+        <li class="sub-item"><a href="#type-ml">&bull; 2. Classical Machine Learning</a></li>
+        <li class="sub-item"><a href="#type-dl">&bull; 3. Deep Neural Networks</a></li>
+        <li class="sub-item"><a href="#type-genai">&bull; 4. Generative AI &amp; LLMs</a></li>
+        <li class="sub-item"><a href="#type-agents">&bull; 5. Autonomous Agentic Loops</a></li>
+        <li><a href="#domain-showcase">5. Multi-Domain 2D Interactive Lab</a></li>
+        <li class="sub-item"><a href="#domain-social">&bull; Social Media (Feed Ranking)</a></li>
+        <li class="sub-item"><a href="#domain-finance">&bull; Finance (High-Speed Fraud)</a></li>
+        <li class="sub-item"><a href="#domain-realestate">&bull; Real Estate (Spatial AVMs)</a></li>
+        <li class="sub-item"><a href="#domain-retail">&bull; Retail (Recommenders)</a></li>
+        <li class="sub-item"><a href="#domain-logistics">&bull; Logistics (Fleet Routing)</a></li>
+        <li><a href="#cs-cheat-sheet">6. CS Grad Mental Models</a></li>
+        <li><a href="#python-blueprint">7. 10-Line PyTorch Code Lab</a></li>
+      </ul>
+    </nav>
+
+  </div>
+
+  <!-- Site Footer (Black Background, High-Contrast White Text) -->
+    <!-- ========================================================================= -->
+  <!-- SITE FOOTER: Consistent Footer Across All Pages                           -->
+  <!-- ========================================================================= -->
+    <!-- ========================================================================= -->
+  <!-- SITE FOOTER: AI MasterClass Premium High-Contrast Black Footer            -->
+  <!-- ========================================================================= -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-main-grid">
+
+        <!-- Column 1: Company Profile & Social Channels -->
+        <div class="footer-col">
+          <div class="footer-col-title">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="building-2" style="color:#38bdf8;width:22px;height:22px;" class="lucide lucide-building-2"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"></path><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"></path><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"></path><path d="M10 6h4"></path><path d="M10 10h4"></path><path d="M10 14h4"></path><path d="M10 18h4"></path></svg>
+            <span>Tinitiate AI Academy</span>
+          </div>
+          <p class="footer-col-desc">
+            Industry-aligned IT training curriculum designed to transition software engineers, cloud architects, and data professionals into high-impact AI, GenAI, and Distributed Lakehouse Engineering roles.
+          </p>
+          <span class="footer-contact-label">Company Social Channels</span>
+          <div class="footer-socials-grid">
+            <a href="https://linkedin.com/company/tinitiate" target="_blank" rel="noopener noreferrer" class="footer-social-btn" title="Tinitiate LinkedIn">
+              <span class="footer-social-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="#0a66c2"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.45a1.6 1.6 0 1 0 0 3.2 1.6 1.6 0 0 0 0-3.2Z"></path></svg></span>
+              <span>LinkedIn</span>
+            </a>
+            <a href="https://youtube.com/@tinitiate" target="_blank" rel="noopener noreferrer" class="footer-social-btn" title="Tinitiate YouTube">
+              <span class="footer-social-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="#ff0000"><path d="M21.58 7.19a2.76 2.76 0 0 0-1.95-1.95C17.9 4.75 12 4.75 12 4.75s-5.9 0-7.63.49a2.76 2.76 0 0 0-1.95 1.95A28.84 28.84 0 0 0 2 12a28.84 28.84 0 0 0 .42 4.81 2.76 2.76 0 0 0 1.95 1.95c1.73.49 7.63.49 7.63.49s5.9 0 7.63-.49a2.76 2.76 0 0 0 1.95-1.95A28.84 28.84 0 0 0 22 12a28.84 28.84 0 0 0-.42-4.81ZM10 15V9l5.2 3L10 15Z"></path></svg></span>
+              <span>YouTube</span>
+            </a>
+            <a href="https://github.com/venkata-bcs" target="_blank" rel="noopener noreferrer" class="footer-social-btn" title="Tinitiate GitHub">
+              <span class="footer-social-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="#ffffff"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"></path></svg></span>
+              <span>GitHub</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Column 2: Lead Instructor Profiles -->
+        <div class="footer-col">
+          <div class="footer-col-title">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user-check" style="color:#a855f7;width:22px;height:22px;" class="lucide lucide-user-check"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><polyline points="16 11 18 13 22 9"></polyline></svg>
+            <span>Venkata Bhattaram</span>
+          </div>
+          <p class="footer-col-desc">
+            Lead AI Instructor &amp; Enterprise Architect. Connect directly for course consultations, curriculum design, and technical advisory.
+          </p>
+          <span class="footer-contact-label">Venkata Bhattaram's Profiles</span>
+          <div class="footer-socials-grid">
+            <a href="https://www.linkedin.com/in/venkata-bhattaram/" target="_blank" rel="noopener noreferrer" class="footer-social-btn" title="Venkata Bhattaram LinkedIn">
+              <span class="footer-social-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="#0a66c2"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.45a1.6 1.6 0 1 0 0 3.2 1.6 1.6 0 0 0 0-3.2Z"></path></svg></span>
+              <span>LinkedIn</span>
+            </a>
+            <a href="https://github.com/venkata-bcs" target="_blank" rel="noopener noreferrer" class="footer-social-btn" title="Venkata Bhattaram GitHub">
+              <span class="footer-social-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="#ffffff"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"></path></svg></span>
+              <span>GitHub</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Column 3: Contact & Call Us -->
+        <div class="footer-col">
+          <div class="footer-col-title">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="phone-call" style="color:#22c55e;width:22px;height:22px;" class="lucide lucide-phone-call"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path><path d="M14.05 2a9 9 0 0 1 8 7.94"></path><path d="M14.05 6A5 5 0 0 1 18 10"></path></svg>
+            <span>Contact &amp; Call Us</span>
+          </div>
+          <div class="footer-contact-block">
+            <div class="footer-contact-item">
+              <div class="footer-contact-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="mail" style="width:18px;height:18px;" class="lucide lucide-mail"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg></div>
+              <div class="footer-contact-details">
+                <span class="footer-contact-label">Email Support</span>
+                <a href="mailto:contact@tinitiateai.com" class="footer-web-link">contact@tinitiateai.com</a>
+              </div>
+            </div>
+            <div class="footer-contact-item">
+              <div class="footer-contact-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="globe" style="width:18px;height:18px;" class="lucide lucide-globe"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path><path d="M2 12h20"></path></svg></div>
+              <div class="footer-contact-details">
+                <span class="footer-contact-label">Official Portal</span>
+                <a href="https://tinitiateai.com" target="_blank" rel="noopener noreferrer" class="footer-web-link">tinitiateai.com</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Curriculum Portals Bar -->
+      <div class="footer-portals-bar">
+        <span class="footer-contact-label" style="margin:0;">MasterClass Portals:</span>
+        <div class="footer-portals-list">
+          <a href="../index.html" class="footer-portal-chip"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="home" style="width:14px;height:14px;" class="lucide lucide-home"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>Academy Home</a>
+          <a href="../automation-ml-ai-agentic/index.html" class="footer-portal-chip"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="bot" style="width:14px;height:14px;" class="lucide lucide-bot"><path d="M12 8V4H8"></path><rect width="16" height="12" x="4" y="8" rx="2"></rect><path d="M2 14h2"></path><path d="M20 14h2"></path><path d="M15 13v2"></path><path d="M9 13v2"></path></svg>AI Systems Hub</a>
+          <a href="../data-engineering/index.html" class="footer-portal-chip"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="database" style="width:14px;height:14px;" class="lucide lucide-database"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M3 5V19A9 3 0 0 0 21 19V5"></path><path d="M3 12A9 3 0 0 0 21 12"></path></svg>Data Engineering Hub</a>
+          <a href="../data-governence/purview-sandbox/index.html" class="footer-portal-chip"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="shield-check" style="width:14px;height:14px;" class="lucide lucide-shield-check"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path><path d="m9 12 2 2 4-4"></path></svg>Data Governance</a>
+          <a href="../pyspark/index.html" class="footer-portal-chip"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="zap" style="width:14px;height:14px;" class="lucide lucide-zap"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"></path></svg>PySpark Architecture</a>
+        </div>
+      </div>
+
+      <!-- Bottom Bar -->
+      <div class="footer-bottom-bar">
+        <div>
+          © 2026 <strong>Venkata Bhattaram</strong> • <a href="https://tinitiateai.com" target="_blank" rel="noopener noreferrer" style="color:#ffffff;text-decoration:none;font-weight:700;">TinitiateAI.com</a> • All Rights Reserved.
+        </div>
+        <div class="footer-bottom-links">
+          <span>Lead Instructor: <strong>Venkata Bhattaram</strong></span>
+          <a href="https://github.com/venkata-bcs" target="_blank" rel="noopener noreferrer">github.com/venkata-bcs</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+  
+  <script src="../assets/js/master-global-nav.js" defer></script>
+
+  <!-- D3.JS 2D INTERACTIVE SIMULATION & MOTION GRAPHICS SCRIPT -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. Initialize Lucide Icons
+      if (window.lucide) {
+        lucide.createIcons();
+      }
+
+      // ========================================================
+      // 2. MAIN 2D NEURAL NETWORK D3.JS SIMULATION (DYNAMIC LAYERS, REAL USE CASES & KID MODE)
+      // ========================================================
+      let isKidMode = true;
+      let hiddenLayerCount = 2; // 1, 2, or 3
+      let currentUseCase = 'animal'; // 'animal', 'sales', 'code', 'spam', 'car', 'medical'
+      let particleTimer = null;
+      let currentLinks = [];
+      let currentNodes = [];
+      let svgCanvas = null;
+
+      // Real-World AI Scenarios Dictionary
+      const USE_CASES = {
+        animal: {
+          id: 'animal',
+          title: 'Classify Animal (Pet Vision AI)',
+          industryBadge: 'Google Lens &bull; Apple Photos',
+          description: '<strong>Real-World Goal:</strong> Identify if an animal is a Dog, Cat, or Bird by checking sensory clues like fur, bark sounds, and wings.',
+          inputs: {
+            kid: ['🐾 Has Fur?', '🐶 Barks loudly?', '🪶 Has Wings?', '🐟 Swims with Fins?'],
+            cs: ['x₁ (Fur Texture)', 'x₂ (Bark Audio Spectrogram)', 'x₃ (Wing Aspect Ratio)', 'x₄ (Dorsal Fin Presence)']
+          },
+          hidden1: {
+            kid: ['🐾 Texture', '🔊 Vocalize', '🪶 Wings', '🏊 Fins', '🦴 Jaw Clue', '👂 Ears'],
+            cs: ['H1: Edge / Texture', 'H1: Pitch Filter', 'H1: Contour Filter', 'H1: Motion Flow', 'H1: Kernel ReLU', 'H1: Latent Gabor']
+          },
+          hidden2: {
+            kid: ['Mammal Body', 'Bark Sound', 'Flight Ability', 'Swimming Body', 'Snout Shape', 'Tail Form'],
+            cs: ['H2: Quadruped Tensor', 'H2: Audio Formant', 'H2: Aerodynamic Pose', 'H2: Aquatic Hydrodynamic', 'H2: Facial Landmark', 'H2: Dense ReLU']
+          },
+          hidden3: {
+            kid: ['Canine Profile', 'Feline Profile', 'Avian Profile', 'Aquatic Profile', 'Domestic Habit'],
+            cs: ['H3: Canidae Logit', 'H3: Felidae Logit', 'H3: Aves Logit', 'H3: Pisces Logit', 'H3: Softmax Pre-Activ']
+          },
+          outputs: {
+            kid: ['🐶 Dog (96%)', '🐱 Cat (3%)', '🦅 Bird (1%)'],
+            cs: ['y₁: Canis lupus (0.962)', 'y₂: Felis catus (0.028)', 'y₃: Aves (0.010)']
+          },
+          inspectorDefault: {
+            kid: { clue: '🐶 Clue: "Barks" (Strong Signal)', conf: '96% Positive', dial: '+0.05 (Volume dial turned up!)' },
+            cs: { formula: 'Node [x₂]: a = σ(W·x + 0.84)', conf: '0.962 (Positive Logit)', grad: '-0.0142 (Gradient ∂L/∂W)' }
+          },
+          predictFeedback: {
+            kid: '🐶 <strong>Prediction: Golden Retriever (96%)!</strong> The neural detective heard barking and saw soft fur.',
+            cs: '✅ <strong>Inference Complete:</strong> Class y₁ (Canis lupus) argmax reached with 0.962 confidence.'
+          },
+          teachFeedback: {
+            kid: '🎯 <strong>Teacher Corrected Brain:</strong> "Good job! That was definitely a dog. Dials locked in!"',
+            cs: '📉 <strong>Backprop Fired:</strong> Categorical cross-entropy loss L=0.038 backpropagated; weights updated.'
+          }
+        },
+
+        sales: {
+          id: 'sales',
+          title: 'Predict Sales Next Season (Demand Forecasting)',
+          industryBadge: 'Amazon Supply Chain &bull; Walmart Retail',
+          description: '<strong>Real-World Goal:</strong> Forecast total revenue and warehouse stock units needed based on holiday discounts, ad spend, and weather.',
+          inputs: {
+            kid: ['🏷️ 30% Holiday Discount', '📺 $150k Ad Budget', '❄️ Winter Cold Index', '📊 Past Season Sales ($2M)'],
+            cs: ['x₁ (Discount Elasticity)', 'x₂ (Ad Spend / Impression)', 'x₃ (Climatic Variance)', 'x₄ (Autoregressive Q_{t-1})']
+          },
+          hidden1: {
+            kid: ['Shopper Buzz', 'Ad Reach', 'Winter Need', 'Base Sales', 'Price Factor', 'Competitor Trend'],
+            cs: ['H1: Promo Lift', 'H1: Marginal Ad ROI', 'H1: Temperature Index', 'H1: Q4 Trend Vector', 'H1: Price Multiplier', 'H1: Cross-Elasticity']
+          },
+          hidden2: {
+            kid: ['Foot Traffic', 'Online Carts', 'Stock Speed', 'Loyal Buyers', 'Return Risk', 'Profit Margin'],
+            cs: ['H2: Conversion Rate', 'H2: Funnel Velocity', 'H2: Stock Runout', 'H2: Customer Lifetime Val', 'H2: Churn Prob', 'H2: Margin Elasticity']
+          },
+          hidden3: {
+            kid: ['Holiday Wave', 'Regional Demand', 'Supply Chain', 'Pricing Power', 'Sales Growth'],
+            cs: ['H3: Macro Demand Index', 'H3: Latent Demand Mean', 'H3: Variance Sigma', 'H3: Distribution Ridge', 'H3: Linear Head']
+          },
+          outputs: {
+            kid: ['💰 $2.48M Sales (+24%)', '📦 45,000 Units Needed', '⚠️ Stockout Risk: 2%'],
+            cs: ['ŷ₁: Revenue ($2.48M)', 'ŷ₂: Volume (45.2k Units)', 'ŷ₃: Stockout Risk (0.020)']
+          },
+          inspectorDefault: {
+            kid: { clue: '🏷️ Clue: "30% Discount" (Huge demand boost)', conf: '+24% Expected Lift', dial: '+0.08 (Strong correlation)' },
+            cs: { formula: 'Node [x₁]: Elasticity = -1.45·log(p)', conf: '0.884 Normalized Weight', grad: '-0.0084 (MSE Loss Grad)' }
+          },
+          predictFeedback: {
+            kid: '💰 <strong>Sales Forecast: $2.48M Revenue!</strong> The holiday discount and ads will trigger a +24% surge.',
+            cs: '📊 <strong>Regression Output:</strong> Projected Revenue ŷ₁ = $2,481,200 with 95% Bayesian credible interval.'
+          },
+          teachFeedback: {
+            kid: '🎯 <strong>Actual Q4 Sales Reported:</strong> Brain compared its guess to real cash register receipts and tuned its forecast formula.',
+            cs: '📉 <strong>RMSE Loss = 0.012:</strong> Autoregressive weights calibrated against realized seasonal revenue.'
+          }
+        },
+
+        code: {
+          id: 'code',
+          title: 'Generate Code (AI Coding Copilot)',
+          industryBadge: 'GitHub Copilot &bull; ChatGPT &bull; Cursor',
+          description: '<strong>Real-World Goal:</strong> Convert human instructions ("Build a login button with violet glow") into working, error-free computer code.',
+          inputs: {
+            kid: ['📝 Prompt: "Build Login"', '🔤 Language: JavaScript', '🛡️ Safe Mode: Active', '🎨 Style: Purple Glow'],
+            cs: ['x₁ (Prompt Embedding Token)', 'x₂ (AST Syntax Context)', 'x₃ (Safety Guardrail Prior)', 'x₄ (DOM / CSS Schema)']
+          },
+          hidden1: {
+            kid: ['Word Meaning', 'Function Type', 'Click Event', 'CSS Colors', 'HTML Tag', 'Error Safety'],
+            cs: ['H1: Attention Key', 'H1: Attention Value', 'H1: Query Projection', 'H1: Positional Embedding', 'H1: FeedForward W1', 'H1: LayerNorm Tensor']
+          },
+          hidden2: {
+            kid: ['Event Logic', 'Click State', 'Prevent Bugs', 'Button CSS', 'Clean Format', 'Export Code'],
+            cs: ['H2: Multi-Head Cross Attn', 'H2: AST Control Graph', 'H2: Vulnerability Scanner', 'H2: Semantic Type Check', 'H2: Token Decoder Head', 'H2: Residual Add']
+          },
+          hidden3: {
+            kid: ['Syntax Check: 100%', 'No Memory Leaks', 'Fast Render', 'Unit Tests Pass', 'Ready to Run!'],
+            cs: ['H3: Top-P Sampling Prob', 'H3: Temperature Scale', 'H3: Linting Invariant', 'H3: Logits Beam Search', 'H3: Output Embedding']
+          },
+          outputs: {
+            kid: ['⚡ <button class="login">', '🛡️ Safe Token (99.8%)', '🎨 Violet Glow Active'],
+            cs: ['ŷ₁: export const Button = ...', 'ŷ₂: Token Conf (0.998)', 'ŷ₃: AST Valid (True)']
+          },
+          inspectorDefault: {
+            kid: { clue: '📝 Clue: "Login Button Intent"', conf: '99.8% Match', dial: '+0.09 (High attention link)' },
+            cs: { formula: 'Softmax(Q·Kᵀ / √d) · V', conf: 'P(token="<button>") = 0.998', grad: '-0.0031 CrossEntropy' }
+          },
+          predictFeedback: {
+            kid: '⚡ <strong>Code Generated:</strong> The AI wrote a safe, responsive button with violet glow in just 18 milliseconds!',
+            cs: '🤖 <strong>Transformer Decoder:</strong> Generated 128 tokens; zero syntax errors detected by AST parser.'
+          },
+          teachFeedback: {
+            kid: '🎯 <strong>Code Linter Feedback:</strong> AI tested the code in a sandbox, saw it worked perfectly, and reinforced the pattern.',
+            cs: '📉 <strong>RLHF Reward Signal +1.0:</strong> Human feedback policy updated via Proximal Policy Optimization (PPO).'
+          }
+        },
+
+        spam: {
+          id: 'spam',
+          title: 'Spam & Scam Filter (Cyber Defense)',
+          industryBadge: 'Gmail Spam Shield &bull; Outlook Defender',
+          description: '<strong>Real-World Goal:</strong> Intercept fraudulent emails claiming "You won $1,000,000" before they trick users into clicking dangerous links.',
+          inputs: {
+            kid: ['🚨 "Claim $1,000,000!"', '🔗 Strange Link URL', '👤 Unknown Email Sender', '📎 Weird File Attached'],
+            cs: ['x₁ (Urgency Sentiment TF-IDF)', 'x₂ (Domain Age & Reputation)', 'x₃ (SPF/DKIM Auth Flag)', 'x₄ (Binary Macro Signature)']
+          },
+          hidden1: {
+            kid: ['Greed Words', 'Fake Bank URL', 'No Photo', 'Suspicious File', 'Urgent Rush', 'Foreign Server'],
+            cs: ['H1: Scam Keyword Weight', 'H1: DGA Domain Score', 'H1: Header Anomaly', 'H1: Sandbox Heuristic', 'H1: Emotion Valence', 'H1: Zero-Day Heuristic']
+          },
+          hidden2: {
+            kid: ['Bank Impersonator', 'Password Stealer', 'Malware Threat', 'Filter Bypasser', 'Fake Identity', 'Risk Score'],
+            cs: ['H2: Spear-Phishing Graph', 'H2: Credential Harvester', 'H2: Payload Threat Vector', 'H2: Bayesian Likelihood', 'H2: Sender Spoof Prob', 'H2: Ensemble Forest']
+          },
+          hidden3: {
+            kid: ['Quarantine Vault', 'Block Sender IP', 'Warn the User', 'Scam Log', 'Defended!'],
+            cs: ['H3: Threat Level Sigmoid', 'H3: Quarantine Trigger', 'H3: Security Policy Log', 'H3: Auto-Delete Margin', 'H3: Alert Priority']
+          },
+          outputs: {
+            kid: ['🛑 Dangerous Scam (99.4%)', '🗑️ Sent to Spam Jail', '✅ Normal Email (0.6%)'],
+            cs: ['ŷ₁: P(Phishing) = 0.994', 'ŷ₂: Quarantine Flag (1)', 'ŷ₃: P(Ham) = 0.006']
+          },
+          inspectorDefault: {
+            kid: { clue: '🚨 Clue: "Claim $1,000,000!"', conf: '99.4% Scam Risk', dial: '+0.12 (Maximum Red Alert!)' },
+            cs: { formula: 'P(Spam|w) ∝ P(w|Spam)·P(Spam)', conf: '0.994 Probability', grad: '-0.0019 BinaryCrossEntropy' }
+          },
+          predictFeedback: {
+            kid: '🛑 <strong>Phishing Scam Intercepted!</strong> The AI detected fake prize money and blocked the email from reaching your inbox.',
+            cs: '🛡️ <strong>Threat Neutralized:</strong> Sender domain fail on DMARC; quarantined with 99.4% phishing confidence.'
+          },
+          teachFeedback: {
+            kid: '🎯 <strong>User Marked "Report Spam":</strong> Brain learned the new tricky words scammers used today.',
+            cs: '📉 <strong>Active Learning Cycle:</strong> Negative sample added to training set; vector hyperplane adjusted.'
+          }
+        },
+
+        car: {
+          id: 'car',
+          title: 'Self-Driving Car Eyes (Autonomous Driving)',
+          industryBadge: 'Tesla Autopilot &bull; Waymo Robotaxi',
+          description: '<strong>Real-World Goal:</strong> Help a robot car see red lights and pedestrians through rain and compute emergency braking in milliseconds.',
+          inputs: {
+            kid: ['🚦 Red Traffic Light', '🚶 Pedestrian on Road', '🚗 Car Ahead at 12m', '🌧️ Wet Rain on Road'],
+            cs: ['x₁ (Traffic Signal Class)', 'x₂ (LiDAR Pedestrian Box)', 'x₃ (Radar Distance & Speed)', 'x₄ (Road Friction &mu;)']
+          },
+          hidden1: {
+            kid: ['Stop Light Color', 'Person Speed', 'Distance to Car', 'Slippery Pavement', 'Speed Limit', 'Lane Lines'],
+            cs: ['H1: YOLO Detection BBox', 'H1: Optical Flow Motion', 'H1: Depth Estimation Map', 'H1: Road Surface Reflect', 'H1: Semantic Segmentation', 'H1: Stereo Disparity']
+          },
+          hidden2: {
+            kid: ['Will Person Cross?', 'Is Car Stopping?', 'Can Tires Stop?', 'Braking Distance', 'Escape Lane', 'Clear Path'],
+            cs: ['H2: Collision Time-To-Impact', 'H2: Kalman Filter State', 'H2: Braking Distance Model', 'H2: Trajectory Prediction', 'H2: Occupancy Grid', 'H2: Maneuver Cost']
+          },
+          hidden3: {
+            kid: ['Gentle Slowdown', 'Stay in Lane', 'Sound Alert', 'Safe Full Stop', 'Passenger Safety'],
+            cs: ['H3: MPC Acceleration a(t)', 'H3: Steering Angle delta(t)', 'H3: Brake Pressure psi', 'H3: Safety Critical Check', 'H3: Actuator Bus']
+          },
+          outputs: {
+            kid: ['🛑 Smoothly Brake (98%)', '🚶 Yield to Pedestrian (100%)', '🟢 Drive Forward (0%)'],
+            cs: ['ŷ₁: Decelerate -2.8 m/s²', 'ŷ₂: Yield Pedestrian (1.0)', 'ŷ₃: Speed Up (0.000)']
+          },
+          inspectorDefault: {
+            kid: { clue: '🚶 Clue: "Pedestrian on Crosswalk"', conf: '100% Critical', dial: '+0.15 (Emergency Braking Command)' },
+            cs: { formula: 'Collision TTC = d / (v_rel + ε)', conf: 'TTC = 1.4s (Critical)', grad: '-0.0008 L2 Loss' }
+          },
+          predictFeedback: {
+            kid: '🛑 <strong>Safe Stop Executed!</strong> Car saw the pedestrian and red light, applied smooth brakes, and stopped safely 4 meters back.',
+            cs: '🚘 <strong>Actuator Command Dispatched:</strong> Brake pressure applied at -2.8 m/s²; zero collision probability.'
+          },
+          teachFeedback: {
+            kid: '🎯 <strong>Safety Simulation Evaluated:</strong> Car reviewed the camera footage and scored 100/100 on passenger comfort & safety.',
+            cs: '📉 <strong>Policy Gradient Updated:</strong> Actor-Critic network reinforced safe braking trajectory.'
+          }
+        },
+
+        medical: {
+          id: 'medical',
+          title: 'Doctor Diagnostic Assistant (Healthcare AI)',
+          industryBadge: 'Mayo Clinic &bull; IBM Watson Health',
+          description: '<strong>Real-World Goal:</strong> Help triage hospital patients by checking temperature, cough, and oxygen levels to recommend the right care.',
+          inputs: {
+            kid: ['🌡️ High Fever (102.5°F)', '🤧 Heavy Cough & Sneezing', '😴 Fatigue (3 Days)', '🫁 Normal Oxygen (98%)'],
+            cs: ['x₁ (Body Temp Normalized)', 'x₂ (Symptom Severity Index)', 'x₃ (Duration / Onset Days)', 'x₄ (SpO₂ Oxygen Saturation)']
+          },
+          hidden1: {
+            kid: ['Fever Heat Level', 'Lungs & Throat', 'Body Energy', 'Oxygen Safety', 'Immune System', 'White Cells'],
+            cs: ['H1: Inflammatory Biomarker', 'H1: Upper Respiratory Vector', 'H1: Chronic vs Acute Flag', 'H1: Hypoxia Risk Score', 'H1: Vitals Anomaly Index', 'H1: Patient Age Covariate']
+          },
+          hidden2: {
+            kid: ['Flu vs Cold', 'Virus vs Bacteria', 'Need Medicine?', 'Rest Needed', 'Drink Fluids', 'Recovery Time'],
+            cs: ['H2: Influenza Viral Profile', 'H2: Bacterial Pneumonia Prob', 'H2: Allergy Cross-Match', 'H2: Clinical Pathway Ridge', 'H2: Triage Priority Level', 'H2: Contraindication Check']
+          },
+          hidden3: {
+            kid: ['Safe Medicine', 'Home Bed Rest', 'Doctor Checkup', 'Monitor Fever', 'Emergency Alert'],
+            cs: ['H3: Diagnostic Confidence', 'H3: Care Pathway Logit', 'H3: Evidence Citation Index', 'H3: Differential Diagnosis', 'H3: Doctor Review Queue']
+          },
+          outputs: {
+            kid: ['🦠 Seasonal Flu (91%)', '🤧 Common Cold (8%)', '🏥 Emergency ER (1%)'],
+            cs: ['ŷ₁: Influenza Type-A (0.912)', 'ŷ₂: Rhinovirus Cold (0.079)', 'ŷ₃: Acute Pulmonary ICU (0.009)']
+          },
+          inspectorDefault: {
+            kid: { clue: '🌡️ Clue: "102.5°F Fever + Cough"', conf: '91% Seasonal Flu', dial: '+0.10 (High viral likelihood)' },
+            cs: { formula: 'P(Diagnosis|Vitals) = Softmax(W·s + b)', conf: '0.912 Probability', grad: '-0.0022 CrossEntropy' }
+          },
+          predictFeedback: {
+            kid: '🦠 <strong>Diagnosis Suggestion: Seasonal Flu (91%)!</strong> Doctor recommended rest, warm soups, and fever medicine.',
+            cs: '🏥 <strong>Clinical Triage:</strong> 91.2% alignment with Influenza-A protocol; home convalescence pathway recommended.'
+          },
+          teachFeedback: {
+            kid: '🎯 <strong>Doctor Confirmed Diagnosis:</strong> Lab swab confirmed the flu, teaching the AI it made the right call.',
+            cs: '📉 <strong>Federated Learning Update:</strong> Lab-verified clinical outcome added to model weight distribution.'
+          }
+        }
+      };
+
+      function renderD3Brain() {
+        const container = document.getElementById('d3-neural-canvas');
+        if (!container || !window.d3) return;
+        container.innerHTML = ''; // Clear previous render
+
+        const width = container.clientWidth || 840;
+        const height = 380;
+        const uc = USE_CASES[currentUseCase] || USE_CASES.animal;
+
+        svgCanvas = d3.select('#d3-neural-canvas')
+          .append('svg')
+          .attr('viewBox', `0 0 ${width} ${height}`)
+          .attr('preserveAspectRatio', 'xMidYMid meet');
+
+        // Configure layers based on Mode, Depth & Active Use Case
+        const layers = [];
+
+        // 1. INPUT LAYER
+        layers.push({
+          name: isKidMode ? '1. Senses (Input)' : 'Input Layer (X)',
+          color: '#38bdf8',
+          labels: isKidMode ? uc.inputs.kid : uc.inputs.cs,
+          count: uc.inputs.kid.length
+        });
+
+        // 2. HIDDEN LAYERS (DETECTIVES / BRAIN LAYERS)
+        if (hiddenLayerCount === 1) {
+          layers.push({
+            name: isKidMode ? '2. Detectives' : 'Hidden Layer 1',
+            color: '#a855f7',
+            labels: isKidMode ? uc.hidden1.kid : uc.hidden1.cs,
+            count: uc.hidden1.kid.length
+          });
+        } else if (hiddenLayerCount === 2) {
+          layers.push({
+            name: isKidMode ? '2. Jr Detectives' : 'Hidden Layer 1',
+            color: '#a855f7',
+            labels: isKidMode ? uc.hidden1.kid : uc.hidden1.cs,
+            count: uc.hidden1.kid.length
+          });
+          layers.push({
+            name: isKidMode ? '3. Sr Detectives' : 'Hidden Layer 2',
+            color: '#c084fc',
+            labels: isKidMode ? uc.hidden2.kid : uc.hidden2.cs,
+            count: uc.hidden2.kid.length
+          });
+        } else {
+          // 3 Hidden Layers (Deep)
+          layers.push({
+            name: isKidMode ? '2. Jr Detectives' : 'Hidden Layer 1',
+            color: '#a855f7',
+            labels: isKidMode ? uc.hidden1.kid : uc.hidden1.cs,
+            count: uc.hidden1.kid.length
+          });
+          layers.push({
+            name: isKidMode ? '3. Sr Detectives' : 'Hidden Layer 2',
+            color: '#c084fc',
+            labels: isKidMode ? uc.hidden2.kid : uc.hidden2.cs,
+            count: uc.hidden2.kid.length
+          });
+          layers.push({
+            name: isKidMode ? '4. Master Detectives' : 'Hidden Layer 3',
+            color: '#e879f9',
+            labels: isKidMode ? uc.hidden3.kid : uc.hidden3.cs,
+            count: uc.hidden3.kid.length
+          });
+        }
+
+        // 3. OUTPUT LAYER (FINAL VERDICT)
+        layers.push({
+          name: isKidMode ? 'Final Answer (Output)' : 'Output Layer (Y)',
+          color: '#4ade80',
+          labels: isKidMode ? uc.outputs.kid : uc.outputs.cs,
+          count: uc.outputs.kid.length
+        });
+
+        // Create Nodes
+        currentNodes = [];
+        currentLinks = [];
+        const layerXGap = width / (layers.length + 1);
+
+        layers.forEach((layer, layerIdx) => {
+          const x = (layerIdx + 1) * layerXGap;
+          const yGap = height / (layer.count + 1);
+
+          for (let i = 0; i < layer.count; i++) {
+            const y = (i + 1) * yGap;
+            const node = {
+              id: `node-${layerIdx}-${i}`,
+              layer: layerIdx,
+              index: i,
+              x: x,
+              y: y,
+              color: layer.color,
+              label: layer.labels ? layer.labels[i] : `${layer.prefix || 'H'}_${i+1}`,
+              val: (Math.random() * 0.8 + 0.1).toFixed(3),
+              weightSum: (Math.random() * 2.5).toFixed(3)
+            };
+            currentNodes.push(node);
+          }
+        });
+
+        // Create Synaptic Links between adjacent layers
+        for (let l = 0; l < layers.length - 1; l++) {
+          const cur = currentNodes.filter(n => n.layer === l);
+          const nxt = currentNodes.filter(n => n.layer === l + 1);
+          cur.forEach(source => {
+            nxt.forEach(target => {
+              currentLinks.push({
+                source: source,
+                target: target,
+                weight: (Math.random() * 2 - 1).toFixed(2)
+              });
+            });
+          });
+        }
+
+        // Draw Layer Headers
+        layers.forEach((layer, idx) => {
+          svgCanvas.append('text')
+            .attr('x', (idx + 1) * layerXGap)
+            .attr('y', 24)
+            .attr('text-anchor', 'middle')
+            .attr('fill', layer.color)
+            .attr('font-size', isKidMode ? '11px' : '12px')
+            .attr('font-weight', '800')
+            .attr('font-family', isKidMode ? 'var(--font-sans)' : 'ui-monospace, monospace')
+            .text(layer.name.toUpperCase());
+        });
+
+        // Draw Links
+        const linkGroup = svgCanvas.append('g').attr('class', 'links');
+        linkGroup.selectAll('line')
+          .data(currentLinks)
+          .enter()
+          .append('line')
+          .attr('x1', d => d.source.x)
+          .attr('y1', d => d.source.y)
+          .attr('x2', d => d.target.x)
+          .attr('y2', d => d.target.y)
+          .attr('stroke', d => d.weight > 0 ? 'rgba(56, 189, 248, 0.18)' : 'rgba(244, 63, 94, 0.14)')
+          .attr('stroke-width', d => Math.max(1, Math.abs(d.weight) * 1.8));
+
+        // Draw Nodes
+        const nodeGroup = svgCanvas.append('g').attr('class', 'nodes');
+        const nodeCircles = nodeGroup.selectAll('g')
+          .data(currentNodes)
+          .enter()
+          .append('g')
+          .attr('transform', d => `translate(${d.x}, ${d.y})`)
+          .style('cursor', 'pointer');
+
+        nodeCircles.append('circle')
+          .attr('r', 16)
+          .attr('fill', d => d.color)
+          .attr('fill-opacity', 0.2)
+          .attr('stroke', d => d.color)
+          .attr('stroke-width', 1.5)
+          .attr('class', 'node-halo');
+
+        nodeCircles.append('circle')
+          .attr('r', 7)
+          .attr('fill', '#ffffff')
+          .attr('class', 'node-core');
+
+        nodeCircles.append('text')
+          .attr('y', d => d.layer === 0 ? -18 : (d.layer === layers.length - 1 ? 24 : -18))
+          .attr('x', d => d.layer === 0 ? -22 : (d.layer === layers.length - 1 ? 24 : 0))
+          .attr('text-anchor', d => d.layer === 0 ? 'end' : (d.layer === layers.length - 1 ? 'start' : 'middle'))
+          .attr('fill', '#f1f5f9')
+          .attr('font-size', isKidMode ? '11px' : '10px')
+          .attr('font-weight', isKidMode ? '700' : '500')
+          .attr('font-family', isKidMode ? 'var(--font-sans)' : 'ui-monospace, monospace')
+          .text(d => d.label);
+
+        // Update default inspector metrics for this scenario
+        const insp = uc.inspectorDefault[isKidMode ? 'kid' : 'cs'];
+        if (isKidMode) {
+          document.getElementById('insp-label-1').textContent = 'Selected Clue / Detective';
+          document.getElementById('insp-label-2').textContent = 'Detective Confidence';
+          document.getElementById('insp-label-3').textContent = 'Dial Tuning';
+          document.getElementById('insp-label-4').textContent = 'Brain Speed';
+          document.getElementById('metric-formula').textContent = insp.clue;
+          document.getElementById('metric-val').textContent = insp.conf;
+          document.getElementById('metric-grad').textContent = insp.dial;
+          document.getElementById('metric-latency').textContent = 'Instant (1.1 ms)';
+        } else {
+          document.getElementById('insp-label-1').textContent = 'Selected Node Formula';
+          document.getElementById('insp-label-2').textContent = 'Activation Value';
+          document.getElementById('insp-label-3').textContent = 'Gradient ∂Loss / ∂W';
+          document.getElementById('insp-label-4').textContent = 'Inference Latency';
+          document.getElementById('metric-formula').textContent = insp.formula;
+          document.getElementById('metric-val').textContent = insp.conf;
+          document.getElementById('metric-grad').textContent = insp.grad;
+          document.getElementById('metric-latency').textContent = '1.24 ms (GPU Tensor Core)';
+        }
+
+        // Click Inspection on Nodes
+        nodeCircles.on('click', function(event, d) {
+          d3.selectAll('.node-halo').attr('stroke-width', 1.5).attr('fill-opacity', 0.2);
+          d3.select(this).select('.node-halo').attr('stroke-width', 3.5).attr('fill-opacity', 0.6);
+
+          if (isKidMode) {
+            document.getElementById('insp-label-1').textContent = 'Selected Clue / Detective';
+            document.getElementById('insp-label-2').textContent = 'Detective Confidence';
+            document.getElementById('insp-label-3').textContent = 'Dial Tuning';
+            document.getElementById('insp-label-4').textContent = 'Brain Speed';
+
+            document.getElementById('metric-formula').textContent = `🔎 Clue: "${d.label}"`;
+            document.getElementById('metric-val').textContent = `${Math.floor(Math.random() * 20 + 80)}% Strong Signal`;
+            document.getElementById('metric-grad').textContent = '+0.06 (Volume dial tuned!)';
+            document.getElementById('metric-latency').textContent = 'Instant (1.1 ms)';
+          } else {
+            document.getElementById('insp-label-1').textContent = 'Selected Node Formula';
+            document.getElementById('insp-label-2').textContent = 'Current Activation Value';
+            document.getElementById('insp-label-3').textContent = 'Gradient ∂Loss / ∂W';
+            document.getElementById('insp-label-4').textContent = 'Inference Latency';
+
+            document.getElementById('metric-formula').textContent = `Node [${d.label}]: a = σ(W·x + ${d.weightSum})`;
+            document.getElementById('metric-val').textContent = d.val;
+            document.getElementById('metric-grad').textContent = (-(Math.random() * 0.08)).toFixed(4);
+            document.getElementById('metric-latency').textContent = '1.24 ms (GPU Tensor Core)';
+          }
+        });
+
+        // Continuous Loop: Pulsing Particles flowing across links
+        if (particleTimer) particleTimer.stop();
+        particleTimer = d3.interval(() => {
+          if (!currentLinks.length || !svgCanvas) return;
+          const randomLink = currentLinks[Math.floor(Math.random() * currentLinks.length)];
+          const particle = svgCanvas.append('circle')
+            .attr('r', 3.2)
+            .attr('cx', randomLink.source.x)
+            .attr('cy', randomLink.source.y)
+            .attr('fill', '#facc15')
+            .attr('opacity', 0.95);
+
+          particle.transition()
+            .duration(1100 + Math.random() * 500)
+            .ease(d3.easeLinear)
+            .attr('cx', randomLink.target.x)
+            .attr('cy', randomLink.target.y)
+            .remove();
+        }, 130);
+      }
+
+      // Initial Render
+      renderD3Brain();
+
+      // Real-World Use Case Pill Click Handlers
+      const useCasePills = document.querySelectorAll('.usecase-pill');
+      useCasePills.forEach(pill => {
+        pill.addEventListener('click', () => {
+          const ucKey = pill.getAttribute('data-usecase');
+          if (!USE_CASES[ucKey]) return;
+          currentUseCase = ucKey;
+
+          // Update active class
+          useCasePills.forEach(p => p.classList.remove('active'));
+          pill.classList.add('active');
+
+          // Update Scenario description strip
+          const uc = USE_CASES[ucKey];
+          const descEl = document.getElementById('usecase-scenario-desc');
+          const badgeEl = document.getElementById('usecase-industry-badge');
+          if (descEl) descEl.innerHTML = uc.description;
+          if (badgeEl) badgeEl.innerHTML = `<i data-lucide="check-circle" style="width:12px;height:12px;"></i> ${uc.industryBadge}`;
+
+          // Update status text
+          const statusText = document.getElementById('layer-status-text');
+          if (statusText) {
+            if (isKidMode) {
+              statusText.innerHTML = `<strong>Active Task:</strong> Switched to <strong>${uc.title}</strong>! Testing real clues & detectives for this task.`;
+            } else {
+              statusText.innerHTML = `<strong>Active Domain:</strong> Modeling ${uc.title}. Synaptic matrix instantiated for domain-specific tensors.`;
+            }
+          }
+
+          if (window.lucide) lucide.createIcons();
+          renderD3Brain();
+        });
+      });
+
+      // Mode Switcher: Kid Mode vs Tech/CS Mode
+      const btnToggleMode = document.getElementById('btn-toggle-kid-mode');
+      if (btnToggleMode) {
+        btnToggleMode.addEventListener('click', () => {
+          isKidMode = !isKidMode;
+          const modeIcon = document.getElementById('mode-icon');
+          const modeText = document.getElementById('mode-text');
+          const headerText = document.getElementById('simulator-header-text');
+          const statusText = document.getElementById('layer-status-text');
+          const uc = USE_CASES[currentUseCase] || USE_CASES.animal;
+
+          if (isKidMode) {
+            modeIcon.textContent = '🧒';
+            modeText.textContent = 'Switch to CS Mode';
+            headerText.textContent = `${uc.title} (Kid-Friendly Mode) • Live 2D Flow`;
+            statusText.innerHTML = `<strong>Kid Mode Active:</strong> Showing real-world clues for <strong>${uc.title}</strong>. Click "Add Layer" to see how brains get smarter!`;
+          } else {
+            modeIcon.textContent = '🎓';
+            modeText.textContent = 'Switch to Kid Mode';
+            headerText.textContent = `${uc.title} (CS Tensor Mode) • Live 2D Flow`;
+            statusText.innerHTML = `<strong>CS Mode Active:</strong> Showing vector tensors (x1..x4), dense synaptic matrices (W), and output logits for ${uc.title}.`;
+          }
+          renderD3Brain();
+        });
+      }
+
+      // Layer Controls: Add Layer
+      const btnAddLayer = document.getElementById('btn-add-layer');
+      if (btnAddLayer) {
+        btnAddLayer.addEventListener('click', () => {
+          if (hiddenLayerCount < 3) {
+            hiddenLayerCount++;
+            document.getElementById('layer-depth-indicator').textContent = `${hiddenLayerCount} Hidden Layers`;
+            const statusText = document.getElementById('layer-status-text');
+            if (isKidMode) {
+              statusText.innerHTML = `<span style="color:#4ade80;font-weight:700;">🚀 Added Layer ${hiddenLayerCount}!</span> The brain now has <strong>Junior, Senior, and Master Detectives</strong>. More layers = deeper thinking!`;
+            } else {
+              statusText.innerHTML = `<span style="color:#4ade80;font-weight:700;">🚀 Depth Increased (L=${hiddenLayerCount})!</span> Network capacity expanded: now modeling higher-order hierarchical feature representations.`;
+            }
+            renderD3Brain();
+          } else {
+            alert('Maximum depth of 3 hidden layers reached for 2D visualization!');
+          }
+        });
+      }
+
+      // Layer Controls: Remove Layer
+      const btnRemoveLayer = document.getElementById('btn-remove-layer');
+      if (btnRemoveLayer) {
+        btnRemoveLayer.addEventListener('click', () => {
+          if (hiddenLayerCount > 1) {
+            hiddenLayerCount--;
+            document.getElementById('layer-depth-indicator').textContent = `${hiddenLayerCount} Hidden Layer`;
+            const statusText = document.getElementById('layer-status-text');
+            if (isKidMode) {
+              statusText.innerHTML = `<span style="color:#facc15;font-weight:700;">👶 Removed Layer!</span> The brain is now simpler. It thinks faster, but can only solve basic beginner puzzles.`;
+            } else {
+              statusText.innerHTML = `<span style="color:#facc15;font-weight:700;">⚡ Depth Decreased (L=${hiddenLayerCount})!</span> Shallow network: lower latency and FLOPs, but reduced representational expressivity.`;
+            }
+            renderD3Brain();
+          } else {
+            alert('Minimum of 1 hidden layer required!');
+          }
+        });
+      }
+
+      // Forward Pass Action
+      const btnForward = document.getElementById('btn-forward-pulse');
+      if (btnForward) {
+        btnForward.addEventListener('click', () => {
+          currentLinks.forEach((l) => {
+            setTimeout(() => {
+              const pulse = svgCanvas.append('circle')
+                .attr('r', 4.5)
+                .attr('cx', l.source.x)
+                .attr('cy', l.source.y)
+                .attr('fill', '#38bdf8')
+                .attr('opacity', 1);
+
+              pulse.transition()
+                .duration(650)
+                .attr('cx', l.target.x)
+                .attr('cy', l.target.y)
+                .remove();
+            }, l.source.layer * 220);
+          });
+          const uc = USE_CASES[currentUseCase] || USE_CASES.animal;
+          const statusText = document.getElementById('layer-status-text');
+          if (statusText) {
+            statusText.innerHTML = uc.predictFeedback[isKidMode ? 'kid' : 'cs'];
+          }
+        });
+      }
+
+      // Backprop Action
+      const btnBackprop = document.getElementById('btn-backprop-pulse');
+      if (btnBackprop) {
+        btnBackprop.addEventListener('click', () => {
+          const maxLayer = Math.max(...currentNodes.map(n => n.layer));
+          currentLinks.forEach((l) => {
+            setTimeout(() => {
+              const spark = svgCanvas.append('circle')
+                .attr('r', 4)
+                .attr('cx', l.target.x)
+                .attr('cy', l.target.y)
+                .attr('fill', '#f43f5e')
+                .attr('opacity', 1);
+
+              spark.transition()
+                .duration(600)
+                .attr('cx', l.source.x)
+                .attr('cy', l.source.y)
+                .remove();
+            }, (maxLayer - l.target.layer) * 200);
+          });
+          const uc = USE_CASES[currentUseCase] || USE_CASES.animal;
+          const statusText = document.getElementById('layer-status-text');
+          if (statusText) {
+            statusText.innerHTML = uc.teachFeedback[isKidMode ? 'kid' : 'cs'];
+          }
+        });
+      }
+
+      // ========================================================
+      // 3. MULTI-DOMAIN INTERACTIVE TABS & 2D MOTION GRAPHICS
+      // ========================================================
+      const domainButtons = document.querySelectorAll('.domain-tab-btn');
+      const domainPanes = document.querySelectorAll('.domain-pane');
+
+      domainButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const targetDomain = btn.getAttribute('data-domain');
+
+          domainButtons.forEach(b => b.classList.remove('active'));
+          domainPanes.forEach(p => p.classList.remove('active'));
+
+          btn.classList.add('active');
+          const activePane = document.getElementById(`pane-${targetDomain}`);
+          if (activePane) activePane.classList.add('active');
+
+          // Initialize specific domain animation
+          initDomainAnimation(targetDomain);
+        });
+      });
+
+      // Controllers store D3 handles for interactive button triggers
+      const domainControllers = {};
+
+      function initDomainAnimation(domain) {
+        if (!window.d3) return;
+        const container = document.getElementById(`canvas-domain-${domain}`);
+        if (!container || container.getAttribute('data-initialized')) return;
+        container.setAttribute('data-initialized', 'true');
+
+        const w = container.clientWidth || 840;
+        const h = 370;
+        const svg = d3.select(container).append('svg')
+          .attr('viewBox', `0 0 ${w} ${h}`)
+          .attr('preserveAspectRatio', 'xMidYMid meet');
+
+        // ====================================================
+        // DOMAIN 1: SOCIAL MEDIA (Feed Ranking & GNN)
+        // ====================================================
+        if (domain === 'social') {
+          const center = { x: w / 2, y: h / 2, r: 24 };
+          const rx = Math.min(290, w * 0.33);
+          const ry = 120;
+          const posts = [
+            { id: 1, icon: '🐱', label: 'Viral Cat Reel', score: '0.94', type: 'viral' },
+            { id: 2, icon: '🚀', label: 'AI Breakthrough', score: '0.88', type: 'news' },
+            { id: 3, icon: '🍕', label: 'Pizza Recipe', score: '0.74', type: 'food' },
+            { id: 4, icon: '⚽', label: 'World Cup Goal', score: '0.65', type: 'sports' },
+            { id: 5, icon: '🎵', label: 'Trending Music', score: '0.58', type: 'music' },
+            { id: 6, icon: '🎮', label: 'Gaming Highlights', score: '0.82', type: 'gaming' },
+            { id: 7, icon: '🏞️', label: 'Tokyo Travel Vlog', score: '0.79', type: 'travel' },
+            { id: 8, icon: '⚠️', label: 'Toxic Clickbait', score: '0.12', type: 'toxic' }
+          ];
+
+          posts.forEach((p, i) => {
+            const angle = (i / posts.length) * Math.PI * 2;
+            p.x = center.x + Math.cos(angle) * rx;
+            p.y = center.y + Math.sin(angle) * ry;
+          });
+
+          // Draw graph links
+          const linksGroup = svg.append('g').attr('class', 'social-links');
+          const linkElements = linksGroup.selectAll('line').data(posts).enter().append('line')
+            .attr('id', d => `social-link-${d.id}`)
+            .attr('x1', center.x).attr('y1', center.y)
+            .attr('x2', d => d.x).attr('y2', d => d.y)
+            .attr('stroke', d => d.type === 'toxic' ? 'rgba(239, 68, 68, 0.35)' : 'rgba(244, 63, 94, 0.28)')
+            .attr('stroke-width', d => d.type === 'toxic' ? 1.5 : 2)
+            .attr('stroke-dasharray', d => d.type === 'toxic' ? '4 3' : 'none');
+
+          // Draw Post Nodes
+          const postGroup = svg.append('g').attr('class', 'social-posts');
+          const postNodes = postGroup.selectAll('g.post-node').data(posts).enter().append('g')
+            .attr('class', 'post-node')
+            .attr('id', d => `post-node-${d.id}`)
+            .attr('transform', d => `translate(${d.x}, ${d.y})`)
+            .style('cursor', 'pointer');
+
+          postNodes.append('circle')
+            .attr('r', 19)
+            .attr('fill', '#1e293b')
+            .attr('stroke', d => d.type === 'toxic' ? '#ef4444' : '#f43f5e')
+            .attr('stroke-width', 2)
+            .attr('class', 'post-halo');
+
+          postNodes.append('text')
+            .attr('text-anchor', 'middle')
+            .attr('dy', 5)
+            .attr('font-size', '14px')
+            .text(d => d.icon);
+
+          postNodes.append('text')
+            .attr('text-anchor', 'middle')
+            .attr('y', 30)
+            .attr('fill', '#f1f5f9')
+            .attr('font-size', '10.5px')
+            .attr('font-weight', '600')
+            .text(d => d.label);
+
+          postNodes.append('text')
+            .attr('text-anchor', 'middle')
+            .attr('y', 42)
+            .attr('fill', d => d.type === 'toxic' ? '#f87171' : '#38bdf8')
+            .attr('font-size', '9.5px')
+            .attr('font-family', 'monospace')
+            .attr('class', 'score-tag')
+            .text(d => `Score: ${d.score}`);
+
+          // Draw Center User Node (With Real User Icon)
+          const userG = svg.append('g').attr('class', 'user-center').attr('transform', `translate(${center.x}, ${center.y})`);
+          
+          userG.append('circle').attr('r', 32).attr('fill', '#e11d48').attr('opacity', 0.25).attr('class', 'user-pulse-ring');
+          userG.append('circle').attr('r', center.r).attr('fill', '#f43f5e').attr('stroke', '#ffffff').attr('stroke-width', 2);
+          userG.append('text').attr('text-anchor', 'middle').attr('dy', 6).attr('font-size', '18px').text('👤');
+          userG.append('text').attr('text-anchor', 'middle').attr('y', 38).attr('fill', '#ffffff').attr('font-size', '11.5px').attr('font-weight', '800').text('YOU (Active User)');
+
+          // Continuous pulses
+          d3.interval(() => {
+            const safePosts = posts.filter(p => !p.blocked);
+            if (!safePosts.length) return;
+            const target = safePosts[Math.floor(Math.random() * safePosts.length)];
+            const packet = svg.append('circle')
+              .attr('r', 3.5).attr('cx', center.x).attr('cy', center.y).attr('fill', '#facc15');
+            packet.transition().duration(900).attr('cx', target.x).attr('cy', target.y).remove();
+          }, 320);
+
+          domainControllers.social = {
+            injectViral: () => {
+              const viralPost = posts[0]; // Cat Reel
+              // Expanding shockwaves from user
+              for (let i = 0; i < 3; i++) {
+                svg.append('circle')
+                  .attr('cx', center.x).attr('cy', center.y).attr('r', 25)
+                  .attr('fill', 'none').attr('stroke', '#facc15').attr('stroke-width', 3).attr('opacity', 0.9)
+                  .transition().delay(i * 180).duration(800)
+                  .attr('r', rx * 0.95).attr('opacity', 0).remove();
+              }
+              // Highlight post
+              const targetNode = d3.select('#post-node-1');
+              targetNode.select('.post-halo')
+                .transition().duration(300).attr('r', 28).attr('fill', '#e11d48').attr('stroke', '#facc15').attr('stroke-width', 4)
+                .transition().duration(400).attr('r', 22);
+              targetNode.select('.score-tag')
+                .text('Score: 0.999 🔥 #1')
+                .attr('fill', '#facc15');
+
+              // Burst hearts & flames
+              for (let j = 0; j < 12; j++) {
+                const angle = Math.random() * Math.PI * 2;
+                const dist = 30 + Math.random() * 45;
+                const spark = svg.append('text')
+                  .attr('x', viralPost.x).attr('y', viralPost.y)
+                  .attr('font-size', '15px').text(j % 2 === 0 ? '❤️' : '🔥')
+                  .transition().duration(900).ease(d3.easeCubicOut)
+                  .attr('x', viralPost.x + Math.cos(angle) * dist)
+                  .attr('y', viralPost.y + Math.sin(angle) * dist)
+                  .style('opacity', 0).remove();
+              }
+            },
+            runModerate: () => {
+              const toxicPost = posts[7]; // Toxic Clickbait
+              toxicPost.blocked = true;
+              // Scanner line sweep
+              const scanner = svg.append('line')
+                .attr('x1', center.x).attr('y1', 0).attr('x2', center.x).attr('y2', h)
+                .attr('stroke', '#38bdf8').attr('stroke-width', 3.5).attr('stroke-dasharray', '6 3');
+              scanner.transition().duration(700).attr('x1', w).attr('x2', w).remove();
+
+              // Zap toxic node & sever connection
+              setTimeout(() => {
+                const zapLine = svg.append('line')
+                  .attr('x1', center.x).attr('y1', center.y).attr('x2', toxicPost.x).attr('y2', toxicPost.y)
+                  .attr('stroke', '#ef4444').attr('stroke-width', 4.5);
+                zapLine.transition().duration(400).style('opacity', 0).remove();
+
+                d3.select('#social-link-8').attr('stroke', '#475569').attr('stroke-dasharray', '2 4');
+
+                const targetNode = d3.select('#post-node-8');
+                targetNode.select('.post-halo')
+                  .transition().duration(300)
+                  .attr('fill', '#334155').attr('stroke', '#ef4444').attr('stroke-dasharray', '3 3');
+                targetNode.select('.score-tag')
+                  .text('🚫 QUARANTINED')
+                  .attr('fill', '#ef4444');
+                targetNode.append('text')
+                  .attr('text-anchor', 'middle').attr('y', -24).attr('fill', '#ef4444')
+                  .attr('font-size', '11px').attr('font-weight', '900').text('BLOCKED!');
+              }, 400);
+            }
+          };
+
+        // ====================================================
+        // DOMAIN 2: FINANCE (Real-Time Fraud & Anomaly Stream)
+        // ====================================================
+        } else if (domain === 'finance') {
+          const lineY = h / 2;
+
+          // Background zones
+          svg.append('rect').attr('x', 0).attr('y', 0).attr('width', w).attr('height', lineY)
+            .attr('fill', 'rgba(16, 185, 129, 0.05)');
+          svg.append('rect').attr('x', 0).attr('y', lineY).attr('width', w).attr('height', h - lineY)
+            .attr('fill', 'rgba(244, 63, 94, 0.06)');
+
+          // Safe & Fraud Labels with icons
+          svg.append('text').attr('x', 24).attr('y', 30).attr('fill', '#10b981').attr('font-size', '12px').attr('font-weight', '800')
+            .text('🛡️ NORMAL TRANSACTIONS: Legitimate Consumer Activity (Score < 0.05)');
+          svg.append('text').attr('x', 24).attr('y', h - 20).attr('fill', '#f43f5e').attr('font-size', '12px').attr('font-weight', '800')
+            .text('🚨 ANOMALY ZONE: Flagged High-Risk & Stolen Cards (Score > 0.95)');
+
+          // Decision boundary line
+          const boundaryLine = svg.append('line').attr('x1', 20).attr('y1', lineY).attr('x2', w - 20).attr('y2', lineY)
+            .attr('stroke', '#38bdf8').attr('stroke-width', 2.5).attr('stroke-dasharray', '6 4').attr('class', 'boundary-line');
+
+          const boundaryLabel = svg.append('text').attr('x', w / 2).attr('y', lineY - 8).attr('text-anchor', 'middle')
+            .attr('fill', '#38bdf8').attr('font-size', '11px').attr('font-family', 'monospace').attr('font-weight', '700')
+            .text('⚡ AI DECISION BOUNDARY: Hyperplane Threshold = 0.500');
+
+          // Transaction templates with real icons & descriptions
+          const txnIcons = [
+            { icon: '☕', name: '$4.50 Coffee Barista', y: lineY - 80 },
+            { icon: '🛒', name: '$68 Grocery Supermarket', y: lineY - 120 },
+            { icon: '⛽', name: '$42 Gas Station', y: lineY - 45 },
+            { icon: '💻', name: '$1,299 Electronics Store', y: lineY - 95 },
+            { icon: '🏨', name: '$240 Hotel Booking', y: lineY - 55 }
+          ];
+
+          // Stream loop
+          let speedFactor = 1;
+          d3.interval(() => {
+            const tmpl = txnIcons[Math.floor(Math.random() * txnIcons.length)];
+            const card = svg.append('g').attr('transform', `translate(20, ${tmpl.y})`);
+            
+            card.append('circle').attr('r', 11).attr('fill', '#064e3b').attr('stroke', '#10b981').attr('stroke-width', 1.5);
+            card.append('text').attr('text-anchor', 'middle').attr('dy', 4).attr('font-size', '10px').text(tmpl.icon);
+            card.append('text').attr('x', 16).attr('dy', 4).attr('fill', '#cbd5e1').attr('font-size', '10.5px').attr('font-weight', '600').text(tmpl.name);
+
+            card.transition().duration(2600 / speedFactor).ease(d3.easeLinear)
+              .attr('transform', `translate(${w - 30}, ${tmpl.y})`)
+              .remove();
+          }, 380 / speedFactor);
+
+          domainControllers.finance = {
+            injectFraud: () => {
+              // Giant alert transaction
+              const fraudCard = svg.append('g').attr('transform', `translate(30, ${lineY + 65})`);
+              fraudCard.append('rect').attr('x', 0).attr('y', -16).attr('width', 240).attr('height', 36).attr('rx', 6)
+                .attr('fill', '#450a0a').attr('stroke', '#ef4444').attr('stroke-width', 2.5);
+              fraudCard.append('text').attr('x', 10).attr('y', 6).attr('font-size', '16px').text('💳');
+              fraudCard.append('text').attr('x', 34).attr('y', 6).attr('fill', '#fca5a5').attr('font-size', '11.5px').attr('font-weight', '800')
+                .text('$4,850 ATM Tokyo (NY Card!)');
+
+              // Move to center
+              fraudCard.transition().duration(1000).ease(d3.easeQuadOut)
+                .attr('transform', `translate(${w / 2 - 120}, ${lineY + 65})`)
+                .on('end', () => {
+                  // Laser zap from boundary
+                  const laser = svg.append('line')
+                    .attr('x1', w / 2).attr('y1', lineY).attr('x2', w / 2).attr('y2', lineY + 65)
+                    .attr('stroke', '#ef4444').attr('stroke-width', 4.5);
+                  laser.transition().duration(300).style('opacity', 0).remove();
+
+                  // Red shockwave
+                  svg.append('circle')
+                    .attr('cx', w / 2).attr('cy', lineY + 65).attr('r', 10)
+                    .attr('fill', 'none').attr('stroke', '#ef4444').attr('stroke-width', 3)
+                    .transition().duration(600).attr('r', 75).style('opacity', 0).remove();
+
+                  // Stamp Blocked
+                  fraudCard.append('rect').attr('x', 8).attr('y', -14).attr('width', 224).attr('height', 30).attr('rx', 4)
+                    .attr('fill', '#dc2626');
+                  fraudCard.append('text').attr('x', 120).attr('y', 6).attr('text-anchor', 'middle')
+                    .attr('fill', '#ffffff').attr('font-size', '12px').attr('font-weight', '900')
+                    .text('🛑 BLOCKED IN 3.2ms (Zero Loss)');
+
+                  // Fade out after 3.2s
+                  fraudCard.transition().delay(2800).duration(600).style('opacity', 0).remove();
+                });
+            },
+            flashVolatility: () => {
+              // Rapid vibrating wave
+              boundaryLine
+                .transition().duration(120).attr('y1', lineY - 22).attr('y2', lineY + 22).attr('stroke', '#f59e0b')
+                .transition().duration(120).attr('y1', lineY + 18).attr('y2', lineY - 18)
+                .transition().duration(120).attr('y1', lineY).attr('y2', lineY).attr('stroke', '#38bdf8');
+
+              boundaryLabel.text('⚡ VOLATILITY SPIKE: Threshold auto-adapted to 0.412!').attr('fill', '#f59e0b');
+              setTimeout(() => {
+                boundaryLabel.text('⚡ AI DECISION BOUNDARY: Hyperplane Threshold = 0.500').attr('fill', '#38bdf8');
+              }, 3000);
+
+              // Flood of 14 fast dots
+              for (let i = 0; i < 14; i++) {
+                const dotY = lineY - 90 + Math.random() * 180;
+                const dot = svg.append('circle')
+                  .attr('cx', 20).attr('cy', dotY).attr('r', 5).attr('fill', '#facc15');
+                dot.transition().delay(i * 50).duration(650).ease(d3.easeLinear)
+                  .attr('cx', w - 20).remove();
+              }
+            }
+          };
+
+        // ====================================================
+        // DOMAIN 3: REAL ESTATE (Automated Valuation Models)
+        // ====================================================
+        } else if (domain === 'realestate') {
+          // Neighborhood Grid Lines
+          const gridG = svg.append('g').attr('opacity', 0.15);
+          for (let x = 40; x < w; x += 60) {
+            gridG.append('line').attr('x1', x).attr('y1', 20).attr('x2', x).attr('y2', h - 20).attr('stroke', '#f59e0b').attr('stroke-width', 1);
+          }
+          for (let y = 30; y < h; y += 50) {
+            gridG.append('line').attr('x1', 20).attr('y1', y).attr('x2', w - 20).attr('y2', y).attr('stroke', '#f59e0b').attr('stroke-width', 1);
+          }
+
+          // 5 Distinct Properties with icons & price tags
+          const homes = [
+            { id: 1, icon: '🏡', name: 'Suburban Colonial', basePrice: 480000, x: w * 0.22, y: h * 0.38, color: '#f59e0b' },
+            { id: 2, icon: '🏢', name: 'Downtown Penthouse', basePrice: 620000, x: w * 0.50, y: h * 0.28, color: '#a855f7' },
+            { id: 3, icon: '🏰', name: 'Luxury Hillside Villa', basePrice: 1250000, x: w * 0.78, y: h * 0.36, color: '#38bdf8' },
+            { id: 4, icon: '🏠', name: 'Classic Ranch Home', basePrice: 350000, x: w * 0.32, y: h * 0.74, color: '#10b981' },
+            { id: 5, icon: '🏘️', name: 'Modern Townhome', basePrice: 415000, x: w * 0.68, y: h * 0.72, color: '#ec4899' }
+          ];
+
+          // Mesh lines connecting homes
+          const meshGroup = svg.append('g').attr('class', 'spatial-mesh');
+          homes.forEach((h1, i) => {
+            homes.slice(i + 1).forEach(h2 => {
+              meshGroup.append('line')
+                .attr('x1', h1.x).attr('y1', h1.y).attr('x2', h2.x).attr('y2', h2.y)
+                .attr('stroke', 'rgba(245, 158, 11, 0.22)').attr('stroke-width', 1.5).attr('stroke-dasharray', '4 4');
+            });
+          });
+
+          // Draw Homes
+          const homeNodes = svg.selectAll('g.home-node').data(homes).enter().append('g')
+            .attr('id', d => `home-node-${d.id}`)
+            .attr('transform', d => `translate(${d.x}, ${d.y})`)
+            .style('cursor', 'pointer');
+
+          homeNodes.append('circle').attr('r', 24).attr('fill', '#1e293b').attr('stroke', d => d.color).attr('stroke-width', 2).attr('class', 'home-halo');
+          homeNodes.append('text').attr('text-anchor', 'middle').attr('dy', 7).attr('font-size', '20px').text(d => d.icon);
+          
+          homeNodes.append('text').attr('text-anchor', 'middle').attr('y', 36).attr('fill', '#f1f5f9').attr('font-size', '11px').attr('font-weight', '700').text(d => d.name);
+          homeNodes.append('text').attr('text-anchor', 'middle').attr('y', 50).attr('fill', '#facc15').attr('font-size', '10.5px').attr('font-weight', '800').attr('class', 'price-tag')
+            .text(d => `$${(d.basePrice).toLocaleString()}`);
+
+          // Continuous Comp Scanner
+          const scanner = svg.append('line')
+            .attr('x1', 0).attr('y1', 0).attr('x2', 0).attr('y2', h)
+            .attr('stroke', 'rgba(245, 158, 11, 0.4)').attr('stroke-width', 2.5);
+
+          function scan() {
+            scanner.attr('x1', 0).attr('x2', 0)
+              .transition().duration(3400).ease(d3.easeLinear)
+              .attr('x1', w).attr('x2', w)
+              .on('end', scan);
+          }
+          scan();
+
+          domainControllers.realestate = {
+            addRenovation: () => {
+              const colonial = homes[0];
+              const node = d3.select('#home-node-1');
+              
+              // Spotlight ring
+              svg.append('circle')
+                .attr('cx', colonial.x).attr('cy', colonial.y).attr('r', 10)
+                .attr('fill', 'none').attr('stroke', '#10b981').attr('stroke-width', 3)
+                .transition().duration(700).attr('r', 55).style('opacity', 0).remove();
+
+              // Node expansion
+              node.select('.home-halo')
+                .transition().duration(300).attr('r', 30).attr('fill', '#064e3b').attr('stroke', '#10b981').attr('stroke-width', 3.5)
+                .transition().duration(300).attr('r', 25);
+
+              // Price count up
+              node.select('.price-tag')
+                .text('$576,000 (+20%)')
+                .attr('fill', '#10b981');
+
+              // Floating badge
+              const badge = node.append('g').attr('class', 'reno-badge').attr('transform', 'translate(0, -32)');
+              badge.append('rect').attr('x', -70).attr('y', -14).attr('width', 140).attr('height', 20).attr('rx', 4).attr('fill', '#059669');
+              badge.append('text').attr('text-anchor', 'middle').attr('dy', 1).attr('fill', '#ffffff').attr('font-size', '10px').attr('font-weight', '800')
+                .text('✨ Modern Kitchen + Pool');
+              badge.transition().delay(3200).duration(600).style('opacity', 0).remove();
+            },
+            shiftRates: () => {
+              // Rate contraction wave
+              const wave = svg.append('rect').attr('x', 0).attr('y', 0).attr('width', 0).attr('height', h)
+                .attr('fill', 'rgba(56, 189, 248, 0.15)');
+              wave.transition().duration(800).attr('width', w).transition().duration(500).style('opacity', 0).remove();
+
+              // Recalculate all prices down -6.7%
+              homes.forEach(home => {
+                const discounted = Math.round(home.basePrice * 0.933);
+                d3.select(`#home-node-${home.id}`).select('.price-tag')
+                  .text(`$${discounted.toLocaleString()} (-6.7%)`)
+                  .attr('fill', '#38bdf8');
+              });
+            }
+          };
+
+        // ====================================================
+        // DOMAIN 4: RETAIL (User-to-Item Recommender Matrix)
+        // ====================================================
+        } else if (domain === 'retail') {
+          const leftX = Math.max(110, w * 0.18);
+          const rightX = Math.min(w - 120, w * 0.82);
+
+          // 3 Shoppers with real User Icons & Names
+          const shoppers = [
+            { id: 1, icon: '🧑‍💻', name: 'Alex (Gamer)', y: h * 0.22 },
+            { id: 2, icon: '👩‍🎨', name: 'Sophia (Artist)', y: h * 0.50 },
+            { id: 3, icon: '👨‍💼', name: 'Marcus (Exec)', y: h * 0.78 }
+          ];
+
+          // 4 Real Products with icons & prices
+          const products = [
+            { id: 1, icon: '💻', name: 'RTX 4090 GPU ($1,599)', y: h * 0.16 },
+            { id: 2, icon: '🎧', name: 'ANC Headphones ($349)', y: h * 0.38 },
+            { id: 3, icon: '⌨️', name: 'RGB Keyboard ($149)', y: h * 0.62 },
+            { id: 4, icon: '📱', name: 'OLED Tablet ($899)', y: h * 0.84 }
+          ];
+
+          // Draw Shoppers with user icons
+          const shopperNodes = svg.selectAll('g.shopper').data(shoppers).enter().append('g')
+            .attr('id', d => `shopper-${d.id}`)
+            .attr('transform', d => `translate(${leftX}, ${d.y})`);
+
+          shopperNodes.append('circle').attr('r', 22).attr('fill', '#581c87').attr('stroke', '#a855f7').attr('stroke-width', 2).attr('class', 'shopper-halo');
+          shopperNodes.append('text').attr('text-anchor', 'middle').attr('dy', 7).attr('font-size', '18px').text(d => d.icon);
+          shopperNodes.append('text').attr('text-anchor', 'end').attr('x', -28).attr('dy', 5).attr('fill', '#e2e8f0').attr('font-size', '12px').attr('font-weight', '700').text(d => d.name);
+
+          // Draw Products with icons & labels
+          const productNodes = svg.selectAll('g.product').data(products).enter().append('g')
+            .attr('id', d => `product-${d.id}`)
+            .attr('transform', d => `translate(${rightX}, ${d.y})`);
+
+          productNodes.append('circle').attr('r', 20).attr('fill', '#0c4a6e').attr('stroke', '#38bdf8').attr('stroke-width', 2).attr('class', 'product-halo');
+          productNodes.append('text').attr('text-anchor', 'middle').attr('dy', 7).attr('font-size', '17px').text(d => d.icon);
+          productNodes.append('text').attr('x', 28).attr('dy', 5).attr('fill', '#e2e8f0').attr('font-size', '11.5px').attr('font-weight', '600').text(d => d.name);
+
+          // Ambient browsing connections
+          d3.interval(() => {
+            const sh = shoppers[Math.floor(Math.random() * shoppers.length)];
+            const pr = products[Math.floor(Math.random() * products.length)];
+            const beam = svg.append('line')
+              .attr('x1', leftX).attr('y1', sh.y).attr('x2', leftX).attr('y2', sh.y)
+              .attr('stroke', '#c084fc').attr('stroke-width', 1.8).attr('stroke-dasharray', '3 3');
+            beam.transition().duration(850).attr('x2', rightX).attr('y2', pr.y)
+              .transition().duration(400).style('opacity', 0).remove();
+          }, 450);
+
+          domainControllers.retail = {
+            addGpu: () => {
+              const alex = shoppers[0];
+              const gpu = products[0];
+              const headphones = products[1];
+              const keyboard = products[2];
+
+              // Alex glows
+              d3.select('#shopper-1').select('.shopper-halo')
+                .transition().duration(300).attr('r', 27).attr('fill', '#7e22ce');
+
+              // Laser beam into GPU
+              const mainBeam = svg.append('line')
+                .attr('x1', leftX).attr('y1', alex.y).attr('x2', leftX).attr('y2', alex.y)
+                .attr('stroke', '#a855f7').attr('stroke-width', 4.5);
+              mainBeam.transition().duration(500).attr('x2', rightX).attr('y2', gpu.y);
+
+              // Cart popup on GPU
+              const cartBadge = d3.select('#product-1').append('g').attr('transform', 'translate(0, -30)');
+              cartBadge.append('rect').attr('x', -60).attr('y', -12).attr('width', 120).attr('height', 22).attr('rx', 4).attr('fill', '#7c3aed');
+              cartBadge.append('text').attr('text-anchor', 'middle').attr('dy', 3).attr('fill', '#ffffff').attr('font-size', '10.5px').attr('font-weight', '800')
+                .text('🛒 Added to Cart!');
+
+              // Cross-sell bridges to Headphones and Keyboard
+              setTimeout(() => {
+                [headphones, keyboard].forEach(item => {
+                  const bridge = svg.append('line')
+                    .attr('x1', rightX - 25).attr('y1', gpu.y).attr('x2', rightX - 25).attr('y2', gpu.y)
+                    .attr('stroke', '#facc15').attr('stroke-width', 3).attr('stroke-dasharray', '4 2');
+                  bridge.transition().duration(600).attr('y2', item.y);
+
+                  const crossBadge = d3.select(`#product-${item.id}`).append('g').attr('transform', 'translate(0, -26)');
+                  crossBadge.append('rect').attr('x', -65).attr('y', -10).attr('width', 130).attr('height', 20).attr('rx', 3).attr('fill', '#b45309');
+                  crossBadge.append('text').attr('text-anchor', 'middle').attr('dy', 3).attr('fill', '#ffffff').attr('font-size', '10px').attr('font-weight', '800')
+                    .text('🔥 96% Cross-Sell Match');
+                });
+              }, 550);
+            },
+            bundleDiscount: () => {
+              // Grouping Box
+              svg.append('rect')
+                .attr('x', rightX - 35).attr('y', products[0].y - 25)
+                .attr('width', 240).attr('height', products[2].y - products[0].y + 60)
+                .attr('rx', 8).attr('fill', 'none').attr('stroke', '#facc15').attr('stroke-width', 2.5)
+                .attr('stroke-dasharray', '6 3');
+
+              // Floating Banner
+              const banner = svg.append('g').attr('transform', `translate(${rightX + 85}, ${products[0].y - 35})`);
+              banner.append('rect').attr('x', -80).attr('y', -12).attr('width', 160).attr('height', 24).attr('rx', 4).attr('fill', '#f59e0b');
+              banner.append('text').attr('text-anchor', 'middle').attr('dy', 4).attr('fill', '#0f172a').attr('font-size', '11px').attr('font-weight', '900')
+                .text('🎁 AI SMART BUNDLE -15%');
+            }
+          };
+
+        // ====================================================
+        // DOMAIN 5: LOGISTICS (Delivery Truck Sprites & TSP)
+        // ====================================================
+        } else if (domain === 'logistics') {
+          const hub = { x: w / 2, y: h / 2, icon: '🏭', name: 'CENTRAL AI FULFILLMENT HUB' };
+          const stops = [
+            { id: 1, x: w * 0.18, y: h * 0.22, icon: '🏙️', name: 'Downtown Metro Center', routeId: 'route-downtown' },
+            { id: 2, x: w * 0.82, y: h * 0.22, icon: '✈️', name: 'Air Cargo International', routeId: 'route-airport' },
+            { id: 3, x: w * 0.82, y: h * 0.78, icon: '🛒', name: 'Regional Supermarket', routeId: 'route-market' },
+            { id: 4, x: w * 0.18, y: h * 0.78, icon: '🏥', name: "Metro Children's Hospital", routeId: 'route-hospital' }
+          ];
+
+          // Draw Highway Road Network
+          const roadGroup = svg.append('g').attr('class', 'roads');
+          stops.forEach(s => {
+            roadGroup.append('line')
+              .attr('id', s.routeId)
+              .attr('x1', hub.x).attr('y1', hub.y).attr('x2', s.x).attr('y2', s.y)
+              .attr('stroke', 'rgba(14, 165, 233, 0.4)').attr('stroke-width', 5);
+          });
+
+          // Draw Destinations with real icons & labels
+          const stopNodes = svg.selectAll('g.stop-node').data(stops).enter().append('g')
+            .attr('transform', d => `translate(${d.x}, ${d.y})`);
+
+          stopNodes.append('circle').attr('r', 24).attr('fill', '#0f172a').attr('stroke', '#0284c7').attr('stroke-width', 2);
+          stopNodes.append('text').attr('text-anchor', 'middle').attr('dy', 8).attr('font-size', '20px').text(d => d.icon);
+          stopNodes.append('text').attr('text-anchor', 'middle').attr('y', 38).attr('fill', '#f1f5f9').attr('font-size', '11.5px').attr('font-weight', '700').text(d => d.name);
+
+          // Draw Central Warehouse Hub
+          const hubG = svg.append('g').attr('transform', `translate(${hub.x}, ${hub.y})`);
+          hubG.append('circle').attr('r', 32).attr('fill', '#0284c7').attr('stroke', '#38bdf8').attr('stroke-width', 3);
+          hubG.append('text').attr('text-anchor', 'middle').attr('dy', 9).attr('font-size', '22px').text(hub.icon);
+          hubG.append('text').attr('text-anchor', 'middle').attr('y', 46).attr('fill', '#38bdf8').attr('font-size', '12px').attr('font-weight', '900').text(hub.name);
+
+          // Real Truck Vehicle Sprites with 🚚 icon & headlights!
+          stops.forEach((s, idx) => {
+            const truckG = svg.append('g').attr('id', `truck-${s.id}`).attr('transform', `translate(${hub.x}, ${hub.y})`);
+            
+            // Truck Headlight beam
+            truckG.append('circle').attr('r', 16).attr('fill', 'rgba(250, 204, 21, 0.15)');
+            // Real Truck Icon
+            truckG.append('text').attr('text-anchor', 'middle').attr('dy', 6).attr('font-size', '20px').text('🚚');
+            truckG.append('text').attr('text-anchor', 'middle').attr('y', -16).attr('fill', '#facc15').attr('font-size', '9.5px').attr('font-weight', '800').text(`TRUCK #${idx+1}`);
+
+            function drive() {
+              truckG.transition().duration(2000 + idx * 500).ease(d3.easeQuadInOut)
+                .attr('transform', `translate(${s.x}, ${s.y})`)
+                .transition().duration(2000 + idx * 500).ease(d3.easeQuadInOut)
+                .attr('transform', `translate(${hub.x}, ${hub.y})`)
+                .on('end', drive);
+            }
+            drive();
+          });
+
+          domainControllers.logistics = {
+            triggerJam: () => {
+              // Turn Route Downtown red with hazard stripes
+              const downtownRoad = d3.select('#route-downtown');
+              downtownRoad
+                .attr('stroke', '#ef4444').attr('stroke-width', 6).attr('stroke-dasharray', '8 4');
+
+              // Road block banner
+              const midX = (hub.x + stops[0].x) / 2;
+              const midY = (hub.y + stops[0].y) / 2;
+              const jamTag = svg.append('g').attr('id', 'jam-tag').attr('transform', `translate(${midX}, ${midY})`);
+              jamTag.append('rect').attr('x', -80).attr('y', -12).attr('width', 160).attr('height', 24).attr('rx', 4).attr('fill', '#dc2626');
+              jamTag.append('text').attr('text-anchor', 'middle').attr('dy', 4).attr('fill', '#ffffff').attr('font-size', '10.5px').attr('font-weight', '900')
+                .text('🚧 TRAFFIC JAM (+45 Mins)');
+
+              // Stop Truck 1
+              const truck1 = d3.select('#truck-1');
+              truck1.interrupt();
+              truck1.attr('transform', `translate(${midX + 20}, ${midY + 15})`);
+            },
+            rerouteFleet: () => {
+              // Remove jam tag
+              d3.select('#jam-tag').remove();
+              
+              // Sonar radar sweep from hub
+              const sonar = svg.append('circle').attr('cx', hub.x).attr('cy', hub.y).attr('r', 10)
+                .attr('fill', 'none').attr('stroke', '#10b981').attr('stroke-width', 3);
+              sonar.transition().duration(800).attr('r', 300).style('opacity', 0).remove();
+
+              // Draw new green bypass curve
+              const bypassPath = `M ${hub.x} ${hub.y} Q ${hub.x * 0.4} ${hub.y * 0.9} ${stops[0].x} ${stops[0].y}`;
+              svg.append('path')
+                .attr('id', 'bypass-road')
+                .attr('d', bypassPath)
+                .attr('fill', 'none').attr('stroke', '#10b981').attr('stroke-width', 5.5).attr('stroke-dasharray', '6 3');
+
+              // Bypass Tag
+              const tag = svg.append('g').attr('transform', `translate(${hub.x * 0.4}, ${hub.y * 0.9})`);
+              tag.append('rect').attr('x', -65).attr('y', -12).attr('width', 130).attr('height', 24).attr('rx', 4).attr('fill', '#059669');
+              tag.append('text').attr('text-anchor', 'middle').attr('dy', 4).attr('fill', '#ffffff').attr('font-size', '10px').attr('font-weight', '900')
+                .text('🛣️ AI Bypass (-38 Mins)');
+
+              // Truck zooms along bypass
+              const truck1 = d3.select('#truck-1');
+              truck1.select('text').text('🚚💨');
+              truck1.transition().duration(1300).ease(d3.easeQuadOut)
+                .attr('transform', `translate(${stops[0].x}, ${stops[0].y})`);
+            }
+          };
+        }
+      }
+
+      // Initialize initial social tab animation immediately
+      initDomainAnimation('social');
+
+      // ----------------------------------------------------
+      // Button Triggers for All 5 Domains (Real Visual Impacts)
+      // ----------------------------------------------------
+      // Social Media
+      const btnSocialViral = document.getElementById('btn-social-viral');
+      if (btnSocialViral) {
+        btnSocialViral.addEventListener('click', () => {
+          if (domainControllers.social) domainControllers.social.injectViral();
+          document.getElementById('social-status-text').innerHTML = '<span style="color:#f43f5e;font-weight:700;">🔥 VIRAL SPIKE: 2.4M Impressions / Sec!</span>';
+        });
+      }
+      const btnSocialModerate = document.getElementById('btn-social-moderate');
+      if (btnSocialModerate) {
+        btnSocialModerate.addEventListener('click', () => {
+          if (domainControllers.social) domainControllers.social.runModerate();
+          document.getElementById('social-status-text').innerHTML = '<span style="color:#ef4444;font-weight:700;">🛡️ TOXICITY QUARANTINED: Clickbait severed from graph!</span>';
+        });
+      }
+
+      // Finance
+      const btnFinanceFraud = document.getElementById('btn-finance-fraud');
+      if (btnFinanceFraud) {
+        btnFinanceFraud.addEventListener('click', () => {
+          if (domainControllers.finance) domainControllers.finance.injectFraud();
+          document.getElementById('finance-status-text').innerHTML = '<span style="color:#ef4444;font-weight:700;">🚨 BLOCKED: Stolen Card in Tokyo (3.2ms)</span>';
+        });
+      }
+      const btnFinanceMarket = document.getElementById('btn-finance-market');
+      if (btnFinanceMarket) {
+        btnFinanceMarket.addEventListener('click', () => {
+          if (domainControllers.finance) domainControllers.finance.flashVolatility();
+          document.getElementById('finance-status-text').innerHTML = '<span style="color:#f59e0b;font-weight:700;">⚡ HFT VOLATILITY: Threshold auto-calibrated dynamically!</span>';
+        });
+      }
+
+      // Real Estate
+      const btnReReno = document.getElementById('btn-re-reno');
+      if (btnReReno) {
+        btnReReno.addEventListener('click', () => {
+          if (domainControllers.realestate) domainControllers.realestate.addRenovation();
+          document.getElementById('re-status-text').innerHTML = '<span style="color:#10b981;font-weight:700;">🔨 AVM RECALCULATED: Luxury Renovation added +20% ($96k)!</span>';
+        });
+      }
+      const btnReRate = document.getElementById('btn-re-rate');
+      if (btnReRate) {
+        btnReRate.addEventListener('click', () => {
+          if (domainControllers.realestate) domainControllers.realestate.shiftRates();
+          document.getElementById('re-status-text').innerHTML = '<span style="color:#38bdf8;font-weight:700;">🏦 MORTGAGE HIKE: Purchasing power cooled -6.7% across mesh.</span>';
+        });
+      }
+
+      // Retail
+      const btnRetailCart = document.getElementById('btn-retail-cart');
+      if (btnRetailCart) {
+        btnRetailCart.addEventListener('click', () => {
+          if (domainControllers.retail) domainControllers.retail.addGpu();
+          document.getElementById('retail-status-text').innerHTML = '<span style="color:#a855f7;font-weight:700;">🛒 CROSS-SELL FIRED: GPU + Headphones + Keyboard (96% Match)!</span>';
+        });
+      }
+      const btnRetailDiscount = document.getElementById('btn-retail-discount');
+      if (btnRetailDiscount) {
+        btnRetailDiscount.addEventListener('click', () => {
+          if (domainControllers.retail) domainControllers.retail.bundleDiscount();
+          document.getElementById('retail-status-text').innerHTML = '<span style="color:#f59e0b;font-weight:700;">🎁 BUNDLE DISCOUNT: Basket conversion lifted by +26.8%!</span>';
+        });
+      }
+
+      // Logistics
+      const btnLogisticsJam = document.getElementById('btn-logistics-jam');
+      if (btnLogisticsJam) {
+        btnLogisticsJam.addEventListener('click', () => {
+          if (domainControllers.logistics) domainControllers.logistics.triggerJam();
+          document.getElementById('logistics-status-text').innerHTML = '<span style="color:#ef4444;font-weight:700;">🚧 BOTTLENECK: Route 95 blocked (+45 Mins Delay)!</span>';
+        });
+      }
+      const btnLogisticsReroute = document.getElementById('btn-logistics-reroute');
+      if (btnLogisticsReroute) {
+        btnLogisticsReroute.addEventListener('click', () => {
+          if (domainControllers.logistics) domainControllers.logistics.rerouteFleet();
+          document.getElementById('logistics-status-text').innerHTML = '<span style="color:#10b981;font-weight:700;">⚡ FLEET REROUTED: Dijkstra+RL bypass route saved 38 mins!</span>';
+        });
+      }
+    });
+  </script>
+
+</body>
+</html>

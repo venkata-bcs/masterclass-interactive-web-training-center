@@ -1,0 +1,2082 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>03. Generative AI (GenAI) — Tinitiate AI IT Training</title>
+  <meta name="description" content="Generative AI explained for absolute beginners: Foundation models, service providers, evolution of LLMs, transformers, tokens, temperature, inference, RAG, MCP, and MoE with interactive boards.">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="stylesheet" href="assets/css/course.css">
+  <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+  <link rel="stylesheet" href="../assets/css/master-global-layout.css">
+</head>
+<body>
+
+  <!-- Site Header (Violet Theme with Glowing Border Beam & Shining Slash) -->
+    <!-- ========================================================================= -->
+  <!-- TOP MENU BAR: Unified Master Header Across All Subjects                   -->
+  <!-- ========================================================================= -->
+    <!-- ========================================================================= -->
+  <!-- TOP MENU BAR: Unified Royal Violet Theme & Visual Dropdown                -->
+  <!-- ========================================================================= -->
+    <!-- ========================================================================= -->
+  <!-- TOP MENU BAR: Unified Royal Violet Theme & Visual Dropdown                -->
+  <!-- ========================================================================= -->
+    <!-- ========================================================================= -->
+  <!-- TOP MENU BAR: Unified Royal Violet Theme & Visual Dropdown                -->
+  <!-- ========================================================================= -->
+  <header class="master-top-nav">
+    <div class="master-top-nav-inner">
+      <a href="../index.html" class="master-brand-wrap" aria-label="Tinitiate MasterClass Academy">
+        <img src="../tinitiate_header-banner.png" alt="Tinitiate Logo" class="master-brand-logo">
+        <span class="master-brand-badge">AI & Agentic Systems</span>
+      </a>
+
+      <!-- Primary Navigation Links (NO LOCAL NAVIGATION IN HEADER) -->
+      <nav class="master-menu-links">
+        <a href="../index.html" class="master-nav-btn" title="Main Academy Portal">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          <span>Home</span>
+        </a>
+
+        <!-- Subjects DropDown with Bulletproof Bridge & SVGs -->
+        <div class="master-dropdown" id="subjectsDropdown">
+          <button type="button" class="master-dropdown-toggle" onclick="toggleSubjectsDropdown(event)" aria-haspopup="true" aria-expanded="false" title="Explore All Subjects">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>
+            <span>Subjects</span>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div class="master-dropdown-menu mega-menu" id="subjectsMegaMenu">
+            <div class="mega-menu-header">
+              <div class="mega-menu-title-wrap">
+                <span class="mega-menu-eyebrow">TINITIATE AI ACADEMY • ARCHITECTURE CURRICULUM</span>
+                <h4 class="mega-menu-title">Explore Engineering Curricula by Domain</h4>
+              </div>
+              <div class="mega-menu-stats-pill">
+                <span>6 Domains</span> • <span>35 Tracks + 15 Placement Guides</span>
+              </div>
+            </div>
+
+            <div class="mega-menu-grid">
+        <!-- Category: Foundational -->
+        <div class="mega-category-col" style="--cat-accent:#38bdf8;">
+          <div class="mega-category-header">
+            <span class="mega-cat-badge" style="color:#38bdf8;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="8" height="8" x="3" y="3" rx="2"/><path d="M7 11v4a2 2 0 0 0 2 2h4"/><rect width="8" height="8" x="13" y="13" rx="2"/></svg>
+              <span>Foundational</span>
+            </span>
+            <span class="mega-cat-count">9 Tracks</span>
+          </div>
+          <div class="mega-category-list">
+          <a href="../foundational/index.html" class="mega-category-item" title="Foundational Master Class: Computer Science &amp; Software Engineering Fundamentals">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m16.24 7.76-2.12 6.36-6.36 2.12 2.12-6.36 6.36-2.12z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Foundational Master Class</span>
+            </span>
+          </a>
+          <a href="../foundational/python/index.html" class="mega-category-item" title="Python: Print, Variables, Datatypes, Operators, Strings &amp; Lists">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" x2="20" y1="19" y2="19"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Python</span>
+            </span>
+          </a>
+          <a href="../foundational/sql/index.html" class="mega-category-item" title="SQL: PostgreSQL DDL &amp; DML, on a real database in your browser">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">SQL</span>
+            </span>
+          </a>
+          <a href="../foundational/data-structures/index.html" class="mega-category-item" title="Data Structures: Trees, Graphs, HashTables & Heaps">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="8" height="8" x="3" y="3" rx="2"/><rect width="8" height="8" x="13" y="13" rx="2"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Data Structures</span>
+            </span>
+          </a>
+          <a href="../foundational/authentication/index.html" class="mega-category-item" title="Authentication: OAuth2, OIDC, JWT, SAML & PKCE">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m21 2-2 2m-1.5 1.5L13 10m0 0a5 5 0 1 1-7-7 5 5 0 0 1 7 7Z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Authentication</span>
+            </span>
+          </a>
+          <a href="../foundational/apis/index.html" class="mega-category-item" title="APIs: REST, GraphQL, gRPC & WebSockets">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 16.326A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 .5 8.973"/><path d="m13 12-3 5h4l-3 5"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">APIs</span>
+            </span>
+          </a>
+          <a href="../foundational/microservices/index.html" class="mega-category-item" title="MicroServices: Sagas, Service Mesh & Event-Driven">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2.97 12.92A2 2 0 0 0 2 14.63v3.24a2 2 0 0 0 .97 1.71l6 3.43a2 2 0 0 0 1.97 0l6-3.43a2 2 0 0 0 .97-1.71v-3.24a2 2 0 0 0-.97-1.71L11 9.49a2 2 0 0 0-2.06 0l-5.97 3.43Z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">MicroServices</span>
+            </span>
+          </a>
+          <a href="../foundational/oop/index.html" class="mega-category-item" title="OOP: SOLID, Polymorphism & Abstraction">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">OOP</span>
+            </span>
+          </a>
+          <a href="../foundational/design-patterns/index.html" class="mega-category-item" title="Design Patterns: GoF Creational, Structural & Behavioral">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Design Patterns</span>
+            </span>
+          </a>
+          </div>
+        </div>
+        <!-- Category: AI -->
+        <div class="mega-category-col" style="--cat-accent:#a855f7;">
+          <div class="mega-category-header">
+            <span class="mega-cat-badge" style="color:#a855f7;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
+              <span>AI</span>
+            </span>
+            <span class="mega-cat-count">9 Tracks</span>
+          </div>
+          <div class="mega-category-list">
+          <a href="../automation-ml-ai-agentic/index.html" class="mega-category-item" title="AI Master Class: Automation, ML, GenAI &amp; Agentic Systems, MCP &amp; LangChain">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">AI Master Class</span>
+            </span>
+          </a>
+          <a href="../agentic-development/index.html" class="mega-category-item" title="Agentic Development: Agents, Agentic Loops &amp; Governed Agent Swarms">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Agentic Development</span>
+            </span>
+          </a>
+          <a href="../ai/langgraph/index.html" class="mega-category-item" title="Langgraph: Cyclic State Graphs & Multi-Agent DAGs">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><circle cx="18" cy="6" r="3"/><path d="M18 9v1a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V9"/><path d="M12 12v3"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Langgraph</span>
+            </span>
+          </a>
+          <a href="../ai/crewai/index.html" class="mega-category-item" title="CrewAI: Role-Based Agent Crews, Tasks &amp; Flows">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">CrewAI</span>
+            </span>
+          </a>
+          <a href="../ai/aws-bedrock/index.html" class="mega-category-item" title="AWS Bedrock: Managed Foundation Models & Guardrails">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="16" height="16" x="4" y="4" rx="2"/><rect width="6" height="6" x="9" y="9" rx="1"/><path d="M15 2v2"/><path d="M15 20v2"/><path d="M2 15h2"/><path d="M2 9h2"/><path d="M20 15h2"/><path d="M20 9h2"/><path d="M9 2v2"/><path d="M9 20v2"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">AWS Bedrock</span>
+            </span>
+          </a>
+          <a href="../ai/aws-strands/index.html" class="mega-category-item" title="AWS Strands: Model-Driven Agents SDK, Graph &amp; Swarm">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12c2-3 4-3 6 0s4 3 6 0 4-3 6 0"/><path d="M2 6c2-3 4-3 6 0s4 3 6 0 4-3 6 0"/><path d="M2 18c2-3 4-3 6 0s4 3 6 0 4-3 6 0"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">AWS Strands</span>
+            </span>
+          </a>
+          <a href="../ai/azure-foundry/index.html" class="mega-category-item" title="Azure Foundry: Azure AI Studio, Prompt Flow & Evaluators">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="8" x="2" y="2" rx="2" ry="2"/><rect width="20" height="8" x="2" y="14" rx="2" ry="2"/><line x1="6" x2="6.01" y1="6" y2="6"/><line x1="6" x2="6.01" y1="18" y2="18"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Azure Foundry</span>
+            </span>
+          </a>
+          <a href="../ai/claude-sdk/index.html" class="mega-category-item" title="Claude SDK: Anthropic SDK, Tools & Prompt Caching">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Claude SDK</span>
+            </span>
+          </a>
+          <a href="../ai/google-gemini-sdk/index.html" class="mega-category-item" title="Google Gemini SDK: Gen AI SDK, ADK Agents &amp; Context Cache">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Google Gemini SDK</span>
+            </span>
+          </a>
+          </div>
+        </div>
+        <!-- Category: Data Engineering -->
+        <div class="mega-category-col" style="--cat-accent:#0284c7;">
+          <div class="mega-category-header">
+            <span class="mega-cat-badge" style="color:#0284c7;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"/></svg>
+              <span>Data Engineering</span>
+            </span>
+            <span class="mega-cat-count">8 Tracks</span>
+          </div>
+          <div class="mega-category-list">
+          <a href="../data-engineering/index.html" class="mega-category-item" title="Data Engineering Master Class: Modern Lakehouse, Fabric & Kafka Streams">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Data Engineering Master Class</span>
+            </span>
+          </a>
+          <a href="../pyspark/index.html" class="mega-category-item" title="PySpark: Cluster Architecture, DAG Execution &amp; Data Ingestion">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">PySpark</span>
+            </span>
+          </a>
+          <a href="../databricks-dataengineering/index.html" class="mega-category-item" title="Databricks: Unity Catalog, Delta Live & Photon">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Databricks</span>
+            </span>
+          </a>
+          <a href="../aws-dataengineering/index.html" class="mega-category-item" title="AWS Data Engineering: EMR, Glue, Redshift, Kinesis & S3">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">AWS Data Engineering</span>
+            </span>
+          </a>
+          <a href="../snowflake-dataengineering/index.html" class="mega-category-item" title="SnowFlake: Snowpark, Dynamic Tables & Warehouses">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" x2="12" y1="2" y2="22"/><line x1="12" x2="12" y1="10" y2="14"/><line x1="2" x2="22" y1="12" y2="12"/><line x1="20" x2="4" y1="4" y2="20"/><line x1="4" x2="20" y1="4" y2="20"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">SnowFlake</span>
+            </span>
+          </a>
+          <a href="../azure-dataengineering/index.html" class="mega-category-item" title="Azure Data Engineering: Fabric, Synapse Analytics & ADLS Gen2">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="8" x="2" y="2" rx="2" ry="2"/><rect width="20" height="8" x="2" y="14" rx="2" ry="2"/><line x1="6" x2="6.01" y1="6" y2="6"/><line x1="6" x2="6.01" y1="18" y2="18"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Azure Data Engineering</span>
+            </span>
+          </a>
+          <a href="../data-engineering/onprem-pandas-polars-sql/index.html" class="mega-category-item" title="On Prem Pandas, Polars, SQL: Vectorized LazyFrames & Local Engines">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" x2="20" y1="19" y2="19"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">On Prem Pandas, Polars, SQL</span>
+            </span>
+          </a>
+          <a href="../data-engineering/duckdb/index.html" class="mega-category-item" title="DuckDB: In-Process Columnar Analytical OLAP">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"/><line x1="16" x2="2" y1="8" y2="22"/><line x1="17.5" x2="9" y1="15" y2="15"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">DuckDB</span>
+            </span>
+          </a>
+          </div>
+        </div>
+        <!-- Category: Data Governance -->
+        <div class="mega-category-col" style="--cat-accent:#10b981;">
+          <div class="mega-category-header">
+            <span class="mega-cat-badge" style="color:#10b981;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg>
+              <span>Data Governance</span>
+            </span>
+            <span class="mega-cat-count">4 Tracks</span>
+          </div>
+          <div class="mega-category-list">
+          <a href="../data-governence/index.html" class="mega-category-item" title="Data Governance Master Class: Catalogs, Sensitive Data Discovery, Lineage &amp; Stewardship">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m16.24 7.76-2.12 6.36-6.36 2.12 2.12-6.36 6.36-2.12z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Data Governance Master Class</span>
+            </span>
+          </a>
+          <a href="../data-governence/atlas/index.html" class="mega-category-item" title="Atlas: Apache Atlas Metadata & Lineage Graph">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Atlas</span>
+            </span>
+          </a>
+          <a href="../data-governence/unity/index.html" class="mega-category-item" title="Unity: Unity Catalog Fine-Grained ABAC & Grants">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Unity</span>
+            </span>
+          </a>
+          <a href="../data-governence/purview-sandbox/index.html" class="mega-category-item" title="Purview: Purview Data Map, Stewardship & Scanning">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Purview</span>
+            </span>
+          </a>
+          </div>
+        </div>
+        <!-- Category: Full Stack -->
+        <div class="mega-category-col" style="--cat-accent:#f43f5e;">
+          <div class="mega-category-header">
+            <span class="mega-cat-badge" style="color:#f43f5e;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+              <span>Full Stack</span>
+            </span>
+            <span class="mega-cat-count">5 Tracks</span>
+          </div>
+          <div class="mega-category-list">
+          <a href="../full-stack/index.html" class="mega-category-item" title="Full Stack Master Class: Enterprise Full Stack Systems Architecture">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m16.24 7.76-2.12 6.36-6.36 2.12 2.12-6.36 6.36-2.12z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Full Stack Master Class</span>
+            </span>
+          </a>
+          <a href="../full-stack/python-fastapi/index.html" class="mega-category-item" title="Python fastAPI: Pydantic v2, Async ASGI & OpenTelemetry">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Python fastAPI</span>
+            </span>
+          </a>
+          <a href="../full-stack/nodejs-react-nextjs/index.html" class="mega-category-item" title="NodeJS React NextJS: React 19, Server Components & App Router">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" x2="22" y1="12" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">NodeJS React NextJS</span>
+            </span>
+          </a>
+          <a href="../full-stack/dotnet-csharp/index.html" class="mega-category-item" title="C#/.Net Full Stack: ASP.NET Core Web API & Entity Framework">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" x2="20" y1="9" y2="9"/><line x1="4" x2="20" y1="15" y2="15"/><line x1="10" x2="8" y1="3" y2="21"/><line x1="16" x2="14" y1="3" y2="21"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">C#/.Net Full Stack</span>
+            </span>
+          </a>
+          <a href="../full-stack/java-fullstack/index.html" class="mega-category-item" title="Java Full Stack: Spring Boot 3, Hibernate JPA & Microservices">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" x2="6" y1="2" y2="4"/><line x1="10" x2="10" y1="2" y2="4"/><line x1="14" x2="14" y1="2" y2="4"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Java Full Stack</span>
+            </span>
+          </a>
+          </div>
+        </div>
+        <!-- Category: Placement Assistance -->
+        <div class="mega-category-col" style="--cat-accent:#fb923c;">
+          <div class="mega-category-header">
+            <span class="mega-cat-badge" style="color:#fb923c;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="14" x="2" y="7" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+              <span>Placement</span>
+            </span>
+            <span class="mega-cat-count">15 Guides</span>
+          </div>
+          <div class="mega-category-list">
+          <a href="../placement-assistance/index.html" class="mega-category-item" title="Placement Master Class: Resume to offer letter: all 15 placement guides for freshers">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Placement Master Class</span>
+            </span>
+          </a>
+          <a href="../placement-assistance/interview-prep.html" class="mega-category-item" title="Interview Prep: rounds, top questions &amp; a 30-day plan">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Interview Prep</span>
+            </span>
+          </a>
+          <a href="../placement-assistance/resume-prep.html" class="mega-category-item" title="Resume Prep: an ATS-friendly 1-page resume for freshers">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M16 13H8"/><path d="M16 17H8"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Resume Prep</span>
+            </span>
+          </a>
+          <a href="../placement-assistance/job-applications.html" class="mega-category-item" title="Job Applications: apply smart, referrals &amp; avoiding scams">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Job Applications</span>
+            </span>
+          </a>
+          <a href="../placement-assistance/cover-letters.html" class="mega-category-item" title="Cover Letters: a 3-paragraph formula &amp; cold emails">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Cover Letters</span>
+            </span>
+          </a>
+          <a href="../placement-assistance/before-interview.html" class="mega-category-item" title="Before the Interview: countdown, research &amp; setup">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/><path d="m9 16 2 2 4-4"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Before Interview</span>
+            </span>
+          </a>
+          <a href="../placement-assistance/during-interview.html" class="mega-category-item" title="During the Interview: strong start, think aloud &amp; smart questions">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">During Interview</span>
+            </span>
+          </a>
+          <a href="../placement-assistance/handling-competition.html" class="mega-category-item" title="Handling Competition: stand out among lakhs of freshers">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Handling Competition</span>
+            </span>
+          </a>
+          <a href="../placement-assistance/communication-skills.html" class="mega-category-item" title="Communication Skills: clear English, structure &amp; practice">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 11 18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Communication Skills</span>
+            </span>
+          </a>
+          </div>
+        </div>
+            </div>
+
+            <div class="mega-menu-footer">
+              <div class="mega-footer-left">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+                <span>Each module includes <strong>zero-code visual architectures</strong>, <strong>interactive sandboxes</strong>, and <strong>production blueprints</strong>.</span>
+              </div>
+              <div class="mega-footer-right">
+                <span>Lead Architect: <strong>Venkata Bhattaram</strong></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Right Actions: Instructor Rotating Border Beam + LinkedIn + GitHub -->
+      <div class="master-nav-actions">
+        <div class="master-instructor-beam" title="Lead Course Instructor &amp; Enterprise Architect">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+          <span class="inst-label">Instructor:</span>
+          <span class="inst-name">Venkata Bhattaram</span>
+        </div>
+
+        <a href="https://www.linkedin.com/in/venkata-bhattaram/" target="_blank" rel="noopener noreferrer" class="master-nav-social-btn linkedin" title="Venkata Bhattaram on LinkedIn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.45a1.6 1.6 0 1 0 0 3.2 1.6 1.6 0 0 0 0-3.2Z"/></svg>
+          <span>LinkedIn</span>
+        </a>
+
+        <a href="https://github.com/venkata-bcs" target="_blank" rel="noopener noreferrer" class="master-nav-social-btn github" title="Venkata Bhattaram on GitHub">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>
+          <span>GitHub</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- 3-Column Layout -->
+  <div class="layout-container">
+
+    <!-- LEFT: Inpage Navigation -->
+    <aside class="site-nav-panel" aria-label="Course Navigation">
+      <div class="nav-title">Course Modules</div>
+      <ul class="site-menu">
+        <li>
+          <a href="index.html">
+            <span>Home</span>
+            <span class="badge-status">Home</span>
+          </a>
+        </li>
+        <li>
+          <a href="demo.html">
+            <span style="display:flex;align-items:center;gap:8px;">
+              <i data-lucide="play-circle" style="width:16px;height:16px;color:#10b981;"></i>
+              <span>Interactive Demo Lab</span>
+            </span>
+            <span class="badge-status">Demo</span>
+          </a>
+        </li>
+        <li>
+          <a href="ai.html">
+            <span>AI</span>
+            <span class="badge-status">Module</span>
+          </a>
+        </li>
+        <li>
+          <a href="ml.html">
+            <span>ML</span>
+            <span class="badge-status">Module</span>
+          </a>
+        </li>
+        <li>
+          <a href="genai.html" class="current">
+            <span>GenAI</span>
+            <span class="badge-status">Active</span>
+          </a>
+        </li>
+        <li>
+          <a href="agents.html">
+            <span>Agents</span>
+            <span class="badge-status">Module</span>
+          </a>
+        </li>
+        <li>
+          <a href="agentic-loops.html">
+            <span>Agentic Loops</span>
+            <span class="badge-status">Module</span>
+          </a>
+        </li>
+      </ul>
+    </aside>
+
+    <!-- CENTER: Main Content -->
+    <main class="main-content">
+
+      <!-- H1 Welcome Section -->
+      
+      <!-- ========================================================================= -->
+      <!-- SUBTOPIC: what-is-genai [START] -->
+      <!-- ========================================================================= -->
+      <section class="content-section" id="what-is-genai">
+        <div class="welcome-card">
+          <span class="eyebrow">Module 03 &bull; Plain English Deep Dive</span>
+          <h1>03. Generative AI (GenAI) Demystified for Beginners</h1>
+          <p class="lead">
+            Everything you need to know about Generative AI without math overload: How LLMs evolved from simple word predictors to reasoning superbrains, how tokens and temperature work under the hood, and how modern architectures like RAG, MCP, and Mixture of Experts (MoE) power production AI.
+          </p>
+          <div class="instructor-callout">
+            <i data-lucide="sparkles" style="width:20px;height:20px;color:#7c3aed;flex-shrink:0;"></i>
+            <div>
+              <strong>Instructor Insight (&copy; Venkata Bhattaram):</strong>
+              "People think Generative AI is sentient magic. In reality, an LLM is a world-class pattern apprentice that read trillions of words on the internet. It works by asking one simple question billions of times per second: <em>'Given all the words that came before, what is the single most statistically probable next word?'</em> Once you grasp that fundamental truth, every complex concept—from tokens and temperature to RAG and MoE—becomes crystal clear."
+            </div>
+          </div>
+        </div>
+
+        <!-- Plain English Analogy Card -->
+        <div class="genai-board-card">
+          <div class="genai-board-header">
+            <div>
+              <span class="genai-board-badge"><i data-lucide="lightbulb" style="width:14px;height:14px;"></i> The Core Concept</span>
+              <h3 style="margin:4px 0 0 0;font-size:1.3rem;">The Inspector vs. The Master Creator</h3>
+            </div>
+          </div>
+
+          <div class="genai-novice-analogy">
+            <div class="genai-novice-analogy-title">
+              <i data-lucide="chef-hat" style="width:18px;height:18px;"></i>
+              Traditional AI vs. Generative AI Explained Simply
+            </div>
+            <div class="genai-novice-analogy-desc">
+              <strong>1. Traditional AI (The Strict Inspector):</strong> You hand it a photo and ask, <em>"Is this a blueberry muffin or a Chihuahua?"</em> It answers with a label: <code>[Muffin: 98%]</code>. It analyzes and classifies, but it can never bake a new muffin or draw a dog.<br><br>
+              <strong>2. Generative AI (The Master Creator):</strong> You tell it, <em>"Invent a recipe for a spicy mango cheesecake and write a rhyming poem about it in French."</em> Instead of classifying existing stuff, it creates <strong>brand-new text, code, music, and images</strong> that never existed before!
+            </div>
+          </div>
+
+          <!-- Interactive Inspector vs Creator Switcher -->
+          <div style="background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:10px;padding:16px;">
+            <div style="font-size:0.85rem;font-weight:700;color:#475569;margin-bottom:10px;">
+              Try It Live: Click an input prompt to see how the two types of AI respond:
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">
+              <button class="token-sample-btn" onclick="switchGenAiDemo('email')">&#128231; Customer Email</button>
+              <button class="token-sample-btn" onclick="switchGenAiDemo('medical')">&#129658; Medical Note</button>
+              <button class="token-sample-btn" onclick="switchGenAiDemo('finance')">&#128179; Bank Transaction</button>
+            </div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;" id="genai-demo-boxes">
+              <div style="background:#ffffff;border:1.5px solid #cbd5e1;border-radius:8px;padding:14px;">
+                <div style="font-size:0.75rem;font-weight:800;color:#0284c7;text-transform:uppercase;margin-bottom:6px;">
+                  <i data-lucide="search" style="width:12px;height:12px;display:inline;"></i> Traditional AI (Discriminative)
+                </div>
+                <div id="demo-trad-output" style="font-family:var(--font-mono);font-size:0.86rem;color:#334155;">
+                  Classification: <strong>SPAM (99.4%)</strong><br>
+                  Sentiment: <strong>Negative</strong>
+                </div>
+              </div>
+              <div style="background:#faf5ff;border:1.5px solid #c084fc;border-radius:8px;padding:14px;">
+                <div style="font-size:0.75rem;font-weight:800;color:#7c3aed;text-transform:uppercase;margin-bottom:6px;">
+                  <i data-lucide="sparkles" style="width:12px;height:12px;display:inline;"></i> Generative AI (LLM)
+                </div>
+                <div id="demo-gen-output" style="font-size:0.86rem;color:#4a044e;line-height:1.5;">
+                  Drafts an empathetic 3-paragraph reply apologizing for the delay, offering a 20% discount code, and updating the CRM ticket automatically!
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 2: Evolution of LLMs -->
+      
+      <!-- ========================================================================= -->
+      <!-- SUBTOPIC: evolution-llms [START] -->
+      <!-- ========================================================================= -->
+      <section class="content-section" id="evolution-llms">
+        <div class="welcome-card" style="background:#ffffff;border:1.5px solid #cbd5e1;border-radius:12px;padding:26px 30px;box-shadow:0 2px 8px rgba(15,23,42,0.04);">
+          <span class="eyebrow" style="background:#ede9fe;color:#6d28d9;border:1px solid #c4b5fd;font-weight:800;font-size:0.78rem;letter-spacing:0.06em;">Milestone History</span>
+          <h2 style="color:#0f172a;font-weight:800;margin-top:8px;margin-bottom:10px;border-bottom:none;padding-bottom:0;font-size:1.75rem;letter-spacing:-0.02em;">The Evolution of Large Language Models (LLMs)</h2>
+          <p class="lead" style="color:#1e293b;font-weight:500;margin-bottom:0;font-size:1.05rem;line-height:1.6;">
+            How did we get from robotic autocorrect to human-level reasoning? Explore the breakthrough moments that transformed artificial intelligence over the past decade.
+          </p>
+        </div>
+
+        <div class="genai-board-card">
+          <div class="genai-board-header">
+            <div>
+              <span class="genai-board-badge"><i data-lucide="history" style="width:14px;height:14px;"></i> Interactive Time Machine</span>
+              <h3 style="margin:4px 0 0 0;font-size:1.3rem;color:#0f172a;">Step Through the 4 Eras of LLM History</h3>
+            </div>
+            <span style="font-size:0.82rem;color:#0f172a;font-weight:700;background:#f1f5f9;border:1px solid #cbd5e1;padding:4px 12px;border-radius:6px;">Click an era to explore</span>
+          </div>
+
+          <!-- Time Machine Navigation Tabs -->
+          <div class="time-machine-tabs">
+            <button class="time-tab-btn active" onclick="selectEra(0)">
+              <span class="tab-year">Era 1 &bull; 2017</span>
+              <span class="tab-label">The Transformer Spark</span>
+            </button>
+            <button class="time-tab-btn" onclick="selectEra(1)">
+              <span class="tab-year">Era 2 &bull; 2018-2020</span>
+              <span class="tab-label">The Scaling Hypothesis</span>
+            </button>
+            <button class="time-tab-btn" onclick="selectEra(2)">
+              <span class="tab-year">Era 3 &bull; 2022-2023</span>
+              <span class="tab-label">ChatGPT &amp; RLHF</span>
+            </button>
+            <button class="time-tab-btn" onclick="selectEra(3)">
+              <span class="tab-year">Era 4 &bull; 2024-Now</span>
+              <span class="tab-label">Reasoning &amp; MoE</span>
+            </button>
+          </div>
+
+          <!-- Dynamic Time Slide Content -->
+          <div class="time-slide-content" id="time-slide-box">
+            <!-- Rendered dynamically by JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 3: Models, Hubs & Cloud Providers -->
+      
+      <!-- ========================================================================= -->
+      <!-- SUBTOPIC: models-and-providers [START] -->
+      <!-- ========================================================================= -->
+      <section class="content-section" id="models-and-providers">
+        <div class="welcome-card">
+          <span class="eyebrow">The Production Landscape</span>
+          <h2>Models, Cloud Providers, Model Hubs &amp; SDKs</h2>
+          <p class="lead">
+            Understanding who builds models, where they are hosted, where to download them, and the developer toolkits used to wire them into production apps.
+          </p>
+        </div>
+
+        <div class="genai-board-card">
+          <div class="genai-board-header">
+            <div>
+              <span class="genai-board-badge"><i data-lucide="layers" style="width:14px;height:14px;"></i> Ecosystem Directory</span>
+              <h3 style="margin:4px 0 0 0;font-size:1.3rem;">The 4 Essential Layers of the GenAI Stack</h3>
+            </div>
+            <span style="font-size:0.8rem;color:#64748b;font-weight:600;">Filter by category</span>
+          </div>
+
+          <div class="genai-novice-analogy">
+            <div class="genai-novice-analogy-title">
+              <i data-lucide="store" style="width:18px;height:18px;"></i>
+              The Car Engine Analogy for the GenAI Ecosystem
+            </div>
+            <div class="genai-novice-analogy-desc">
+              Think of the AI ecosystem like buying a sports car:<br>
+              &bull; <strong>The Engine Creators (Model Foundries):</strong> OpenAI, Anthropic, Meta invent the powerful engine design.<br>
+              &bull; <strong>The Dealership &amp; Garage (Cloud Providers):</strong> Microsoft Azure, AWS Bedrock, GCP Vertex AI host the engine with 24/7 security, uptime warranties, and enterprise fuel tanks.<br>
+              &bull; <strong>The Open Blueprint Hub (Hugging Face):</strong> A giant free workshop where anyone can inspect, download, and share community car parts.<br>
+              &bull; <strong>The Steering Wheel &amp; Dashboard (SDKs &amp; Harnesses):</strong> LangChain, LlamaIndex, and Eval Harnesses that let engineers drive the car without touching raw engine wires!
+            </div>
+          </div>
+
+          <!-- Filter Pills -->
+          <div class="eco-filter-bar">
+            <button class="eco-filter-btn active" data-cat="all" onclick="filterEcosystem('all', this)">All Components</button>
+            <button class="eco-filter-btn" data-cat="proprietary" onclick="filterEcosystem('proprietary', this)">Proprietary Giants (Closed)</button>
+            <button class="eco-filter-btn" data-cat="open" onclick="filterEcosystem('open', this)">Open-Weights Models</button>
+            <button class="eco-filter-btn" data-cat="cloud" onclick="filterEcosystem('cloud', this)">Cloud Enterprise Hosts</button>
+            <button class="eco-filter-btn" data-cat="tooling" onclick="filterEcosystem('tooling', this)">SDKs &amp; Eval Harnesses</button>
+          </div>
+
+          <!-- Cards Grid -->
+          <div class="eco-cards-grid" id="eco-grid">
+            <!-- Injected by JS -->
+          </div>
+
+          <!-- Detailed Inspector Card -->
+          <div id="eco-detail-card" style="margin-top:20px;background:#f8fafc;border:1.5px solid #cbd5e1;border-radius:10px;padding:18px;display:none;">
+            <!-- Populated by JS when a card is clicked -->
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 4: Tokens & Inference -->
+      
+      <!-- ========================================================================= -->
+      <!-- SUBTOPIC: tokens-and-inference [START] -->
+      <!-- ========================================================================= -->
+      <section class="content-section" id="tokens-and-inference">
+        <div class="welcome-card">
+          <span class="eyebrow">Under The Hood</span>
+          <h2>Tokens, Context Window &amp; Inference Latency</h2>
+          <p class="lead">
+            Computers cannot read English letters directly—they read numbers called tokens. Learn how text gets sliced, why generation is slower than reading, and what latency metrics mean.
+          </p>
+        </div>
+
+        <div class="genai-board-card">
+          <div class="genai-board-header">
+            <div>
+              <span class="genai-board-badge"><i data-lucide="scissors" style="width:14px;height:14px;"></i> Interactive Tokenizer</span>
+              <h3 style="margin:4px 0 0 0;font-size:1.3rem;">Live Token Slicer &amp; Speedometer</h3>
+            </div>
+            <span style="font-size:0.8rem;color:#64748b;font-weight:600;">Type below or pick a preset</span>
+          </div>
+
+          <div class="genai-novice-analogy">
+            <div class="genai-novice-analogy-title">
+              <i data-lucide="toy-brick" style="width:18px;height:18px;"></i>
+              The Lego Brick Analogy: What Exactly Is a Token?
+            </div>
+            <div class="genai-novice-analogy-desc">
+              When humans read <em>"antigravity"</em>, we see one long word. But an AI breaks it into bite-sized Lego bricks: <code>[anti]</code> + <code>[gravity]</code>. On average, <strong>1 token &approx; 4 characters or 0.75 English words</strong>. 1,000 words is about 1,333 tokens.<br><br>
+              <strong>Why are Output Tokens slower &amp; more expensive than Input Tokens?</strong><br>
+              When you submit a prompt, the GPU ingests all 500 input tokens <em>in parallel simultaneously</em> (1 giant gulp). But when creating the answer, the model must calculate and output <strong>one single token at a time sequentially</strong>! That is called <strong>autoregressive inference</strong>, which is why AI output streams word-by-word like a typewriter.
+            </div>
+          </div>
+
+          <!-- Tokenizer Interactive Board -->
+          <div class="tokenizer-container">
+            <div class="token-sample-chips">
+              <span>Quick Presets:</span>
+              <button class="token-sample-btn" onclick="setTokenText('Explain gravity to a 6-year-old in one simple sentence.')">&#128302; Simple Question</button>
+              <button class="token-sample-btn" onclick="setTokenText('def calculate_fibonacci(n):\n    return n if n <= 1 else calculate_fibonacci(n-1) + calculate_fibonacci(n-2)')">&#128187; Python Code</button>
+              <button class="token-sample-btn" onclick="setTokenText('Artificial intelligence and high-dimensional transformers will fundamentally reshape enterprise automation.')">&#128218; Advanced Prose</button>
+            </div>
+
+            <div class="tokenizer-input-wrap">
+              <textarea id="token-input" rows="3" placeholder="Type any text here to see how an AI slices it into tokens in real time..." oninput="updateTokenizer()">Explain gravity to a 6-year-old in one simple sentence.</textarea>
+            </div>
+
+            <!-- Live Colorized Token Visualizer -->
+            <div>
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+                <span style="font-size:0.8rem;font-weight:700;color:#334155;text-transform:uppercase;">Visual Token Slices (Hover to see details):</span>
+                <span style="font-size:0.75rem;color:#64748b;">Each color = 1 distinct sub-word token</span>
+              </div>
+              <div class="token-display-box" id="token-output-chips">
+                <!-- Chips injected by JS -->
+              </div>
+            </div>
+
+            <!-- Token Metrics Bar -->
+            <div class="token-metrics-strip">
+              <div class="token-metric-card">
+                <div class="token-metric-val" id="metric-char-count">56</div>
+                <div class="token-metric-lbl">Total Characters</div>
+              </div>
+              <div class="token-metric-card">
+                <div class="token-metric-val" id="metric-token-count">13</div>
+                <div class="token-metric-lbl">Token Count</div>
+              </div>
+              <div class="token-metric-card">
+                <div class="token-metric-val" id="metric-ratio">4.3</div>
+                <div class="token-metric-lbl">Chars / Token</div>
+              </div>
+              <div class="token-metric-card">
+                <div class="token-metric-val" id="metric-est-cost">$0.00003</div>
+                <div class="token-metric-lbl">Est. API Cost ($2.5/M)</div>
+              </div>
+            </div>
+
+            <!-- Live Streaming Inference Simulator -->
+            <div class="streaming-sim-box">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:10px;">
+                <div>
+                  <span style="font-size:0.75rem;font-weight:800;color:#38bdf8;text-transform:uppercase;">Inference Streaming Speedometer</span>
+                  <div style="font-size:0.85rem;color:#cbd5e1;margin-top:2px;">Experience real-time generation latency (TTFT &amp; TPS)</div>
+                </div>
+                <div style="display:flex;gap:8px;align-items:center;">
+                  <button class="mcp-plug-btn plugged" id="btn-stream-play" onclick="startStreamingSimulation()">
+                    <i data-lucide="play" style="width:14px;height:14px;"></i> Stream Output Live
+                  </button>
+                  <button class="mcp-plug-btn" onclick="resetStreamingSimulation()">
+                    <i data-lucide="rotate-ccw" style="width:14px;height:14px;"></i> Reset
+                  </button>
+                </div>
+              </div>
+
+              <div style="background:#090d16;border:1px solid #1e293b;border-radius:8px;padding:14px;font-family:var(--font-mono);font-size:0.9rem;min-height:70px;line-height:1.6;" id="stream-text-window">
+                <span style="color:#64748b;">Click "Stream Output Live" above to watch sequential token generation...</span>
+              </div>
+
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;font-size:0.78rem;color:#94a3b8;flex-wrap:wrap;gap:8px;">
+                <span><strong>TTFT (Time to First Token):</strong> <span id="stat-ttft">280ms</span></span>
+                <span><strong>Throughput:</strong> <span id="stat-tps">48 tokens/sec</span></span>
+                <span><strong>Context Window:</strong> 128,000 tokens (~300 book pages)</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 5: Temperature & Top-P -->
+      
+      <!-- ========================================================================= -->
+      <!-- SUBTOPIC: temperature-explained [START] -->
+      <!-- ========================================================================= -->
+      <section class="content-section" id="temperature-explained">
+        <div class="welcome-card">
+          <span class="eyebrow">Creative vs Deterministic</span>
+          <h2>Temperature &amp; Sampling Dials Explained</h2>
+          <p class="lead">
+            Temperature does not measure heat! It is the "risk-taking dial" of the AI. Dial it down to 0.0 for laser-focused precision, or turn it up for wild creative storytelling.
+          </p>
+        </div>
+
+        <div class="genai-board-card">
+          <div class="genai-board-header">
+            <div>
+              <span class="genai-board-badge"><i data-lucide="gauge" style="width:14px;height:14px;"></i> Live Probability Board</span>
+              <h3 style="margin:4px 0 0 0;font-size:1.3rem;">The Temperature Dial &amp; Next-Word Roulette</h3>
+            </div>
+            <span style="font-size:0.8rem;color:#64748b;font-weight:600;">Drag slider to see probability shifts</span>
+          </div>
+
+          <div class="genai-novice-analogy">
+            <div class="genai-novice-analogy-title">
+              <i data-lucide="dice-5" style="width:18px;height:18px;"></i>
+              The Dice &amp; Persona Analogy: What Does Temperature Actually Do?
+            </div>
+            <div class="genai-novice-analogy-desc">
+              When the AI generates the next word for: <em>"The astronaut landed safely on the..."</em>, it doesn't just guess blindly. It calculates probabilities: <code>[Moon: 72%]</code>, <code>[Mars: 18%]</code>, <code>[runway: 7%]</code>, <code>[trampoline: 0.2%]</code>.<br><br>
+              &bull; <strong>Temperature = 0.0 (The Robot Accountant):</strong> 100% deterministic! The model always picks the single highest probability word (Moon). Use this for writing SQL, Python code, math formulas, and legal contracts.<br>
+              &bull; <strong>Temperature = 0.7 (The Friendly Assistant):</strong> Natural conversational balance. Most words are sensible, but phrasing varies slightly.<br>
+              &bull; <strong>Temperature = 1.2+ (The Wild Sci-Fi Poet):</strong> The probability curve flattens out! Even rare, wacky words get a chance. Great for brainstorming song lyrics, but dangerous because it can cause hallucinations.
+            </div>
+          </div>
+
+          <!-- Interactive Temperature Widget -->
+          <div class="temperature-widget">
+            <!-- Left: Controls & Persona -->
+            <div class="temp-control-panel">
+              <div>
+                <label style="font-size:0.82rem;font-weight:800;text-transform:uppercase;color:#475569;display:block;margin-bottom:8px;">
+                  Adjust Temperature Dial (0.0 &rarr; 1.5):
+                </label>
+                <div class="temp-slider-row">
+                  <input type="range" id="temp-range" min="0" max="150" value="70" oninput="onTemperatureChange(this.value)">
+                  <span class="temp-val-display" id="temp-num-val">0.70</span>
+                </div>
+              </div>
+
+              <!-- Persona Badge Card -->
+              <div id="temp-persona-card" style="background:#ffffff;border:1.5px solid #cbd5e1;border-radius:8px;padding:14px;">
+                <div style="font-size:0.75rem;font-weight:800;color:#7c3aed;text-transform:uppercase;margin-bottom:4px;" id="temp-persona-role">
+                  &#129302; The Balanced Conversationalist (0.7)
+                </div>
+                <div style="font-size:0.86rem;color:#334155;line-height:1.5;" id="temp-persona-desc">
+                  Optimal for general chat, summaries, and customer service. Naturally fluid with minimal risk of hallucination.
+                </div>
+              </div>
+
+              <div>
+                <button class="mcp-plug-btn plugged" style="width:100%;justify-content:center;padding:10px;" onclick="rollNextTokenSample()">
+                  <i data-lucide="dice-5" style="width:16px;height:16px;"></i> Roll Dice to Sample Next Word!
+                </button>
+                <div style="font-size:0.8rem;color:#64748b;margin-top:8px;text-align:center;" id="sample-result-text">
+                  Prompt: <em>"The astronaut landed safely on the..."</em>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right: Dynamic Probability Bars -->
+            <div class="prob-bars-board">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+                <span style="font-size:0.75rem;font-weight:800;color:#38bdf8;text-transform:uppercase;">Next-Token Probability Distribution</span>
+                <span style="font-size:0.72rem;color:#94a3b8;">Softmax Output Layer</span>
+              </div>
+
+              <div id="prob-bars-container">
+                <!-- Dynamically rendered bars -->
+              </div>
+
+              <div style="margin-top:14px;padding-top:10px;border-top:1px dashed #334155;font-size:0.75rem;color:#94a3b8;display:flex;justify-content:space-between;">
+                <span><strong>Top-P (Nucleus):</strong> 0.90 (Ignores tail &lt; 10%)</span>
+                <span><strong>Top-K:</strong> 40 top candidates</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 6: RAG (Retrieval-Augmented Generation) -->
+      
+      <!-- ========================================================================= -->
+      <!-- SUBTOPIC: rag-architecture [START] -->
+      <!-- ========================================================================= -->
+      <section class="content-section" id="rag-architecture">
+        <div class="welcome-card">
+          <span class="eyebrow">Enterprise Grounding</span>
+          <h2>RAG: Retrieval-Augmented Generation Explained</h2>
+          <p class="lead">
+            LLMs cannot read your company's private Google Docs, payroll files, or live inventory. RAG gives the model an "open-book exam" to retrieve your exact facts before answering.
+          </p>
+        </div>
+
+        <div class="genai-board-card">
+          <div class="genai-board-header">
+            <div>
+              <span class="genai-board-badge"><i data-lucide="book-open" style="width:14px;height:14px;"></i> Interactive Exam Simulator</span>
+              <h3 style="margin:4px 0 0 0;font-size:1.3rem;">Closed-Book vs. Open-Book (RAG) Architecture</h3>
+            </div>
+            <span style="font-size:0.8rem;color:#64748b;font-weight:600;">Toggle modes below</span>
+          </div>
+
+          <div class="genai-novice-analogy">
+            <div class="genai-novice-analogy-title">
+              <i data-lucide="graduation-cap" style="width:18px;height:18px;"></i>
+              The Open-Book Exam Analogy: Why RAG Cures Hallucinations
+            </div>
+            <div class="genai-novice-analogy-desc">
+              Imagine taking a tough history test on yesterday's local council meeting:<br>
+              &bull; <strong>Closed-Book Exam (Without RAG):</strong> You must answer entirely from what you memorized years ago. You make up a plausible-sounding fiction to avoid leaving it blank! (This is an AI hallucination).<br>
+              &bull; <strong>Open-Book Exam (With RAG):</strong> The teacher hands you a notebook with the exact meeting minutes. You search for the keyword, find Paragraph 4, and quote the exact date and resolution with zero guessing! That is RAG.
+            </div>
+          </div>
+
+          <!-- RAG Interactive Board -->
+          <div class="rag-sim-container">
+            <div class="rag-mode-toggle">
+              <button class="rag-toggle-btn active" id="btn-rag-on" onclick="setRagMode(true)">
+                <i data-lucide="check-circle" style="width:14px;height:14px;display:inline;"></i> WITH RAG (Grounded Knowledge)
+              </button>
+              <button class="rag-toggle-btn" id="btn-rag-off" onclick="setRagMode(false)">
+                <i data-lucide="alert-triangle" style="width:14px;height:14px;display:inline;"></i> WITHOUT RAG (Pure Memory)
+              </button>
+            </div>
+
+            <!-- Question Prompt Box -->
+            <div style="background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:10px;padding:14px;display:flex;align-items:center;gap:12px;">
+              <span style="font-size:0.8rem;font-weight:800;color:#581c87;text-transform:uppercase;white-space:nowrap;">User Question:</span>
+              <span style="font-size:0.92rem;color:#0f172a;font-weight:600;">"What is ACME Corp's return policy for damaged electronics?"</span>
+            </div>
+
+            <!-- 4-Step Pipeline Flow -->
+            <div class="rag-visual-flow" id="rag-flow-container">
+              <!-- Node 1: User Query -->
+              <div class="rag-node-box highlight">
+                <div class="rag-node-header" style="color:#38bdf8;">
+                  <i data-lucide="help-circle" style="width:14px;height:14px;"></i> Step 1: User Query
+                </div>
+                <div style="font-size:0.82rem;color:#cbd5e1;">
+                  Query text is converted into vector numbers using an <strong>Embedding Model</strong>.
+                </div>
+              </div>
+
+              <!-- Node 2: Vector DB Search -->
+              <div class="rag-node-box" id="rag-node-db">
+                <div class="rag-node-header" style="color:#22c55e;">
+                  <i data-lucide="database" style="width:14px;height:14px;"></i> Step 2: Vector Search
+                </div>
+                <div style="font-size:0.82rem;color:#cbd5e1;" id="rag-db-desc">
+                  Searches 10,000 PDF chunks in Pinecone/pgvector. Matches chunk with <strong>94% similarity score</strong>!
+                </div>
+              </div>
+
+              <!-- Node 3: Prompt Augmentation -->
+              <div class="rag-node-box" id="rag-node-inject">
+                <div class="rag-node-header" style="color:#eab308;">
+                  <i data-lucide="file-plus-2" style="width:14px;height:14px;"></i> Step 3: Context Stitching
+                </div>
+                <div style="font-size:0.82rem;color:#cbd5e1;" id="rag-inject-desc">
+                  Combines original query + retrieved PDF snippet into one enriched prompt for the LLM.
+                </div>
+              </div>
+
+              <!-- Node 4: Grounded Response -->
+              <div class="rag-node-box" id="rag-node-response">
+                <div class="rag-node-header" style="color:#a855f7;">
+                  <i data-lucide="check-check" style="width:14px;height:14px;"></i> Step 4: Final Output
+                </div>
+                <div style="font-size:0.82rem;color:#cbd5e1;" id="rag-output-desc">
+                  Outputs exact 30-day policy with direct citation link to Employee Handbook Section 4.2!
+                </div>
+              </div>
+            </div>
+
+            <!-- Output Comparison Box -->
+            <div id="rag-result-card" style="background:#0f172a;border:1.5px solid #22c55e;border-radius:10px;padding:16px;color:#f8fafc;">
+              <div style="font-size:0.75rem;font-weight:800;color:#22c55e;text-transform:uppercase;margin-bottom:6px;">
+                Verified Grounded Response (Zero Hallucination):
+              </div>
+              <div style="font-size:0.9rem;line-height:1.55;color:#e2e8f0;" id="rag-result-text">
+                "According to <strong>ACME Policy #4.2 (Updated Oct 2024)</strong>, damaged electronics may be returned within <strong>30 days of delivery</strong> for a full refund or immediate replacement, provided the original packaging and serial number are intact."
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 7: MCP (Model Context Protocol) -->
+      
+      <!-- ========================================================================= -->
+      <!-- SUBTOPIC: mcp-protocol [START] -->
+      <!-- ========================================================================= -->
+      <section class="content-section" id="mcp-protocol">
+        <div class="welcome-card">
+          <span class="eyebrow">The Universal Plug</span>
+          <h2>MCP: Model Context Protocol Demystified</h2>
+          <p class="lead">
+            Introduced as an open standard by Anthropic, MCP is the "USB-C cable" for Artificial Intelligence—allowing any AI model to plug into any database, file system, or API without custom spaghetti code.
+          </p>
+        </div>
+
+        <div class="genai-board-card">
+          <div class="genai-board-header">
+            <div>
+              <span class="genai-board-badge"><i data-lucide="cable" style="width:14px;height:14px;"></i> Universal Protocol Hub</span>
+              <h3 style="margin:4px 0 0 0;font-size:1.3rem;">Interactive MCP Universal USB-C Hub</h3>
+            </div>
+            <span style="font-size:0.8rem;color:#64748b;font-weight:600;">Plug in tools and test live actions</span>
+          </div>
+
+          <div class="genai-novice-analogy">
+            <div class="genai-novice-analogy-title">
+              <i data-lucide="usb" style="width:18px;height:18px;"></i>
+              The USB-C Cable Analogy: Why MCP Changes Everything
+            </div>
+            <div class="genai-novice-analogy-desc">
+              Before USB-C, every camera, phone, mouse, and monitor had its own proprietary plug. If you bought a new computer, none of your cables worked!<br><br>
+              <strong>In AI, it was the exact same nightmare:</strong> Every team had to handcraft brittle custom connectors to let an LLM talk to GitHub, PostgreSQL, Slack, or local files.<br>
+              <strong>MCP solves this forever:</strong> It is a standardized universal protocol (JSON-RPC). You run an <em>MCP Server</em> for PostgreSQL once, and <em>any AI Host</em> (Claude Desktop, Antigravity IDE, custom agents) plugs straight in seamlessly!
+            </div>
+          </div>
+
+          <!-- MCP Hub Stage -->
+          <div class="mcp-hub-stage">
+            <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #1e293b;padding-bottom:12px;flex-wrap:wrap;gap:10px;">
+              <div style="display:flex;align-items:center;gap:10px;">
+                <span style="background:#7c3aed;color:#ffffff;font-size:0.75rem;font-weight:800;padding:4px 10px;border-radius:6px;text-transform:uppercase;">
+                  Central AI Brain (MCP Host)
+                </span>
+                <span style="font-size:0.85rem;color:#cbd5e1;">Protocol: JSON-RPC over stdio / SSE</span>
+              </div>
+              <span style="font-size:0.8rem;color:#22c55e;" id="mcp-active-count">&#10004; 3 MCP Servers Connected</span>
+            </div>
+
+            <!-- Pluggable Ports Grid -->
+            <div class="mcp-ports-grid">
+              <!-- Port 1: Postgres -->
+              <div class="mcp-port-card connected" id="mcp-port-sql">
+                <div>
+                  <div style="font-size:0.75rem;font-weight:800;color:#38bdf8;text-transform:uppercase;">MCP Server #1</div>
+                  <div style="font-weight:700;font-size:0.95rem;margin:4px 0;">PostgreSQL Database</div>
+                  <div style="font-size:0.78rem;color:#94a3b8;">Execute read-only SQL queries on customer tables</div>
+                </div>
+                <button class="mcp-plug-btn plugged" id="btn-plug-sql" onclick="toggleMcpPort('sql')">
+                  <i data-lucide="check" style="width:12px;height:12px;"></i> Connected
+                </button>
+              </div>
+
+              <!-- Port 2: Filesystem -->
+              <div class="mcp-port-card connected" id="mcp-port-fs">
+                <div>
+                  <div style="font-size:0.75rem;font-weight:800;color:#a855f7;text-transform:uppercase;">MCP Server #2</div>
+                  <div style="font-weight:700;font-size:0.95rem;margin:4px 0;">Local Workspace Files</div>
+                  <div style="font-size:0.78rem;color:#94a3b8;">Inspect code files, read READMEs, verify configs</div>
+                </div>
+                <button class="mcp-plug-btn plugged" id="btn-plug-fs" onclick="toggleMcpPort('fs')">
+                  <i data-lucide="check" style="width:12px;height:12px;"></i> Connected
+                </button>
+              </div>
+
+              <!-- Port 3: GitHub -->
+              <div class="mcp-port-card connected" id="mcp-port-gh">
+                <div>
+                  <div style="font-size:0.75rem;font-weight:800;color:#22c55e;text-transform:uppercase;">MCP Server #3</div>
+                  <div style="font-weight:700;font-size:0.95rem;margin:4px 0;">GitHub Pull Requests</div>
+                  <div style="font-size:0.78rem;color:#94a3b8;">Inspect open PRs, commit history, and reviews</div>
+                </div>
+                <button class="mcp-plug-btn plugged" id="btn-plug-gh" onclick="toggleMcpPort('gh')">
+                  <i data-lucide="check" style="width:12px;height:12px;"></i> Connected
+                </button>
+              </div>
+
+              <!-- Port 4: Live Web Search -->
+              <div class="mcp-port-card" id="mcp-port-web">
+                <div>
+                  <div style="font-size:0.75rem;font-weight:800;color:#f97316;text-transform:uppercase;">MCP Server #4</div>
+                  <div style="font-weight:700;font-size:0.95rem;margin:4px 0;">Brave Web Search API</div>
+                  <div style="font-size:0.78rem;color:#94a3b8;">Query real-time web pages and current news</div>
+                </div>
+                <button class="mcp-plug-btn" id="btn-plug-web" onclick="toggleMcpPort('web')">
+                  <i data-lucide="plug" style="width:12px;height:12px;"></i> Plug In
+                </button>
+              </div>
+            </div>
+
+            <!-- Action Tester -->
+            <div style="margin-top:18px;background:#131c31;border:1px solid #1e293b;border-radius:10px;padding:16px;">
+              <div style="font-size:0.8rem;font-weight:700;color:#94a3b8;margin-bottom:8px;">
+                Execute Sample MCP Action:
+              </div>
+              <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;">
+                <button class="token-sample-btn" onclick="executeMcpAction('sql')">&#128202; "Query Q3 Revenue in DB"</button>
+                <button class="token-sample-btn" onclick="executeMcpAction('fs')">&#128193; "Read package.json file"</button>
+                <button class="token-sample-btn" onclick="executeMcpAction('gh')">&#128038; "List pending GitHub PRs"</button>
+              </div>
+
+              <div style="background:#090d16;border:1px solid #1e293b;border-radius:8px;padding:12px;font-family:var(--font-mono);font-size:0.84rem;color:#e2e8f0;" id="mcp-packet-console">
+                [MCP Ready] Click an action above to trace JSON-RPC packet transmission across the universal socket...
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 8: MoE (Mixture of Experts) in Detail -->
+      
+      <!-- ========================================================================= -->
+      <!-- SUBTOPIC: moe-architecture [START] -->
+      <!-- ========================================================================= -->
+      <section class="content-section" id="moe-architecture">
+        <div class="welcome-card">
+          <span class="eyebrow">Frontier Architecture</span>
+          <h2>MoE: Mixture of Experts in Detail</h2>
+          <p class="lead">
+            Why activate a trillion neurons for a simple spelling question? MoE splits giant models into a hospital of specialized experts, waking up only the 2 experts needed per word.
+          </p>
+        </div>
+
+        <div class="genai-board-card">
+          <div class="genai-board-header">
+            <div>
+              <span class="genai-board-badge"><i data-lucide="network" style="width:14px;height:14px;"></i> Gating Router Simulator</span>
+              <h3 style="margin:4px 0 0 0;font-size:1.3rem;">Sparse Mixture of Experts Architecture</h3>
+            </div>
+            <span style="font-size:0.8rem;color:#64748b;font-weight:600;">Test routing decisions live</span>
+          </div>
+
+          <div class="genai-novice-analogy">
+            <div class="genai-novice-analogy-title">
+              <i data-lucide="hospital" style="width:18px;height:18px;"></i>
+              The Hospital Specialist Committee Analogy
+            </div>
+            <div class="genai-novice-analogy-desc">
+              Imagine walking into a world-class hospital with a twisted ankle:<br>
+              &bull; <strong>Dense Model (Traditional LLM):</strong> The hospital summons all 500 brain surgeons, pediatricians, dermatologists, and cardiologists into your exam room. All 500 doctors examine your ankle simultaneously! It costs enormous electricity, time, and money.<br>
+              &bull; <strong>Sparse Mixture of Experts (MoE - DeepSeek-V3, Mixtral, GPT-4):</strong> A smart <strong>Triage Nurse (The Gating Router)</strong> glances at your ankle and immediately sends you only to <strong>Doctor #2 (Orthopedics)</strong> and <strong>Doctor #6 (Sports Medicine)</strong>. The other 498 doctors stay asleep! You get giant supercomputer capability while using only 25% of the GPU compute.
+            </div>
+          </div>
+
+          <!-- MoE Interactive Stage -->
+          <div class="moe-interactive-stage">
+            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+              <div>
+                <span style="font-size:0.75rem;font-weight:800;color:#ec4899;text-transform:uppercase;">
+                  Central Gating Router (Softmax Top-2 Dispatcher)
+                </span>
+                <div style="font-size:0.85rem;color:#cbd5e1;margin-top:2px;">Select an input token stream to observe selective neural routing:</div>
+              </div>
+
+              <!-- Live Stat Badges -->
+              <div style="display:flex;gap:10px;">
+                <span class="moe-badge-pill" style="background:rgba(56, 189, 248, 0.2);color:#38bdf8;border:1px solid rgba(56,189,248,0.3);">
+                  Active Params: <strong>37B / 671B (5.5%)</strong>
+                </span>
+                <span class="moe-badge-pill" style="background:rgba(34, 197, 94, 0.2);color:#4ade80;border:1px solid rgba(34,197,94,0.3);">
+                  Compute Saved: <strong>75% &uarr;</strong>
+                </span>
+              </div>
+            </div>
+
+            <!-- Prompt Trigger Buttons -->
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin:16px 0;">
+              <button class="token-sample-btn" onclick="routeMoePrompt('code')">&#128187; "Fix Python IndexError in binary search"</button>
+              <button class="token-sample-btn" onclick="routeMoePrompt('math')">&#129486; "Solve differential equation dy/dx = 3x"</button>
+              <button class="token-sample-btn" onclick="routeMoePrompt('medical')">&#129658; "Diagnose acute lower back pain"</button>
+              <button class="token-sample-btn" onclick="routeMoePrompt('creative')">&#127912; "Compose a Shakespearean sonnet about Mars"</button>
+            </div>
+
+            <!-- Status Indicator -->
+            <div id="moe-route-status" style="font-family:var(--font-mono);font-size:0.84rem;color:#38bdf8;margin-bottom:14px;">
+              Gating Router Decision: Routing prompt to Top-2 Experts...
+            </div>
+
+            <!-- 8 Expert Neural Blocks Grid -->
+            <div class="moe-experts-grid">
+              <!-- Expert 1 -->
+              <div class="moe-expert-card" id="expert-1">
+                <span class="moe-badge-pill">Expert 01</span>
+                <div style="font-weight:700;font-size:0.92rem;">Formal Logic &amp; Math</div>
+                <div style="font-size:0.75rem;color:#94a3b8;margin-top:4px;">Calculus, proofs, geometry</div>
+              </div>
+
+              <!-- Expert 2 -->
+              <div class="moe-expert-card active primary" id="expert-2">
+                <span class="moe-badge-pill">Expert 02</span>
+                <div style="font-weight:700;font-size:0.92rem;">Code &amp; Algorithms</div>
+                <div style="font-size:0.75rem;color:#94a3b8;margin-top:4px;">Python, C++, SQL, debugging</div>
+              </div>
+
+              <!-- Expert 3 -->
+              <div class="moe-expert-card" id="expert-3">
+                <span class="moe-badge-pill">Expert 03</span>
+                <div style="font-weight:700;font-size:0.92rem;">Creative Writing</div>
+                <div style="font-size:0.75rem;color:#94a3b8;margin-top:4px;">Metaphor, poetry, dialogue</div>
+              </div>
+
+              <!-- Expert 4 -->
+              <div class="moe-expert-card" id="expert-4">
+                <span class="moe-badge-pill">Expert 04</span>
+                <div style="font-weight:700;font-size:0.92rem;">Multilingual Translation</div>
+                <div style="font-size:0.75rem;color:#94a3b8;margin-top:4px;">Cross-lingual semantics</div>
+              </div>
+
+              <!-- Expert 5 -->
+              <div class="moe-expert-card" id="expert-5">
+                <span class="moe-badge-pill">Expert 05</span>
+                <div style="font-weight:700;font-size:0.92rem;">History &amp; Facts</div>
+                <div style="font-size:0.75rem;color:#94a3b8;margin-top:4px;">World history, geography</div>
+              </div>
+
+              <!-- Expert 6 -->
+              <div class="moe-expert-card" id="expert-6">
+                <span class="moe-badge-pill">Expert 06</span>
+                <div style="font-weight:700;font-size:0.92rem;">Biology &amp; Medicine</div>
+                <div style="font-size:0.75rem;color:#94a3b8;margin-top:4px;">Anatomy, pathology, genetics</div>
+              </div>
+
+              <!-- Expert 7 -->
+              <div class="moe-expert-card" id="expert-7">
+                <span class="moe-badge-pill">Expert 07</span>
+                <div style="font-weight:700;font-size:0.92rem;">Finance &amp; Economics</div>
+                <div style="font-size:0.75rem;color:#94a3b8;margin-top:4px;">Accounting, risk, markets</div>
+              </div>
+
+              <!-- Expert 8 -->
+              <div class="moe-expert-card active" id="expert-8">
+                <span class="moe-badge-pill">Expert 08</span>
+                <div style="font-weight:700;font-size:0.92rem;">DevOps &amp; Architecture</div>
+                <div style="font-size:0.75rem;color:#94a3b8;margin-top:4px;">Cloud infrastructure, CI/CD</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 9: Novice Quick-Reference Guide -->
+      
+      <!-- ========================================================================= -->
+      <!-- SUBTOPIC: novice-cheat-sheet [START] -->
+      <!-- ========================================================================= -->
+      <section class="content-section" id="novice-cheat-sheet">
+        <div class="welcome-card">
+          <span class="eyebrow">Summary &amp; Decision Guide</span>
+          <h2>The Novice's GenAI Decision Matrix</h2>
+          <p class="lead">
+            When someone on your team asks: <em>"Should we fine-tune, use RAG, or just change temperature?"</em>, consult this handy rule-of-thumb guide.
+          </p>
+        </div>
+
+        <div class="genai-board-card">
+          <table class="cs-cheat-table">
+            <thead>
+              <tr>
+                <th>Scenario / Need</th>
+                <th>Best Architectural Technique</th>
+                <th>Why This Works Best</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Private Company Knowledge</strong><br><small>Querying internal PDFs, Notion wikis, Zendesk tickets</small></td>
+                <td><span class="badge-status" style="background:#ede9fe;color:#6d28d9;">RAG (Retrieval-Augmented Generation)</span></td>
+                <td>Guarantees zero hallucinations, quotes exact source paragraphs, and updates instantly when new files are saved without costly model retraining.</td>
+              </tr>
+              <tr>
+                <td><strong>Connecting AI to APIs &amp; Databases</strong><br><small>Querying SQL tables, reading git branches, Slack bots</small></td>
+                <td><span class="badge-status" style="background:#e0f2fe;color:#0369a1;">MCP (Model Context Protocol)</span></td>
+                <td>Standardizes tool connections like USB-C; eliminates custom glue code and lets the same tool work across all AI clients.</td>
+              </tr>
+              <tr>
+                <td><strong>Strict Determinism vs Creative Prose</strong><br><small>Code/math vs marketing copy or poetry</small></td>
+                <td><span class="badge-status" style="background:#fef3c7;color:#b45309;">Temperature Dial (0.0 vs 0.8)</span></td>
+                <td>Takes 1 second to adjust in your API request; no extra servers or pipelines required!</td>
+              </tr>
+              <tr>
+                <td><strong>High-Throughput, Low-Cost Production</strong><br><small>Serving millions of customer queries on a budget</small></td>
+                <td><span class="badge-status" style="background:#dcfce7;color:#15803d;">MoE (Mixture of Experts)</span></td>
+                <td>Runs like a 70B parameter brain while only burning the GPU electricity of a 14B model by waking up only Top-2 specialists.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- RIGHT: Course Navigation -->
+    <nav class="inpage-nav-panel" aria-label="In-page Table of Contents">
+      <div class="nav-title">In-Page Navigation</div>
+      <ul class="inpage-menu" id="inpage-menu">
+        <li><a href="#what-is-genai" class="active">1. What is GenAI? (The Chef Analogy)</a></li>
+        <li><a href="#evolution-llms">2. Evolution of LLMs (Time-Machine)</a></li>
+        <li><a href="#models-and-providers">3. Models, Cloud Hubs &amp; SDKs</a></li>
+        <li><a href="#tokens-and-inference">4. Tokens &amp; Inference Latency</a></li>
+        <li><a href="#temperature-explained">5. Temperature &amp; Creativity Dial</a></li>
+        <li><a href="#rag-architecture">6. RAG: The Open-Book Exam</a></li>
+        <li><a href="#mcp-protocol">7. MCP: Universal USB-C for AI</a></li>
+        <li><a href="#moe-architecture">8. MoE: Mixture of Experts in Detail</a></li>
+        <li><a href="#novice-cheat-sheet">9. Novice Quick-Reference Guide</a></li>
+      </ul>
+    </nav>
+
+  </div>
+
+  <!-- Site Footer (Black Background, High-Contrast White Text) -->
+    <!-- ========================================================================= -->
+  <!-- SITE FOOTER: Consistent Footer Across All Pages                           -->
+  <!-- ========================================================================= -->
+    <!-- ========================================================================= -->
+  <!-- SITE FOOTER: AI MasterClass Premium High-Contrast Black Footer            -->
+  <!-- ========================================================================= -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-main-grid">
+
+        <!-- Column 1: Company Profile & Social Channels -->
+        <div class="footer-col">
+          <div class="footer-col-title">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="building-2" style="color:#38bdf8;width:22px;height:22px;" class="lucide lucide-building-2"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"></path><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"></path><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"></path><path d="M10 6h4"></path><path d="M10 10h4"></path><path d="M10 14h4"></path><path d="M10 18h4"></path></svg>
+            <span>Tinitiate AI Academy</span>
+          </div>
+          <p class="footer-col-desc">
+            Industry-aligned IT training curriculum designed to transition software engineers, cloud architects, and data professionals into high-impact AI, GenAI, and Distributed Lakehouse Engineering roles.
+          </p>
+          <span class="footer-contact-label">Company Social Channels</span>
+          <div class="footer-socials-grid">
+            <a href="https://linkedin.com/company/tinitiate" target="_blank" rel="noopener noreferrer" class="footer-social-btn" title="Tinitiate LinkedIn">
+              <span class="footer-social-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="#0a66c2"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.45a1.6 1.6 0 1 0 0 3.2 1.6 1.6 0 0 0 0-3.2Z"></path></svg></span>
+              <span>LinkedIn</span>
+            </a>
+            <a href="https://youtube.com/@tinitiate" target="_blank" rel="noopener noreferrer" class="footer-social-btn" title="Tinitiate YouTube">
+              <span class="footer-social-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="#ff0000"><path d="M21.58 7.19a2.76 2.76 0 0 0-1.95-1.95C17.9 4.75 12 4.75 12 4.75s-5.9 0-7.63.49a2.76 2.76 0 0 0-1.95 1.95A28.84 28.84 0 0 0 2 12a28.84 28.84 0 0 0 .42 4.81 2.76 2.76 0 0 0 1.95 1.95c1.73.49 7.63.49 7.63.49s5.9 0 7.63-.49a2.76 2.76 0 0 0 1.95-1.95A28.84 28.84 0 0 0 22 12a28.84 28.84 0 0 0-.42-4.81ZM10 15V9l5.2 3L10 15Z"></path></svg></span>
+              <span>YouTube</span>
+            </a>
+            <a href="https://github.com/venkata-bcs" target="_blank" rel="noopener noreferrer" class="footer-social-btn" title="Tinitiate GitHub">
+              <span class="footer-social-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="#ffffff"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"></path></svg></span>
+              <span>GitHub</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Column 2: Lead Instructor Profiles -->
+        <div class="footer-col">
+          <div class="footer-col-title">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user-check" style="color:#a855f7;width:22px;height:22px;" class="lucide lucide-user-check"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><polyline points="16 11 18 13 22 9"></polyline></svg>
+            <span>Venkata Bhattaram</span>
+          </div>
+          <p class="footer-col-desc">
+            Lead AI Instructor &amp; Enterprise Architect. Connect directly for course consultations, curriculum design, and technical advisory.
+          </p>
+          <span class="footer-contact-label">Venkata Bhattaram's Profiles</span>
+          <div class="footer-socials-grid">
+            <a href="https://www.linkedin.com/in/venkata-bhattaram/" target="_blank" rel="noopener noreferrer" class="footer-social-btn" title="Venkata Bhattaram LinkedIn">
+              <span class="footer-social-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="#0a66c2"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.45a1.6 1.6 0 1 0 0 3.2 1.6 1.6 0 0 0 0-3.2Z"></path></svg></span>
+              <span>LinkedIn</span>
+            </a>
+            <a href="https://github.com/venkata-bcs" target="_blank" rel="noopener noreferrer" class="footer-social-btn" title="Venkata Bhattaram GitHub">
+              <span class="footer-social-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="#ffffff"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"></path></svg></span>
+              <span>GitHub</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Column 3: Contact & Call Us -->
+        <div class="footer-col">
+          <div class="footer-col-title">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="phone-call" style="color:#22c55e;width:22px;height:22px;" class="lucide lucide-phone-call"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path><path d="M14.05 2a9 9 0 0 1 8 7.94"></path><path d="M14.05 6A5 5 0 0 1 18 10"></path></svg>
+            <span>Contact &amp; Call Us</span>
+          </div>
+          <div class="footer-contact-block">
+            <div class="footer-contact-item">
+              <div class="footer-contact-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="mail" style="width:18px;height:18px;" class="lucide lucide-mail"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg></div>
+              <div class="footer-contact-details">
+                <span class="footer-contact-label">Email Support</span>
+                <a href="mailto:contact@tinitiateai.com" class="footer-web-link">contact@tinitiateai.com</a>
+              </div>
+            </div>
+            <div class="footer-contact-item">
+              <div class="footer-contact-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="globe" style="width:18px;height:18px;" class="lucide lucide-globe"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path><path d="M2 12h20"></path></svg></div>
+              <div class="footer-contact-details">
+                <span class="footer-contact-label">Official Portal</span>
+                <a href="https://tinitiateai.com" target="_blank" rel="noopener noreferrer" class="footer-web-link">tinitiateai.com</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Curriculum Portals Bar -->
+      <div class="footer-portals-bar">
+        <span class="footer-contact-label" style="margin:0;">MasterClass Portals:</span>
+        <div class="footer-portals-list">
+          <a href="../index.html" class="footer-portal-chip"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="home" style="width:14px;height:14px;" class="lucide lucide-home"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>Academy Home</a>
+          <a href="../automation-ml-ai-agentic/index.html" class="footer-portal-chip"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="bot" style="width:14px;height:14px;" class="lucide lucide-bot"><path d="M12 8V4H8"></path><rect width="16" height="12" x="4" y="8" rx="2"></rect><path d="M2 14h2"></path><path d="M20 14h2"></path><path d="M15 13v2"></path><path d="M9 13v2"></path></svg>AI Systems Hub</a>
+          <a href="../data-engineering/index.html" class="footer-portal-chip"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="database" style="width:14px;height:14px;" class="lucide lucide-database"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M3 5V19A9 3 0 0 0 21 19V5"></path><path d="M3 12A9 3 0 0 0 21 12"></path></svg>Data Engineering Hub</a>
+          <a href="../data-governence/purview-sandbox/index.html" class="footer-portal-chip"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="shield-check" style="width:14px;height:14px;" class="lucide lucide-shield-check"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path><path d="m9 12 2 2 4-4"></path></svg>Data Governance</a>
+          <a href="../pyspark/index.html" class="footer-portal-chip"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="zap" style="width:14px;height:14px;" class="lucide lucide-zap"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"></path></svg>PySpark Architecture</a>
+        </div>
+      </div>
+
+      <!-- Bottom Bar -->
+      <div class="footer-bottom-bar">
+        <div>
+          © 2026 <strong>Venkata Bhattaram</strong> • <a href="https://tinitiateai.com" target="_blank" rel="noopener noreferrer" style="color:#ffffff;text-decoration:none;font-weight:700;">TinitiateAI.com</a> • All Rights Reserved.
+        </div>
+        <div class="footer-bottom-links">
+          <span>Lead Instructor: <strong>Venkata Bhattaram</strong></span>
+          <a href="https://github.com/venkata-bcs" target="_blank" rel="noopener noreferrer">github.com/venkata-bcs</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+  
+  <script src="../assets/js/master-global-nav.js" defer></script>
+
+  <!-- Interactive GenAI Script -->
+  <script>
+    /* ==========================================================================
+       GENAI MODULE JAVASCRIPT: INTERACTIVE BOARDS
+       ========================================================================== */
+
+    // --- 1. Discriminative vs Generative Demo ---
+    const genAiDemos = {
+      email: {
+        trad: 'Classification: <strong>SPAM (99.4%)</strong><br>Sentiment: <strong>Negative / Frustrated</strong><br>Topic: <strong>Billing Dispute</strong>',
+        gen: 'Drafts an empathetic 3-paragraph reply apologizing for the duplicate charge, generates a refund approval ID #9201, and logs a sync event in Salesforce automatically.'
+      },
+      medical: {
+        trad: 'Classification: <strong>Urgent Triage (ICD-10 Code: R07.9)</strong><br>Detected Symptoms: <strong>Chest discomfort, sweating</strong>',
+        gen: 'Synthesizes 5 pages of doctor handwriting into a clean clinical discharge summary, flags drug allergy interactions with penicillin, and drafts patient-friendly instructions in Spanish.'
+      },
+      finance: {
+        trad: 'Anomaly Score: <strong>0.89 (SUSPICIOUS)</strong><br>Rule: <strong>Transaction velocity > $5,000 in foreign IP</strong>',
+        gen: 'Drafts a personalized SMS verification flow to the cardholder, prepares a SAR regulatory compliance draft report for anti-money laundering officers, and proposes dynamic lock rules.'
+      }
+    };
+
+    function switchGenAiDemo(key) {
+      const data = genAiDemos[key];
+      if (!data) return;
+      document.getElementById('demo-trad-output').innerHTML = data.trad;
+      document.getElementById('demo-gen-output').innerHTML = data.gen;
+    }
+
+    // --- 2. Evolution Time Machine ---
+    const erasData = [
+      {
+        year: '2017',
+        title: 'The Transformer Spark: "Attention Is All You Need"',
+        desc: 'Google researchers published the revolutionary Transformer paper. Before this, computers read text through an RNN straw—one word at a time, forgetting earlier words. Transformers introduced Self-Attention: the ability to read all words simultaneously and spotlight contextual relationships across an entire page at once.',
+        milestones: ['Vaswani et al. publishes Transformer paper', 'Replaces recurrent RNNs and LSTMs', 'Enables massive parallel training on modern GPUs'],
+        params: '65 Million',
+        context: '512 Tokens',
+        breakthrough: 'Self-Attention Mechanism'
+      },
+      {
+        year: '2018 - 2020',
+        title: 'The Scaling Hypothesis: GPT-1, GPT-2 & GPT-3',
+        desc: 'OpenAI discovered that as you increase model parameter counts and train on exponentially larger datasets, models experience emergent abilities. GPT-3 showed that models could perform "Few-Shot Learning"—solving tasks simply by reading a few examples in the prompt without modifying weights.',
+        milestones: ['2018: GPT-1 (117M params) & BERT bidirectional encoder', '2019: GPT-2 (1.5B params) - "too dangerous to release"', '2020: GPT-3 (175B params) proves the power of raw scale'],
+        params: '175 Billion',
+        context: '2,048 Tokens',
+        breakthrough: 'Few-Shot In-Context Learning'
+      },
+      {
+        year: '2022 - 2023',
+        title: 'The ChatGPT Revolution & Open Weights Explosion',
+        desc: 'Raw base models were prone to babbling or toxic completions. Reinforcement Learning from Human Feedback (RLHF) changed everything: human trainers taught the raw text-predictor to act like a polite, structured assistant. In 2023, Meta published Llama, sparking the global open-weights revolution.',
+        milestones: ['Nov 2022: ChatGPT reaches 100M users in 2 months', 'RLHF aligns models into helpful, honest assistants', '2023: Meta Llama releases open weights to the global community'],
+        params: '1.8 Trillion (Dense / Early MoE)',
+        context: '32,000 - 128,000 Tokens',
+        breakthrough: 'RLHF & Open Weights'
+      },
+      {
+        year: '2024 - Present',
+        title: 'Test-Time Reasoning, Multimodality & MoE',
+        desc: 'Today models are natively multimodal (hearing, seeing, coding) and utilize Test-Time Compute (Reasoning models like OpenAI o1/o3 and DeepSeek-R1) to think step-by-step before answering. Mixture of Experts (MoE) makes models drastically cheaper to run.',
+        milestones: ['Frontier Reasoning (o1, DeepSeek-R1) using chain-of-thought', 'Native Multimodal (GPT-4o, Claude 3.5 Sonnet, Gemini 1.5 Pro)', 'Mixture of Experts (MoE) delivers supercomputer intelligence at lightweight inference cost'],
+        params: '671B MoE (37B Active)',
+        context: '1 Million - 2 Million Tokens',
+        breakthrough: 'Test-Time Reasoning & Sparse MoE'
+      }
+    ];
+
+    function selectEra(index) {
+      const tabs = document.querySelectorAll('.time-tab-btn');
+      tabs.forEach((tab, i) => tab.classList.toggle('active', i === index));
+
+      const era = erasData[index];
+      const box = document.getElementById('time-slide-box');
+      box.innerHTML = `
+        <div style="font-size:0.78rem;font-weight:800;color:#c084fc;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">
+          ${era.year} &bull; Milestone Breakdown
+        </div>
+        <h3 style="margin:0 0 12px 0;font-size:1.4rem;color:#ffffff;font-weight:800;">${era.title}</h3>
+        <p style="font-size:0.96rem;color:#f8fafc;line-height:1.65;margin-bottom:20px;">${era.desc}</p>
+        
+        <div class="time-slide-grid">
+          <div>
+            <div style="font-size:0.82rem;font-weight:800;color:#38bdf8;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:10px;">
+              Key Historical Breakthroughs:
+            </div>
+            <ul style="padding-left:18px;margin:0;font-size:0.9rem;color:#f1f5f9;line-height:1.75;">
+              ${era.milestones.map(m => `<li>${m}</li>`).join('')}
+            </ul>
+          </div>
+          <div>
+            <div class="time-metric-box" style="background:#131c31;border:1.5px solid #334155;">
+              <span style="font-size:0.82rem;color:#cbd5e1;font-weight:600;">Average Parameter Scale</span>
+              <strong style="color:#ffffff;font-family:var(--font-mono);font-size:0.95rem;">${era.params}</strong>
+            </div>
+            <div class="time-metric-box" style="background:#131c31;border:1.5px solid #334155;">
+              <span style="font-size:0.82rem;color:#cbd5e1;font-weight:600;">Context Window Length</span>
+              <strong style="color:#ffffff;font-family:var(--font-mono);font-size:0.95rem;">${era.context}</strong>
+            </div>
+            <div class="time-metric-box" style="background:#131c31;border:1.5px solid #334155;">
+              <span style="font-size:0.82rem;color:#cbd5e1;font-weight:600;">Architectural Leap</span>
+              <strong style="color:#4ade80;font-size:0.95rem;">${era.breakthrough}</strong>
+            </div>
+          </div>
+        </div>
+      `;
+      if (window.lucide) lucide.createIcons();
+    }
+
+    // --- 3. Ecosystem Explorer ---
+    const ecoData = [
+      {
+        id: 'openai',
+        cat: 'proprietary',
+        name: 'OpenAI (GPT-4o, o1, o3)',
+        badge: 'Closed Frontier',
+        badgeBg: '#ede9fe',
+        badgeColor: '#6d28d9',
+        desc: 'Pioneered conversational AI and test-time reasoning. Accessed via hosted API endpoint.',
+        novice: 'The Apple of AI: Turnkey, highly capable, proprietary secret recipe.',
+        pros: 'Top-tier general intelligence, fast updates, multimodal capabilities.',
+        cons: 'Data sent to external cloud, per-token API cost, vendor lock-in.'
+      },
+      {
+        id: 'anthropic',
+        cat: 'proprietary',
+        name: 'Anthropic (Claude 3.5 Sonnet)',
+        badge: 'Coding & Safety Leader',
+        badgeBg: '#fef3c7',
+        badgeColor: '#92400e',
+        desc: 'Founded on Constitutional AI. Creators of Claude and inventors of the open Model Context Protocol (MCP).',
+        novice: 'The Master Artisan: World-class at writing clean code, nuanced reasoning, and deep document analysis.',
+        pros: 'Industry benchmark for code generation, 200k context window, author of MCP standard.',
+        cons: 'Proprietary weights; API rate limits in peak hours.'
+      },
+      {
+        id: 'google-gemini',
+        cat: 'proprietary',
+        name: 'Google Gemini (1.5 Pro / Flash)',
+        badge: 'Massive Context Leader',
+        badgeBg: '#e0f2fe',
+        badgeColor: '#0369a1',
+        desc: 'Built natively multimodal from the ground up with an extraordinary 2,000,000 token context window.',
+        novice: 'The Encyclopedia Brain: Can read 1 hour of video or 30 full novels in a single prompt without forgetting.',
+        pros: 'Unmatched 2M token context, ultra-fast Flash variant, native audio/video understanding.',
+        cons: 'Enterprise adoption requires Google Cloud / Vertex AI agreements.'
+      },
+      {
+        id: 'meta-llama',
+        cat: 'open',
+        name: 'Meta Llama (Llama 3.3 70B)',
+        badge: 'Open-Weights Benchmark',
+        badgeBg: '#dcfce7',
+        badgeColor: '#166534',
+        desc: 'Released openly by Meta AI. Downloadable model weights that anyone can run on their own hardware.',
+        novice: 'The Linux of AI: You own the weights! Run it inside your private bank or hospital with zero data leakage.',
+        pros: '100% data privacy, fine-tunable, zero per-token API licensing fees to Meta.',
+        cons: 'You must provide and pay for your own expensive GPU servers (NVIDIA H100s).'
+      },
+      {
+        id: 'deepseek',
+        cat: 'open',
+        name: 'DeepSeek (V3 & R1)',
+        badge: 'MoE Efficiency Leap',
+        badgeBg: '#fae8ff',
+        badgeColor: '#86198f',
+        desc: 'Chinese open-weights research lab that revolutionized cost-efficiency with Sparse MoE and Multi-Head Latent Attention.',
+        novice: 'The Budget Supercar: Matches frontier models at 1/10th the training and inference cost.',
+        pros: 'Extraordinary reasoning and coding performance, open architecture, ultra-cheap inference.',
+        cons: 'Requires specialized GPU clustering configurations for self-hosting.'
+      },
+      {
+        id: 'azure-openai',
+        cat: 'cloud',
+        name: 'Microsoft Azure OpenAI',
+        badge: 'Enterprise Cloud Host',
+        badgeBg: '#dbeafe',
+        badgeColor: '#1e40af',
+        desc: 'Hosts OpenAI models inside enterprise Microsoft Azure tenants with HIPAA, SOC2, and private VPC isolation.',
+        novice: 'The Corporate Fortress: How Fortune 500 banks use GPT-4 without their customer data being used for training.',
+        pros: 'Guaranteed SLAs, enterprise compliance, zero data retention agreements.',
+        cons: 'Requires Azure subscription and quota approval.'
+      },
+      {
+        id: 'aws-bedrock',
+        cat: 'cloud',
+        name: 'AWS Amazon Bedrock',
+        badge: 'Multi-Model Cloud Hub',
+        badgeBg: '#ffedd5',
+        badgeColor: '#9a3412',
+        desc: 'Fully managed AWS service offering Claude, Llama, Mistral, and Amazon Nova via a unified single API.',
+        novice: 'The AI Supermarket on AWS: Switch between Claude and Llama with one dropdown without managing servers.',
+        pros: 'Seamless IAM integration, multi-model choice, serverless auto-scaling.',
+        cons: 'Regional model availability restrictions.'
+      },
+      {
+        id: 'huggingface',
+        cat: 'tooling',
+        name: 'Hugging Face Hub',
+        badge: 'The Model Registry',
+        badgeBg: '#fef9c3',
+        badgeColor: '#854d0e',
+        desc: 'The Git and App Store of Machine Learning. Houses over 900,000 open-weights models, datasets, and Spaces demos.',
+        novice: 'The Global GitHub for AI: Where all engineers download open models and share evaluation benchmarks.',
+        pros: 'Standard library (`transformers`), massive open-source community, model leaderboards.',
+        cons: 'Requires technical expertise to quantize and deploy weights.'
+      },
+      {
+        id: 'langchain-llamaindex',
+        cat: 'tooling',
+        name: 'LangChain & LlamaIndex',
+        badge: 'Developer SDK Frameworks',
+        badgeBg: '#f1f5f9',
+        badgeColor: '#334155',
+        desc: 'Python & TypeScript SDKs that wire LLMs to vector databases, external APIs, document parsers, and prompt chains.',
+        novice: 'The Plumbing Toolkit: The lego connectors that let developers build RAG and Chatbots in 20 lines of code.',
+        pros: 'Hundreds of pre-built integrations with databases and providers.',
+        cons: 'Can introduce abstraction overhead and version churn.'
+      },
+      {
+        id: 'eval-harness',
+        cat: 'tooling',
+        name: 'Evaluation Harnesses & MMLU',
+        badge: 'Benchmark Testing',
+        badgeBg: '#fee2e2',
+        badgeColor: '#991b1b',
+        desc: 'Frameworks like lm-evaluation-harness, MMLU, GSM8K, and LMSYS Chatbot Arena that score model intelligence scientifically.',
+        novice: 'The Standardized SAT Exam for AI: How we objectively measure if a new model is actually smarter or just hallucinating.',
+        pros: 'Neutral benchmark scores, automated regression testing for model quality.',
+        cons: 'Models can "overfit" or cheat on leaked test questions.'
+      }
+    ];
+
+    function filterEcosystem(cat, btn) {
+      const btns = document.querySelectorAll('.eco-filter-btn');
+      btns.forEach(b => b.classList.remove('active'));
+      if (btn) {
+        btn.classList.add('active');
+      } else {
+        const targetBtn = document.querySelector(`.eco-filter-btn[data-cat="${cat}"]`) || btns[0];
+        if (targetBtn) targetBtn.classList.add('active');
+      }
+
+      const grid = document.getElementById('eco-grid');
+      const filtered = cat === 'all' ? ecoData : ecoData.filter(d => d.cat === cat);
+
+      grid.innerHTML = filtered.map(item => `
+        <div class="eco-card" onclick="selectEcoCard('${item.id}')">
+          <div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+              <span class="eco-badge" style="background:${item.badgeBg};color:${item.badgeColor};">${item.badge}</span>
+            </div>
+            <h4 style="margin:0 0 6px 0;font-size:1.05rem;color:#0f172a;">${item.name}</h4>
+            <p style="font-size:0.82rem;color:#475569;margin:0;line-height:1.5;">${item.desc}</p>
+          </div>
+          <div style="margin-top:12px;font-size:0.75rem;font-weight:700;color:#7c3aed;display:flex;align-items:center;gap:4px;">
+            <span>Click to inspect details &rarr;</span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function selectEcoCard(id) {
+      const item = ecoData.find(d => d.id === id);
+      if (!item) return;
+
+      const detail = document.getElementById('eco-detail-card');
+      detail.style.display = 'block';
+      detail.innerHTML = `
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">
+          <div>
+            <span class="eco-badge" style="background:${item.badgeBg};color:${item.badgeColor};">${item.badge}</span>
+            <h3 style="margin:4px 0 0 0;font-size:1.2rem;color:#0f172a;">${item.name}</h3>
+          </div>
+          <button onclick="document.getElementById('eco-detail-card').style.display='none'" style="border:none;background:transparent;cursor:pointer;font-size:1.2rem;color:#64748b;">&times;</button>
+        </div>
+        <div style="background:#ffffff;border:1px solid #e2e8f0;border-radius:8px;padding:12px;margin:10px 0;font-size:0.88rem;color:#334155;">
+          <strong>Novice Analogy:</strong> ${item.novice}
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:0.84rem;">
+          <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:6px;padding:10px;color:#166534;">
+            <strong>&check; Strengths:</strong> ${item.pros}
+          </div>
+          <div style="background:#fef2f2;border:1px solid #fecaca;border-radius:6px;padding:10px;color:#991b1b;">
+            <strong>&cross; Tradeoffs:</strong> ${item.cons}
+          </div>
+        </div>
+      `;
+      detail.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    // --- 4. Live Tokenizer Slicer & Speedometer ---
+    const pastelColors = [
+      { bg: 'rgba(56, 189, 248, 0.25)', border: '#38bdf8', text: '#bae6fd' },
+      { bg: 'rgba(168, 85, 247, 0.25)', border: '#a855f7', text: '#e9d5ff' },
+      { bg: 'rgba(34, 197, 94, 0.25)', border: '#22c55e', text: '#bbf7d0' },
+      { bg: 'rgba(234, 179, 8, 0.25)', border: '#eab308', text: '#fef08a' },
+      { bg: 'rgba(244, 63, 94, 0.25)', border: '#f43f5e', text: '#fecdd3' },
+      { bg: 'rgba(249, 115, 22, 0.25)', border: '#f97316', text: '#fed7aa' }
+    ];
+
+    function sliceIntoTokens(text) {
+      if (!text) return [];
+      // Realistic subword regex simulator for demo purposes
+      const regex = /[A-Z]?[a-z]+|[A-Z]+(?![a-z])|[0-9]+|[^\s\w]+|\s+/g;
+      return text.match(regex) || [];
+    }
+
+    function updateTokenizer() {
+      const input = document.getElementById('token-input').value;
+      const chipsContainer = document.getElementById('token-output-chips');
+      const tokens = sliceIntoTokens(input);
+
+      chipsContainer.innerHTML = tokens.map((token, i) => {
+        const theme = pastelColors[i % pastelColors.length];
+        const displayToken = token.replace(/ /g, '&bull;').replace(/\n/g, '&para;<br>');
+        return `
+          <span class="token-chip" style="background:${theme.bg};border:1px solid ${theme.border};color:${theme.text};" title="Token #${i + 1} | Length: ${token.length} chars">
+            ${displayToken}
+          </span>
+        `;
+      }).join('');
+
+      const chars = input.length;
+      const tokenCount = tokens.length || 0;
+      const ratio = tokenCount > 0 ? (chars / tokenCount).toFixed(1) : '0';
+      const cost = ((tokenCount / 1000000) * 2.50).toFixed(5);
+
+      document.getElementById('metric-char-count').innerText = chars;
+      document.getElementById('metric-token-count').innerText = tokenCount;
+      document.getElementById('metric-ratio').innerText = ratio;
+      document.getElementById('metric-est-cost').innerText = `$${cost}`;
+    }
+
+    function setTokenText(text) {
+      document.getElementById('token-input').value = text;
+      updateTokenizer();
+    }
+
+    // Streaming Simulator
+    let streamTimer = null;
+    const sampleStreamTokens = [
+      "Gravity", " is", " the", " invisible", " superpower", " of", " our", " planet", " Earth!",
+      " Just", " like", " a", " friendly", " giant", " magnet,", " it", " pulls", " our", " shoes",
+      " gently", " to", " the", " ground", " so", " we", " don't", " float", " away", " into",
+      " outer", " space!"
+    ];
+
+    function startStreamingSimulation() {
+      resetStreamingSimulation();
+      const win = document.getElementById('stream-text-window');
+      win.innerHTML = '<span id="stream-content"></span><span class="streaming-cursor"></span>';
+      const contentSpan = document.getElementById('stream-content');
+
+      let idx = 0;
+      streamTimer = setInterval(() => {
+        if (idx < sampleStreamTokens.length) {
+          contentSpan.innerText += sampleStreamTokens[idx];
+          idx++;
+        } else {
+          clearInterval(streamTimer);
+          const cursor = win.querySelector('.streaming-cursor');
+          if (cursor) cursor.remove();
+        }
+      }, 70); // ~14 tokens per second simulation
+    }
+
+    function resetStreamingSimulation() {
+      if (streamTimer) clearInterval(streamTimer);
+      document.getElementById('stream-text-window').innerHTML = `
+        <span style="color:#64748b;">Click "Stream Output Live" above to watch sequential token generation...</span>
+      `;
+    }
+
+    // --- 5. Temperature Dial & Probabilities ---
+    const candidateWords = [
+      { word: 'Moon', baseProb: 0.72 },
+      { word: 'Mars', baseProb: 0.18 },
+      { word: 'runway', baseProb: 0.07 },
+      { word: 'ocean', baseProb: 0.02 },
+      { word: 'trampoline', baseProb: 0.01 }
+    ];
+
+    function computeSoftmax(temp) {
+      // Numerical temperature calculation simulation
+      const t = Math.max(temp, 0.05);
+      const logits = candidateWords.map(c => Math.log(c.baseProb + 0.0001) / t);
+      const maxLogit = Math.max(...logits);
+      const exps = logits.map(l => Math.exp(l - maxLogit));
+      const sumExp = exps.reduce((a, b) => a + b, 0);
+      return candidateWords.map((c, i) => ({
+        word: c.word,
+        prob: exps[i] / sumExp
+      }));
+    }
+
+    function onTemperatureChange(val) {
+      const temp = (val / 100).toFixed(2);
+      document.getElementById('temp-num-val').innerText = temp;
+
+      const personaCard = document.getElementById('temp-persona-card');
+      const personaRole = document.getElementById('temp-persona-role');
+      const personaDesc = document.getElementById('temp-persona-desc');
+
+      if (temp < 0.2) {
+        personaRole.innerHTML = '&#129302; The Deterministic Robot (0.0 - 0.2)';
+        personaRole.style.color = '#0284c7';
+        personaDesc.innerHTML = 'Picks the #1 highest-probability word 100% of the time. Zero randomness. Essential for Python code, SQL, math, and JSON schema extraction.';
+      } else if (temp <= 0.8) {
+        personaRole.innerHTML = '&#129309; The Balanced Assistant (0.3 - 0.8)';
+        personaRole.style.color = '#7c3aed';
+        personaDesc.innerHTML = 'Balanced natural flow. Introduces light creative variety while staying tightly grounded in logical facts.';
+      } else {
+        personaRole.innerHTML = '&#127912; The Wild Sci-Fi Poet (0.9 - 1.5+)';
+        personaRole.style.color = '#e11d48';
+        personaDesc.innerHTML = 'The probability curve is flattened! Rare and unexpected words have a high chance of being sampled. Fun for brainstorming, but high risk of hallucinations.';
+      }
+
+      renderProbabilityBars(parseFloat(temp));
+    }
+
+    function renderProbabilityBars(temp) {
+      const container = document.getElementById('prob-bars-container');
+      const probs = computeSoftmax(temp);
+
+      container.innerHTML = probs.map(p => {
+        const pct = (p.prob * 100).toFixed(1);
+        const fillWidth = Math.max(parseFloat(pct), 2);
+        let color = '#7c3aed';
+        if (p.prob > 0.5) color = '#22c55e';
+        else if (p.prob < 0.08) color = '#f59e0b';
+
+        return `
+          <div class="prob-bar-row">
+            <span class="prob-word-label">"${p.word}"</span>
+            <div class="prob-track">
+              <div class="prob-fill" style="width:${fillWidth}%;background:${color};">
+                ${pct}%
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function rollNextTokenSample() {
+      const temp = parseFloat(document.getElementById('temp-num-val').innerText);
+      const probs = computeSoftmax(temp);
+      const rand = Math.random();
+      let accum = 0;
+      let chosen = probs[0].word;
+
+      for (let p of probs) {
+        accum += p.prob;
+        if (rand <= accum) {
+          chosen = p.word;
+          break;
+        }
+      }
+
+      const resBox = document.getElementById('sample-result-text');
+      resBox.innerHTML = `
+        Prompt: <em>"The astronaut landed safely on the..."</em> &rarr; <strong style="color:#22c55e;font-size:1.05rem;">"${chosen}"</strong> (Sampled via Temp ${temp})
+      `;
+    }
+
+    // --- 6. RAG Simulator ---
+    let isRagActive = true;
+    function setRagMode(active) {
+      isRagActive = active;
+      document.getElementById('btn-rag-on').classList.toggle('active', active);
+      document.getElementById('btn-rag-off').classList.toggle('active', !active);
+
+      const dbNode = document.getElementById('rag-node-db');
+      const injectNode = document.getElementById('rag-node-inject');
+      const responseNode = document.getElementById('rag-node-response');
+      const resultCard = document.getElementById('rag-result-card');
+      const resultText = document.getElementById('rag-result-text');
+
+      if (active) {
+        dbNode.style.opacity = '1';
+        injectNode.style.opacity = '1';
+        responseNode.className = 'rag-node-box highlight';
+        resultCard.style.borderColor = '#22c55e';
+        resultCard.firstElementChild.innerText = 'Verified Grounded Response (Zero Hallucination):';
+        resultCard.firstElementChild.style.color = '#22c55e';
+        resultText.innerHTML = `
+          "According to <strong>ACME Policy #4.2 (Updated Oct 2024)</strong>, damaged electronics may be returned within <strong>30 days of delivery</strong> for a full refund or immediate replacement, provided original packaging is intact."
+        `;
+      } else {
+        dbNode.style.opacity = '0.35';
+        injectNode.style.opacity = '0.35';
+        responseNode.className = 'rag-node-box';
+        resultCard.style.borderColor = '#ef4444';
+        resultCard.firstElementChild.innerText = 'Unverified Hallucination (No Grounding):';
+        resultCard.firstElementChild.style.color = '#ef4444';
+        resultText.innerHTML = `
+          <em>"I believe electronics can be returned within 14 days, though some stores offer 90 days. Please check with your store manager."</em> <br><span style="color:#f87171;font-size:0.8rem;">(&cross; Dangerous guess: Model invented a fictional 14-day policy!)</span>
+        `;
+      }
+    }
+
+    // --- 7. MCP Hub Simulator ---
+    const mcpPorts = {
+      sql: true,
+      fs: true,
+      gh: true,
+      web: false
+    };
+
+    function toggleMcpPort(key) {
+      mcpPorts[key] = !mcpPorts[key];
+      const card = document.getElementById(`mcp-port-${key}`);
+      const btn = document.getElementById(`btn-plug-${key}`);
+
+      if (mcpPorts[key]) {
+        card.classList.add('connected');
+        btn.classList.add('plugged');
+        btn.innerHTML = '<i data-lucide="check" style="width:12px;height:12px;"></i> Connected';
+      } else {
+        card.classList.remove('connected');
+        btn.classList.remove('plugged');
+        btn.innerHTML = '<i data-lucide="plug" style="width:12px;height:12px;"></i> Plug In';
+      }
+
+      const activeCount = Object.values(mcpPorts).filter(Boolean).length;
+      document.getElementById('mcp-active-count').innerText = `\u2714 ${activeCount} MCP Servers Connected`;
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function executeMcpAction(type) {
+      const consoleBox = document.getElementById('mcp-packet-console');
+      if (type === 'sql') {
+        if (!mcpPorts.sql) {
+          consoleBox.innerHTML = '<span style="color:#ef4444;">[ERROR] PostgreSQL MCP Server is unplugged! Reconnect cable to run SQL query.</span>';
+          return;
+        }
+        consoleBox.innerHTML = `
+          <span style="color:#38bdf8;">[MCP Client &rarr; postgres-mcp-server]</span> JSON-RPC: {"method":"tools/call","name":"execute_sql","args":{"query":"SELECT sum(amount) FROM orders WHERE quarter='Q3'"}}<br>
+          <span style="color:#4ade80;">[postgres-mcp-server &rarr; MCP Client]</span> Response: {"status":"success","rows":[{"total_q3_rev":"$4,210,500.00"}]}<br>
+          <span style="color:#ffffff;">&bull; LLM Answer:</span> "ACME recorded a total Q3 revenue of <strong>$4,210,500.00</strong> across 18,400 orders."
+        `;
+      } else if (type === 'fs') {
+        if (!mcpPorts.fs) {
+          consoleBox.innerHTML = '<span style="color:#ef4444;">[ERROR] Local Filesystem MCP Server is disconnected!</span>';
+          return;
+        }
+        consoleBox.innerHTML = `
+          <span style="color:#a855f7;">[MCP Client &rarr; filesystem-mcp-server]</span> JSON-RPC: {"method":"resources/read","uri":"file:///project/package.json"}<br>
+          <span style="color:#4ade80;">[filesystem-mcp-server &rarr; MCP Client]</span> Response: 200 OK (Read 1,420 bytes)<br>
+          <span style="color:#ffffff;">&bull; LLM Answer:</span> "The workspace uses Node.js v20.12 with dependencies: <code>@anthropic-ai/sdk</code> and <code>d3@7.9.0</code>."
+        `;
+      } else if (type === 'gh') {
+        if (!mcpPorts.gh) {
+          consoleBox.innerHTML = '<span style="color:#ef4444;">[ERROR] GitHub MCP Server is unplugged!</span>';
+          return;
+        }
+        consoleBox.innerHTML = `
+          <span style="color:#22c55e;">[MCP Client &rarr; github-mcp-server]</span> JSON-RPC: {"method":"tools/call","name":"list_pull_requests","args":{"repo":"tinitiateprime/core"}}<br>
+          <span style="color:#4ade80;">[github-mcp-server &rarr; MCP Client]</span> Response: Found 2 open PRs (#41 Auth Refactor, #42 Dark Mode Fix)<br>
+          <span style="color:#ffffff;">&bull; LLM Answer:</span> "You have 2 pending pull requests. PR #41 has passed CI checks and is ready for merge."
+        `;
+      }
+    }
+
+    // --- 8. MoE Gating Router Simulator ---
+    const moeScenarios = {
+      code: {
+        title: 'Prompt: "Fix Python IndexError in binary search"',
+        top1: 2, // Code
+        top2: 1, // Math & Logic
+        status: 'Gating Router: Activated Top-2 Specialists: [Expert 02: Code] & [Expert 01: Logic]. Remaining 6 experts asleep.'
+      },
+      math: {
+        title: 'Prompt: "Solve differential equation dy/dx = 3x"',
+        top1: 1, // Math
+        top2: 2, // Code
+        status: 'Gating Router: Activated Top-2 Specialists: [Expert 01: Math & Logic] & [Expert 02: Algorithms].'
+      },
+      medical: {
+        title: 'Prompt: "Diagnose acute lower back pain"',
+        top1: 6, // Medicine
+        top2: 5, // Facts
+        status: 'Gating Router: Activated Top-2 Specialists: [Expert 06: Biology & Medicine] & [Expert 05: Factual Knowledge].'
+      },
+      creative: {
+        title: 'Prompt: "Compose a Shakespearean sonnet about Mars"',
+        top1: 3, // Creative
+        top2: 5, // History
+        status: 'Gating Router: Activated Top-2 Specialists: [Expert 03: Creative Writing] & [Expert 05: History & Facts].'
+      }
+    };
+
+    function routeMoePrompt(key) {
+      const scenario = moeScenarios[key];
+      if (!scenario) return;
+
+      document.getElementById('moe-route-status').innerText = scenario.status;
+
+      // Reset all 8 experts
+      for (let i = 1; i <= 8; i++) {
+        const card = document.getElementById(`expert-${i}`);
+        card.className = 'moe-expert-card';
+      }
+
+      // Activate Top-1 & Top-2
+      const top1Card = document.getElementById(`expert-${scenario.top1}`);
+      const top2Card = document.getElementById(`expert-${scenario.top2}`);
+
+      if (top1Card) top1Card.className = 'moe-expert-card active primary';
+      if (top2Card) top2Card.className = 'moe-expert-card active';
+    }
+
+    // Initialize all components on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.lucide) lucide.createIcons();
+      selectEra(0);
+      filterEcosystem('all');
+      updateTokenizer();
+      onTemperatureChange(70);
+      renderProbabilityBars(0.70);
+    });
+  </script>
+
+</body>
+</html>

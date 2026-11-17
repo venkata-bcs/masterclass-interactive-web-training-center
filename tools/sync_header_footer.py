@@ -1,22 +1,29 @@
-"""Copy the home page's header and footer onto every page.
+"""Copy the home page's shared header menu and footer onto every page.
 
-index.html is the source of truth. Edit its <header class="master-top-nav"> or
-<footer class="site-footer">, then run from the repo root:
+index.html is the source of truth. Edit its <nav class="master-menu-links"> (Home /
+MasterClass / Demo menus) or its <footer class="site-footer">, then run from the repo root:
 
-    python tools/sync_header_footer.py
+    python tools/sync_header_footer.py           # apply
+    python tools/sync_header_footer.py --check   # report pages that are out of sync, change nothing
 
-Relative links are re-based for each page's folder depth, and each page keeps its own
-.master-brand-badge text. Pages in SKIP_DIRS are left alone (sales-pitch is a
-separately branded standalone page; pdfs is not part of the site). Safe to re-run.
+Only those two blocks are synced. Everything else in each page's header is page-specific
+and left alone:
+  - the brand block (<a class="master-brand-wrap">): the home and Why TinitiateAI pages use
+    the logo + MasterClass wordmark, every other page has its own .master-brand-badge text
+  - the classes on .master-top-nav-inner (e.g. "nav-centered" on home / Why TinitiateAI)
+  - anything after the menu, e.g. the Instructors picker on why-tinitiate.html
+
+Relative links are re-based for each page's folder depth. Pages in SKIP_DIRS are
+separately branded or not part of the site. Safe to re-run.
 """
 import re
+import sys
 import pathlib
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-SKIP_DIRS = {"sales-pitch", "pdfs", "node_modules", "tools"}
-HEADER_RE = re.compile(r'<header class="master-top-nav">.*?</header>', re.S)
+SKIP_DIRS = {"sales-pitch", "ramesh-operations", "pdfs", "node_modules", "tools"}
+NAV_RE = re.compile(r'<nav class="master-menu-links">.*?</nav>', re.S)
 FOOTER_RE = re.compile(r'<footer class="site-footer">.*?</footer>', re.S)
-BADGE_RE = re.compile(r'<span class="master-brand-badge">(.*?)</span>', re.S)
 REL_RE = re.compile(r'(\b(?:href|src)=")(?!https?:|mailto:|tel:|#|/|data:|javascript:)([^"]*)"')
 
 
@@ -24,34 +31,44 @@ def rebase(html, prefix):
     return REL_RE.sub(lambda m: f'{m.group(1)}{prefix}{m.group(2)}"', html) if prefix else html
 
 
-def main():
-    home = (ROOT / "index.html").read_text(encoding="utf-8")
-    header_src = HEADER_RE.search(home).group(0)
-    footer_src = FOOTER_RE.search(home).group(0)
-    home_badge = BADGE_RE.search(header_src).group(0)
+def replace_block(s, regex, new):
+    m = regex.search(s)
+    return s[:m.start()] + new + s[m.end():]
 
-    changed, missing = 0, []
+
+def main():
+    check_only = "--check" in sys.argv[1:]
+    home = (ROOT / "index.html").read_text(encoding="utf-8")
+    nav_m, footer_m = NAV_RE.search(home), FOOTER_RE.search(home)
+    if not nav_m or not footer_m:
+        sys.exit('index.html is missing <nav class="master-menu-links"> or <footer class="site-footer">')
+    nav_src, footer_src = nav_m.group(0), footer_m.group(0)
+
+    changed, missing = [], []
     for path in sorted(ROOT.rglob("*.html")):
         rel = path.relative_to(ROOT)
         if rel.parts[0] in SKIP_DIRS or rel == pathlib.Path("index.html"):
             continue
         s = path.read_text(encoding="utf-8")
-        header, footer = HEADER_RE.search(s), FOOTER_RE.search(s)
-        if not header or not footer:
-            missing.append(str(rel))
+        if not NAV_RE.search(s) or not FOOTER_RE.search(s):
+            missing.append(rel.as_posix())
             continue
         prefix = "../" * (len(rel.parts) - 1)
-        badge = BADGE_RE.search(header.group(0)).group(0)
-        new_header = rebase(header_src, prefix).replace(home_badge, badge, 1)
-        new_footer = rebase(footer_src, prefix)
-        out = s[:header.start()] + new_header + s[header.end():footer.start()] + new_footer + s[footer.end():]
+        out = replace_block(s, NAV_RE, rebase(nav_src, prefix))
+        out = replace_block(out, FOOTER_RE, rebase(footer_src, prefix))
         if out != s:
-            path.write_text(out, encoding="utf-8", newline="\n")
-            changed += 1
+            changed.append(rel.as_posix())
+            if not check_only:
+                path.write_text(out, encoding="utf-8", newline="\n")
 
-    print(f"updated {changed} pages")
+    if check_only:
+        print(f"{len(changed)} page(s) out of sync" + (":\n  " + "\n  ".join(changed) if changed else ""))
+    else:
+        print(f"updated {len(changed)} page(s)")
     if missing:
-        print("no standard header/footer (skipped):", ", ".join(missing))
+        print("no standard menu/footer (skipped):", ", ".join(missing))
+    if check_only and changed:
+        sys.exit(1)
 
 
 if __name__ == "__main__":

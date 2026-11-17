@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Why TinitiateAI | Tinitiate MasterClass Academy</title>
+  <meta name="description" content="Why learn with TinitiateAI: masterclass-level AI, data and full-stack tracks with installers, free code bases, assignments, enterprise SaaS capstones, interview prep and portfolio building.">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,400,0..1,0&display=block">
+  <link rel="stylesheet" href="assets/css/master-global-layout.css">
+  <script src="assets/js/master-global-nav.js" defer></script>
+  <style>
+    :root {
+      --why-bg: #0d0820;
+      --why-bg-2: #160b33;
+      --why-card: rgba(255, 255, 255, 0.05);
+      --why-card-hi: rgba(255, 255, 255, 0.09);
+      --why-line: rgba(216, 180, 254, 0.18);
+      --why-text: #f5f3ff;
+      --why-muted: #c4b5fd;
+      --why-dim: #a78bfa;
+      --why-gold: #facc15;
+      --why-violet: #a855f7;
+      --why-pink: #ec4899;
+      --why-cyan: #22d3ee;
+      --why-green: #34d399;
+      --why-ease: cubic-bezier(.2, .8, .2, 1);
+    }
+    html { scroll-snap-type: y proximity; scroll-padding-top: var(--nav-height); scroll-behavior: smooth; }
+    body { margin: 0; background: var(--why-bg); color: var(--why-text); overflow-x: hidden; }
+    .msr {
+      font-family: "Material Symbols Rounded"; font-weight: normal; font-style: normal; font-size: 22px; line-height: 1;
+      display: inline-block; white-space: nowrap; direction: ltr; -webkit-font-feature-settings: "liga"; font-feature-settings: "liga";
+      font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 24; flex-shrink: 0; user-select: none;
+    }
+
+    /* Scroll progress + snap dots */
+    .why-progress { position: fixed; top: var(--nav-height); left: 0; height: 3px; width: 0; z-index: 999;
+      background: linear-gradient(90deg, var(--why-gold), var(--why-pink), var(--why-violet)); }
+    .why-dots { position: fixed; right: 18px; top: 50%; transform: translateY(-50%); z-index: 50; display: flex; flex-direction: column; gap: 10px; }
+    .why-dots a { position: relative; width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,.25); transition: all .3s var(--why-ease); }
+    .why-dots a.on { background: var(--why-gold); height: 26px; border-radius: 5px; }
+    .why-dots a span {
+      position: absolute; right: 20px; top: 50%; transform: translateY(-50%); white-space: nowrap; font-size: 12px; font-weight: 600;
+      padding: 4px 10px; border-radius: 6px; background: #2e1065; color: #fff; opacity: 0; pointer-events: none; transition: opacity .2s;
+    }
+    .why-dots a:hover span { opacity: 1; }
+
+    /* Snap sections */
+    .snap {
+      position: relative; min-height: calc(100vh - var(--nav-height)); scroll-snap-align: start;
+      display: flex; align-items: center; padding: 72px 24px; box-sizing: border-box; overflow: hidden;
+    }
+    .snap:nth-of-type(even) { background: var(--why-bg-2); }
+    .wrap { width: 100%; max-width: 1180px; margin: 0 auto; position: relative; z-index: 2; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border-radius: 999px; font-size: 13px; font-weight: 700;
+      letter-spacing: .08em; text-transform: uppercase; color: var(--why-gold); background: rgba(250, 204, 21, .1); border: 1px solid rgba(250, 204, 21, .35); }
+    .h2 { font-size: clamp(30px, 4.4vw, 52px); line-height: 1.08; font-weight: 800; letter-spacing: -.02em; margin: 16px 0 12px; }
+    .lead { font-size: clamp(16px, 1.6vw, 19px); line-height: 1.6; color: var(--why-muted); max-width: 760px; margin: 0; }
+    .grad { background: linear-gradient(100deg, var(--why-gold), var(--why-pink) 45%, var(--why-violet)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+    /* Reveal-on-scroll (stagger with --i) */
+    .rv { opacity: 0; transform: translateY(28px); transition: opacity .7s var(--why-ease), transform .7s var(--why-ease); transition-delay: calc(var(--i, 0) * 80ms); }
+    .in .rv { opacity: 1; transform: none; }
+
+    /* Buttons */
+    .btn { display: inline-flex; align-items: center; gap: 8px; height: 50px; padding: 0 24px; border-radius: 14px; font-weight: 700; font-size: 16px;
+      text-decoration: none; cursor: pointer; border: 0; transition: transform .2s var(--why-ease), box-shadow .2s; }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-gold { background: linear-gradient(135deg, #fde047, #f59e0b); color: #1c0a00; box-shadow: 0 10px 30px -8px rgba(250, 204, 21, .6); animation: throb 2.2s ease-in-out infinite; }
+    .btn-ghost { background: rgba(255,255,255,.07); color: #fff; border: 1px solid rgba(255,255,255,.22); }
+    @keyframes throb { 0%, 100% { box-shadow: 0 10px 30px -8px rgba(250,204,21,.6), 0 0 0 0 rgba(250,204,21,.45); } 50% { box-shadow: 0 10px 30px -8px rgba(250,204,21,.6), 0 0 0 12px rgba(250,204,21,0); } }
+
+    /* ---------- 1. HERO ---------- */
+    .hero { text-align: center; }
+    .hero .wrap { display: flex; flex-direction: column; align-items: center; }
+    .hero h1 { font-size: clamp(40px, 7vw, 88px); line-height: 1.02; font-weight: 900; letter-spacing: -.03em; margin: 22px 0 18px; }
+    .typed { display: inline-block; min-width: 2ch; border-right: 4px solid var(--why-gold); padding-right: 6px; animation: caret 1s steps(1) infinite; }
+    @keyframes caret { 50% { border-color: transparent; } }
+    .hero .lead { margin: 0 auto 30px; }
+    .hero-cta { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+    .blob { position: absolute; border-radius: 50%; filter: blur(70px); opacity: .55; z-index: 1; animation: drift 14s ease-in-out infinite alternate; }
+    .blob.b1 { width: 460px; height: 460px; background: #7c3aed; top: -120px; left: -80px; }
+    .blob.b2 { width: 380px; height: 380px; background: #db2777; bottom: -120px; right: -60px; animation-delay: -5s; }
+    .blob.b3 { width: 280px; height: 280px; background: #ca8a04; top: 40%; left: 55%; opacity: .3; animation-delay: -9s; }
+    @keyframes drift { to { transform: translate(60px, 40px) scale(1.15); } }
+    .orbit { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+    .orbit span { position: absolute; display: grid; place-items: center; width: 54px; height: 54px; border-radius: 16px;
+      background: rgba(255,255,255,.06); border: 1px solid var(--why-line); color: var(--why-muted); backdrop-filter: blur(6px);
+      animation: float 6s ease-in-out infinite; }
+    @keyframes float { 0%, 100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-18px) rotate(6deg); } }
+    .scroll-cue { margin-top: 44px; display: flex; flex-direction: column; align-items: center; gap: 6px; color: var(--why-dim); font-size: 13px; text-decoration: none; }
+    .scroll-cue .msr { animation: bob 1.6s ease-in-out infinite; }
+    @keyframes bob { 50% { transform: translateY(8px); } }
+    .hero-strip { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 34px; }
+    .hero-strip span { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 999px; font-size: 14px; font-weight: 600;
+      background: rgba(255,255,255,.06); border: 1px solid var(--why-line); color: var(--why-text); }
+    .hero-strip .msr { font-size: 18px; color: var(--why-gold); }
+
+    /* ---------- 2. EVERYTHING INCLUDED (flip cards) ---------- */
+    .grid-8 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-top: 36px; }
+    .flip { perspective: 1000px; min-height: 210px; cursor: pointer; }
+    .flip-inner { position: relative; width: 100%; height: 100%; min-height: 210px; transition: transform .7s var(--why-ease); transform-style: preserve-3d; }
+    .flip:hover .flip-inner, .flip.open .flip-inner { transform: rotateY(180deg); }
+    .face { position: absolute; inset: 0; backface-visibility: hidden; border-radius: 20px; padding: 22px; display: flex; flex-direction: column; gap: 10px;
+      background: var(--why-card); border: 1px solid var(--why-line); }
+    .face.back { transform: rotateY(180deg); background: linear-gradient(160deg, #4c1d95, #831843); border-color: transparent; }
+    .face h3 { margin: 0; font-size: 19px; }
+    .face p { margin: 0; font-size: 14px; line-height: 1.55; color: var(--why-muted); }
+    .face.back p { color: #fdf4ff; }
+    .face .hint { margin-top: auto; font-size: 12px; color: var(--why-dim); display: flex; align-items: center; gap: 4px; }
+    .ico { width: 52px; height: 52px; border-radius: 16px; display: grid; place-items: center; }
+    .ico .msr { font-size: 28px; }
+    .c-gold { background: rgba(250,204,21,.14); color: var(--why-gold); }
+    .c-pink { background: rgba(236,72,153,.16); color: #f9a8d4; }
+    .c-violet { background: rgba(168,85,247,.18); color: #d8b4fe; }
+    .c-cyan { background: rgba(34,211,238,.14); color: #67e8f9; }
+    .c-green { background: rgba(52,211,153,.14); color: #6ee7b7; }
+
+    /* ---------- 3. JOURNEY SLIDESHOW ---------- */
+    .show { margin-top: 34px; display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 28px; align-items: center; }
+    .show-stage { position: relative; min-height: 330px; border-radius: 26px; background: var(--why-card); border: 1px solid var(--why-line); overflow: hidden; }
+    .slide { position: absolute; inset: 0; padding: 34px; display: flex; flex-direction: column; justify-content: center; gap: 14px;
+      opacity: 0; transform: translateX(40px) scale(.98); transition: opacity .6s var(--why-ease), transform .6s var(--why-ease); pointer-events: none; }
+    .slide.on { opacity: 1; transform: none; pointer-events: auto; }
+    .slide .big-ico { width: 84px; height: 84px; border-radius: 24px; display: grid; place-items: center; }
+    .slide .big-ico .msr { font-size: 46px; }
+    .slide .step-no { font-size: 13px; font-weight: 800; letter-spacing: .12em; color: var(--why-gold); }
+    .slide h3 { margin: 0; font-size: clamp(24px, 2.6vw, 32px); }
+    .slide p { margin: 0; color: var(--why-muted); line-height: 1.6; font-size: 16px; }
+    .slide .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; font-size: 13px; font-weight: 600;
+      background: rgba(255,255,255,.07); border: 1px solid var(--why-line); color: var(--why-text); }
+    .chip .msr { font-size: 16px; color: var(--why-green); }
+    .show-bar { position: absolute; left: 0; bottom: 0; height: 4px; width: 0; background: linear-gradient(90deg, var(--why-gold), var(--why-pink)); }
+    .show-bar.run { animation: fill 5s linear forwards; }
+    @keyframes fill { to { width: 100%; } }
+    .steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+    .steps button { width: 100%; display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-radius: 14px; border: 1px solid transparent;
+      background: none; color: var(--why-muted); font-size: 15px; font-weight: 600; text-align: left; cursor: pointer; transition: all .25s var(--why-ease); }
+    .steps button .n { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; font-size: 13px; background: rgba(255,255,255,.08); flex-shrink: 0; }
+    .steps button:hover { background: rgba(255,255,255,.05); }
+    .steps button.on { background: rgba(250,204,21,.1); border-color: rgba(250,204,21,.35); color: #fff; transform: translateX(6px); }
+    .steps button.on .n { background: var(--why-gold); color: #1c0a00; }
+    .show-ctrl { display: flex; gap: 8px; margin-top: 14px; }
+    .icon-btn { width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; cursor: pointer; border: 1px solid var(--why-line);
+      background: rgba(255,255,255,.06); color: #fff; }
+
+    /* ---------- 4. MASTERCLASS VS TYPICAL ---------- */
+    .versus { margin-top: 34px; display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .vcol { border-radius: 24px; padding: 26px; border: 1px solid var(--why-line); background: var(--why-card); }
+    .vcol.us { background: linear-gradient(160deg, rgba(124,58,237,.35), rgba(219,39,119,.25)); border-color: rgba(250,204,21,.45); box-shadow: 0 0 60px -20px rgba(250,204,21,.4); }
+    .vcol h3 { margin: 0 0 16px; display: flex; align-items: center; gap: 10px; font-size: 20px; }
+    .vlist { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+    .vlist li { display: flex; gap: 10px; align-items: flex-start; line-height: 1.5; font-size: 15px; }
+    .vcol:not(.us) li { color: #a1a1aa; }
+    .vcol:not(.us) .msr { color: #71717a; }
+    .vcol.us .msr { color: var(--why-green); }
+
+    /* ---------- 5. PROJECT MARQUEE ---------- */
+    #why-projects { flex-direction: column; justify-content: center; }
+    .proj-rows { position: relative; z-index: 2; width: 100%; margin-top: 8px; }
+    .marquee { margin-top: 34px; overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+    .marquee-track { display: flex; gap: 16px; width: max-content; animation: slide-x 48s linear infinite; }
+    .marquee:hover .marquee-track { animation-play-state: paused; }
+    .marquee.rev .marquee-track { animation-direction: reverse; animation-duration: 56s; }
+    @keyframes slide-x { to { transform: translateX(-50%); } }
+    .proj { width: 300px; flex-shrink: 0; border-radius: 20px; padding: 20px; background: var(--why-card); border: 1px solid var(--why-line); display: flex; flex-direction: column; gap: 10px; }
+    .proj h4 { margin: 0; font-size: 17px; }
+    .proj p { margin: 0; font-size: 13px; line-height: 1.5; color: var(--why-muted); }
+    .proj .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; }
+    .proj .tags span { font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 6px; background: rgba(255,255,255,.08); color: var(--why-muted); }
+    .proj-head { display: flex; align-items: center; gap: 12px; }
+    .proj .lvl { margin-left: auto; font-size: 11px; font-weight: 800; letter-spacing: .06em; padding: 3px 8px; border-radius: 6px; }
+    .lvl.mini { background: rgba(34,211,238,.15); color: #67e8f9; }
+    .lvl.cap { background: rgba(250,204,21,.15); color: var(--why-gold); }
+    .lvl.saas { background: rgba(236,72,153,.18); color: #f9a8d4; }
+
+    /* ---------- 6. CAREER LAUNCHPAD ---------- */
+    .launch { margin-top: 34px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+    .lp { border-radius: 22px; padding: 22px; background: var(--why-card); border: 1px solid var(--why-line); display: flex; flex-direction: column; gap: 14px; }
+    .lp-title { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 17px; }
+    .li-card { border-radius: 14px; overflow: hidden; background: #fff; color: #1f2937; }
+    .li-cover { height: 46px; background: linear-gradient(90deg, #0a66c2, #7c3aed); }
+    .li-body { padding: 0 14px 14px; }
+    .li-avatar { width: 54px; height: 54px; border-radius: 50%; border: 3px solid #fff; margin-top: -27px; background: linear-gradient(135deg, #7c3aed, #db2777); display: grid; place-items: center; color: #fff; font-weight: 800; }
+    .li-name { font-weight: 800; margin-top: 6px; }
+    .li-head { font-size: 13px; color: #4b5563; min-height: 36px; }
+    .li-head b { color: #0a66c2; }
+    .li-skills { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
+    .li-skills span { font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 999px; background: #e0e7ff; color: #3730a3; opacity: 0; transform: scale(.6); transition: all .4s var(--why-ease); }
+    .in .li-skills span { opacity: 1; transform: none; transition-delay: calc(.6s + var(--i) * 120ms); }
+    .gh-grid { display: grid; grid-template-columns: repeat(20, 1fr); gap: 3px; }
+    .gh-grid i { aspect-ratio: 1; border-radius: 2px; background: rgba(255,255,255,.07); transition: background-color .3s; }
+    .gh-grid i.l1 { background: #0e4429; } .gh-grid i.l2 { background: #006d32; } .gh-grid i.l3 { background: #26a641; } .gh-grid i.l4 { background: #39d353; }
+    .pf { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .pf div { border-radius: 12px; padding: 12px; font-size: 12px; font-weight: 700; display: flex; flex-direction: column; gap: 6px; min-height: 64px;
+      background: rgba(255,255,255,.06); border: 1px solid var(--why-line); opacity: 0; transform: translateY(12px); transition: all .5s var(--why-ease); }
+    .in .pf div { opacity: 1; transform: none; transition-delay: calc(.4s + var(--i) * 140ms); }
+    .pf .msr { font-size: 20px; color: var(--why-gold); }
+    .lp p { margin: 0; color: var(--why-muted); font-size: 14px; line-height: 1.5; }
+
+    /* ---------- 7. TRACKS ---------- */
+    .pace { display: inline-flex; gap: 4px; padding: 4px; border-radius: 14px; background: rgba(255,255,255,.06); border: 1px solid var(--why-line); margin-top: 22px; flex-wrap: wrap; }
+    .pace button { display: inline-flex; align-items: center; gap: 6px; height: 40px; padding: 0 16px; border-radius: 10px; border: 0; background: none;
+      color: var(--why-muted); font-weight: 700; font-size: 14px; cursor: pointer; transition: all .25s; }
+    .pace button.on { background: var(--why-gold); color: #1c0a00; }
+    .pace-note { margin: 12px 0 0; color: var(--why-muted); font-size: 15px; display: flex; gap: 8px; align-items: center; }
+    .pace-note .msr { color: var(--why-gold); }
+    .tracks { margin-top: 26px; display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 16px; }
+    .track { position: relative; border-radius: 22px; padding: 22px; background: var(--why-card); border: 1px solid var(--why-line); display: flex; flex-direction: column; gap: 12px;
+      text-decoration: none; color: inherit; overflow: hidden; transition: transform .3s var(--why-ease), border-color .3s, box-shadow .3s; }
+    .track::before { content: ""; position: absolute; inset: 0; background: radial-gradient(400px circle at var(--mx, 50%) var(--my, 0%), rgba(250,204,21,.14), transparent 40%); opacity: 0; transition: opacity .3s; }
+    .track:hover { transform: translateY(-6px); border-color: rgba(250,204,21,.5); box-shadow: 0 20px 50px -20px rgba(168,85,247,.6); }
+    .track:hover::before { opacity: 1; }
+    .track h3 { margin: 0; font-size: 19px; }
+    .track p { margin: 0; color: var(--why-muted); font-size: 14px; line-height: 1.5; }
+    .track .tk-pace { font-size: 13px; font-weight: 700; color: var(--why-gold); display: flex; align-items: center; gap: 6px; }
+    .track .tk-pace .msr { font-size: 18px; }
+    .track .go { margin-top: auto; display: flex; align-items: center; gap: 4px; font-weight: 700; font-size: 14px; color: #fff; }
+    .track:hover .go .msr { transform: translateX(4px); }
+    .track .go .msr { transition: transform .2s; font-size: 20px; }
+
+    /* ---------- 8. FINAL CTA ---------- */
+    .final { text-align: center; background: radial-gradient(800px circle at 50% 40%, rgba(124,58,237,.45), transparent 60%), var(--why-bg) !important; }
+    .final .wrap { display: flex; flex-direction: column; align-items: center; }
+    .final h2 { font-size: clamp(36px, 6vw, 72px); line-height: 1.04; font-weight: 900; margin: 18px 0; letter-spacing: -.03em; }
+    .final .lead { margin: 0 auto 28px; }
+    .pulse-ring { position: relative; display: grid; place-items: center; width: 96px; height: 96px; margin-bottom: 8px; }
+    .pulse-ring::before, .pulse-ring::after { content: ""; position: absolute; inset: 0; border-radius: 50%; border: 2px solid var(--why-gold); animation: ring 2.4s ease-out infinite; }
+    .pulse-ring::after { animation-delay: 1.2s; }
+    .pulse-ring .msr { font-size: 44px; color: var(--why-gold); }
+    @keyframes ring { from { transform: scale(.6); opacity: 1; } to { transform: scale(1.6); opacity: 0; } }
+
+    /* ---------- responsive ---------- */
+    @media (max-width: 1000px) {
+      .grid-8 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .show, .launch { grid-template-columns: minmax(0, 1fr); }
+      .why-dots { display: none; }
+    }
+    @media (max-width: 640px) {
+      .snap { padding: 56px 16px; }
+      .grid-8, .versus { grid-template-columns: minmax(0, 1fr); }
+      .orbit { display: none; }
+      .show-stage { min-height: 380px; }
+      .slide { padding: 24px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
+      html { scroll-behavior: auto; }
+    }
+  </style>
+</head>
+<body>
+  <header class="master-top-nav">
+    <div class="master-top-nav-inner">
+      <a href="index.html" class="master-brand-wrap" aria-label="Tinitiate MasterClass Academy">
+        <img src="tinitiate_header-banner.png" alt="Tinitiate Logo" class="master-brand-logo">
+        <span class="master-brand-badge">MasterClass Academy</span>
+      </a>
+
+      <!-- Primary Navigation Links (NO LOCAL NAVIGATION IN HEADER) -->
+      <nav class="master-menu-links">
+        <a href="index.html" class="master-nav-btn" title="Main Academy Portal">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          <span>Home</span>
+        </a>
+
+        <!-- Subjects DropDown with Bulletproof Bridge & SVGs -->
+        <div class="master-dropdown" id="subjectsDropdown">
+          <button type="button" class="master-dropdown-toggle" onclick="toggleSubjectsDropdown(event)" aria-haspopup="true" aria-expanded="false" title="Explore All Subjects">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>
+            <span>Subjects</span>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div class="master-dropdown-menu mega-menu" id="subjectsMegaMenu">
+            <div class="mega-menu-header">
+              <div class="mega-menu-title-wrap">
+                <span class="mega-menu-eyebrow">TINITIATE AI ACADEMY • ARCHITECTURE CURRICULUM</span>
+                <h4 class="mega-menu-title">Explore Engineering Curricula by Domain</h4>
+              </div>
+              <div class="mega-menu-stats-pill">
+                <span>6 Domains</span> • <span>35 Tracks + 15 Placement Guides</span>
+              </div>
+            </div>
+
+            <div class="mega-menu-grid">
+        <!-- Category: Foundational -->
+        <div class="mega-category-col" style="--cat-accent:#38bdf8;">
+          <div class="mega-category-header">
+            <span class="mega-cat-badge" style="color:#38bdf8;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="8" height="8" x="3" y="3" rx="2"/><path d="M7 11v4a2 2 0 0 0 2 2h4"/><rect width="8" height="8" x="13" y="13" rx="2"/></svg>
+              <span>Foundational</span>
+            </span>
+            <span class="mega-cat-count">9 Tracks</span>
+          </div>
+          <div class="mega-category-list">
+          <a href="foundational/index.html" class="mega-category-item" title="Foundational Master Class: Computer Science &amp; Software Engineering Fundamentals">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m16.24 7.76-2.12 6.36-6.36 2.12 2.12-6.36 6.36-2.12z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Foundational Master Class</span>
+            </span>
+          </a>
+          <a href="foundational/python/index.html" class="mega-category-item" title="Python: Print, Variables, Datatypes, Operators, Strings &amp; Lists">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" x2="20" y1="19" y2="19"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Python</span>
+            </span>
+          </a>
+          <a href="foundational/sql/index.html" class="mega-category-item" title="SQL: PostgreSQL DDL &amp; DML, on a real database in your browser">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">SQL</span>
+            </span>
+          </a>
+          <a href="foundational/data-structures/index.html" class="mega-category-item" title="Data Structures: Trees, Graphs, HashTables & Heaps">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="8" height="8" x="3" y="3" rx="2"/><rect width="8" height="8" x="13" y="13" rx="2"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Data Structures</span>
+            </span>
+          </a>
+          <a href="foundational/authentication/index.html" class="mega-category-item" title="Authentication: OAuth2, OIDC, JWT, SAML & PKCE">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m21 2-2 2m-1.5 1.5L13 10m0 0a5 5 0 1 1-7-7 5 5 0 0 1 7 7Z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Authentication</span>
+            </span>
+          </a>
+          <a href="foundational/apis/index.html" class="mega-category-item" title="APIs: REST, GraphQL, gRPC & WebSockets">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 16.326A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 .5 8.973"/><path d="m13 12-3 5h4l-3 5"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">APIs</span>
+            </span>
+          </a>
+          <a href="foundational/microservices/index.html" class="mega-category-item" title="MicroServices: Sagas, Service Mesh & Event-Driven">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2.97 12.92A2 2 0 0 0 2 14.63v3.24a2 2 0 0 0 .97 1.71l6 3.43a2 2 0 0 0 1.97 0l6-3.43a2 2 0 0 0 .97-1.71v-3.24a2 2 0 0 0-.97-1.71L11 9.49a2 2 0 0 0-2.06 0l-5.97 3.43Z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">MicroServices</span>
+            </span>
+          </a>
+          <a href="foundational/oop/index.html" class="mega-category-item" title="OOP: SOLID, Polymorphism & Abstraction">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">OOP</span>
+            </span>
+          </a>
+          <a href="foundational/design-patterns/index.html" class="mega-category-item" title="Design Patterns: GoF Creational, Structural & Behavioral">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Design Patterns</span>
+            </span>
+          </a>
+          </div>
+        </div>
+        <!-- Category: AI -->
+        <div class="mega-category-col" style="--cat-accent:#a855f7;">
+          <div class="mega-category-header">
+            <span class="mega-cat-badge" style="color:#a855f7;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
+              <span>AI</span>
+            </span>
+            <span class="mega-cat-count">9 Tracks</span>
+          </div>
+          <div class="mega-category-list">
+          <a href="automation-ml-ai-agentic/index.html" class="mega-category-item" title="AI Master Class: Automation, ML, GenAI &amp; Agentic Systems, MCP &amp; LangChain">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">AI Master Class</span>
+            </span>
+          </a>
+          <a href="agentic-development/index.html" class="mega-category-item" title="Agentic Development: Agents, Agentic Loops &amp; Governed Agent Swarms">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Agentic Development</span>
+            </span>
+          </a>
+          <a href="ai/langgraph/index.html" class="mega-category-item" title="Langgraph: Cyclic State Graphs & Multi-Agent DAGs">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><circle cx="18" cy="6" r="3"/><path d="M18 9v1a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V9"/><path d="M12 12v3"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Langgraph</span>
+            </span>
+          </a>
+          <a href="ai/crewai/index.html" class="mega-category-item" title="CrewAI: Role-Based Agent Crews, Tasks &amp; Flows">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">CrewAI</span>
+            </span>
+          </a>
+          <a href="ai/aws-bedrock/index.html" class="mega-category-item" title="AWS Bedrock: Managed Foundation Models & Guardrails">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="16" height="16" x="4" y="4" rx="2"/><rect width="6" height="6" x="9" y="9" rx="1"/><path d="M15 2v2"/><path d="M15 20v2"/><path d="M2 15h2"/><path d="M2 9h2"/><path d="M20 15h2"/><path d="M20 9h2"/><path d="M9 2v2"/><path d="M9 20v2"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">AWS Bedrock</span>
+            </span>
+          </a>
+          <a href="ai/aws-strands/index.html" class="mega-category-item" title="AWS Strands: Model-Driven Agents SDK, Graph &amp; Swarm">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12c2-3 4-3 6 0s4 3 6 0 4-3 6 0"/><path d="M2 6c2-3 4-3 6 0s4 3 6 0 4-3 6 0"/><path d="M2 18c2-3 4-3 6 0s4 3 6 0 4-3 6 0"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">AWS Strands</span>
+            </span>
+          </a>
+          <a href="ai/azure-foundry/index.html" class="mega-category-item" title="Azure Foundry: Azure AI Studio, Prompt Flow & Evaluators">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="8" x="2" y="2" rx="2" ry="2"/><rect width="20" height="8" x="2" y="14" rx="2" ry="2"/><line x1="6" x2="6.01" y1="6" y2="6"/><line x1="6" x2="6.01" y1="18" y2="18"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Azure Foundry</span>
+            </span>
+          </a>
+          <a href="ai/claude-sdk/index.html" class="mega-category-item" title="Claude SDK: Anthropic SDK, Tools & Prompt Caching">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Claude SDK</span>
+            </span>
+          </a>
+          <a href="ai/google-gemini-sdk/index.html" class="mega-category-item" title="Google Gemini SDK: Gen AI SDK, ADK Agents &amp; Context Cache">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Google Gemini SDK</span>
+            </span>
+          </a>
+          </div>
+        </div>
+        <!-- Category: Data Engineering -->
+        <div class="mega-category-col" style="--cat-accent:#0284c7;">
+          <div class="mega-category-header">
+            <span class="mega-cat-badge" style="color:#0284c7;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"/></svg>
+              <span>Data Engineering</span>
+            </span>
+            <span class="mega-cat-count">8 Tracks</span>
+          </div>
+          <div class="mega-category-list">
+          <a href="data-engineering/index.html" class="mega-category-item" title="Data Engineering Master Class: Modern Lakehouse, Fabric & Kafka Streams">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Data Engineering Master Class</span>
+            </span>
+          </a>
+          <a href="pyspark/index.html" class="mega-category-item" title="PySpark: Cluster Architecture, DAG Execution &amp; Data Ingestion">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">PySpark</span>
+            </span>
+          </a>
+          <a href="databricks-dataengineering/index.html" class="mega-category-item" title="Databricks: Unity Catalog, Delta Live & Photon">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Databricks</span>
+            </span>
+          </a>
+          <a href="aws-dataengineering/index.html" class="mega-category-item" title="AWS Data Engineering: EMR, Glue, Redshift, Kinesis & S3">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">AWS Data Engineering</span>
+            </span>
+          </a>
+          <a href="snowflake-dataengineering/index.html" class="mega-category-item" title="SnowFlake: Snowpark, Dynamic Tables & Warehouses">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" x2="12" y1="2" y2="22"/><line x1="12" x2="12" y1="10" y2="14"/><line x1="2" x2="22" y1="12" y2="12"/><line x1="20" x2="4" y1="4" y2="20"/><line x1="4" x2="20" y1="4" y2="20"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">SnowFlake</span>
+            </span>
+          </a>
+          <a href="azure-dataengineering/index.html" class="mega-category-item" title="Azure Data Engineering: Fabric, Synapse Analytics & ADLS Gen2">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="8" x="2" y="2" rx="2" ry="2"/><rect width="20" height="8" x="2" y="14" rx="2" ry="2"/><line x1="6" x2="6.01" y1="6" y2="6"/><line x1="6" x2="6.01" y1="18" y2="18"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Azure Data Engineering</span>
+            </span>
+          </a>
+          <a href="data-engineering/onprem-pandas-polars-sql/index.html" class="mega-category-item" title="On Prem Pandas, Polars, SQL: Vectorized LazyFrames & Local Engines">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" x2="20" y1="19" y2="19"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">On Prem Pandas, Polars, SQL</span>
+            </span>
+          </a>
+          <a href="data-engineering/duckdb/index.html" class="mega-category-item" title="DuckDB: In-Process Columnar Analytical OLAP">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"/><line x1="16" x2="2" y1="8" y2="22"/><line x1="17.5" x2="9" y1="15" y2="15"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">DuckDB</span>
+            </span>
+          </a>
+          </div>
+        </div>
+        <!-- Category: Data Governance -->
+        <div class="mega-category-col" style="--cat-accent:#10b981;">
+          <div class="mega-category-header">
+            <span class="mega-cat-badge" style="color:#10b981;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg>
+              <span>Data Governance</span>
+            </span>
+            <span class="mega-cat-count">4 Tracks</span>
+          </div>
+          <div class="mega-category-list">
+          <a href="data-governence/index.html" class="mega-category-item" title="Data Governance Master Class: Catalogs, Sensitive Data Discovery, Lineage &amp; Stewardship">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m16.24 7.76-2.12 6.36-6.36 2.12 2.12-6.36 6.36-2.12z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Data Governance Master Class</span>
+            </span>
+          </a>
+          <a href="data-governence/atlas/index.html" class="mega-category-item" title="Atlas: Apache Atlas Metadata & Lineage Graph">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Atlas</span>
+            </span>
+          </a>
+          <a href="data-governence/unity/index.html" class="mega-category-item" title="Unity: Unity Catalog Fine-Grained ABAC & Grants">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Unity</span>
+            </span>
+          </a>
+          <a href="data-governence/purview-sandbox/index.html" class="mega-category-item" title="Purview: Purview Data Map, Stewardship & Scanning">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Purview</span>
+            </span>
+          </a>
+          </div>
+        </div>
+        <!-- Category: Full Stack -->
+        <div class="mega-category-col" style="--cat-accent:#f43f5e;">
+          <div class="mega-category-header">
+            <span class="mega-cat-badge" style="color:#f43f5e;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+              <span>Full Stack</span>
+            </span>
+            <span class="mega-cat-count">5 Tracks</span>
+          </div>
+          <div class="mega-category-list">
+          <a href="full-stack/index.html" class="mega-category-item" title="Full Stack Master Class: Enterprise Full Stack Systems Architecture">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m16.24 7.76-2.12 6.36-6.36 2.12 2.12-6.36 6.36-2.12z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Full Stack Master Class</span>
+            </span>
+          </a>
+          <a href="full-stack/python-fastapi/index.html" class="mega-category-item" title="Python fastAPI: Pydantic v2, Async ASGI & OpenTelemetry">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Python fastAPI</span>
+            </span>
+          </a>
+          <a href="full-stack/nodejs-react-nextjs/index.html" class="mega-category-item" title="NodeJS React NextJS: React 19, Server Components & App Router">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" x2="22" y1="12" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">NodeJS React NextJS</span>
+            </span>
+          </a>
+          <a href="full-stack/dotnet-csharp/index.html" class="mega-category-item" title="C#/.Net Full Stack: ASP.NET Core Web API & Entity Framework">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" x2="20" y1="9" y2="9"/><line x1="4" x2="20" y1="15" y2="15"/><line x1="10" x2="8" y1="3" y2="21"/><line x1="16" x2="14" y1="3" y2="21"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">C#/.Net Full Stack</span>
+            </span>
+          </a>
+          <a href="full-stack/java-fullstack/index.html" class="mega-category-item" title="Java Full Stack: Spring Boot 3, Hibernate JPA & Microservices">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" x2="6" y1="2" y2="4"/><line x1="10" x2="10" y1="2" y2="4"/><line x1="14" x2="14" y1="2" y2="4"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Java Full Stack</span>
+            </span>
+          </a>
+          </div>
+        </div>
+        <!-- Category: Placement Assistance -->
+        <div class="mega-category-col" style="--cat-accent:#fb923c;">
+          <div class="mega-category-header">
+            <span class="mega-cat-badge" style="color:#fb923c;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="14" x="2" y="7" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+              <span>Placement</span>
+            </span>
+            <span class="mega-cat-count">15 Guides</span>
+          </div>
+          <div class="mega-category-list">
+          <a href="placement-assistance/index.html" class="mega-category-item" title="Placement Master Class: Resume to offer letter: all 15 placement guides for freshers">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Placement Master Class</span>
+            </span>
+          </a>
+          <a href="placement-assistance/interview-prep.html" class="mega-category-item" title="Interview Prep: rounds, top questions &amp; a 30-day plan">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Interview Prep</span>
+            </span>
+          </a>
+          <a href="placement-assistance/resume-prep.html" class="mega-category-item" title="Resume Prep: an ATS-friendly 1-page resume for freshers">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M16 13H8"/><path d="M16 17H8"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Resume Prep</span>
+            </span>
+          </a>
+          <a href="placement-assistance/job-applications.html" class="mega-category-item" title="Job Applications: apply smart, referrals &amp; avoiding scams">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Job Applications</span>
+            </span>
+          </a>
+          <a href="placement-assistance/cover-letters.html" class="mega-category-item" title="Cover Letters: a 3-paragraph formula &amp; cold emails">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Cover Letters</span>
+            </span>
+          </a>
+          <a href="placement-assistance/before-interview.html" class="mega-category-item" title="Before the Interview: countdown, research &amp; setup">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/><path d="m9 16 2 2 4-4"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Before Interview</span>
+            </span>
+          </a>
+          <a href="placement-assistance/during-interview.html" class="mega-category-item" title="During the Interview: strong start, think aloud &amp; smart questions">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">During Interview</span>
+            </span>
+          </a>
+          <a href="placement-assistance/handling-competition.html" class="mega-category-item" title="Handling Competition: stand out among lakhs of freshers">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Handling Competition</span>
+            </span>
+          </a>
+          <a href="placement-assistance/communication-skills.html" class="mega-category-item" title="Communication Skills: clear English, structure &amp; practice">
+            <span class="mega-item-arrow">&gt;</span>
+            <span class="mega-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 11 18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></svg></span>
+            <span class="mega-item-text">
+              <span class="mega-item-name">Communication Skills</span>
+            </span>
+          </a>
+          </div>
+        </div>
+            </div>
+
+            <div class="mega-menu-footer">
+              <div class="mega-footer-left">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+                <span>Each module includes <strong>zero-code visual architectures</strong>, <strong>interactive sandboxes</strong>, and <strong>production blueprints</strong>.</span>
+              </div>
+              <div class="mega-footer-right">
+                <span>Lead Architect: <strong>Venkata Bhattaram</strong></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Right Actions: Instructor Rotating Border Beam + LinkedIn + GitHub -->
+      <div class="master-nav-actions">
+        <div class="master-instructor-beam" title="Lead Course Instructor &amp; Enterprise Architect">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+          <span class="inst-label">Instructor:</span>
+          <span class="inst-name">Venkata Bhattaram</span>
+        </div>
+
+        <a href="https://www.linkedin.com/in/venkata-bhattaram/" target="_blank" rel="noopener noreferrer" class="master-nav-social-btn linkedin" title="Venkata Bhattaram on LinkedIn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.45a1.6 1.6 0 1 0 0 3.2 1.6 1.6 0 0 0 0-3.2Z"/></svg>
+          <span>LinkedIn</span>
+        </a>
+
+        <a href="https://github.com/venkata-bcs" target="_blank" rel="noopener noreferrer" class="master-nav-social-btn github" title="Venkata Bhattaram on GitHub">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>
+          <span>GitHub</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <div class="why-progress" id="whyProgress"></div>
+  <nav class="why-dots" id="whyDots" aria-label="Page sections"></nav>
+
+  <main>
+    <!-- 1. HERO -->
+    <section class="snap hero" id="why-hero" data-title="Why TinitiateAI">
+      <span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span>
+      <div class="orbit" aria-hidden="true">
+        <span style="top:16%;left:9%;"><span class="msr">smart_toy</span></span>
+        <span style="top:62%;left:6%;animation-delay:-2s;"><span class="msr">database</span></span>
+        <span style="top:22%;right:10%;animation-delay:-1s;"><span class="msr">hub</span></span>
+        <span style="top:66%;right:8%;animation-delay:-3s;"><span class="msr">cloud</span></span>
+        <span style="top:8%;left:46%;animation-delay:-4s;"><span class="msr">bolt</span></span>
+      </div>
+      <div class="wrap">
+        <span class="eyebrow rv"><span class="msr" style="font-size:16px;">workspace_premium</span>Masterclass. Nothing less.</span>
+        <h1 class="rv" style="--i:1">Become the <span class="grad typed" id="whyTyped">AI Engineer</span><br>companies are hiring.</h1>
+        <p class="lead rv" style="--i:2">Learn from the best with hands-on, enterprise-grade tracks: installers on day one, free code bases, assignments, mini projects, SaaS capstones, interview prep and a portfolio that gets you noticed.</p>
+        <div class="hero-cta rv" style="--i:3">
+          <a class="btn btn-gold" href="#why-tracks"><span class="msr">rocket_launch</span>Choose your track</a>
+          <a class="btn btn-ghost" href="#why-included"><span class="msr">inventory_2</span>See what's included</a>
+        </div>
+        <div class="hero-strip rv" style="--i:4">
+          <span><span class="msr">download</span>Onboarding installers</span>
+          <span><span class="msr">code</span>Free code bases</span>
+          <span><span class="msr">apartment</span>Enterprise SaaS projects</span>
+          <span><span class="msr">badge</span>LinkedIn &amp; GitHub build</span>
+        </div>
+        <a class="scroll-cue" href="#why-included"><span>Scroll</span><span class="msr">keyboard_double_arrow_down</span></a>
+      </div>
+    </section>
+
+    <!-- 2. EVERYTHING INCLUDED -->
+    <section class="snap" id="why-included" data-title="What's included">
+      <div class="wrap">
+        <span class="eyebrow rv"><span class="msr" style="font-size:16px;">inventory_2</span>Everything included</span>
+        <h2 class="h2 rv" style="--i:1">Not just videos. <span class="grad">A complete launch kit.</span></h2>
+        <p class="lead rv" style="--i:2">Hover or tap any card to see exactly what you get.</p>
+        <div class="grid-8" id="whyIncluded"></div>
+      </div>
+    </section>
+
+    <!-- 3. JOURNEY SLIDESHOW -->
+    <section class="snap" id="why-journey" data-title="Your journey">
+      <div class="wrap">
+        <span class="eyebrow rv"><span class="msr" style="font-size:16px;">route</span>Your journey</span>
+        <h2 class="h2 rv" style="--i:1">From day one to <span class="grad">hired</span>, step by step.</h2>
+        <div class="show rv" style="--i:2">
+          <div class="show-stage" id="whyStage"><div class="show-bar" id="whyBar"></div></div>
+          <div>
+            <ol class="steps" id="whySteps"></ol>
+            <div class="show-ctrl">
+              <button class="icon-btn" id="whyPrev" title="Previous"><span class="msr">chevron_left</span></button>
+              <button class="icon-btn" id="whyPlay" title="Pause / play"><span class="msr">pause</span></button>
+              <button class="icon-btn" id="whyNext" title="Next"><span class="msr">chevron_right</span></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. MASTERCLASS VS TYPICAL -->
+    <section class="snap" id="why-different" data-title="Why we're different">
+      <div class="wrap">
+        <span class="eyebrow rv"><span class="msr" style="font-size:16px;">military_tech</span>Why we're different</span>
+        <h2 class="h2 rv" style="--i:1">A typical course vs. <span class="grad">a TinitiateAI masterclass</span></h2>
+        <div class="versus">
+          <div class="vcol rv" style="--i:2">
+            <h3><span class="msr" style="color:#71717a;">sentiment_dissatisfied</span>A typical online course</h3>
+            <ul class="vlist">
+              <li><span class="msr">close</span>Hours of slides and theory</li>
+              <li><span class="msr">close</span>You figure out installs and setup alone</li>
+              <li><span class="msr">close</span>Toy "hello world" examples</li>
+              <li><span class="msr">close</span>No real projects to show employers</li>
+              <li><span class="msr">close</span>Interview prep is on you</li>
+              <li><span class="msr">close</span>Certificate, then you're on your own</li>
+            </ul>
+          </div>
+          <div class="vcol us rv" style="--i:3">
+            <h3><span class="msr" style="color:var(--why-gold);">workspace_premium</span>TinitiateAI masterclass</h3>
+            <ul class="vlist">
+              <li><span class="msr">check_circle</span>Visual, interactive, hands-on from the first session</li>
+              <li><span class="msr">check_circle</span>Onboarding installers so you're ready on day one</li>
+              <li><span class="msr">check_circle</span>Enterprise-grade code bases you keep, free</li>
+              <li><span class="msr">check_circle</span>Mini projects, capstones and SaaS apps for your portfolio</li>
+              <li><span class="msr">check_circle</span>Structured interview prep and mock interviews</li>
+              <li><span class="msr">check_circle</span>We help build your LinkedIn, GitHub and project showcase</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. PROJECTS -->
+    <section class="snap" id="why-projects" data-title="Projects you'll build">
+      <div class="wrap">
+        <span class="eyebrow rv"><span class="msr" style="font-size:16px;">construction</span>Projects you'll build</span>
+        <h2 class="h2 rv" style="--i:1">Build what <span class="grad">enterprises actually run.</span></h2>
+        <p class="lead rv" style="--i:2">Mini projects to learn each skill, capstones to combine them, and SaaS applications with an enterprise focus to prove you can ship.</p>
+      </div>
+      <div class="proj-rows rv" style="--i:3" data-proj-rows></div>
+    </section>
+
+    <!-- 6. CAREER LAUNCHPAD -->
+    <section class="snap" id="why-career" data-title="Career launchpad">
+      <div class="wrap">
+        <span class="eyebrow rv"><span class="msr" style="font-size:16px;">trending_up</span>Career launchpad</span>
+        <h2 class="h2 rv" style="--i:1">We help you <span class="grad">get seen</span>, not just get skilled.</h2>
+        <div class="launch">
+          <div class="lp rv" style="--i:2">
+            <div class="lp-title"><span class="msr" style="color:#60a5fa;">badge</span>LinkedIn that recruiters notice</div>
+            <div class="li-card">
+              <div class="li-cover"></div>
+              <div class="li-body">
+                <div class="li-avatar">YOU</div>
+                <div class="li-name">Your Name</div>
+                <div class="li-head"><b>AI Engineer</b> · Agentic Systems · RAG · MCP · Python · Cloud</div>
+                <div class="li-skills">
+                  <span style="--i:0">LangGraph</span><span style="--i:1">Claude SDK</span><span style="--i:2">PySpark</span>
+                  <span style="--i:3">Databricks</span><span style="--i:4">SQL</span><span style="--i:5">Docker</span>
+                </div>
+              </div>
+            </div>
+            <p>Headline, About section, featured projects and skills, reviewed with you.</p>
+          </div>
+          <div class="lp rv" style="--i:3">
+            <div class="lp-title"><span class="msr" style="color:#4ade80;">deployed_code</span>A GitHub that shows real work</div>
+            <div class="gh-grid" id="whyGh" aria-hidden="true"></div>
+            <p>Clean repos, READMEs and commit history from every assignment and project you complete.</p>
+          </div>
+          <div class="lp rv" style="--i:4">
+            <div class="lp-title"><span class="msr" style="color:var(--why-gold);">collections_bookmark</span>A project showcase</div>
+            <div class="pf">
+              <div style="--i:0"><span class="msr">smart_toy</span>Agentic support desk</div>
+              <div style="--i:1"><span class="msr">waves</span>Lakehouse analytics</div>
+              <div style="--i:2"><span class="msr">shield</span>Governance portal</div>
+              <div style="--i:3"><span class="msr">apartment</span>Multi-tenant SaaS</div>
+            </div>
+            <p>Present your capstones like a pro, with architecture diagrams and demos.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. TRACKS -->
+    <section class="snap" id="why-tracks" data-title="Choose your track">
+      <div class="wrap">
+        <span class="eyebrow rv"><span class="msr" style="font-size:16px;">alt_route</span>Choose your track</span>
+        <h2 class="h2 rv" style="--i:1">Multiple tracks. <span class="grad">Friendly timelines and budgets.</span></h2>
+        <p class="lead rv" style="--i:2">Pick the path that fits your goals, then the pace that fits your life.</p>
+        <div class="pace rv" style="--i:3" id="whyPace" role="group" aria-label="Pace"></div>
+        <p class="pace-note rv" style="--i:3" id="whyPaceNote"></p>
+        <div class="tracks" id="whyTracks"></div>
+      </div>
+    </section>
+
+    <!-- 8. FINAL CTA -->
+    <section class="snap final" id="why-join" data-title="Join us">
+      <span class="blob b1" style="opacity:.35;"></span><span class="blob b2" style="opacity:.35;"></span>
+      <div class="wrap">
+        <div class="pulse-ring rv"><span class="msr">bolt</span></div>
+        <h2 class="rv" style="--i:1">Don't wait. <span class="grad">Start your track today.</span></h2>
+        <p class="lead rv" style="--i:2">Every week you wait is a week someone else spends building the skills, projects and profile you want. Learn from the best and let's build your career together.</p>
+        <div class="hero-cta rv" style="--i:3">
+          <a class="btn btn-gold" href="mailto:contact@tinitiateai.com?subject=I%20want%20to%20join%20a%20TinitiateAI%20track"><span class="msr">mail</span>Join us now</a>
+          <a class="btn btn-ghost" href="#why-tracks"><span class="msr">alt_route</span>Compare tracks</a>
+          <a class="btn btn-ghost" href="https://www.linkedin.com/in/venkata-bhattaram/" target="_blank" rel="noopener noreferrer"><span class="msr">chat</span>Message on LinkedIn</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-main-grid">
+
+        <!-- Column 1: Company Profile & Social Channels -->
+        <div class="footer-col">
+          <div class="footer-col-title">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="building-2" style="color:#38bdf8;width:22px;height:22px;" class="lucide lucide-building-2"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"></path><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"></path><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"></path><path d="M10 6h4"></path><path d="M10 10h4"></path><path d="M10 14h4"></path><path d="M10 18h4"></path></svg>
+            <span>Tinitiate AI Academy</span>
+          </div>
+          <p class="footer-col-desc">
+            Industry-aligned IT training curriculum designed to transition software engineers, cloud architects, and data professionals into high-impact AI, GenAI, and Distributed Lakehouse Engineering roles.
+          </p>
+          <span class="footer-contact-label">Company Social Channels</span>
+          <div class="footer-socials-grid">
+            <a href="https://linkedin.com/company/tinitiate" target="_blank" rel="noopener noreferrer" class="footer-social-btn" title="Tinitiate LinkedIn">
+              <span class="footer-social-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="#0a66c2"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.45a1.6 1.6 0 1 0 0 3.2 1.6 1.6 0 0 0 0-3.2Z"></path></svg></span>
+              <span>LinkedIn</span>
+            </a>
+            <a href="https://youtube.com/@tinitiate" target="_blank" rel="noopener noreferrer" class="footer-social-btn" title="Tinitiate YouTube">
+              <span class="footer-social-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="#ff0000"><path d="M21.58 7.19a2.76 2.76 0 0 0-1.95-1.95C17.9 4.75 12 4.75 12 4.75s-5.9 0-7.63.49a2.76 2.76 0 0 0-1.95 1.95A28.84 28.84 0 0 0 2 12a28.84 28.84 0 0 0 .42 4.81 2.76 2.76 0 0 0 1.95 1.95c1.73.49 7.63.49 7.63.49s5.9 0 7.63-.49a2.76 2.76 0 0 0 1.95-1.95A28.84 28.84 0 0 0 22 12a28.84 28.84 0 0 0-.42-4.81ZM10 15V9l5.2 3L10 15Z"></path></svg></span>
+              <span>YouTube</span>
+            </a>
+            <a href="https://github.com/venkata-bcs" target="_blank" rel="noopener noreferrer" class="footer-social-btn" title="Tinitiate GitHub">
+              <span class="footer-social-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="#ffffff"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"></path></svg></span>
+              <span>GitHub</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Column 2: Lead Instructor Profiles -->
+        <div class="footer-col">
+          <div class="footer-col-title">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user-check" style="color:#a855f7;width:22px;height:22px;" class="lucide lucide-user-check"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><polyline points="16 11 18 13 22 9"></polyline></svg>
+            <span>Venkata Bhattaram</span>
+          </div>
+          <p class="footer-col-desc">
+            Lead AI Instructor &amp; Enterprise Architect. Connect directly for course consultations, curriculum design, and technical advisory.
+          </p>
+          <span class="footer-contact-label">Venkata Bhattaram's Profiles</span>
+          <div class="footer-socials-grid">
+            <a href="https://www.linkedin.com/in/venkata-bhattaram/" target="_blank" rel="noopener noreferrer" class="footer-social-btn" title="Venkata Bhattaram LinkedIn">
+              <span class="footer-social-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="#0a66c2"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.45a1.6 1.6 0 1 0 0 3.2 1.6 1.6 0 0 0 0-3.2Z"></path></svg></span>
+              <span>LinkedIn</span>
+            </a>
+            <a href="https://github.com/venkata-bcs" target="_blank" rel="noopener noreferrer" class="footer-social-btn" title="Venkata Bhattaram GitHub">
+              <span class="footer-social-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="#ffffff"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"></path></svg></span>
+              <span>GitHub</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Column 3: Contact & Call Us -->
+        <div class="footer-col">
+          <div class="footer-col-title">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="phone-call" style="color:#22c55e;width:22px;height:22px;" class="lucide lucide-phone-call"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path><path d="M14.05 2a9 9 0 0 1 8 7.94"></path><path d="M14.05 6A5 5 0 0 1 18 10"></path></svg>
+            <span>Contact &amp; Call Us</span>
+          </div>
+          <div class="footer-contact-block">
+            <div class="footer-contact-item">
+              <div class="footer-contact-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="mail" style="width:18px;height:18px;" class="lucide lucide-mail"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg></div>
+              <div class="footer-contact-details">
+                <span class="footer-contact-label">Email Support</span>
+                <a href="mailto:contact@tinitiateai.com" class="footer-web-link">contact@tinitiateai.com</a>
+              </div>
+            </div>
+            <div class="footer-contact-item">
+              <div class="footer-contact-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="globe" style="width:18px;height:18px;" class="lucide lucide-globe"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path><path d="M2 12h20"></path></svg></div>
+              <div class="footer-contact-details">
+                <span class="footer-contact-label">Official Portal</span>
+                <a href="https://tinitiateai.com" target="_blank" rel="noopener noreferrer" class="footer-web-link">tinitiateai.com</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Curriculum Portals Bar -->
+      <div class="footer-portals-bar">
+        <span class="footer-contact-label" style="margin:0;">MasterClass Portals:</span>
+        <div class="footer-portals-list">
+          <a href="index.html" class="footer-portal-chip"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="home" style="width:14px;height:14px;" class="lucide lucide-home"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>Academy Home</a>
+          <a href="automation-ml-ai-agentic/index.html" class="footer-portal-chip"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="bot" style="width:14px;height:14px;" class="lucide lucide-bot"><path d="M12 8V4H8"></path><rect width="16" height="12" x="4" y="8" rx="2"></rect><path d="M2 14h2"></path><path d="M20 14h2"></path><path d="M15 13v2"></path><path d="M9 13v2"></path></svg>AI Systems Hub</a>
+          <a href="data-engineering/index.html" class="footer-portal-chip"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="database" style="width:14px;height:14px;" class="lucide lucide-database"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M3 5V19A9 3 0 0 0 21 19V5"></path><path d="M3 12A9 3 0 0 0 21 12"></path></svg>Data Engineering Hub</a>
+          <a href="data-governence/purview-sandbox/index.html" class="footer-portal-chip"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="shield-check" style="width:14px;height:14px;" class="lucide lucide-shield-check"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path><path d="m9 12 2 2 4-4"></path></svg>Data Governance</a>
+          <a href="pyspark/index.html" class="footer-portal-chip"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="zap" style="width:14px;height:14px;" class="lucide lucide-zap"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"></path></svg>PySpark Architecture</a>
+        </div>
+      </div>
+
+      <!-- Bottom Bar -->
+      <div class="footer-bottom-bar">
+        <div>
+          © 2026 <strong>Venkata Bhattaram</strong> • <a href="https://tinitiateai.com" target="_blank" rel="noopener noreferrer" style="color:#ffffff;text-decoration:none;font-weight:700;">TinitiateAI.com</a> • All Rights Reserved.
+        </div>
+        <div class="footer-bottom-links">
+          <span>Lead Instructor: <strong>Venkata Bhattaram</strong></span>
+          <a href="https://github.com/venkata-bcs" target="_blank" rel="noopener noreferrer">github.com/venkata-bcs</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+  (function () {
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const esc = (t) => String(t).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+    // ---------------------------------------------------------------- content
+    const INCLUDED = [
+      ['download', 'c-gold', 'Onboarding installers', 'Ready on day one', 'Step-by-step installers and setup guides for Python, SQL, Docker, IDEs and cloud CLIs, so no time is lost on setup.'],
+      ['code', 'c-violet', 'Free code bases', 'Yours to keep', 'Enterprise-structured starter code for every track: clean architecture, tests and docs you can reuse at work.'],
+      ['assignment', 'c-cyan', 'Assignments', 'Practice every concept', 'Short, focused assignments after each module, with reference solutions to compare against.'],
+      ['build', 'c-green', 'Mini projects', 'One skill at a time', 'Small, complete builds that lock in each skill, from a RAG bot to a streaming pipeline.'],
+      ['emoji_events', 'c-gold', 'Capstone projects', 'Put it all together', 'End-to-end projects that combine the whole track, designed like real enterprise systems.'],
+      ['apartment', 'c-pink', 'Enterprise SaaS apps', 'Ship like a pro', 'Multi-tenant SaaS applications with auth, data, AI agents, observability and cloud deployment.'],
+      ['record_voice_over', 'c-violet', 'Interview prep', 'Walk in confident', 'Concept drills, system-design practice, project walkthroughs and mock interview sessions.'],
+      ['badge', 'c-cyan', 'LinkedIn, GitHub & showcase', 'Get noticed', 'We help you build your LinkedIn profile, polish your GitHub and present your projects to recruiters.']
+    ];
+
+    const JOURNEY = [
+      ['download', 'c-gold', 'Onboard', 'Installers and setup on day one', 'Get every tool installed and working in your first session with guided installers and checklists.', ['Python & SQL', 'Docker', 'IDE setup', 'Cloud CLIs']],
+      ['school', 'c-violet', 'Learn', 'Masterclass sessions', 'Visual, interactive sessions that explain the why, not just the how, with live demos you can re-run.', ['Interactive demos', 'Architecture visuals', 'Live Q&A']],
+      ['assignment', 'c-cyan', 'Practice', 'Assignments after every module', 'Apply each concept right away with focused assignments and reference solutions.', ['Hands-on drills', 'Reference solutions', 'Feedback']],
+      ['build', 'c-green', 'Build', 'Mini projects', 'Small complete projects that make each skill stick and start filling your GitHub.', ['RAG bot', 'Data pipeline', 'API service']],
+      ['emoji_events', 'c-gold', 'Capstone', 'Enterprise SaaS capstone', 'Combine everything into an enterprise-grade SaaS application you can demo with pride.', ['Multi-tenant', 'AI agents', 'Cloud deploy', 'Observability']],
+      ['badge', 'c-pink', 'Showcase', 'LinkedIn, GitHub & portfolio', 'We help polish your profile, repositories and project showcase so recruiters see your work.', ['LinkedIn review', 'GitHub polish', 'Portfolio']],
+      ['record_voice_over', 'c-violet', 'Interview', 'Interview prep', 'Practice concepts, system design and project walkthroughs until you walk in confident.', ['Mock interviews', 'System design', 'Project stories']],
+      ['celebration', 'c-green', 'Launch', 'Get hired and keep growing', 'Step into the role with real projects behind you, and keep learning with new tracks.', ['Job ready', 'Portfolio live', 'Next track']]
+    ];
+
+    const PROJECTS = [
+      ['smart_toy', 'c-violet', 'Agentic support desk', 'Multi-agent customer support with MCP tools, RAG and human approval.', 'saas', ['Claude SDK', 'MCP', 'RAG']],
+      ['waves', 'c-cyan', 'Lakehouse analytics platform', 'Medallion lakehouse with batch and streaming ingestion and BI dashboards.', 'cap', ['Databricks', 'PySpark', 'Delta']],
+      ['shield', 'c-green', 'Data governance portal', 'Catalog, lineage, PII classification and access policies across the estate.', 'cap', ['Purview', 'Unity Catalog']],
+      ['credit_card', 'c-pink', 'Real-time fraud pipeline', 'Stream transactions, score with ML and alert in seconds.', 'cap', ['Kafka', 'Spark', 'ML']],
+      ['apartment', 'c-gold', 'Multi-tenant SaaS starter', 'Auth, billing hooks, roles, audit logs and cloud deployment.', 'saas', ['Full stack', 'Docker', 'Cloud']],
+      ['manage_search', 'c-cyan', 'RAG knowledge assistant', 'Chat with company documents, with citations and guardrails.', 'mini', ['Embeddings', 'Vector DB']],
+      ['account_tree', 'c-violet', 'LangGraph workflow engine', 'Stateful approvals and retries for a business process.', 'mini', ['LangGraph', 'Python']],
+      ['query_stats', 'c-green', 'Text-to-SQL analyst', 'Ask business questions in English, get answers from the warehouse.', 'mini', ['SQL', 'Snowflake']],
+      ['monitoring', 'c-pink', 'LLM observability dashboard', 'Trace tokens, cost, latency and eval scores for AI apps.', 'saas', ['OpenTelemetry', 'Evals']],
+      ['cloud_sync', 'c-gold', 'Cloud data migration', 'Move an on-prem warehouse to AWS or Azure with validation.', 'cap', ['AWS', 'Azure', 'dbt']]
+    ];
+    const LVL = { mini: 'MINI PROJECT', cap: 'CAPSTONE', saas: 'SAAS APP' };
+
+    const PACES = [
+      ['bolt', 'Fast-track', 'Intensive pace for career switchers who want to move quickly.'],
+      ['schedule', 'Standard', 'A steady weekly rhythm that fits around a full-time job.'],
+      ['weekend', 'Weekend', 'Learn on weekends only, at a relaxed and sustainable pace.']
+    ];
+    const TRACKS = [
+      ['smart_toy', 'c-violet', 'AI & Agentic Systems', 'Automation, ML, GenAI, agents, MCP, RAG and agentic loops.', 'automation-ml-ai-agentic/index.html'],
+      ['hub', 'c-pink', 'AI Platforms & SDKs', 'Claude SDK, LangGraph, AWS Bedrock, Azure Foundry and Gemini.', 'ai/index.html'],
+      ['database', 'c-cyan', 'Data Engineering', 'Warehouses, lakes, lakehouse, mesh, batch and real-time pipelines.', 'data-engineering/index.html'],
+      ['bolt', 'c-gold', 'PySpark Architecture', 'Cluster internals, DAGs, shuffles, streaming and CDC.', 'pyspark/index.html'],
+      ['cloud', 'c-green', 'Cloud Data Engineering', 'AWS, Azure, Databricks and Snowflake data platforms.', 'databricks-dataengineering/index.html'],
+      ['shield', 'c-violet', 'Data Governance', 'Purview, Unity Catalog, Atlas, lineage and policies.', 'data-governence/index.html'],
+      ['web', 'c-pink', 'Full-Stack Development', 'Python FastAPI, Node and React, Java and .NET stacks.', 'full-stack/index.html'],
+      ['school', 'c-cyan', 'Foundations', 'Data structures, OOP, design patterns, APIs and microservices.', 'foundational/index.html']
+    ];
+
+    // ---------------------------------------------------------------- render
+    document.getElementById('whyIncluded').innerHTML = INCLUDED.map(([ic, c, t, sub, back], i) => `
+      <div class="flip rv" style="--i:${i}" tabindex="0">
+        <div class="flip-inner">
+          <div class="face"><span class="ico ${c}"><span class="msr">${ic}</span></span><h3>${esc(t)}</h3><p>${esc(sub)}</p>
+            <span class="hint"><span class="msr" style="font-size:16px;">touch_app</span>Hover for details</span></div>
+          <div class="face back"><span class="ico c-gold"><span class="msr">${ic}</span></span><h3>${esc(t)}</h3><p>${esc(back)}</p></div>
+        </div>
+      </div>`).join('');
+    document.querySelectorAll('.flip').forEach(f => {
+      f.addEventListener('click', () => f.classList.toggle('open'));
+      f.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); f.classList.toggle('open'); } });
+    });
+
+    const stage = document.getElementById('whyStage');
+    stage.insertAdjacentHTML('afterbegin', JOURNEY.map(([ic, c, step, t, p, chips], i) => `
+      <div class="slide" data-slide="${i}">
+        <span class="big-ico ${c}"><span class="msr">${ic}</span></span>
+        <span class="step-no">STEP ${i + 1} · ${esc(step.toUpperCase())}</span>
+        <h3>${esc(t)}</h3><p>${esc(p)}</p>
+        <div class="chips">${chips.map(x => `<span class="chip"><span class="msr">check</span>${esc(x)}</span>`).join('')}</div>
+      </div>`).join(''));
+    document.getElementById('whySteps').innerHTML = JOURNEY.map(([ic, , step], i) =>
+      `<li><button data-go="${i}"><span class="n">${i + 1}</span>${esc(step)}</button></li>`).join('');
+
+    const projCard = ([ic, c, t, p, lvl, tags]) => `<div class="proj">
+      <div class="proj-head"><span class="ico ${c}" style="width:42px;height:42px;border-radius:12px;"><span class="msr" style="font-size:22px;">${ic}</span></span>
+        <span class="lvl ${lvl}">${LVL[lvl]}</span></div>
+      <h4>${esc(t)}</h4><p>${esc(p)}</p><div class="tags">${tags.map(x => `<span>${esc(x)}</span>`).join('')}</div></div>`;
+    const half = Math.ceil(PROJECTS.length / 2);
+    const row = (items, rev) => `<div class="marquee ${rev ? 'rev' : ''}"><div class="marquee-track">${items.map(projCard).join('')}${items.map(projCard).join('')}</div></div>`;
+    document.querySelector('[data-proj-rows]').innerHTML = row(PROJECTS.slice(0, half), false) + '<div style="height:16px"></div>' + row(PROJECTS.slice(half), true);
+
+    // GitHub-style contribution grid that fills in when visible
+    const gh = document.getElementById('whyGh');
+    gh.innerHTML = Array.from({ length: 140 }, () => '<i></i>').join('');
+
+    // Pace selector + tracks
+    let pace = 1;
+    function renderPace() {
+      document.getElementById('whyPace').innerHTML = PACES.map(([ic, name], i) =>
+        `<button class="${i === pace ? 'on' : ''}" data-pace="${i}"><span class="msr" style="font-size:18px;">${ic}</span>${name}</button>`).join('');
+      document.getElementById('whyPaceNote').innerHTML = `<span class="msr">info</span>${esc(PACES[pace][2])} Flexible plans and budgets for every track: talk to us for current schedules and pricing.`;
+      document.querySelectorAll('[data-pace]').forEach(b => b.addEventListener('click', () => { pace = +b.dataset.pace; renderPace(); renderTracks(); }));
+    }
+    function renderTracks() {
+      document.getElementById('whyTracks').innerHTML = TRACKS.map(([ic, c, t, p, href], i) => `
+        <a class="track ${document.getElementById('why-tracks').classList.contains('in') ? '' : 'rv'}" style="--i:${i}" href="${href}">
+          <span class="ico ${c}"><span class="msr">${ic}</span></span><h3>${esc(t)}</h3><p>${esc(p)}</p>
+          <span class="tk-pace"><span class="msr">${PACES[pace][0]}</span>${PACES[pace][1]} pace available</span>
+          <span class="go">Explore track<span class="msr">arrow_forward</span></span></a>`).join('');
+      document.querySelectorAll('.track').forEach(card => card.addEventListener('pointermove', e => {
+        const r = card.getBoundingClientRect();
+        card.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+        card.style.setProperty('--my', (e.clientY - r.top) + 'px');
+      }));
+    }
+    renderPace();
+    renderTracks();
+
+    // ---------------------------------------------------------------- hero typing
+    const words = ['AI Engineer', 'Agentic Developer', 'Data Engineer', 'Cloud Architect', 'Full-Stack Developer'];
+    const typed = document.getElementById('whyTyped');
+    if (!reduce) {
+      let w = 0, n = words[0].length, del = true;
+      setTimeout(function loop() {
+        const word = words[w];
+        n += del ? -1 : 1;
+        typed.textContent = word.slice(0, n);
+        let wait = del ? 45 : 85;
+        if (!del && n === word.length) { del = true; wait = 1800; }
+        else if (del && n === 0) { del = false; w = (w + 1) % words.length; wait = 300; }
+        setTimeout(loop, wait);
+      }, 2200);
+    }
+
+    // ---------------------------------------------------------------- slideshow
+    let cur = 0, playing = !reduce, timer = null;
+    const bar = document.getElementById('whyBar');
+    function show(i) {
+      cur = (i + JOURNEY.length) % JOURNEY.length;
+      document.querySelectorAll('.slide').forEach(s => s.classList.toggle('on', +s.dataset.slide === cur));
+      document.querySelectorAll('[data-go]').forEach(b => b.classList.toggle('on', +b.dataset.go === cur));
+      bar.classList.remove('run'); void bar.offsetWidth;
+      clearTimeout(timer);
+      if (playing) { bar.classList.add('run'); timer = setTimeout(() => show(cur + 1), 5000); }
+    }
+    document.querySelectorAll('[data-go]').forEach(b => b.addEventListener('click', () => show(+b.dataset.go)));
+    document.getElementById('whyPrev').addEventListener('click', () => show(cur - 1));
+    document.getElementById('whyNext').addEventListener('click', () => show(cur + 1));
+    document.getElementById('whyPlay').addEventListener('click', (e) => {
+      playing = !playing;
+      e.currentTarget.querySelector('.msr').textContent = playing ? 'pause' : 'play_arrow';
+      show(cur);
+    });
+    show(0);
+
+    // ---------------------------------------------------------------- reveal, dots, progress
+    const sections = [...document.querySelectorAll('.snap')];
+    const dots = document.getElementById('whyDots');
+    dots.innerHTML = sections.map(s => `<a href="#${s.id}" aria-label="${esc(s.dataset.title)}"><span>${esc(s.dataset.title)}</span></a>`).join('');
+    const io = new IntersectionObserver(entries => entries.forEach(en => {
+      if (en.isIntersecting) {
+        en.target.classList.add('in');
+        if (en.target.id === 'why-career') fillGithub();
+      }
+    }), { threshold: 0.18 });
+    sections.forEach(s => io.observe(s));
+    const spy = new IntersectionObserver(entries => entries.forEach(en => {
+      if (en.isIntersecting) {
+        const i = sections.indexOf(en.target);
+        dots.querySelectorAll('a').forEach((a, j) => a.classList.toggle('on', i === j));
+      }
+    }), { threshold: 0.5 });
+    sections.forEach(s => spy.observe(s));
+    const prog = document.getElementById('whyProgress');
+    window.addEventListener('scroll', () => {
+      const max = document.documentElement.scrollHeight - innerHeight;
+      prog.style.width = (max > 0 ? scrollY / max * 100 : 0) + '%';
+    }, { passive: true });
+
+    let ghDone = false;
+    function fillGithub() {
+      if (ghDone) return;
+      ghDone = true;
+      const cells = [...gh.children];
+      cells.forEach((c, i) => {
+        // Activity grows over time, like a learner getting more consistent
+        const level = Math.min(4, Math.floor(((i * 7919) % 100) / 100 * (1 + i / 35)));
+        setTimeout(() => { if (level) c.className = 'l' + level; }, reduce ? 0 : 300 + i * 12);
+      });
+    }
+  })();
+  </script>
+</body>
+</html>

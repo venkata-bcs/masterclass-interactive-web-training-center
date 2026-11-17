@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data Warehouse Proposal | ILM360</title>
+  <meta name="description" content="ILM360 proposal to design, implement and maintain a central data warehouse for data from legacy systems.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@200;300;400;500;600&family=Libre+Bodoni:ital,wght@0,500;0,600;1,500;1,600&display=swap">
+  <link rel="stylesheet" href="../assets/css/home-material.css">
+  <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+  <style>
+    /* Two decks of the same slides, re-skinned in the ILM360 palette */
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; background: #040c21; }
+    .showcase-wrap { margin: 0; }
+    .showcase, .solar-deck {
+      --sc-bg: #040c21;             /* ILM360 deepest navy */
+      --sc-ink: #edeef7;            /* on-deep */
+      --sc-muted: #a9accb;          /* on-deep muted */
+      --sc-dim: #6a6d8c;
+      --sc-line: rgba(214, 187, 235, 0.08);
+      --sc-line-strong: rgba(214, 187, 235, 0.22);
+      --sc-accent: #b98be0;         /* brand light */
+      --sc-accent-rgb: 185, 139, 224;
+      --sc-font: "IBM Plex Sans", system-ui, sans-serif;
+      --sc-mono: "IBM Plex Mono", ui-monospace, monospace;
+      min-height: 100vh;
+      min-height: 100svh;
+      background:
+        radial-gradient(ellipse 60% 55% at 72% 45%, rgba(95, 61, 195, 0.28), transparent 70%),
+        radial-gradient(ellipse 50% 50% at 10% 100%, rgba(112, 48, 160, 0.22), transparent 70%),
+        var(--sc-bg);
+    }
+    .showcase-title {
+      font-family: "Libre Bodoni", Georgia, serif;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+    }
+    .showcase-title em { font-style: italic; }
+    /* Room inside each word's reveal mask for italic overhang and descenders */
+    .showcase-title .w { padding: 0 0.1em 0.18em; margin: 0 -0.1em -0.18em; }
+    .showcase-label, .showcase-topbar { color: #d6bbeb; }
+    .showcase-topbar b { color: #9a6bf2; }
+    .showcase-brand { display: block; width: min(240px, 64%); height: auto; }
+    .showcase-slide.is-center .showcase-brand { margin-inline: auto; }
+    .showcase-stats b { font-family: "Libre Bodoni", Georgia, serif; font-weight: 500; }
+    .showcase-index li span { color: #9a6bf2; }
+    .showcase-outcomes li > svg { color: #b98be0; }
+    .showcase-cta a.is-primary { background: #5f3dc3; border-color: #5f3dc3; color: #fff; }
+    .showcase-cta a.is-primary:hover { background: #6d3fd9; border-color: #6d3fd9; color: #fff; }
+    .showcase-cta a:hover, .showcase-btn:hover, .showcase-contact:hover { background: #edeef7; border-color: #edeef7; color: #0e1032; }
+    .showcase-progress-bar { background: #b98be0; box-shadow: 0 0 8px rgba(185, 139, 224, 0.9); }
+    .showcase-logos img:hover { background: #fff; }
+
+    /* ---------------------------------------------------------------------
+       Solar deck (slideshow v2): the same slides over a sky where the sun
+       travels east to west as the slides advance, and the wireframe panels
+       tilt like trackers to follow it. Script sets --sun-x, --sun-y, --tilt
+       and --warm (0 at noon, 1 at sunrise / sunset).
+       --------------------------------------------------------------------- */
+    .solar-deck {
+      --sun-x: 99%;
+      --sun-y: 80%;
+      --tilt: 26deg;
+      --warm: 1;
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      color: var(--sc-ink);
+      font-family: var(--sc-font);
+      background: #040c21;
+      border-top: 1px solid rgba(214, 187, 235, 0.12);
+    }
+    .solar-sky {
+      position: absolute;
+      inset: 0;
+      z-index: -4;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at var(--sun-x) var(--sun-y), rgba(245, 180, 90, calc(0.1 + var(--warm) * 0.22)), transparent 42%),
+        radial-gradient(ellipse 60% 55% at 50% 55%, rgba(95, 61, 195, calc(0.3 - var(--warm) * 0.12)), transparent 70%),
+        linear-gradient(0deg, rgba(224, 132, 78, calc(var(--warm) * 0.16)), transparent 55%);
+    }
+
+    /* Sun + orbiting planets, positioned on the sky arc */
+    .solar-sun-pos {
+      position: absolute;
+      left: var(--sun-x);
+      top: var(--sun-y);
+      width: min(460px, 70vw);
+      transform: translate(-50%, -50%) scale(var(--sun-scale, 0.75));
+      z-index: -3;
+      pointer-events: none;
+    }
+    .solar-sun { display: block; width: 100%; height: auto; }
+    .solar-sun .spin { transform-box: view-box; transform-origin: 360px 360px; animation: sol-spin linear infinite; }
+    .solar-sun .rays { animation-duration: 90s; }
+    .solar-sun .o1 { animation-duration: 14s; }
+    .solar-sun .o2 { animation-duration: 24s; }
+    .solar-sun .o3 { animation-duration: 38s; }
+    .solar-sun .o4 { animation-duration: 60s; animation-direction: reverse; }
+    .solar-sun .core { animation: sol-pulse 6s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+    @keyframes sol-spin { to { transform: rotate(360deg); } }
+    @keyframes sol-pulse { 50% { transform: scale(1.05); } }
+
+    /* Wireframe panel field; each panel tilts around its own axis */
+    .solar-field-wrap {
+      position: absolute;
+      inset: 40% -20% -10% -20%;
+      z-index: -2;
+      perspective: 900px;
+      perspective-origin: 50% 0%;
+      pointer-events: none;
+      mask-image: linear-gradient(180deg, transparent 0%, #000 35%, #000 100%);
+    }
+    .solar-field {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      grid-template-columns: repeat(10, 1fr);
+      gap: 26px 18px;
+      transform: rotateX(64deg) translateZ(-40px);
+      transform-origin: 50% 0%;
+      transform-style: preserve-3d;
+    }
+    .solar-field i {
+      position: relative;
+      aspect-ratio: 1.65;
+      border: 1px solid rgba(214, 187, 235, 0.32);
+      background-image:
+        linear-gradient(rgba(214, 187, 235, 0.14) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(214, 187, 235, 0.14) 1px, transparent 1px);
+      background-size: 100% 33.333%, 16.666% 100%;
+      overflow: hidden;
+      transform: rotateY(var(--tilt));
+    }
+    /* A slow band of sunlight sweeps across the panels */
+    .solar-field i::after {
+      content: "";
+      position: absolute;
+      inset: -50%;
+      background: linear-gradient(115deg, transparent 42%, rgba(245, 196, 107, calc(0.14 + var(--warm) * 0.2)) 50%, transparent 58%);
+      animation: sol-sweep 7s ease-in-out infinite;
+      animation-delay: calc(var(--d, 0) * 1s);
+    }
+    @keyframes sol-sweep { from { transform: translateX(-60%); } to { transform: translateX(60%); } }
+
+    .solar-deck .showcase-track { min-height: clamp(620px, 88vh, 820px); }
+    .solar-deck .showcase-topbar b { color: #f5c46b; }
+
+    /* Built-for-solar slide: data sources tiles */
+    .solar-sources {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      max-width: 560px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      border-top: 1px solid var(--sc-line-strong);
+      border-left: 1px solid var(--sc-line-strong);
+    }
+    .solar-sources li {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 18px 16px;
+      border-right: 1px solid var(--sc-line-strong);
+      border-bottom: 1px solid var(--sc-line-strong);
+      background: rgba(4, 12, 33, 0.6);
+      backdrop-filter: blur(6px);
+      font-size: 0.92rem;
+    }
+    .solar-sources svg { flex: none; width: 18px; height: 18px; color: #f5c46b; stroke-width: 1.6; }
+
+    @media (max-width: 900px) {
+      .solar-field { grid-template-columns: repeat(7, 1fr); }
+      .solar-deck .showcase-track { min-height: 0; }
+    }
+    @media (max-width: 640px) {
+      .solar-sources { grid-template-columns: minmax(0, 1fr); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .solar-sun .spin, .solar-sun .core, .solar-field i::after { animation: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <section class="showcase-wrap" aria-roledescription="carousel" aria-label="Data warehouse proposal from ILM360">
+    <div class="showcase" id="showcase">
+      <canvas class="showcase-canvas" id="showcaseCanvas" aria-hidden="true"></canvas>
+      <div class="showcase-grid" aria-hidden="true"></div>
+      <div class="showcase-ruler is-left" aria-hidden="true"><span class="showcase-ruler-mark"></span></div>
+      <div class="showcase-ruler is-right" aria-hidden="true"><span class="showcase-ruler-mark"></span></div>
+
+      <div class="showcase-topbar" aria-hidden="true">
+        <span>ILM360 <b>/</b> Data Warehouse Proposal</span>
+        <span id="showcaseCounter">01 / 08</span>
+      </div>
+
+      <div class="showcase-track">
+
+        <!-- 01: Title -->
+        <article class="showcase-slide is-center is-active" data-enter="zoom" data-orb="0.34" role="group" aria-roledescription="slide" aria-label="1 of 8">
+          <div class="showcase-copy">
+            <svg class="showcase-brand" viewBox="0 0 421 122" role="img" aria-label="ILM360" data-fx="blur"><g transform="translate(0,122) scale(0.1,-0.1)"><path d="M460 620 l0 -600 135 0 135 0 0 600 0 600 -135 0 -135 0 0 -600z M96 1190 c-60 -19 -96 -73 -96 -147 0 -186 272 -200 297 -15 14 107 -95 195 -201 162z M1337 770 c-51 -13 -96 -37 -129 -68 -28 -26 -28 -26 -28 21 0 47 0 47 -135 47 l-135 0 0 -375 0 -375 134 0 134 0 4 228 c3 202 5 230 22 259 42 69 138 71 183 4 15 -22 18 -58 21 -259 l4 -232 134 0 134 0 0 215 c0 235 5 264 55 303 59 47 144 15 159 -59 3 -18 6 -128 6 -245 l0 -214 135 0 135 0 0 293 c0 330 -3 345 -76 406 -106 88 -295 74 -388 -29 -34 -38 -34 -38 -83 9 -68 66 -188 95 -286 71z M10 395 l0 -375 135 0 135 0 0 375 0 375 -135 0 -135 0 0 -375z" fill="#B98BE0"/><path d="M2445 776 c-40 -12 -40 -12 -43 -100 -3 -82 -1 -88 15 -81 66 28 100 36 135 30 121 -21 116 -132 -8 -151 -44 -6 -44 -6 -44 -71 0 -55 2 -64 16 -59 22 9 106 -12 127 -32 48 -43 39 -98 -19 -126 -48 -23 -125 -16 -214 18 -16 7 -66 -133 -57 -158 8 -21 118 -46 199 -46 182 0 308 102 308 250 0 68 -26 128 -70 162 -32 25 -32 25 -7 50 97 97 34 277 -112 318 -48 13 -176 11 -226 -4z M3832 768 c-228 -110 -227 -637 1 -747 89 -43 204 -24 273 45 78 78 108 189 102 369 -6 173 -60 280 -166 334 -55 28 -151 28 -210 -1z m148 -180 c78 -84 61 -373 -23 -403 -64 -22 -100 41 -105 183 -7 189 56 297 128 220z M3185 658 c-196 -246 -230 -342 -175 -491 43 -115 117 -162 255 -162 173 0 261 84 273 261 8 128 -51 216 -172 253 -55 17 -55 17 34 128 50 61 90 114 90 117 0 3 -48 6 -108 6 -107 0 -107 0 -197 -112z m126 -308 c54 -29 58 -102 7 -145 -84 -71 -192 52 -113 130 26 27 72 33 106 15z" fill="#D6BBEB"/></g></svg>
+            <span class="showcase-label" data-fx="scramble">01 | Cloud, Data &amp; AI Readiness</span>
+            <h1 class="showcase-title" data-fx="rise">One <em>Warehouse</em>. Every Legacy System.</h1>
+            <p class="showcase-text" data-fx="blur">ILM360 designs, builds and supports data platforms for mid-size businesses, bringing scattered legacy data into one trusted home, right-sized for a firm of around 225 people.</p>
+            <div class="showcase-stats" data-fx="pop">
+              <span><b><span data-count="150">150</span>+</b>Clients Served</span>
+              <span><b><span data-count="15">15</span>+</b>Certified Experts</span>
+              <span><b><span data-count="1">1</span></b>Source of Truth</span>
+            </div>
+            <div class="showcase-cta" data-fx="pop">
+              <a href="mailto:info@ilm360.com?subject=Data%20warehouse%20conversation" class="is-primary">Start a conversation<i data-lucide="arrow-right"></i></a>
+              <a href="https://www.ilm360.com/" target="_blank" rel="noopener noreferrer">ilm360.com<i data-lucide="globe"></i></a>
+            </div>
+          </div>
+        </article>
+
+        <!-- 02: The challenge -->
+        <article class="showcase-slide" data-enter="left" data-orb="0.27" role="group" aria-roledescription="slide" aria-label="2 of 8">
+          <div class="showcase-copy">
+            <span class="showcase-label" data-fx="scramble">02 | The Challenge</span>
+            <h2 class="showcase-title" data-fx="rise">Data Locked in <em>Legacy Systems</em>.</h2>
+            <p class="showcase-text" data-fx="blur">When reports depend on exports from several older systems, numbers disagree, refreshes are manual, and nobody owns a single version of the truth.</p>
+            <ol class="showcase-index" data-fx="slide">
+              <li><span>01</span>Siloed systems and spreadsheets</li>
+              <li><span>02</span>Manual, error-prone reporting</li>
+              <li><span>03</span>No single source of truth</li>
+            </ol>
+          </div>
+          <div class="showcase-visual">
+            <div class="showcase-emblem" data-fx="scale">
+              <span class="showcase-dial" aria-hidden="true"></span>
+              <strong class="showcase-monogram">N<em>:</em>1</strong>
+              <small>Many sources, one warehouse</small>
+            </div>
+          </div>
+        </article>
+
+        <!-- 03: What you get -->
+        <article class="showcase-slide" data-enter="right" data-orb="0.3" role="group" aria-roledescription="slide" aria-label="3 of 8">
+          <div class="showcase-copy">
+            <span class="showcase-label" data-fx="scramble">03 | What You Get</span>
+            <h2 class="showcase-title" data-fx="rise">Clean, <em>Governed</em> Data You Can Trust.</h2>
+            <p class="showcase-text" data-fx="blur">Information entered once and shared wherever it is needed, with clean, governed data that reporting and AI can rely on.</p>
+          </div>
+          <div class="showcase-visual">
+            <ul class="showcase-outcomes" data-fx="flip">
+              <li><span class="oc-num">01</span><i data-lucide="warehouse"></i><strong>Central warehouse</strong><span>One home for every legacy source</span></li>
+              <li><span class="oc-num">02</span><i data-lucide="workflow"></i><strong>Automated pipelines</strong><span>No re-keying between systems</span></li>
+              <li><span class="oc-num">03</span><i data-lucide="shield-check"></i><strong>Governed access</strong><span>Roles, lineage and audit-readiness</span></li>
+              <li><span class="oc-num">04</span><i data-lucide="chart-column"></i><strong>Power BI reporting</strong><span>Reporting leaders can act on</span></li>
+            </ul>
+          </div>
+        </article>
+
+        <!-- 04: How we work -->
+        <article class="showcase-slide" data-enter="up" data-orb="0.3" role="group" aria-roledescription="slide" aria-label="4 of 8">
+          <div class="showcase-copy">
+            <span class="showcase-label" data-fx="scramble">04 | How We Work</span>
+            <h2 class="showcase-title" data-fx="rise">Four Parts of Your Business, <em>Aligned</em>.</h2>
+            <p class="showcase-text" data-fx="blur">The Organizational Momentum Framework keeps strategy, systems, operations and execution moving together, from the first roadmap to well after go-live.</p>
+          </div>
+          <div class="showcase-visual">
+            <ul class="showcase-outcomes" data-fx="flip">
+              <li><span class="oc-num">01</span><i data-lucide="target"></i><strong>Strategy</strong><span>Agree on what comes first and what done looks like</span></li>
+              <li><span class="oc-num">02</span><i data-lucide="database"></i><strong>Systems</strong><span>Platforms and data that talk to each other</span></li>
+              <li><span class="oc-num">03</span><i data-lucide="settings-2"></i><strong>Operations</strong><span>Workflows redesigned before they are automated</span></li>
+              <li><span class="oc-num">04</span><i data-lucide="calendar-check"></i><strong>Execution</strong><span>A steady cadence that keeps delivery on plan</span></li>
+            </ul>
+          </div>
+        </article>
+
+        <!-- 05: Architecture -->
+        <article class="showcase-slide" data-enter="zoom" data-orb="0.3" role="group" aria-roledescription="slide" aria-label="5 of 8">
+          <div class="showcase-copy">
+            <span class="showcase-label" data-fx="scramble">05 | Right-Sized Architecture</span>
+            <h2 class="showcase-title" data-fx="rise">Your Cloud. <em>Your Choice</em>.</h2>
+            <p class="showcase-text" data-fx="blur">Azure, AWS, Oracle or Google Cloud: we recommend the platform that fits your existing systems, data volumes and budget, scoped to what can actually be delivered.</p>
+            <div class="showcase-logos" data-fx="pop" aria-label="Cloud and reporting platforms">
+              <img src="../assets/icons/tech/azure.svg" alt="Microsoft Azure" title="Microsoft Azure" loading="lazy">
+              <img src="../assets/icons/tech/aws.svg" alt="AWS" title="AWS" loading="lazy">
+              <img src="../assets/icons/tech/google-cloud.svg" alt="Google Cloud" title="Google Cloud" loading="lazy">
+              <img src="../assets/icons/tech/power-bi.svg" alt="Power BI" title="Power BI" loading="lazy">
+            </div>
+          </div>
+          <div class="showcase-visual">
+            <ul class="showcase-outcomes" data-fx="flip">
+              <li><span class="oc-num">01</span><i data-lucide="download"></i><strong>Ingest</strong><span>Scheduled loads from every legacy source</span></li>
+              <li><span class="oc-num">02</span><i data-lucide="database"></i><strong>Store</strong><span>A cloud data platform you own</span></li>
+              <li><span class="oc-num">03</span><i data-lucide="layers"></i><strong>Model</strong><span>Clean, documented business tables</span></li>
+              <li><span class="oc-num">04</span><i data-lucide="presentation"></i><strong>Serve</strong><span>Power BI dashboards and self-service</span></li>
+            </ul>
+          </div>
+        </article>
+
+        <!-- 06: Legacy migration -->
+        <article class="showcase-slide" data-enter="left" data-orb="0.27" role="group" aria-roledescription="slide" aria-label="6 of 8">
+          <div class="showcase-copy">
+            <span class="showcase-label" data-fx="scramble">06 | Legacy Migration</span>
+            <h2 class="showcase-title" data-fx="rise">Move Data <em>Without Disruption</em>.</h2>
+            <p class="showcase-text" data-fx="blur">Legacy systems keep running while their data is copied, checked and reconciled, then we cut over one source at a time. We have moved mid-size businesses off platforms such as Sage X3 and Dynamics GP.</p>
+            <ol class="showcase-index" data-fx="slide">
+              <li><span>01</span>Source inventory and data profiling</li>
+              <li><span>02</span>Parallel runs with reconciliation</li>
+              <li><span>03</span>Quality checks on every load</li>
+            </ol>
+          </div>
+          <div class="showcase-visual">
+            <div class="showcase-emblem" data-fx="scale">
+              <span class="showcase-dial" aria-hidden="true"></span>
+              <strong class="showcase-monogram">E<em>L</em>T</strong>
+              <small>Extract, load, transform</small>
+            </div>
+          </div>
+        </article>
+
+        <!-- 07: Continuity -->
+        <article class="showcase-slide" data-enter="right" data-orb="0.3" role="group" aria-roledescription="slide" aria-label="7 of 8">
+          <div class="showcase-copy">
+            <span class="showcase-label" data-fx="scramble">07 | Continuity &amp; Managed Services</span>
+            <h2 class="showcase-title" data-fx="rise">We Stay After <em>Go-Live</em>.</h2>
+            <p class="showcase-text" data-fx="blur">Others deliver plans and leave. We stay on to keep the warehouse healthy, catch drift every 30 days and add new sources as you grow.</p>
+          </div>
+          <div class="showcase-visual">
+            <ul class="showcase-outcomes" data-fx="flip">
+              <li><span class="oc-num">01</span><i data-lucide="users"></i><strong>Weekly working sessions</strong><span>Hands-on progress with your team</span></li>
+              <li><span class="oc-num">02</span><i data-lucide="presentation"></i><strong>Monthly leadership reviews</strong><span>Results reported to decision makers</span></li>
+              <li><span class="oc-num">03</span><i data-lucide="calendar-range"></i><strong>Rolling 30-day plans</strong><span>RAID tracking and vendor coordination</span></li>
+              <li><span class="oc-num">04</span><i data-lucide="life-buoy"></i><strong>Post-go-live support</strong><span>Optimization so gains compound</span></li>
+            </ul>
+          </div>
+        </article>
+
+        <!-- 08: Why ILM360 + contact -->
+        <article class="showcase-slide" data-enter="up" data-orb="0.27" role="group" aria-roledescription="slide" aria-label="8 of 8">
+          <div class="showcase-copy">
+            <span class="showcase-label" data-fx="scramble">08 | Why ILM360</span>
+            <h2 class="showcase-title" data-fx="rise">Built by Engineers. <em>Let's Talk</em>.</h2>
+            <p class="showcase-text" data-fx="blur">Since 2012, ILM360 has helped 150+ mid-size businesses modernize their ERP, cloud and data. Co-founder Jai Kanuri brings 25+ years in enterprise technology, data engineering and systems integration.</p>
+            <ol class="showcase-index" data-fx="slide">
+              <li><span>01</span>WBENC-certified firm</li>
+              <li><span>02</span>Microsoft CSP reseller, SAM-registered</li>
+              <li><span>03</span>15+ certified professionals</li>
+            </ol>
+            <div class="showcase-cta" data-fx="pop">
+              <a href="mailto:info@ilm360.com?subject=Data%20warehouse%20conversation" class="is-primary">Start a conversation<i data-lucide="arrow-right"></i></a>
+            </div>
+          </div>
+          <div class="showcase-visual">
+            <div class="showcase-contacts" data-fx="wipe">
+              <a href="mailto:info@ilm360.com" class="showcase-contact"><i data-lucide="mail"></i><span><small>Email</small>info@ilm360.com</span><i data-lucide="arrow-up-right" class="sc-arrow"></i></a>
+              <a href="tel:+18442456360" class="showcase-contact"><i data-lucide="phone"></i><span><small>Phone</small>(844) 245-6360</span><i data-lucide="arrow-up-right" class="sc-arrow"></i></a>
+              <a href="https://www.ilm360.com/" target="_blank" rel="noopener noreferrer" class="showcase-contact"><i data-lucide="globe"></i><span><small>Website</small>ilm360.com</span><i data-lucide="arrow-up-right" class="sc-arrow"></i></a>
+              <a href="https://www.linkedin.com/company/ilm360-llc" target="_blank" rel="noopener noreferrer" class="showcase-contact"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.45a1.6 1.6 0 1 0 0 3.2 1.6 1.6 0 0 0 0-3.2Z"/></svg><span><small>LinkedIn</small>ILM360 LLC</span><i data-lucide="arrow-up-right" class="sc-arrow"></i></a>
+            </div>
+          </div>
+        </article>
+
+      </div>
+
+      <div class="showcase-controls">
+        <div class="showcase-dots" id="showcaseDots" role="tablist" aria-label="Choose slide"></div>
+        <div class="showcase-progress"><span class="showcase-progress-bar" id="showcaseProgress"></span></div>
+        <div class="showcase-nav">
+          <button type="button" class="showcase-btn" id="showcasePause" aria-label="Pause slideshow"><span class="ic-pause"><i data-lucide="pause"></i></span><span class="ic-play" hidden><i data-lucide="play"></i></span></button>
+          <button type="button" class="showcase-btn" id="showcasePrev" aria-label="Previous slide"><i data-lucide="arrow-left"></i></button>
+          <button type="button" class="showcase-btn" id="showcaseNext" aria-label="Next slide"><i data-lucide="arrow-right"></i></button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slideshow v2: solar edition. The slides are cloned from the deck above by the script below. -->
+  <section class="solar-deck" id="solarDeck" aria-roledescription="carousel" aria-label="Data warehouse proposal, solar edition">
+    <div class="solar-sky" aria-hidden="true"></div>
+
+    <div class="solar-sun-pos" aria-hidden="true">
+      <svg class="solar-sun" viewBox="0 0 720 720">
+        <defs>
+          <radialGradient id="solCore" cx="45%" cy="40%" r="60%">
+            <stop offset="0" stop-color="#fff1c9"/>
+            <stop offset="0.45" stop-color="#f5c46b"/>
+            <stop offset="1" stop-color="#e0844e"/>
+          </radialGradient>
+          <radialGradient id="solGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0" stop-color="#f5c46b" stop-opacity="0.45"/>
+            <stop offset="0.5" stop-color="#e0844e" stop-opacity="0.12"/>
+            <stop offset="1" stop-color="#e0844e" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <circle cx="360" cy="360" r="240" fill="url(#solGlow)"/>
+        <g class="spin rays" stroke="#f5c46b" stroke-width="2" stroke-linecap="round" opacity="0.55">
+          <path d="M360 230v-26M360 490v26M230 360h-26M490 360h26M268 268l-18-18M452 452l18 18M268 452l-18 18M452 268l18-18"/>
+          <path d="M310 240l-9-24M410 480l9 24M240 410l-24 9M480 310l24-9M240 310l-24-9M480 410l24 9M310 480l-9 24M410 240l9-24" opacity="0.6"/>
+        </g>
+        <circle cx="360" cy="360" r="112" fill="none" stroke="#f5c46b" stroke-opacity="0.35" stroke-dasharray="2 8"/>
+        <circle class="core" cx="360" cy="360" r="86" fill="url(#solCore)"/>
+        <g fill="none" stroke="#d6bbeb" stroke-opacity="0.22">
+          <circle cx="360" cy="360" r="160"/>
+          <circle cx="360" cy="360" r="212" stroke-dasharray="4 6"/>
+          <circle cx="360" cy="360" r="268"/>
+          <circle cx="360" cy="360" r="330" stroke-dasharray="1 7"/>
+        </g>
+        <g class="spin o1"><circle cx="520" cy="360" r="9" fill="#d6bbeb"/></g>
+        <g class="spin o2"><circle cx="360" cy="148" r="13" fill="#9a6bf2"/></g>
+        <g class="spin o3">
+          <circle cx="92" cy="360" r="17" fill="#5f3dc3"/>
+          <ellipse cx="92" cy="360" rx="30" ry="8" fill="none" stroke="#b98be0" stroke-width="2" transform="rotate(-24 92 360)"/>
+        </g>
+        <g class="spin o4"><circle cx="613" cy="572" r="7" fill="#f5c46b"/></g>
+      </svg>
+    </div>
+
+    <div class="solar-field-wrap" aria-hidden="true">
+      <div class="solar-field">
+        <i style="--d:0"></i><i style="--d:.2"></i><i style="--d:.4"></i><i style="--d:.6"></i><i style="--d:.8"></i><i style="--d:1"></i><i style="--d:1.2"></i><i style="--d:1.4"></i><i style="--d:1.6"></i><i style="--d:1.8"></i>
+        <i style="--d:.5"></i><i style="--d:.7"></i><i style="--d:.9"></i><i style="--d:1.1"></i><i style="--d:1.3"></i><i style="--d:1.5"></i><i style="--d:1.7"></i><i style="--d:1.9"></i><i style="--d:2.1"></i><i style="--d:2.3"></i>
+        <i style="--d:1"></i><i style="--d:1.2"></i><i style="--d:1.4"></i><i style="--d:1.6"></i><i style="--d:1.8"></i><i style="--d:2"></i><i style="--d:2.2"></i><i style="--d:2.4"></i><i style="--d:2.6"></i><i style="--d:2.8"></i>
+        <i style="--d:1.5"></i><i style="--d:1.7"></i><i style="--d:1.9"></i><i style="--d:2.1"></i><i style="--d:2.3"></i><i style="--d:2.5"></i><i style="--d:2.7"></i><i style="--d:2.9"></i><i style="--d:3.1"></i><i style="--d:3.3"></i>
+        <i style="--d:2"></i><i style="--d:2.2"></i><i style="--d:2.4"></i><i style="--d:2.6"></i><i style="--d:2.8"></i><i style="--d:3"></i><i style="--d:3.2"></i><i style="--d:3.4"></i><i style="--d:3.6"></i><i style="--d:3.8"></i>
+      </div>
+    </div>
+
+    <div class="showcase-topbar" aria-hidden="true">
+      <span>ILM360 <b>/</b> Solar Edition</span>
+      <span id="solarCounter">01 / 09</span>
+    </div>
+
+    <div class="showcase-track solar-track">
+      <!-- Inserted as slide 02; the other slides are cloned from the deck above -->
+      <article class="showcase-slide" data-enter="up" data-orb="0.3" role="group" aria-roledescription="slide">
+        <div class="showcase-copy">
+          <span class="showcase-label" data-fx="scramble">02 | Built for Solar</span>
+          <h2 class="showcase-title" data-fx="rise">Every Panel, Project &amp; Payment, <em>in One Place</em>.</h2>
+          <p class="showcase-text" data-fx="blur">From sales and site surveys to installs, inventory, field service and system performance, ILM360 brings your solar operation's legacy data into one warehouse your teams can trust.</p>
+          <div class="showcase-cta" data-fx="pop">
+            <a href="mailto:info@ilm360.com?subject=Solar%20data%20warehouse%20conversation" class="is-primary">Start a conversation<i data-lucide="arrow-right"></i></a>
+            <a href="tel:+18442456360">(844) 245-6360<i data-lucide="phone"></i></a>
+          </div>
+        </div>
+        <div class="showcase-visual">
+          <ul class="solar-sources" data-fx="flip" aria-label="Data brought together">
+            <li><i data-lucide="handshake"></i>CRM, leads &amp; proposals</li>
+            <li><i data-lucide="hard-hat"></i>Projects &amp; installs</li>
+            <li><i data-lucide="package"></i>Inventory &amp; procurement</li>
+            <li><i data-lucide="wrench"></i>Field service &amp; warranty</li>
+            <li><i data-lucide="zap"></i>System production data</li>
+            <li><i data-lucide="landmark"></i>Finance &amp; ERP</li>
+          </ul>
+        </div>
+      </article>
+    </div>
+
+    <div class="showcase-controls">
+      <div class="showcase-dots" id="solarDots" role="tablist" aria-label="Choose slide"></div>
+      <div class="showcase-progress"><span class="showcase-progress-bar" id="solarProgress"></span></div>
+      <div class="showcase-nav">
+        <button type="button" class="showcase-btn" id="solarPause" aria-label="Pause slideshow"><span class="ic-pause"><i data-lucide="pause"></i></span><span class="ic-play" hidden><i data-lucide="play"></i></span></button>
+        <button type="button" class="showcase-btn" id="solarPrev" aria-label="Previous slide"><i data-lucide="arrow-left"></i></button>
+        <button type="button" class="showcase-btn" id="solarNext" aria-label="Next slide"><i data-lucide="arrow-right"></i></button>
+      </div>
+    </div>
+  </section>
+
+  <script src="../assets/js/showcase.js"></script>
+  <script>
+    // Slideshow v2: clone the slides above, add the solar slide as 02, and move
+    // the sun across the sky (east to west) as the slides advance.
+    function initSolarDeck() {
+      const deck = document.getElementById('solarDeck');
+      if (!deck) return;
+      const track = deck.querySelector('.solar-track');
+      const solarSlide = track.querySelector('.showcase-slide');
+      const copies = [...document.querySelectorAll('#showcase .showcase-slide')].map(s => {
+        const c = s.cloneNode(true);
+        c.classList.remove('is-active');
+        return c;
+      });
+      const slides = [copies[0], solarSlide, ...copies.slice(1)];
+      track.replaceChildren(...slides);
+
+      const pad = (n) => String(n).padStart(2, '0');
+      slides.forEach((s, i) => {
+        s.setAttribute('aria-label', `${i + 1} of ${slides.length}`);
+        const label = s.querySelector('.showcase-label');
+        const text = label.dataset.text || label.textContent;
+        delete label.dataset.text;
+        label.textContent = text.replace(/^\d+/, pad(i + 1));
+      });
+      splitTitleWords(solarSlide.querySelector('.showcase-title'));
+      solarSlide.querySelectorAll('[data-fx="pop"], [data-fx="flip"]').forEach(group =>
+        [...group.children].forEach((child, i) => child.style.setProperty('--i', i))
+      );
+
+      const dotsWrap = document.getElementById('solarDots');
+      const bar = document.getElementById('solarProgress');
+      const counter = document.getElementById('solarCounter');
+      const pauseBtn = document.getElementById('solarPause');
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      dotsWrap.innerHTML = slides.map((s, i) =>
+        `<button type="button" class="showcase-dot" role="tab" aria-label="Slide ${i + 1}: ${s.querySelector('.showcase-title').textContent.trim()}" aria-selected="${i === 0}">${pad(i + 1)}</button>`
+      ).join('');
+      const dots = [...dotsWrap.children];
+
+      let index = 0, paused = reduceMotion, hovering = false, inView = false;
+      let elapsed = 0, last = 0, target = 0, sun = 0, applied = -1;
+
+      // Sun position on the sky arc: p = 0 rises in the east (right), 1 sets in the west (left)
+      function placeSun(p) {
+        const a = Math.PI * p;
+        deck.style.setProperty('--sun-x', `${(50 + 49 * Math.cos(a)).toFixed(2)}%`);
+        deck.style.setProperty('--sun-y', `${(80 - 68 * Math.sin(a)).toFixed(2)}%`);
+        deck.style.setProperty('--sun-scale', (0.75 + 0.25 * Math.sin(a)).toFixed(3));
+        deck.style.setProperty('--tilt', `${(26 * Math.cos(a)).toFixed(2)}deg`);
+        deck.style.setProperty('--warm', (1 - Math.sin(a)).toFixed(3));
+      }
+
+      function show(i) {
+        index = (i + slides.length) % slides.length;
+        slides.forEach((s, n) => {
+          s.classList.toggle('is-active', n === index);
+          s.setAttribute('aria-hidden', n === index ? 'false' : 'true');
+          s.inert = n !== index;
+        });
+        dots.forEach((d, n) => d.setAttribute('aria-selected', n === index ? 'true' : 'false'));
+        counter.textContent = `${pad(index + 1)} / ${pad(slides.length)}`;
+        target = index / (slides.length - 1);
+        if (!reduceMotion) {
+          slides[index].querySelectorAll('[data-fx="scramble"]').forEach(scrambleText);
+          slides[index].querySelectorAll('[data-count]').forEach(countUp);
+        }
+        elapsed = 0;
+      }
+
+      function frame(now) {
+        const dt = last ? now - last : 0;
+        last = now;
+        if (inView && !paused && !hovering && !document.hidden) {
+          elapsed += dt;
+          if (elapsed >= SHOWCASE_INTERVAL) show(index + 1);
+        }
+        bar.style.width = `${Math.min(elapsed / SHOWCASE_INTERVAL, 1) * 100}%`;
+        sun = reduceMotion ? target : sun + (target - sun) * (1 - Math.exp(-dt / 500));
+        if (Math.abs(sun - applied) > 0.0005) { placeSun(sun); applied = sun; }
+        requestAnimationFrame(frame);
+      }
+
+      function setPaused(value) {
+        paused = value;
+        pauseBtn.setAttribute('aria-label', paused ? 'Play slideshow' : 'Pause slideshow');
+        pauseBtn.querySelector('.ic-pause').hidden = paused;
+        pauseBtn.querySelector('.ic-play').hidden = !paused;
+      }
+
+      document.getElementById('solarPrev').addEventListener('click', () => show(index - 1));
+      document.getElementById('solarNext').addEventListener('click', () => show(index + 1));
+      pauseBtn.addEventListener('click', () => setPaused(!paused));
+      dots.forEach((d, n) => d.addEventListener('click', () => show(n)));
+      deck.addEventListener('mouseenter', () => { hovering = true; });
+      deck.addEventListener('mouseleave', () => { hovering = false; });
+      deck.addEventListener('focusin', () => { hovering = true; });
+      deck.addEventListener('focusout', (e) => { if (!deck.contains(e.relatedTarget)) hovering = false; });
+      deck.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') show(index - 1);
+        if (e.key === 'ArrowRight') show(index + 1);
+      });
+      let touchX = null;
+      deck.addEventListener('touchstart', (e) => { touchX = e.touches[0].clientX; }, { passive: true });
+      deck.addEventListener('touchend', (e) => {
+        if (touchX === null) return;
+        const dx = e.changedTouches[0].clientX - touchX;
+        if (Math.abs(dx) > 50) show(index + (dx < 0 ? 1 : -1));
+        touchX = null;
+      });
+      new IntersectionObserver(([entry]) => { inView = entry.isIntersecting; }, { threshold: 0.4 }).observe(deck);
+
+      setPaused(paused);
+      show(0);
+      placeSun(0);
+      requestAnimationFrame(frame);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initShowcase();
+      if (window.lucide) lucide.createIcons();
+      initSolarDeck();
+    });
+  </script>
+</body>
+</html>
