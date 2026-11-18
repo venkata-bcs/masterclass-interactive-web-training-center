@@ -4,11 +4,760 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AI Developer Demo | Tinitiate MasterClass Academy</title>
+  <meta name="description" content="Animated AI slideshows: automation, AI/ML, generative AI and agents; how AI solves real business problems; key AI terms; and the technology stack to learn.">
   <link rel="icon" type="image/png" href="../favicon.png">
+  <link rel="stylesheet" href="assets/css/course.css">
+  <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
   <link rel="stylesheet" href="../assets/css/master-global-layout.css">
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Roboto+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,400,0..1,0&display=block">
+  <style>
+    /* ===== AI Developer Demo: animated slideshows (ai-*) ===== */
+    .main-content { min-width:0; }
+    .sq-card { background:#fff; border:1px solid #e2e8f0; border-radius:14px; padding:18px; margin:0 0 18px; box-shadow:0 1px 2px rgba(15,23,42,.04); }
+    .sq-intro-bar { display:flex; flex-wrap:wrap; gap:14px 24px; align-items:center; justify-content:space-between; }
+    .sq-intro-text p { margin:4px 0 0; font-size:.9rem; color:#475569; }
+    .sq-label { font-size:.72rem; font-weight:800; text-transform:uppercase; letter-spacing:.06em; color:#64748b; margin:0 0 6px; }
+    .sq-seg { display:inline-flex; flex-wrap:wrap; border:1px solid #cbd5e1; border-radius:10px; overflow:hidden; background:#fff; }
+    .sq-seg button { border:0; border-right:1px solid #e2e8f0; background:#fff; padding:7px 13px; font:inherit; font-size:.82rem; font-weight:700; color:#475569; cursor:pointer; transition:background .2s, color .2s; }
+    .sq-seg button:last-child { border-right:0; }
+    .sq-seg button:hover { background:#f5f3ff; }
+    .sq-seg button.on { background:#7c3aed; color:#fff; }
+    .sq-seg button:focus-visible { outline:2px solid #c4b5fd; outline-offset:-2px; }
+    .sq-note { font-size:.84rem; color:#475569; margin:12px 0 0; line-height:1.5; }
+    .sq-note a { color:#6d28d9; font-weight:700; }
+
+    /* ---- Deck (stage + controls) ---- */
+    .ai-deck { margin:0 0 18px; }
+    .ai-stage {
+      position:relative; overflow:hidden; border-radius:16px; aspect-ratio:16 / 10; min-height:500px;
+      background:#070b1a; color:#e2e8f0; box-shadow:0 18px 40px rgba(15,23,42,.25); container-type:inline-size;
+      --c1:#7c3aed; --c2:#06b6d4; --c3:#ec4899;
+    }
+    .ai-deck[data-palette="aurora"] .ai-stage { --c1:#7c3aed; --c2:#06b6d4; --c3:#ec4899; }
+    .ai-deck[data-palette="ember"] .ai-stage { --c1:#f97316; --c2:#e11d48; --c3:#facc15; }
+    .ai-deck[data-palette="ocean"] .ai-stage { --c1:#2563eb; --c2:#10b981; --c3:#22d3ee; }
+    .ai-deck[data-palette="neon"] .ai-stage { --c1:#a855f7; --c2:#22c55e; --c3:#3b82f6; }
+    /* drifting colour blobs under the particle canvas */
+    .ai-blob { position:absolute; width:60%; aspect-ratio:1; border-radius:50%; filter:blur(70px); opacity:.5; pointer-events:none; }
+    .ai-blob.b1 { background:var(--c1); top:-25%; left:-15%; animation:ai-drift1 18s ease-in-out infinite alternate; }
+    .ai-blob.b2 { background:var(--c2); bottom:-30%; right:-15%; animation:ai-drift2 22s ease-in-out infinite alternate; }
+    .ai-blob.b3 { background:var(--c3); top:30%; left:35%; width:35%; opacity:.25; animation:ai-drift3 26s ease-in-out infinite alternate; }
+    @keyframes ai-drift1 { to { transform:translate(30%, 25%) scale(1.15); } }
+    @keyframes ai-drift2 { to { transform:translate(-25%, -20%) scale(.9); } }
+    @keyframes ai-drift3 { to { transform:translate(-40%, 30%) scale(1.3); } }
+    .ai-bg { position:absolute; inset:0; width:100%; height:100%; display:block; }
+    .ai-veil { position:absolute; inset:0; background:radial-gradient(ellipse at center, rgba(7,11,26,.25), rgba(7,11,26,.78)); pointer-events:none; }
+
+    .ai-slides { position:absolute; inset:0; }
+    .ai-slide { position:absolute; inset:0; padding:clamp(22px, 4.5cqw, 44px) clamp(22px, 5cqw, 52px) 70px; display:flex; flex-direction:column; gap:clamp(10px, 1.8cqw, 18px); visibility:hidden; opacity:0; transition:opacity .45s ease, visibility 0s .45s; }
+    .ai-slide.is-active { visibility:visible; opacity:1; transition:opacity .45s ease; }
+    .ai-slide.center { justify-content:center; align-items:center; text-align:center; }
+    .ai-kicker { font-size:clamp(.66rem, 1.3cqw, .78rem); font-weight:800; letter-spacing:.14em; text-transform:uppercase; color:#c4b5fd; display:inline-flex; align-items:center; gap:8px; }
+    .ai-kicker::before { content:""; width:22px; height:2px; background:linear-gradient(90deg, var(--c1), var(--c2)); border-radius:2px; }
+    .ai-slide.center .ai-kicker::after { content:""; width:22px; height:2px; background:linear-gradient(90deg, var(--c2), var(--c1)); border-radius:2px; }
+    .ai-h { font-size:clamp(1.35rem, 4.2cqw, 2.5rem); line-height:1.12; font-weight:900; margin:0; color:#fff; letter-spacing:-.02em; }
+    .ai-h.xl { font-size:clamp(1.8rem, 6.4cqw, 3.6rem); }
+    .ai-grad { background:linear-gradient(90deg, #fff, var(--c2) 45%, var(--c3)); -webkit-background-clip:text; background-clip:text; color:transparent; }
+    .ai-p { font-size:clamp(.86rem, 1.85cqw, 1.06rem); line-height:1.55; color:#cbd5e1; margin:0; max-width:62ch; }
+    .ai-slide.center .ai-p { margin:0 auto; }
+    .ai-row { display:grid; grid-template-columns:minmax(0, 1fr) minmax(0, 1fr); gap:clamp(14px, 3cqw, 30px); align-items:center; flex:1; min-height:0; }
+    .ai-list { list-style:none; padding:0; margin:0; display:grid; gap:8px; }
+    .ai-list li { position:relative; padding-left:22px; font-size:clamp(.82rem, 1.7cqw, .98rem); line-height:1.45; color:#e2e8f0; }
+    .ai-list li::before { content:""; position:absolute; left:2px; top:.5em; width:9px; height:9px; border-radius:3px; background:linear-gradient(135deg, var(--c1), var(--c2)); }
+    .ai-list b { color:#fff; }
+    .ai-tag { display:inline-flex; align-items:center; gap:6px; font-size:clamp(.68rem, 1.35cqw, .8rem); font-weight:700; padding:4px 10px; border-radius:999px; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.18); color:#e2e8f0; }
+    .ai-tags { display:flex; flex-wrap:wrap; gap:8px; }
+    .ai-tags.center { justify-content:center; }
+    .ai-limit { font-size:clamp(.78rem, 1.55cqw, .9rem); color:#fecaca; background:rgba(239,68,68,.12); border:1px solid rgba(248,113,113,.35); border-radius:10px; padding:8px 12px; }
+    .ai-limit b { color:#fff; }
+    .ai-glass { background:rgba(15,23,42,.55); border:1px solid rgba(255,255,255,.14); border-radius:14px; padding:clamp(12px, 2.4cqw, 20px); backdrop-filter:blur(6px); }
+
+    /* entrance animation for every .ai-in inside the active slide */
+    .ai-in { opacity:0; }
+    .ai-slide.is-active .ai-in { animation:ai-in .7s cubic-bezier(.2,.8,.2,1) both; animation-delay:calc(var(--d, 0) * 130ms + 80ms); }
+    .ai-slide.is-active .ai-in.pop { animation-name:ai-pop; }
+    .ai-slide.is-active .ai-in.left { animation-name:ai-left; }
+    @keyframes ai-in { from { opacity:0; transform:translateY(18px); filter:blur(4px); } to { opacity:1; transform:none; filter:none; } }
+    @keyframes ai-pop { from { opacity:0; transform:scale(.6); } 70% { transform:scale(1.06); } to { opacity:1; transform:none; } }
+    @keyframes ai-left { from { opacity:0; transform:translateX(-24px); } to { opacity:1; transform:none; } }
+
+    /* ---- Flow diagram (boxes connected with a moving dot) ---- */
+    .ai-flow { display:flex; align-items:stretch; gap:0; flex-wrap:nowrap; }
+    .ai-flow .node { flex:1 1 0; min-width:0; text-align:center; padding:10px 8px; border-radius:12px; background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.18); font-size:clamp(.7rem, 1.45cqw, .86rem); font-weight:700; color:#fff; display:flex; flex-direction:column; align-items:center; gap:6px; justify-content:center; }
+    .ai-flow .node small { font-weight:500; color:#94a3b8; font-size:.85em; }
+    .ai-flow .node i, .ai-flow .node svg { width:22px; height:22px; color:var(--c2); }
+    .ai-flow .link { flex:0 0 clamp(18px, 4cqw, 40px); position:relative; align-self:center; height:2px; background:rgba(255,255,255,.2); }
+    .ai-flow .link::after { content:""; position:absolute; top:-3px; left:0; width:8px; height:8px; border-radius:50%; background:var(--c2); box-shadow:0 0 10px var(--c2); animation:ai-run 1.6s linear infinite; }
+    @keyframes ai-run { from { left:0; } to { left:calc(100% - 8px); } }
+    .ai-flow.vertical { flex-direction:column; }
+    .ai-flow.vertical .link { width:2px; height:18px; flex-basis:18px; }
+    .ai-flow.vertical .link::after { left:-3px; animation-name:ai-run-v; }
+    @keyframes ai-run-v { from { top:0; } to { top:calc(100% - 8px); } }
+
+    /* ---- Deck 1 visuals ---- */
+    .ai-evo { display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:10px; width:100%; max-width:760px; }
+    .ai-evo .st { padding:14px 10px; border-radius:14px; background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.16); text-align:center; }
+    .ai-evo .st i, .ai-evo .st svg { width:26px; height:26px; color:var(--c2); }
+    .ai-evo .st b { display:block; color:#fff; font-size:clamp(.78rem, 1.6cqw, .95rem); margin-top:6px; }
+    .ai-evo .st small { color:#94a3b8; font-size:clamp(.66rem, 1.3cqw, .78rem); }
+    .ai-gear { width:clamp(60px, 11cqw, 96px); height:auto; color:var(--c2); }
+    .ai-slide.is-active .ai-gear { animation:ai-spin 6s linear infinite; }
+    @keyframes ai-spin { to { transform:rotate(360deg); } }
+    .ai-svg { width:100%; height:auto; max-height:100%; }
+    .ai-svg .pt { fill:var(--c2); opacity:0; }
+    .ai-slide.is-active .ai-svg .pt { animation:ai-fade .4s ease both; animation-delay:calc(var(--i) * 60ms + 200ms); }
+    .ai-svg .fit { stroke:var(--c3); stroke-width:3; fill:none; stroke-dasharray:420; stroke-dashoffset:420; }
+    .ai-slide.is-active .ai-svg .fit { animation:ai-draw 1.4s ease 1.2s forwards; }
+    @keyframes ai-fade { from { opacity:0; transform:scale(.3); } to { opacity:.95; transform:none; } }
+    @keyframes ai-draw { to { stroke-dashoffset:0; } }
+    .ai-type { font-family:var(--font-mono); font-size:clamp(.78rem, 1.6cqw, .92rem); line-height:1.6; color:#e2e8f0; }
+    .ai-type .w { opacity:0; }
+    .ai-slide.is-active .ai-type .w { animation:ai-fade-w .25s ease both; animation-delay:calc(var(--i) * 90ms + 900ms); }
+    @keyframes ai-fade-w { from { opacity:0; } to { opacity:1; } }
+    .ai-prompt { font-family:var(--font-mono); font-size:clamp(.78rem, 1.6cqw, .9rem); color:#fde68a; margin-bottom:10px; }
+    .ai-orbit { position:relative; width:clamp(200px, 36cqw, 300px); aspect-ratio:1; margin:auto; }
+    .ai-orbit .core { position:absolute; inset:34%; border-radius:50%; display:grid; place-items:center; background:radial-gradient(circle, var(--c1), #1e1b4b); box-shadow:0 0 40px var(--c1); color:#fff; font-weight:900; font-size:clamp(.8rem, 1.7cqw, 1rem); }
+    .ai-orbit .ring { position:absolute; inset:0; border:1px dashed rgba(255,255,255,.25); border-radius:50%; }
+    .ai-slide.is-active .ai-orbit .spin { animation:ai-spin 20s linear infinite; }
+    .ai-orbit .spin { position:absolute; inset:0; }
+    .ai-orbit .sat { position:absolute; transform:translate(-50%, -50%); }
+    .ai-slide.is-active .ai-orbit .sat > span { animation:ai-spin 20s linear infinite reverse; }
+    .ai-orbit .sat > span { display:inline-block; padding:5px 10px; border-radius:999px; background:rgba(15,23,42,.85); border:1px solid var(--c2); color:#fff; font-size:clamp(.66rem, 1.35cqw, .8rem); font-weight:700; white-space:nowrap; }
+    .ai-loop { position:relative; width:clamp(210px, 36cqw, 300px); aspect-ratio:1; margin:auto; }
+    .ai-loop svg { position:absolute; inset:0; width:100%; height:100%; }
+    .ai-slide.is-active .ai-loop .arc { animation:ai-spin 8s linear infinite; transform-origin:50% 50%; }
+    .ai-loop .lb { position:absolute; transform:translate(-50%, -50%); padding:6px 12px; border-radius:10px; background:rgba(15,23,42,.9); border:1px solid rgba(255,255,255,.2); font-weight:800; font-size:clamp(.7rem, 1.45cqw, .86rem); color:#fff; }
+    .ai-slide.is-active .ai-loop .lb { animation:ai-hl 4.8s linear infinite; animation-delay:calc(var(--i) * 1.2s); }
+    @keyframes ai-hl { 0%, 22% { background:var(--c1); border-color:#fff; box-shadow:0 0 18px var(--c1); } 25%, 100% { background:rgba(15,23,42,.9); border-color:rgba(255,255,255,.2); box-shadow:none; } }
+    .ai-loop .mid { position:absolute; inset:36%; display:grid; place-items:center; text-align:center; font-size:clamp(.66rem, 1.3cqw, .78rem); color:#94a3b8; font-weight:700; }
+    .ai-swarm { width:100%; height:auto; }
+    .ai-swarm line { stroke:rgba(255,255,255,.22); stroke-width:1.5; }
+    .ai-swarm .pulse { stroke:var(--c2); stroke-width:2.5; stroke-dasharray:6 70; }
+    .ai-slide.is-active .ai-swarm .pulse { animation:ai-dash 2.2s linear infinite; }
+    @keyframes ai-dash { to { stroke-dashoffset:-76; } }
+    .ai-swarm circle { fill:#0f172a; stroke:var(--c1); stroke-width:2; }
+    .ai-swarm circle.lead { fill:var(--c1); }
+    .ai-swarm text { fill:#fff; font-size:11px; font-weight:700; text-anchor:middle; font-family:inherit; }
+
+    /* ---- Deck 2 (problems) ---- */
+    .ai-probtabs { margin:0 0 10px; }
+    .ai-approach { display:inline-flex; align-items:center; gap:8px; font-size:clamp(.66rem, 1.3cqw, .78rem); font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:#0f172a; background:linear-gradient(90deg, var(--c3), var(--c2)); padding:4px 12px; border-radius:999px; align-self:flex-start; }
+    .ai-stats { display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:10px; }
+    .ai-stat { text-align:center; padding:12px 8px; border-radius:12px; background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.16); }
+    .ai-stat b { display:block; font-size:clamp(1rem, 2.6cqw, 1.5rem); color:#fff; }
+    .ai-stat small { color:#94a3b8; font-size:clamp(.66rem, 1.3cqw, .78rem); }
+
+    /* ---- Deck 3 (terms) visuals ---- */
+    .ai-bars { display:grid; gap:7px; }
+    .ai-bars .r { display:grid; grid-template-columns:80px minmax(0,1fr) 44px; gap:8px; align-items:center; font-family:var(--font-mono); font-size:clamp(.72rem, 1.45cqw, .84rem); color:#e2e8f0; }
+    .ai-bars .t { display:block; height:12px; border-radius:6px; background:rgba(255,255,255,.08); overflow:hidden; }
+    .ai-bars .f { display:block; height:100%; width:var(--w); background:linear-gradient(90deg, var(--c1), var(--c2)); border-radius:6px; transform-origin:left; transform:scaleX(0); }
+    .ai-slide.is-active .ai-bars .f { animation:ai-grow .9s cubic-bezier(.2,.8,.2,1) both; animation-delay:calc(var(--i) * 150ms + 600ms); }
+    @keyframes ai-grow { to { transform:scaleX(1); } }
+    .ai-harness { position:relative; display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); grid-template-rows:repeat(3, auto); gap:8px; }
+    .ai-harness .hx { padding:9px 6px; border-radius:10px; text-align:center; font-size:clamp(.68rem, 1.4cqw, .82rem); font-weight:700; color:#fff; background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.18); }
+    .ai-harness .hx small { display:block; color:#94a3b8; font-weight:500; font-size:.88em; }
+    .ai-harness .model { background:radial-gradient(circle, var(--c1), #1e1b4b); border-color:#fff; box-shadow:0 0 26px var(--c1); display:grid; place-items:center; font-size:clamp(.8rem, 1.7cqw, 1rem); }
+    .ai-tokens { display:flex; flex-wrap:wrap; gap:5px; font-family:var(--font-mono); font-size:clamp(.78rem, 1.6cqw, .92rem); }
+    .ai-tokens span { padding:3px 7px; border-radius:6px; color:#0f172a; font-weight:700; }
+    .ai-tokens span:nth-child(5n+1) { background:#c4b5fd; } .ai-tokens span:nth-child(5n+2) { background:#a5f3fc; }
+    .ai-tokens span:nth-child(5n+3) { background:#fbcfe8; } .ai-tokens span:nth-child(5n+4) { background:#bbf7d0; } .ai-tokens span:nth-child(5n) { background:#fde68a; }
+    .ai-count { font-family:var(--font-mono); font-size:clamp(1.6rem, 4.4cqw, 2.6rem); font-weight:900; color:#fff; }
+    .ai-msgs { display:grid; gap:7px; font-size:clamp(.74rem, 1.5cqw, .86rem); }
+    .ai-msgs .m { padding:7px 11px; border-radius:10px; max-width:88%; }
+    .ai-msgs .u { background:rgba(124,58,237,.35); justify-self:end; color:#fff; }
+    .ai-msgs .a { background:rgba(255,255,255,.1); color:#e2e8f0; }
+    .ai-msgs .t { background:rgba(16,185,129,.2); color:#bbf7d0; font-family:var(--font-mono); font-size:.92em; }
+    .ai-state { font-family:var(--font-mono); font-size:clamp(.72rem, 1.45cqw, .84rem); color:#a5f3fc; white-space:pre; margin:0; }
+    .ai-gauge { display:flex; align-items:center; gap:10px; font-size:clamp(.7rem, 1.4cqw, .82rem); color:#94a3b8; }
+    .ai-gauge .t { flex:1; height:8px; border-radius:4px; background:rgba(255,255,255,.1); overflow:hidden; }
+    .ai-gauge .f { display:block; height:100%; width:0; background:linear-gradient(90deg, var(--c2), var(--c3)); }
+    .ai-slide.is-active .ai-gauge .f { animation:ai-fill 4s ease-out .6s forwards; }
+    @keyframes ai-fill { to { width:64%; } }
+    .ai-trace { display:grid; gap:6px; font-family:var(--font-mono); font-size:clamp(.7rem, 1.4cqw, .82rem); }
+    .ai-trace .r { display:grid; grid-template-columns:110px minmax(0,1fr) 54px; gap:8px; align-items:center; color:#e2e8f0; }
+    .ai-trace .t { position:relative; height:14px; }
+    .ai-trace .f { position:absolute; top:0; height:100%; left:var(--x); width:var(--w); border-radius:4px; background:var(--col, var(--c2)); transform-origin:left; transform:scaleX(0); }
+    .ai-slide.is-active .ai-trace .f { animation:ai-grow .6s ease both; animation-delay:calc(var(--i) * 260ms + 500ms); }
+    .ai-cycle { position:relative; width:clamp(220px, 38cqw, 310px); aspect-ratio:1; margin:auto; }
+    .ai-cycle .lb { position:absolute; transform:translate(-50%, -50%); text-align:center; padding:7px 10px; border-radius:12px; background:rgba(15,23,42,.9); border:1px solid rgba(255,255,255,.2); color:#fff; font-weight:800; font-size:clamp(.68rem, 1.4cqw, .82rem); }
+    .ai-cycle .lb small { display:block; color:#94a3b8; font-weight:500; }
+    .ai-slide.is-active .ai-cycle .lb { animation:ai-hl 6s linear infinite; animation-delay:calc(var(--i) * 1.2s); }
+    .ai-cycle svg { position:absolute; inset:0; width:100%; height:100%; }
+    .ai-slide.is-active .ai-cycle .arc { animation:ai-spin 12s linear infinite; transform-origin:50% 50%; }
+
+    /* ---- Deck 4 (stack) ---- */
+    .ai-stack { display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:12px; width:100%; max-width:760px; }
+    .ai-tech { display:flex; align-items:center; gap:12px; padding:12px; border-radius:14px; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.18); text-align:left; }
+    .ai-tech img { width:clamp(28px, 5cqw, 40px); height:clamp(28px, 5cqw, 40px); flex:none; background:#fff; border-radius:10px; padding:5px; }
+    .ai-tech b { display:block; color:#fff; font-size:clamp(.8rem, 1.65cqw, .98rem); }
+    .ai-tech small { color:#94a3b8; font-size:clamp(.66rem, 1.3cqw, .78rem); }
+    .ai-logo { width:clamp(56px, 10cqw, 84px); height:clamp(56px, 10cqw, 84px); background:#fff; border-radius:20px; padding:10px; box-shadow:0 0 0 6px rgba(255,255,255,.08), 0 0 40px var(--c1); }
+    .ai-slide.is-active .ai-logo { animation:ai-pop .8s cubic-bezier(.2,.8,.2,1) both, ai-float 5s ease-in-out 1s infinite; }
+    @keyframes ai-float { 50% { transform:translateY(-8px); } }
+    .ai-code { margin:0; background:rgba(2,6,23,.85); border:1px solid rgba(255,255,255,.14); border-radius:12px; padding:12px 14px; font-family:var(--font-mono); font-size:clamp(.66rem, 1.35cqw, .8rem); line-height:1.55; color:#e2e8f0; white-space:pre; overflow:auto; max-height:100%; }
+    .ai-code .k { color:#c4b5fd; } .ai-code .s { color:#86efac; } .ai-code .c { color:#64748b; font-style:italic; } .ai-code .f { color:#7dd3fc; }
+    .ai-head { display:flex; align-items:center; gap:clamp(12px, 2.4cqw, 20px); }
+    .ai-link { display:inline-flex; align-items:center; gap:6px; color:#fff; font-weight:800; font-size:clamp(.74rem, 1.5cqw, .86rem); text-decoration:none; padding:7px 14px; border-radius:999px; background:linear-gradient(90deg, var(--c1), var(--c2)); align-self:flex-start; }
+    .ai-link:hover { filter:brightness(1.1); }
+    .ai-link:focus-visible { outline:2px solid #fff; outline-offset:2px; }
+
+
+    /* ---- Light "wire" stage (Technology Stacks) ---- */
+    .ai-deck.is-light .ai-stage { background:linear-gradient(160deg, #ffffff, #f8fafc 60%, #f1f5f9); color:#0f172a; border:1px solid #e2e8f0; box-shadow:0 10px 30px rgba(15,23,42,.08); --c1:#6366f1; --c2:#0ea5e9; --c3:#8b5cf6; }
+    .ai-deck.is-light .ai-blob, .ai-deck.is-light .ai-veil { display:none; }
+    .ai-deck.is-light .ai-h { color:#0f172a; }
+    .ai-deck.is-light .ai-grad { background:linear-gradient(90deg, #4f46e5, #0ea5e9); -webkit-background-clip:text; background-clip:text; color:transparent; }
+    .ai-deck.is-light .ai-kicker { color:#4f46e5; }
+    .ai-deck.is-light .ai-p { color:#475569; }
+    .ai-deck.is-light .ai-list li { color:#334155; }
+    .ai-deck.is-light .ai-stage b, .ai-deck.is-light .ai-stage strong { color:#0f172a; }
+    .ai-deck.is-light .ai-code { background:rgba(255,255,255,.92); border:1px solid #e2e8f0; color:#1e293b; box-shadow:0 2px 10px rgba(15,23,42,.05); }
+    .ai-deck.is-light .ai-code .k { color:#7c3aed; } .ai-deck.is-light .ai-code .s { color:#047857; }
+    .ai-deck.is-light .ai-code .c { color:#94a3b8; } .ai-deck.is-light .ai-code .f { color:#0369a1; }
+    .ai-deck.is-light .ai-logo { box-shadow:0 0 0 1px #e2e8f0, 0 8px 22px rgba(79,70,229,.18); }
+    .ai-deck.is-light .ai-tag { background:#fff; border-color:#e2e8f0; color:#334155; }
+    .ai-deck.is-light .ai-stage-num { color:#94a3b8; }
+    .ai-deck.is-light .ai-progress { background:#e2e8f0; }
+    .ai-tag img { width:16px; height:16px; }
+    .ai-logo-ic { display:grid; place-items:center; color:#0194e2; }
+    .ai-logo-ic svg { width:60%; height:60%; }
+    .ai-groups { display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:12px; width:100%; max-width:820px; text-align:left; }
+    .ai-group { display:flex; flex-direction:column; gap:6px; padding:12px; border-radius:14px; background:rgba(255,255,255,.88); border:1px solid #e2e8f0; box-shadow:0 2px 10px rgba(15,23,42,.04); }
+    .ai-group > b { font-size:clamp(.66rem, 1.3cqw, .74rem); font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:#4f46e5; margin-bottom:2px; }
+    .ai-group > span { display:flex; align-items:center; gap:8px; font-size:clamp(.74rem, 1.5cqw, .86rem); font-weight:700; color:#0f172a; }
+    .ai-group img, .ai-group svg { width:18px; height:18px; flex:none; }
+    .ai-group svg { color:#0194e2; }
+    .ai-obs { display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:12px; }
+    .ai-tool { display:grid; grid-template-columns:auto 1fr; grid-template-rows:auto auto; column-gap:12px; align-items:center; padding:14px; border-radius:14px; background:rgba(255,255,255,.9); border:1px solid #e2e8f0; }
+    .ai-tool img { grid-row:span 2; width:36px; height:36px; }
+    .ai-tool b { font-size:clamp(.8rem, 1.65cqw, .95rem); color:#0f172a; }
+    .ai-tool small { font-size:clamp(.7rem, 1.4cqw, .8rem); color:#64748b; }
+    .ai-cloud { display:grid; grid-template-columns:1.1fr repeat(3, minmax(0,1fr)); border:1px solid #e2e8f0; border-radius:14px; overflow:hidden; background:rgba(255,255,255,.92); font-size:clamp(.7rem, 1.45cqw, .84rem); }
+    .ai-cloud > div { padding:5px 10px; border-top:1px solid #f1f5f9; color:#334155; }
+    .ai-cloud .hd { border-top:0; background:#f8fafc; font-weight:800; color:#0f172a; display:flex; align-items:center; gap:6px; }
+    .ai-cloud .hd img { width:18px; height:18px; }
+    .ai-cloud .rw { font-weight:700; color:#4f46e5; }
+    @container (max-width: 640px) { .ai-groups, .ai-obs { grid-template-columns:repeat(2, minmax(0,1fr)); } }
+    @media (max-width: 760px) { .ai-cloud { grid-template-columns:repeat(4, minmax(90px, 1fr)); overflow-x:auto; } }
+
+
+    /* ---- Two-tone "duo" stage (AI Terms): dark title band, light content area ---- */
+    .ai-deck.is-duo .ai-stage { background:linear-gradient(135deg, #f8fafc, #eef2ff 55%, #ecfeff); color:#0f172a; border:1px solid #e2e8f0; --c1:#6366f1; --c2:#0891b2; --c3:#db2777; }
+    .ai-deck.is-duo .ai-bg, .ai-deck.is-duo .ai-veil { display:none; }
+    .ai-deck.is-duo .ai-blob { opacity:.35; filter:blur(80px); }
+    .ai-deck.is-duo .ai-blob.b1 { background:#a5b4fc; } .ai-deck.is-duo .ai-blob.b2 { background:#67e8f9; } .ai-deck.is-duo .ai-blob.b3 { background:#f9a8d4; }
+    .ai-deck.is-duo .ai-slide { isolation:isolate; }
+    .ai-deck.is-duo .ai-slide::before {
+      content:""; position:absolute; left:0; right:0; top:0; height:var(--band, 34%); z-index:-1;
+      background:radial-gradient(circle at 12% 0%, rgba(99,102,241,.45), transparent 55%), radial-gradient(circle at 90% 120%, rgba(8,145,178,.35), transparent 50%), linear-gradient(120deg, #0b1023, #1e1b4b);
+      clip-path:polygon(0 0, 100% 0, 100% calc(100% - 16px), 0 100%);
+      transition:height .45s cubic-bezier(.2,.8,.2,1);
+    }
+    .ai-deck.is-duo .ai-slide.center::before { height:100%; clip-path:none; }
+    .ai-deck.is-duo .ai-kicker { color:#c4b5fd; }
+    .ai-deck.is-duo .ai-h { color:#fff; }
+    .ai-deck.is-duo .ai-slide:not(.center) .ai-h { margin-bottom:clamp(14px, 2.6cqw, 22px); }
+    .ai-deck.is-duo .ai-grad { background:linear-gradient(90deg, #fff, #67e8f9 45%, #f9a8d4); -webkit-background-clip:text; background-clip:text; color:transparent; }
+    .ai-deck.is-duo .ai-stage-num { color:#64748b; }
+    .ai-deck.is-duo .ai-progress { background:#e2e8f0; }
+    /* light content area (everything below the band) */
+    .ai-deck.is-duo .ai-slide:not(.center) .ai-p { color:#334155; }
+    .ai-deck.is-duo .ai-slide:not(.center) .ai-list li { color:#1e293b; }
+    .ai-deck.is-duo .ai-slide:not(.center) b, .ai-deck.is-duo .ai-slide:not(.center) strong { color:#0f172a; }
+    .ai-deck.is-duo .ai-glass { background:rgba(255,255,255,.88); border-color:#e2e8f0; box-shadow:0 6px 20px rgba(15,23,42,.06); color:#0f172a; }
+    .ai-deck.is-duo .ai-prompt { color:#b45309; }
+    .ai-deck.is-duo .ai-bars .r { color:#1e293b; }
+    .ai-deck.is-duo .ai-bars .t, .ai-deck.is-duo .ai-gauge .t { background:#e2e8f0; }
+    .ai-deck.is-duo .ai-glass .ai-p { color:#64748b !important; }
+    .ai-deck.is-duo .ai-harness .hx { background:#fff; border-color:#e2e8f0; color:#0f172a; }
+    .ai-deck.is-duo .ai-harness .hx small { color:#64748b; }
+    .ai-deck.is-duo .ai-harness .hx.model { background:radial-gradient(circle, #6366f1, #1e1b4b); color:#fff; border-color:#c7d2fe; box-shadow:0 0 24px rgba(99,102,241,.45); }
+    .ai-deck.is-duo .ai-count { color:#0f172a; }
+    .ai-deck.is-duo .ai-glass span[style*="color:#94a3b8"] { color:#64748b !important; }
+    .ai-deck.is-duo .ai-msgs .u { background:#6366f1; color:#fff; }
+    .ai-deck.is-duo .ai-msgs .a { background:#f1f5f9; color:#1e293b; }
+    .ai-deck.is-duo .ai-msgs .t { background:#dcfce7; color:#166534; }
+    .ai-deck.is-duo .ai-state { color:#0e7490; }
+    .ai-deck.is-duo .ai-gauge { color:#475569; }
+    .ai-deck.is-duo .ai-flow .node { background:#fff; border-color:#e2e8f0; color:#0f172a; box-shadow:0 2px 8px rgba(15,23,42,.05); }
+    .ai-deck.is-duo .ai-flow .node small { color:#64748b; }
+    .ai-deck.is-duo .ai-flow .link { background:#cbd5e1; }
+    .ai-deck.is-duo .ai-slide:not(.center) .ai-tag { background:#fff; border-color:#e2e8f0; color:#334155; }
+    .ai-deck.is-duo .ai-trace .r { color:#1e293b; }
+    .ai-deck.is-duo .ai-cycle svg circle:first-child { stroke:#cbd5e1; }
+    .ai-deck.is-duo .ai-cycle .lb { background:#0f172a; }
+    .ai-deck.is-duo .ai-cycle .lb small { color:#cbd5e1; }
+
+    /* ---- Full screen (slideshows + refund walkthrough) ---- */
+    .ai-fs-btn { margin-left:4px; }
+    .ai-deck.is-fs { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; margin:0; padding:20px; background:#050814; overflow:auto; }
+    .ai-deck.is-fs.is-light, .ai-deck.is-fs.is-duo { background:#f1f5f9; }
+    .ai-deck.is-fs .ai-stage { width:960px; min-height:600px; zoom:var(--fs-k, 1); flex:none; }
+    .ai-deck.is-fs .ai-ctrl { width:960px; zoom:var(--fs-k, 1); }
+    .ai-deck.is-fs .ai-count-lbl { color:#94a3b8; }
+    .evo-scope.is-fs { display:block; overflow:auto; padding:24px; background:#f7f2fa; }
+    .evo-scope.is-fs > .md-card { width:1000px; margin:0 auto; zoom:var(--fs-k, 1); }
+
+    /* ---- Controls under each stage ---- */
+    .ai-ctrl { display:flex; align-items:center; gap:10px; flex-wrap:wrap; padding:12px 4px 0; }
+    .ai-btn { display:inline-flex; align-items:center; justify-content:center; gap:6px; font:inherit; font-size:.84rem; font-weight:800; padding:8px 12px; border-radius:9px; border:1px solid #cbd5e1; background:#fff; color:#334155; cursor:pointer; }
+    .ai-btn:hover { background:#f5f3ff; }
+    .ai-btn svg { width:15px; height:15px; }
+    .ai-btn.play { background:#7c3aed; border-color:#7c3aed; color:#fff; min-width:96px; }
+    .ai-btn.play:hover { background:#6d28d9; }
+    .ai-btn:focus-visible { outline:2px solid #c4b5fd; outline-offset:2px; }
+    .ai-dots { display:flex; gap:6px; flex-wrap:wrap; flex:1; justify-content:center; }
+    .ai-dot { width:10px; height:10px; border-radius:50%; border:0; padding:0; background:#cbd5e1; cursor:pointer; transition:width .25s, background .25s; }
+    .ai-dot.on { width:26px; border-radius:6px; background:#7c3aed; }
+    .ai-dot:focus-visible { outline:2px solid #c4b5fd; outline-offset:2px; }
+    .ai-count-lbl { font-size:.82rem; font-weight:700; color:#64748b; min-width:64px; text-align:right; }
+    .ai-progress { position:absolute; left:0; bottom:0; height:3px; width:100%; background:rgba(255,255,255,.08); z-index:3; }
+    .ai-progress i { display:block; height:100%; width:0; background:linear-gradient(90deg, var(--c1), var(--c2), var(--c3)); }
+    .ai-stage-num { position:absolute; right:18px; bottom:14px; z-index:3; font-family:var(--font-mono); font-size:.78rem; color:rgba(255,255,255,.55); }
+
+    @container (max-width: 640px) {
+      .ai-row { grid-template-columns:1fr; }
+      .ai-evo, .ai-stack { grid-template-columns:repeat(2, minmax(0,1fr)); }
+    }
+    @media (max-width: 760px) {
+      .ai-stage { aspect-ratio:auto; min-height:0; }
+      .ai-slides { position:relative; }
+      .ai-slide { position:relative; display:none; padding-bottom:40px; }
+      .ai-slide.is-active { display:flex; }
+      .ai-flow { flex-wrap:wrap; gap:8px; } .ai-flow .link { display:none; }
+      .ai-stats { grid-template-columns:1fr; }
+    }
+    /* Text inside the dark stage: override the course stylesheet's dark bold text */
+    .ai-stage b, .ai-stage strong { color:#fff; }
+    @media (prefers-reduced-motion: reduce) {
+      /* No motion: show every slide in its finished state */
+      .ai-stage *, .ai-stage *::before, .ai-stage *::after { animation:none !important; }
+      .ai-slide, .ai-slide.is-active, .ai-dot { transition:none; }
+      .ai-in, .ai-svg .pt, .ai-type .w { opacity:1; }
+      .ai-svg .pt { opacity:.95; }
+      .ai-svg .fit { stroke-dashoffset:0; }
+      .ai-bars .f, .ai-trace .f { transform:none; }
+      .ai-gauge .f { width:64%; }
+      .ai-flow .link::after { left:calc(50% - 4px); }
+    }
+  </style>
+  <style>
+    /* ===== Copied from automation-ml-ai-agentic/demo.html: Evolution of Automation to Agents (Refund System) ===== */
+.evo-scope {      --font-sans: "Roboto", "Helvetica Neue", Arial, sans-serif;
+      --font-mono: "Roboto Mono", ui-monospace, Consolas, monospace;
+      --md-primary: #6750a4;
+      --md-on-primary: #ffffff;
+      --md-primary-container: #eaddff;
+      --md-on-primary-container: #21005d;
+      --md-secondary: #625b71;
+      --md-secondary-container: #e8def8;
+      --md-on-secondary-container: #1d192b;
+      --md-tertiary: #7d5260;
+      --md-tertiary-container: #ffd8e4;
+      --md-error: #b3261e;
+      --md-error-container: #f9dedc;
+      --md-on-error-container: #410e0b;
+      --md-background: #ffffff;
+      --md-surface: #ffffff;
+      --md-surface-dim: #fdfbff;
+      --md-surface-container-lowest: #ffffff;
+      --md-surface-container-low: #f7f2fa;
+      --md-surface-container: #f3edf7;
+      --md-surface-container-high: #ece6f0;
+      --md-surface-container-highest: #e6e0e9;
+      --md-on-surface: #1d1b20;
+      --md-on-surface-variant: #49454f;
+      --md-outline: #79747e;
+      --md-outline-variant: #cac4d0;
+      --tone-blue: #0b57d0;      --tone-blue-c: #d3e3fd;   --tone-on-blue-c: #041e49;
+      --tone-green: #146c2e;     --tone-green-c: #c4eed0;  --tone-on-green-c: #072711;
+      --tone-amber: #8c5000;     --tone-amber-c: #ffdcbe;  --tone-on-amber-c: #2e1500;
+      --tone-red: #b3261e;       --tone-red-c: #f9dedc;    --tone-on-red-c: #410e0b;
+      --tone-purple: #6750a4;    --tone-purple-c: #eaddff; --tone-on-purple-c: #21005d;
+      --md-el-1: 0 1px 2px rgba(0,0,0,.30), 0 1px 3px 1px rgba(0,0,0,.15);
+      --md-el-2: 0 1px 2px rgba(0,0,0,.30), 0 2px 6px 2px rgba(0,0,0,.15);
+      --md-el-3: 0 1px 3px rgba(0,0,0,.30), 0 4px 8px 3px rgba(0,0,0,.15);
+      --md-shape-xs: 4px;
+      --md-shape-s: 8px;
+      --md-shape-m: 12px;
+      --md-shape-l: 16px;
+      --md-shape-xl: 28px;
+      --md-shape-full: 999px;
+      --md-ease: cubic-bezier(.2, 0, 0, 1);
+  font-family: var(--font-sans); font-size: 14px; line-height: 20px; letter-spacing: .0178em; color: var(--md-on-surface);
+}
+.evo-scope .msr {
+      font-family: "Material Symbols Rounded";
+      font-weight: normal;
+      font-style: normal;
+      font-size: 20px;
+      line-height: 1;
+      letter-spacing: normal;
+      text-transform: none;
+      display: inline-block;
+      white-space: nowrap;
+      direction: ltr;
+      -webkit-font-feature-settings: "liga";
+      font-feature-settings: "liga";
+      -webkit-font-smoothing: antialiased;
+      font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+      flex-shrink: 0;
+      user-select: none;
+    }
+.evo-scope .msr.fill { font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 24; }
+.evo-scope .msr.sm { font-size: 18px; }
+.evo-scope .msr.lg { font-size: 24px; }
+.evo-scope .msr.xl { font-size: 32px; }
+.evo-scope .md-title-l { font-size: 22px; line-height: 28px; font-weight: 400; margin: 0; }
+.evo-scope .md-title-m { font-size: 16px; line-height: 24px; font-weight: 500; letter-spacing: .009em; margin: 0; }
+.evo-scope .md-title-s { font-size: 14px; line-height: 20px; font-weight: 500; letter-spacing: .007em; margin: 0; }
+.evo-scope .md-body-l { font-size: 16px; line-height: 24px; letter-spacing: .031em; margin: 0; }
+.evo-scope .md-body-m { font-size: 14px; line-height: 20px; letter-spacing: .018em; margin: 0; }
+.evo-scope .md-body-s { font-size: 12px; line-height: 16px; letter-spacing: .033em; margin: 0; }
+.evo-scope .md-label-l { font-size: 14px; line-height: 20px; font-weight: 500; letter-spacing: .007em; }
+.evo-scope .md-label-m { font-size: 12px; line-height: 16px; font-weight: 500; letter-spacing: .042em; }
+.evo-scope .md-label-s { font-size: 11px; line-height: 16px; font-weight: 500; letter-spacing: .045em; }
+.evo-scope .muted { color: var(--md-on-surface-variant); }
+.evo-scope .md-nav-item.active .msr { font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 24; }
+.evo-scope .md-live-dot {
+      width: 8px; height: 8px; border-radius: 50%; background: var(--tone-green);
+      box-shadow: 0 0 0 0 rgba(20, 108, 46, .5); animation: md-pulse 2s infinite;
+      display: inline-block;
+    }
+@keyframes md-pulse {
+      0%   { box-shadow: 0 0 0 0 rgba(20, 108, 46, .45); }
+      70%  { box-shadow: 0 0 0 8px rgba(20, 108, 46, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(20, 108, 46, 0); }
+    }
+.evo-scope .md-snap-head .md-body-l { color: var(--md-on-surface-variant); max-width: 900px; }
+.evo-scope .md-btn {
+      position: relative; overflow: hidden;
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      height: 40px; padding: 0 24px;
+      border-radius: var(--md-shape-full);
+      border: 0; cursor: pointer;
+      font-family: var(--font-sans); font-size: 14px; font-weight: 500; letter-spacing: .007em;
+      white-space: nowrap;
+      transition: box-shadow .2s var(--md-ease), background-color .2s var(--md-ease);
+      -webkit-tap-highlight-color: transparent;
+    }
+.evo-scope .md-btn .msr { font-size: 18px; margin-left: -8px; }
+.evo-scope .md-btn::before {
+      content: ""; position: absolute; inset: 0; background: currentColor; opacity: 0;
+      transition: opacity .2s var(--md-ease); pointer-events: none;
+    }
+.evo-scope .md-btn:hover::before { opacity: .08; }
+.evo-scope .md-btn:active::before { opacity: .12; }
+.evo-scope .md-btn:focus-visible { outline: 2px solid var(--md-primary); outline-offset: 2px; }
+.evo-scope .md-btn:disabled { cursor: not-allowed; background: rgba(29, 27, 32, .12) !important; color: rgba(29, 27, 32, .38) !important; box-shadow: none !important; border-color: transparent !important; }
+.evo-scope .md-btn:disabled::before { display: none; }
+.evo-scope .md-btn-filled { background: var(--md-primary); color: var(--md-on-primary); }
+.evo-scope .md-btn-filled:hover { box-shadow: var(--md-el-1); }
+.evo-scope .md-btn-tonal { background: var(--md-secondary-container); color: var(--md-on-secondary-container); }
+.evo-scope .md-btn-tonal:hover { box-shadow: var(--md-el-1); }
+.evo-scope .md-btn-outlined { background: transparent; color: var(--md-primary); border: 1px solid var(--md-outline); }
+.evo-scope .md-btn-text { background: transparent; color: var(--md-primary); padding: 0 12px; }
+.evo-scope .md-btn-elevated { background: var(--md-surface-container-low); color: var(--md-primary); box-shadow: var(--md-el-1); }
+.evo-scope .md-btn-elevated:hover { box-shadow: var(--md-el-2); }
+.evo-scope .md-icon-btn {
+      position: relative; overflow: hidden;
+      width: 40px; height: 40px; border-radius: 50%;
+      display: inline-grid; place-items: center;
+      border: 0; background: transparent; color: var(--md-on-surface-variant); cursor: pointer;
+      font-family: var(--font-sans); font-size: 13px; font-weight: 500;
+      -webkit-tap-highlight-color: transparent;
+    }
+.evo-scope .md-icon-btn::before { content: ""; position: absolute; inset: 0; background: currentColor; opacity: 0; transition: opacity .2s var(--md-ease); }
+.evo-scope .md-icon-btn:hover::before { opacity: .08; }
+.evo-scope .md-icon-btn:active::before { opacity: .12; }
+.evo-scope .md-icon-btn:focus-visible { outline: 2px solid var(--md-primary); outline-offset: 2px; }
+.evo-scope .md-icon-btn.filled { background: var(--md-primary); color: var(--md-on-primary); }
+.evo-scope .md-icon-btn.tonal { background: var(--md-secondary-container); color: var(--md-on-secondary-container); }
+.evo-scope .md-icon-btn.outlined { border: 1px solid var(--md-outline-variant); }
+.evo-scope .md-icon-btn.lg { width: 56px; height: 56px; border-radius: var(--md-shape-l); }
+.evo-scope .md-icon-btn.lg .msr { font-size: 28px; }
+.evo-scope .md-ripple {
+      position: absolute; border-radius: 50%; pointer-events: none;
+      background: currentColor; opacity: .16; transform: scale(0);
+      animation: md-ripple .55s var(--md-ease) forwards;
+    }
+@keyframes md-ripple { to { transform: scale(1); opacity: 0; } }
+.evo-scope .md-chip .msr { font-size: 18px; margin-left: -6px; color: var(--md-primary); }
+.evo-scope .md-chip.primary .msr { color: var(--md-on-primary-container); }
+.evo-scope .md-tag {
+      display: inline-flex; align-items: center; gap: 4px;
+      height: 24px; padding: 0 8px;
+      border-radius: 6px;
+      font-size: 12px; font-weight: 500; letter-spacing: .03em;
+      white-space: nowrap;
+    }
+.evo-scope .t-blue { background: var(--tone-blue-c);   color: var(--tone-on-blue-c); }
+.evo-scope .t-green { background: var(--tone-green-c);  color: var(--tone-on-green-c); }
+.evo-scope .t-amber { background: var(--tone-amber-c);  color: var(--tone-on-amber-c); }
+.evo-scope .t-red { background: var(--tone-red-c);    color: var(--tone-on-red-c); }
+.evo-scope .t-purple { background: var(--tone-purple-c); color: var(--tone-on-purple-c); }
+.evo-scope .t-neutral { background: var(--md-surface-container-high); color: var(--md-on-surface-variant); }
+.evo-scope .c-green { color: var(--tone-green); }
+.evo-scope .c-amber { color: var(--tone-amber); }
+.evo-scope .c-red { color: var(--tone-red); }
+.evo-scope .c-purple { color: var(--tone-purple); }
+.evo-scope .c-muted { color: var(--md-on-surface-variant); }
+.evo-scope .md-card {
+      border-radius: var(--md-shape-m);
+      background: var(--md-surface);
+      border: 1px solid var(--md-outline-variant);
+      overflow: hidden;
+    }
+.evo-scope .md-card.elevated { border: 0; background: var(--md-surface-container-low); box-shadow: var(--md-el-1); }
+.evo-scope .md-card.filled { border: 0; background: var(--md-surface-container-low); }
+.evo-scope .md-card-pad { padding: 20px 24px; }
+.evo-scope .md-card-head {
+      display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+      padding: 16px 20px;
+    }
+.evo-scope .md-card-head-title { display: flex; align-items: center; gap: 10px; }
+.evo-scope .md-progress { height: 4px; border-radius: 2px; background: var(--md-secondary-container); overflow: hidden; }
+.evo-scope .md-progress > div { height: 100%; width: 0; background: var(--md-primary); border-radius: 2px; transition: width .4s var(--md-ease); }
+.evo-scope .evo-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 20px; }
+.evo-scope .evo-figure { display: flex; flex-direction: column; }
+.evo-scope .evo-figure-media {
+      position: relative; flex: 1; min-height: 240px;
+      background: var(--md-surface-container-low);
+      display: grid; place-items: center; padding: 12px;
+    }
+.evo-scope .evo-figure-media .md-btn { position: absolute; right: 12px; bottom: 12px; z-index: 2; }
+.evo-scope .evo-figure-caption { padding: 12px 16px; display: flex; flex-direction: column; gap: 2px; border-top: 1px solid var(--md-outline-variant); }
+.evo-scope .evo-slides { position: relative; width: 100%; height: 100%; min-height: 340px; }
+.evo-scope .evo-slide {
+      position: absolute; inset: 0; display: grid; place-items: center;
+      opacity: 0; transform: scale(.97); transition: opacity .5s ease, transform .5s ease; pointer-events: none;
+    }
+.evo-scope .evo-slide.active { opacity: 1; transform: none; pointer-events: auto; }
+.evo-scope .evo-slide img { max-width: 100%; max-height: 340px; object-fit: contain; border-radius: var(--md-shape-s); display: block; }
+.evo-scope .evo-slide-crop {
+      height: 100%; max-height: 340px; aspect-ratio: 400 / 560; max-width: 100%;
+      border-radius: var(--md-shape-s);
+      background: url('ai_evolution_stages.jpg') no-repeat;
+      background-size: 344% auto; background-position: var(--x) 18%;
+    }
+.evo-scope .evo-slide-nav {
+      position: absolute; top: 50%; transform: translateY(-50%); z-index: 2;
+      background: var(--md-surface-container-high); box-shadow: var(--md-el-1);
+    }
+.evo-scope .evo-slide-nav.prev { left: 8px; }
+.evo-scope .evo-slide-nav.next { right: 8px; }
+.evo-scope .evo-slide-dots { display: flex; gap: 6px; margin-top: 8px; }
+.evo-scope .evo-slide-dot {
+      width: 8px; height: 8px; padding: 0; border: 0; border-radius: 4px; cursor: pointer;
+      background: var(--md-outline-variant); transition: width .3s ease, background .3s ease;
+    }
+.evo-scope .evo-slide-dot.active { width: 22px; background: var(--tone-purple); }
+@media (prefers-reduced-motion: reduce) {
+.evo-scope .evo-slide { transition: none; }
+}
+.evo-scope .md-tabs {
+      display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+      border-bottom: 1px solid var(--md-surface-container-highest);
+    }
+.evo-scope .md-tab {
+      position: relative; overflow: hidden;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+      height: 64px; padding: 0 8px;
+      background: none; border: 0; cursor: pointer;
+      color: var(--md-on-surface-variant);
+      font-family: var(--font-sans); font-size: 14px; font-weight: 500;
+      -webkit-tap-highlight-color: transparent;
+    }
+.evo-scope .md-tab::before { content: ""; position: absolute; inset: 0; background: var(--md-on-surface); opacity: 0; transition: opacity .2s; }
+.evo-scope .md-tab:hover::before { opacity: .06; }
+.evo-scope .md-tab .md-tab-label { display: flex; align-items: center; gap: 6px; white-space: nowrap; font-size: 13px; }
+.evo-scope .md-tab .md-tab-eyebrow { font-size: 11px; letter-spacing: .06em; color: var(--md-outline); }
+.evo-scope .md-tab::after {
+      content: ""; position: absolute; left: 50%; bottom: 0; height: 3px; width: 0;
+      border-radius: 3px 3px 0 0; background: var(--md-primary);
+      transform: translateX(-50%); transition: width .25s var(--md-ease);
+    }
+.evo-scope .md-tab.active { color: var(--md-primary); }
+.evo-scope .md-tab.active .md-tab-eyebrow { color: var(--md-primary); }
+.evo-scope .md-tab.active::after { width: 70%; }
+.evo-scope .md-tab.active .msr { font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 24; }
+.evo-scope .epoch-panel { display: none; padding: 20px 20px 16px; flex-direction: column; gap: 16px; animation: md-fade .3s var(--md-ease); }
+.evo-scope .epoch-panel.active { display: flex; }
+@keyframes md-fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.evo-scope .epoch-title-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.evo-scope .flow-node .md-title-s { color: var(--md-on-surface); }
+.evo-scope .flow-node .md-body-s { color: var(--md-on-surface-variant); }
+.evo-scope .evo-ticket {
+      display: flex; align-items: center; gap: 10px; padding: 10px 20px;
+      background: var(--md-surface-container-low); color: var(--md-on-surface-variant);
+      border-bottom: 1px solid var(--md-surface-container-highest);
+    }
+.evo-scope .evo-ticket strong { color: var(--md-on-surface); font-weight: 500; }
+.evo-scope .evo-stage {
+      display: flex; flex-direction: column; gap: 12px; min-height: 236px;
+      padding: 16px; border-radius: var(--md-shape-m); background: var(--md-surface-container-low);
+    }
+.evo-scope .evo-stage mark { background: var(--tone-amber-c); color: var(--tone-on-amber-c); border-radius: 4px; padding: 0 3px; }
+.evo-scope .evo-rule {
+      display: flex; align-items: center; gap: 8px; padding: 10px 12px; border-radius: var(--md-shape-s);
+      background: var(--md-surface-container-highest); color: var(--md-on-surface);
+    }
+.evo-scope .evo-rule code { font-family: var(--font-mono); font-size: 12px; }
+.evo-scope .evo-lane { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.evo-scope .evo-msg {
+      display: inline-flex; align-items: center; gap: 8px; max-width: 100%;
+      padding: 8px 12px; border-radius: 16px 16px 16px 4px;
+      background: var(--md-surface); border: 1px solid var(--md-outline-variant); color: var(--md-on-surface);
+    }
+.evo-scope .evo-msg > .msr { color: var(--md-on-surface-variant); }
+.evo-scope .evo-arrow { color: var(--md-outline); }
+.evo-scope .evo-result {
+      display: inline-flex; align-items: center; gap: 6px; align-self: flex-start;
+      padding: 6px 12px; border-radius: var(--md-shape-full); font-weight: 500; font-size: 13px;
+    }
+.evo-scope .evo-result.ok { background: var(--tone-green-c); color: var(--tone-on-green-c); }
+.evo-scope .evo-result.bad { background: var(--tone-red-c);   color: var(--tone-on-red-c); }
+.evo-scope .evo-result.warn { background: var(--tone-amber-c); color: var(--tone-on-amber-c); }
+.evo-scope .evo-lane .evo-result { align-self: center; }
+.evo-scope .evo-ml { gap: 16px; }
+.evo-scope .evo-ml-train,
+.evo-scope .evo-ml-predict { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.evo-scope .evo-dots { display: grid; grid-template-columns: repeat(12, 14px); gap: 6px; }
+.evo-scope .evo-dot { display: inline-block; width: 14px; height: 14px; border-radius: 50%; }
+.evo-scope .evo-dot.r,
+.evo-scope .evo-fill.r { background: var(--tone-blue); }
+.evo-scope .evo-dot.s,
+.evo-scope .evo-fill.s { background: var(--tone-amber); }
+.evo-scope .evo-dot.o,
+.evo-scope .evo-fill.o { background: var(--md-outline); }
+.evo-scope .evo-legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 12px; color: var(--md-on-surface-variant); }
+.evo-scope .evo-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.evo-scope .evo-legend .evo-dot { width: 10px; height: 10px; }
+.evo-scope .evo-bars { display: flex; flex-direction: column; gap: 8px; }
+.evo-scope .evo-bar { display: grid; grid-template-columns: 64px minmax(0, 1fr) 36px; align-items: center; gap: 8px; font-size: 12px; color: var(--md-on-surface-variant); }
+.evo-scope .evo-bar b { font-family: var(--font-mono); font-weight: 500; color: var(--md-on-surface); text-align: right; }
+.evo-scope .evo-track { height: 10px; border-radius: 5px; background: var(--md-surface-container-highest); overflow: hidden; }
+.evo-scope .evo-fill { height: 100%; border-radius: 5px; min-width: 3px; }
+.evo-scope .evo-chat { display: flex; gap: 10px; padding: 10px 14px; max-width: 92%; line-height: 20px; }
+.evo-scope .evo-chat.user {
+      align-self: flex-end; border-radius: 16px 16px 4px 16px;
+      background: var(--md-primary); color: var(--md-on-primary);
+    }
+.evo-scope .evo-chat.ai {
+      align-self: flex-start; border-radius: 16px 16px 16px 4px;
+      background: var(--md-surface); border: 1px solid var(--md-outline-variant); color: var(--md-on-surface); min-height: 64px;
+    }
+.evo-scope .evo-chat.ai > .msr { color: var(--tone-purple); }
+.evo-scope .evo-caret { display: inline-block; width: 2px; height: 1em; margin-left: 2px; vertical-align: -2px; background: var(--tone-purple); animation: evo-blink 1s steps(1) infinite; }
+.evo-scope .evo-goal {
+      display: inline-flex; align-items: center; gap: 8px; align-self: flex-start;
+      padding: 6px 12px; border-radius: var(--md-shape-full);
+      background: var(--tone-green-c); color: var(--tone-on-green-c); font-weight: 500;
+    }
+.evo-scope .evo-agent { display: grid; grid-template-columns: minmax(0, 1fr) 112px; gap: 12px 16px; align-items: center; }
+.evo-scope .evo-agent-head { display: flex; flex-direction: column; gap: 8px; align-items: flex-start; }
+.evo-scope .evo-agent .evo-steps { grid-column: 1 / -1; }
+.evo-scope .evo-loop { position: relative; width: 112px; height: 112px; }
+.evo-scope .evo-loop-ring { position: absolute; inset: 16px; border-radius: 50%; border: 2px dashed var(--tone-green); }
+.evo-scope .evo-orbit { position: absolute; inset: -2px; border-radius: 50%; animation: md-spin 2.4s linear infinite; }
+.evo-scope .evo-orbit::after {
+      content: ""; position: absolute; top: -6px; left: 50%; width: 10px; height: 10px; margin-left: -5px;
+      border-radius: 50%; background: var(--tone-green); box-shadow: 0 0 0 4px var(--tone-green-c);
+    }
+.evo-scope .evo-loop-core {
+      position: absolute; inset: 36px; border-radius: 50%; display: grid; place-items: center;
+      background: var(--tone-green); color: #fff;
+    }
+.evo-scope .evo-loop-lbl {
+      position: absolute; font-size: 11px; font-weight: 500; letter-spacing: .04em; color: var(--tone-on-green-c);
+      background: var(--md-surface); padding: 0 6px; border-radius: var(--md-shape-full);
+    }
+.evo-scope .evo-loop-lbl.l1 { top: 4px; left: 50%; transform: translateX(-50%); }
+.evo-scope .evo-loop-lbl.l2 { bottom: 10px; right: 0; }
+.evo-scope .evo-loop-lbl.l3 { bottom: 10px; left: 0; }
+.evo-scope .evo-steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.evo-scope .evo-steps li {
+      display: grid; grid-template-columns: 24px minmax(0, 1fr) auto; align-items: center; gap: 10px;
+      padding: 8px 12px; border-radius: var(--md-shape-s); background: var(--md-surface); border: 1px solid var(--md-outline-variant);
+    }
+.evo-scope .evo-steps .md-title-s { color: var(--md-on-surface); }
+.evo-scope .evo-steps .md-body-s { color: var(--md-on-surface-variant); }
+.evo-scope .evo-step-ic { position: relative; width: 24px; height: 24px; }
+.evo-scope .evo-step-ic > * { position: absolute; inset: 0; display: grid; place-items: center; }
+.evo-scope .evo-step-ic .evo-spin { color: var(--tone-blue); animation: md-spin 1s linear infinite; }
+.evo-scope .evo-tool {
+      font-family: var(--font-mono); font-size: 11px; padding: 2px 8px; border-radius: var(--md-shape-full);
+      background: var(--tone-blue-c); color: var(--tone-on-blue-c); white-space: nowrap;
+    }
+.evo-scope .evo-take { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 16px; }
+.evo-scope .evo-take > div { display: flex; align-items: flex-start; gap: 8px; color: var(--md-on-surface-variant); }
+.evo-scope .evo-take strong { color: var(--md-on-surface); font-weight: 500; }
+.evo-scope .epoch-panel.run .a-in { animation: evo-in   .5s var(--md-ease) var(--t, 0s) both; }
+.evo-scope .epoch-panel.run .a-pop { animation: evo-pop  .4s cubic-bezier(.3, 1.6, .5, 1) var(--t, 0s) both; }
+.evo-scope .epoch-panel.run .a-bad { animation: evo-bad  .6s var(--md-ease) var(--t, 0s) both; }
+.evo-scope .epoch-panel.run .a-grow { animation: evo-grow .9s var(--md-ease) var(--t, 0s) both; }
+.evo-scope .epoch-panel.run .a-out { animation: evo-out  .2s linear var(--t, 0s) both; }
+@keyframes evo-in { from { opacity: 0; transform: translateX(-24px); } to { opacity: 1; transform: none; } }
+@keyframes evo-pop { from { opacity: 0; transform: scale(.6); } to { opacity: 1; transform: none; } }
+@keyframes evo-bad {
+      0% { opacity: 0; transform: scale(.6); }
+      30% { opacity: 1; transform: scale(1); }
+      45%, 75% { transform: translateX(-6px); }
+      60%, 90% { transform: translateX(6px); }
+      100% { opacity: 1; transform: none; }
+    }
+@keyframes evo-grow { from { width: 0; } }
+@keyframes evo-out { to { opacity: 0; } }
+@keyframes evo-blink { 50% { opacity: 0; } }
+.evo-scope .epoch-footer {
+      display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap;
+      padding: 12px 20px; background: var(--md-surface-container-low);
+      border-top: 1px solid var(--md-outline-variant);
+    }
+.evo-scope .time-pill { font-family: var(--font-mono); font-size: 12px; color: var(--md-on-surface-variant); padding: 0 8px; }
+.evo-scope .instructor-avatar .verified .msr { font-size: 18px; }
+.evo-scope .zoom-trigger.md-icon-btn { flex-shrink: 0; }
+.evo-scope [data-zoom]:not(.md-card) { position: relative; }
+.evo-scope .slide-copy .md-body-l { color: var(--md-on-surface-variant); }
+.evo-scope .md-list li .msr { margin-top: 1px; }
+.evo-scope .pipe-node .md-title-s { color: var(--md-on-surface); }
+.evo-scope .pipe-node.fail .md-title-s,
+.evo-scope .pipe-node.fail .md-body-s { color: var(--tone-on-red-c); }
+@keyframes md-spin { to { transform: rotate(360deg); } }
+.evo-scope .stack-tab.active .msr { font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 24; }
+.evo-scope .stack-tile .md-title-s { color: var(--md-on-surface); }
+.evo-scope .stack-tile .md-body-s {
+      color: var(--md-on-surface-variant);
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+    }
+.evo-scope .stack-icon .msr { font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 24; }
+.evo-scope .stack-icon.xl .msr { font-size: 34px; }
+.evo-scope .stack-detail-head .md-label-m { color: var(--md-primary); letter-spacing: .08em; }
+.evo-scope .stack-sec-title .msr { color: var(--md-primary); }
+.evo-scope .stack-chip .msr { font-size: 16px; color: var(--tone-green); }
+@media (max-width: 1100px) {
+.evo-scope .evo-grid { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 640px) {
+.evo-scope .md-tabs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.evo-scope .evo-take { grid-template-columns: minmax(0, 1fr); }
+.evo-scope .evo-steps li { grid-template-columns: 24px minmax(0, 1fr); }
+.evo-scope .evo-tool { grid-column: 2; justify-self: start; }
+}
+/* Neutralise the course stylesheet inside the copied card */
+.evo-scope *, .evo-scope *::before, .evo-scope *::after { box-sizing: border-box; }
+.evo-scope h3, .evo-scope p, .evo-scope ol, .evo-scope li { margin: 0; padding: 0; border: 0; }
+.evo-scope h3 { letter-spacing: 0; }
+.evo-scope .evo-steps li { padding: 8px 12px; border: 1px solid var(--md-outline-variant); }
+.evo-scope button { font-family: var(--font-sans); }
+.evo-scope strong { color: inherit; }
+.evo-scope code { background: none; padding: 0; color: inherit; }
+.evo-scope > .md-card { overflow: hidden; margin-bottom: 18px; }
+  </style>
 </head>
-<body class="theme-dark">
+<body>
 
   <!-- Master Top Navigation Bar -->
   <header class="master-top-nav">
@@ -519,21 +1268,1028 @@
     </div>
   </header>
 
-  <main class="page-main-wrap" style="max-width:960px;margin:0 auto;padding:64px 24px 80px;">
-    <!-- PLACEHOLDER: replace this section with the AI Developer demo -->
-    <section style="text-align:center;padding:56px 28px;border-radius:18px;background:rgba(255,255,255,0.03);border:1px solid #a855f755;box-shadow:0 0 40px #a855f714;">
-      <span style="display:inline-flex;align-items:center;justify-content:center;width:64px;height:64px;border-radius:16px;background:#a855f722;color:#a855f7;border:1px solid #a855f766;margin-bottom:20px;">
-        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
-      </span>
-      <div style="font-size:0.75rem;font-weight:800;letter-spacing:0.1em;color:#a855f7;margin-bottom:10px;">DEMO &bull; COMING SOON</div>
-      <h1 style="font-size:2.2rem;line-height:1.2;color:inherit;margin:0 0 12px;">AI Developer Demo</h1>
-      <p style="font-size:1.05rem;color:#64748b;max-width:560px;margin:0 auto 32px;">GenAI, agents & LLM application builds. This guided demo is being prepared and will be published here soon.</p>
-      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
-        <a href="../automation-ml-ai-agentic/index.html" style="padding:11px 20px;border-radius:10px;background:#a855f7;color:#0b0d10;font-weight:700;text-decoration:none;">Explore the AI Developer course</a>
-        <a href="../ai/demo.html" style="padding:11px 20px;border-radius:10px;border:1px solid rgba(100,116,139,0.45);color:inherit;font-weight:600;text-decoration:none;">Try the live lab</a>
-      </div>
-    </section>
-  </main>
+  <!-- 3-Column Layout -->
+  <div class="layout-container">
+
+    <!-- LEFT: AI demos & courses -->
+    <aside class="site-nav-panel" aria-label="AI demos and courses">
+      <div class="nav-title">AI Developer</div>
+      <ul class="site-menu">
+        <li>
+          <a href="ai-developer.html" class="current" aria-current="page">
+            <span style="display:flex;align-items:center;gap:8px;">
+              <i data-lucide="presentation" style="width:16px;height:16px;color:#7c3aed;"></i>
+              <span>AI Developer Demo</span>
+            </span>
+            <span class="badge-status">Active</span>
+          </a>
+        </li>
+        <li>
+          <a href="../ai/demo.html">
+            <span style="display:flex;align-items:center;gap:8px;">
+              <i data-lucide="play-circle" style="width:16px;height:16px;color:#10b981;"></i>
+              <span>AI Live Lab</span>
+            </span>
+            <span class="badge-status">Demo</span>
+          </a>
+        </li>
+        <li>
+          <a href="../automation-ml-ai-agentic/index.html">
+            <span style="display:flex;align-items:center;gap:8px;">
+              <i data-lucide="bot" style="width:16px;height:16px;color:#a855f7;"></i>
+              <span>AI Master Class</span>
+            </span>
+            <span class="badge-status">Hub</span>
+          </a>
+        </li>
+        <li>
+          <a href="../agentic-development/index.html">
+            <span style="display:flex;align-items:center;gap:8px;">
+              <i data-lucide="network" style="width:16px;height:16px;color:#0891b2;"></i>
+              <span>Agentic Development</span>
+            </span>
+            <span class="badge-status">Course</span>
+          </a>
+        </li>
+        <li>
+          <a href="../ai/langgraph/index.html">
+            <span style="display:flex;align-items:center;gap:8px;">
+              <i data-lucide="git-fork" style="width:16px;height:16px;color:#2563eb;"></i>
+              <span>LangGraph</span>
+            </span>
+            <span class="badge-status">Course</span>
+          </a>
+        </li>
+        <li>
+          <a href="../ai/crewai/index.html">
+            <span style="display:flex;align-items:center;gap:8px;">
+              <i data-lucide="users" style="width:16px;height:16px;color:#ea580c;"></i>
+              <span>CrewAI</span>
+            </span>
+            <span class="badge-status">Course</span>
+          </a>
+        </li>
+        <li>
+          <a href="../ai/claude-sdk/index.html">
+            <span style="display:flex;align-items:center;gap:8px;">
+              <i data-lucide="sparkle" style="width:16px;height:16px;color:#d97757;"></i>
+              <span>Claude SDK</span>
+            </span>
+            <span class="badge-status">Course</span>
+          </a>
+        </li>
+        <li>
+          <a href="../ai/google-gemini-sdk/index.html">
+            <span style="display:flex;align-items:center;gap:8px;">
+              <i data-lucide="zap" style="width:16px;height:16px;color:#4285f4;"></i>
+              <span>Google Gemini SDK</span>
+            </span>
+            <span class="badge-status">Course</span>
+          </a>
+        </li>
+      </ul>
+    </aside>
+
+    <!-- CENTER: Main Content -->
+    <main class="main-content">
+
+      <!-- ========================================================================= -->
+      <!-- SUBTOPIC: ai-intro [START] -->
+      <!-- ========================================================================= -->
+      <section class="content-section" id="ai-intro">
+        <div class="welcome-card">
+          <span class="eyebrow">AI Developer Demo &bull; Animated Slideshows</span>
+          <h1>AI Demo: From Automation to Agent Swarms</h1>
+          <p class="lead">
+            Four short animated slideshows: what AI is, how it solves real business problems, the terms every AI developer uses, and the technology stack to learn. Press <strong>Play</strong> or step through each one at your own pace.
+          </p>
+        </div>
+
+        <div class="sq-card sq-intro-bar">
+          <div class="sq-intro-text">
+            <strong>How to use these slideshows</strong>
+            <p><b>Play</b> moves through the slides automatically. Use the arrows, the dots or the <b>&larr;</b> <b>&rarr;</b> keys (after clicking a slideshow) to go at your own pace.</p>
+          </div>
+          <div>
+            <div class="sq-label">Slide speed</div>
+            <div class="sq-seg" id="speed-seg" role="group" aria-label="Slide speed">
+              <button type="button" data-speed="1.6">Slow</button>
+              <button type="button" data-speed="1" class="on">Normal</button>
+              <button type="button" data-speed="0.6">Fast</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================================================= -->
+      <!-- SLIDESHOW 1: Understanding AI -->
+      <!-- ========================================================================= -->
+      <section class="content-section" id="understanding-ai">
+        <div class="welcome-card">
+          <span class="eyebrow">Slideshow 1 &bull; The Big Picture</span>
+          <h2>Understanding AI</h2>
+          <p class="lead">From fixed rules to machines that learn, create and act: automation, AI / ML, generative AI and agentic development.</p>
+        </div>
+
+        <div class="ai-deck" data-palette="aurora" aria-roledescription="carousel" aria-label="Understanding AI">
+          <div class="ai-stage" tabindex="0">
+            <span class="ai-blob b1"></span><span class="ai-blob b2"></span><span class="ai-blob b3"></span>
+            <canvas class="ai-bg" aria-hidden="true"></canvas>
+            <div class="ai-veil"></div>
+            <div class="ai-slides">
+
+              <section class="ai-slide center" aria-roledescription="slide">
+                <span class="ai-kicker ai-in" style="--d:0">Slideshow 1</span>
+                <h3 class="ai-h xl ai-in" style="--d:1"><span class="ai-grad">Understanding AI</span></h3>
+                <p class="ai-p ai-in" style="--d:2">Four waves of making computers useful. Each one builds on the one before.</p>
+                <div class="ai-evo">
+                  <div class="st ai-in pop" style="--d:3"><i data-lucide="cog"></i><b>Automation</b><small>follows rules</small></div>
+                  <div class="st ai-in pop" style="--d:4"><i data-lucide="chart-line"></i><b>AI / ML</b><small>learns from data</small></div>
+                  <div class="st ai-in pop" style="--d:5"><i data-lucide="sparkles"></i><b>Gen AI</b><small>creates content</small></div>
+                  <div class="st ai-in pop" style="--d:6"><i data-lucide="bot"></i><b>Agentic</b><small>plans and acts</small></div>
+                </div>
+              </section>
+
+              <section class="ai-slide" aria-roledescription="slide">
+                <span class="ai-kicker ai-in" style="--d:0">Wave 1</span>
+                <h3 class="ai-h ai-in" style="--d:1">Automation: <span class="ai-grad">rules you write</span></h3>
+                <div class="ai-row">
+                  <div>
+                    <ul class="ai-list">
+                      <li class="ai-in left" style="--d:2">A person writes exact steps: <b>if this happens, do that</b>.</li>
+                      <li class="ai-in left" style="--d:3">Fast, cheap and predictable for repeat work.</li>
+                      <li class="ai-in left" style="--d:4">Examples: scheduled reports, invoice emails, RPA bots, form workflows.</li>
+                      <li class="ai-in left" style="--d:5"><b>Limit:</b> it cannot handle anything the rules did not expect.</li>
+                    </ul>
+                  </div>
+                  <div class="ai-glass ai-in pop" style="--d:3">
+                    <div style="display:flex;justify-content:center;margin-bottom:14px;"><svg class="ai-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg></div>
+                    <div class="ai-flow">
+                      <div class="node"><i data-lucide="zap"></i>Trigger<small>new order</small></div><div class="link"></div>
+                      <div class="node"><i data-lucide="git-branch"></i>Rule<small>if paid</small></div><div class="link"></div>
+                      <div class="node"><i data-lucide="mail"></i>Action<small>send invoice</small></div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              <section class="ai-slide" aria-roledescription="slide">
+                <span class="ai-kicker ai-in" style="--d:0">Wave 2</span>
+                <h3 class="ai-h ai-in" style="--d:1">AI / ML: <span class="ai-grad">patterns learned from data</span></h3>
+                <div class="ai-row">
+                  <ul class="ai-list">
+                    <li class="ai-in left" style="--d:2">Instead of writing rules, you show the computer <b>many examples</b>.</li>
+                    <li class="ai-in left" style="--d:3">Training finds the pattern; the result is a <b>model</b>.</li>
+                    <li class="ai-in left" style="--d:4">The model <b>predicts</b> for new data: price, risk, demand, spam or not.</li>
+                    <li class="ai-in left" style="--d:5">Examples: fraud scores, product recommendations, sales forecasts.</li>
+                  </ul>
+                  <div class="ai-glass ai-in pop" style="--d:2">
+                    <svg class="ai-svg" viewBox="0 0 300 200" role="img" aria-label="Data points with a fitted trend line">
+                      <line x1="20" y1="180" x2="290" y2="180" stroke="rgba(255,255,255,.3)"/><line x1="20" y1="180" x2="20" y2="10" stroke="rgba(255,255,255,.3)"/>
+                      <circle class="pt" style="--i:0" cx="40" cy="160" r="5"/><circle class="pt" style="--i:1" cx="62" cy="150" r="5"/><circle class="pt" style="--i:2" cx="80" cy="155" r="5"/>
+                      <circle class="pt" style="--i:3" cx="100" cy="130" r="5"/><circle class="pt" style="--i:4" cx="122" cy="128" r="5"/><circle class="pt" style="--i:5" cx="140" cy="112" r="5"/>
+                      <circle class="pt" style="--i:6" cx="162" cy="115" r="5"/><circle class="pt" style="--i:7" cx="180" cy="95" r="5"/><circle class="pt" style="--i:8" cx="200" cy="90" r="5"/>
+                      <circle class="pt" style="--i:9" cx="222" cy="72" r="5"/><circle class="pt" style="--i:10" cx="240" cy="70" r="5"/><circle class="pt" style="--i:11" cx="262" cy="52" r="5"/>
+                      <path class="fit" d="M30 166 L275 48"/>
+                      <text x="160" y="198" fill="#94a3b8" font-size="11" text-anchor="middle">past data</text>
+                    </svg>
+                  </div>
+                </div>
+              </section>
+
+              <section class="ai-slide" aria-roledescription="slide">
+                <span class="ai-kicker ai-in" style="--d:0">Wave 3</span>
+                <h3 class="ai-h ai-in" style="--d:1">Gen AI: <span class="ai-grad">new content from a prompt</span></h3>
+                <div class="ai-row">
+                  <ul class="ai-list">
+                    <li class="ai-in left" style="--d:2">A <b>large language model (LLM)</b> learned from huge amounts of text, code and images.</li>
+                    <li class="ai-in left" style="--d:3">You describe what you want in plain words: the <b>prompt</b>.</li>
+                    <li class="ai-in left" style="--d:4">It <b>generates</b> text, code, summaries, images, answers.</li>
+                    <li class="ai-in left" style="--d:5"><b>Limit:</b> it only talks. It cannot act in your systems by itself.</li>
+                  </ul>
+                  <div class="ai-glass ai-in pop" style="--d:2">
+                    <div class="ai-prompt">&gt; Write a polite delay notice for order #4512</div>
+                    <div class="ai-type"><span class="w" style="--i:0">Hi</span> <span class="w" style="--i:1">Priya,</span> <span class="w" style="--i:2">your</span> <span class="w" style="--i:3">order</span> <span class="w" style="--i:4">#4512</span> <span class="w" style="--i:5">is</span> <span class="w" style="--i:6">running</span> <span class="w" style="--i:7">two</span> <span class="w" style="--i:8">days</span> <span class="w" style="--i:9">late.</span> <span class="w" style="--i:10">We're</span> <span class="w" style="--i:11">sorry,</span> <span class="w" style="--i:12">and</span> <span class="w" style="--i:13">we've</span> <span class="w" style="--i:14">added</span> <span class="w" style="--i:15">free</span> <span class="w" style="--i:16">express</span> <span class="w" style="--i:17">shipping.</span></div>
+                  </div>
+                </div>
+              </section>
+
+              <section class="ai-slide" aria-roledescription="slide">
+                <span class="ai-kicker ai-in" style="--d:0">Wave 4</span>
+                <h3 class="ai-h ai-in" style="--d:1">Agentic Development: <span class="ai-grad">AI that gets work done</span></h3>
+                <p class="ai-p ai-in" style="--d:2">Give the AI a <b>goal</b> instead of a single question. It plans, uses tools, checks results and keeps going until the job is done.</p>
+                <div class="ai-glass ai-in pop" style="--d:3">
+                  <div class="ai-flow">
+                    <div class="node"><i data-lucide="target"></i>Goal<small>"refund order 4512"</small></div><div class="link"></div>
+                    <div class="node"><i data-lucide="list-checks"></i>Plan<small>steps to take</small></div><div class="link"></div>
+                    <div class="node"><i data-lucide="wrench"></i>Use tools<small>orders, payments</small></div><div class="link"></div>
+                    <div class="node"><i data-lucide="badge-check"></i>Result<small>refund issued</small></div>
+                  </div>
+                </div>
+                <div class="ai-tags ai-in" style="--d:5"><span class="ai-tag">Agents</span><span class="ai-tag">Agentic loops</span><span class="ai-tag">Agent swarms</span></div>
+              </section>
+
+              <section class="ai-slide" aria-roledescription="slide">
+                <span class="ai-kicker ai-in" style="--d:0">Agentic &bull; 1</span>
+                <h3 class="ai-h ai-in" style="--d:1">Agents: <span class="ai-grad">an LLM with tools</span></h3>
+                <div class="ai-row">
+                  <ul class="ai-list">
+                    <li class="ai-in left" style="--d:2"><b>Instructions:</b> who it is and what it may do.</li>
+                    <li class="ai-in left" style="--d:3"><b>Tools:</b> functions it can call: search, database, email, code.</li>
+                    <li class="ai-in left" style="--d:4"><b>Memory:</b> what happened so far, and facts to remember.</li>
+                    <li class="ai-in left" style="--d:5"><b>Guardrails:</b> limits, approvals and checks.</li>
+                  </ul>
+                  <div class="ai-orbit ai-in pop" style="--d:2">
+                    <div class="ring"></div>
+                    <div class="core">LLM</div>
+                    <div class="spin">
+                      <div class="sat" style="left:50%;top:0%"><span>Search</span></div>
+                      <div class="sat" style="left:97.6%;top:34.5%"><span>Database</span></div>
+                      <div class="sat" style="left:79.4%;top:90.5%"><span>Email</span></div>
+                      <div class="sat" style="left:20.6%;top:90.5%"><span>Memory</span></div>
+                      <div class="sat" style="left:2.4%;top:34.5%"><span>Code</span></div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              <section class="ai-slide" aria-roledescription="slide">
+                <span class="ai-kicker ai-in" style="--d:0">Agentic &bull; 2</span>
+                <h3 class="ai-h ai-in" style="--d:1">Agentic Loops: <span class="ai-grad">think, act, observe, repeat</span></h3>
+                <div class="ai-row">
+                  <ul class="ai-list">
+                    <li class="ai-in left" style="--d:2"><b>Think:</b> the model decides the next step.</li>
+                    <li class="ai-in left" style="--d:3"><b>Act:</b> it calls a tool.</li>
+                    <li class="ai-in left" style="--d:4"><b>Observe:</b> it reads the tool's result.</li>
+                    <li class="ai-in left" style="--d:5"><b>Decide:</b> done? Answer. Not done? Loop again, up to a safe limit.</li>
+                  </ul>
+                  <div class="ai-loop ai-in pop" style="--d:2">
+                    <svg viewBox="0 0 200 200" aria-hidden="true"><circle cx="100" cy="100" r="80" fill="none" stroke="rgba(255,255,255,.15)" stroke-width="2"/><g class="arc"><circle cx="100" cy="100" r="80" fill="none" stroke="url(#loopgrad)" stroke-width="4" stroke-dasharray="120 383" stroke-linecap="round"/></g><defs><linearGradient id="loopgrad"><stop offset="0" stop-color="#7c3aed"/><stop offset="1" stop-color="#06b6d4"/></linearGradient></defs></svg>
+                    <span class="lb" style="left:50%;top:10%;--i:0">Think</span>
+                    <span class="lb" style="left:90%;top:50%;--i:1">Act</span>
+                    <span class="lb" style="left:50%;top:90%;--i:2">Observe</span>
+                    <span class="lb" style="left:10%;top:50%;--i:3">Decide</span>
+                    <div class="mid">until the goal<br>is reached</div>
+                  </div>
+                </div>
+              </section>
+
+              <section class="ai-slide" aria-roledescription="slide">
+                <span class="ai-kicker ai-in" style="--d:0">Agentic &bull; 3</span>
+                <h3 class="ai-h ai-in" style="--d:1">Agent Swarms: <span class="ai-grad">a team of specialists</span></h3>
+                <div class="ai-row">
+                  <ul class="ai-list">
+                    <li class="ai-in left" style="--d:2">A <b>lead agent</b> splits a big job into parts.</li>
+                    <li class="ai-in left" style="--d:3">Specialist agents work in parallel, each with its own tools and context.</li>
+                    <li class="ai-in left" style="--d:4">Results flow back; the lead checks and combines them.</li>
+                    <li class="ai-in left" style="--d:5">Used for research, large code changes and complex workflows.</li>
+                  </ul>
+                  <div class="ai-glass ai-in pop" style="--d:2">
+                    <svg class="ai-swarm" viewBox="0 0 360 220" role="img" aria-label="A planner agent connected to four specialist agents">
+                      <line x1="180" y1="110" x2="70" y2="45"/><line x1="180" y1="110" x2="290" y2="45"/><line x1="180" y1="110" x2="290" y2="175"/><line x1="180" y1="110" x2="70" y2="175"/>
+                      <line class="pulse" x1="180" y1="110" x2="70" y2="45"/><line class="pulse" x1="290" y1="45" x2="180" y2="110"/><line class="pulse" x1="180" y1="110" x2="290" y2="175"/><line class="pulse" x1="70" y1="175" x2="180" y2="110"/>
+                      <circle class="lead" cx="180" cy="110" r="30"/><text x="180" y="114">Planner</text>
+                      <circle cx="70" cy="45" r="28"/><text x="70" y="49">Research</text>
+                      <circle cx="290" cy="45" r="28"/><text x="290" y="49">Coder</text>
+                      <circle cx="290" cy="175" r="28"/><text x="290" y="179">Reviewer</text>
+                      <circle cx="70" cy="175" r="28"/><text x="70" y="179">Tester</text>
+                    </svg>
+                  </div>
+                </div>
+              </section>
+
+              <section class="ai-slide center" aria-roledescription="slide">
+                <span class="ai-kicker ai-in" style="--d:0">Recap</span>
+                <h3 class="ai-h ai-in" style="--d:1">Each wave <span class="ai-grad">adds a new ability</span></h3>
+                <div class="ai-evo">
+                  <div class="st ai-in pop" style="--d:2"><i data-lucide="cog"></i><b>Automation</b><small>does what it's told</small></div>
+                  <div class="st ai-in pop" style="--d:3"><i data-lucide="chart-line"></i><b>AI / ML</b><small>predicts</small></div>
+                  <div class="st ai-in pop" style="--d:4"><i data-lucide="sparkles"></i><b>Gen AI</b><small>creates</small></div>
+                  <div class="st ai-in pop" style="--d:5"><i data-lucide="bot"></i><b>Agentic</b><small>acts toward a goal</small></div>
+                </div>
+                <p class="ai-p ai-in" style="--d:6">Real systems combine all four. Next: see them solve real problems.</p>
+              </section>
+
+            </div>
+            <div class="ai-progress"><i></i></div>
+            <span class="ai-stage-num"></span>
+          </div>
+          <div class="ai-ctrl"></div>
+        </div>
+      </section>
+
+      <!-- ========================================================================= -->
+      <!-- SLIDESHOW 2: Solving Problems using AI (slides built by script) -->
+      <!-- ========================================================================= -->
+      <section class="content-section" id="solving-problems">
+        <div class="welcome-card">
+          <span class="eyebrow">Slideshow 2 &bull; One Problem, Four Generations</span>
+          <h2>Solving Problems using AI</h2>
+          <p class="lead">Follow a single refund request through automation, machine learning, generative AI and an AI agent, and see what each one can and cannot do. Press <strong>Play Walkthrough</strong> or pick a tab.</p>
+        </div>
+        <div class="evo-scope">
+            <!-- Evolution tour: one ticket, four kinds of AI -->
+            <div class="md-card" style="display:flex;flex-direction:column;">
+              <div class="md-card-head">
+                <div class="md-card-head-title">
+                  <span class="md-live-dot"></span>
+                  <span class="md-title-m">Understanding the Evolution of Automation to Agents using a Refund System</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:4px;">
+                  <span class="time-pill" id="tourTimeText">00:00 / 00:30</span>
+                  <button class="md-btn md-btn-tonal" id="tourPlayBtn" onclick="toggleTourPlay()">
+                    <span class="msr" id="tourPlayIcon">play_arrow</span><span id="tourPlayText">Play Walkthrough</span>
+                  </button>
+                  <button class="md-icon-btn evo-fs-btn" type="button" onclick="toggleFullscreen(this.closest('.evo-scope'))" aria-label="Full screen" title="Full screen"><span class="msr">fullscreen</span></button>
+                </div>
+              </div>
+
+              <div class="evo-ticket">
+                <span class="msr sm">confirmation_number</span>
+                <span class="md-body-m"><strong>One refund request, four generations of technology.</strong> Sam's order arrived broken and Sam wants their money back. Watch how each generation handles it.</span>
+              </div>
+
+              <div class="md-tabs" role="tablist">
+                <button class="md-tab active" role="tab" onclick="selectEpochStage(1)" id="epochTab1">
+                  <span class="md-tab-eyebrow">FOLLOWS</span>
+                  <span class="md-tab-label"><span class="msr sm">settings</span>Automation</span>
+                </button>
+                <button class="md-tab" role="tab" onclick="selectEpochStage(2)" id="epochTab2">
+                  <span class="md-tab-eyebrow">LEARNS</span>
+                  <span class="md-tab-label"><span class="msr sm">hub</span>ML</span>
+                </button>
+                <button class="md-tab" role="tab" onclick="selectEpochStage(3)" id="epochTab3">
+                  <span class="md-tab-eyebrow">CREATES</span>
+                  <span class="md-tab-label"><span class="msr sm">auto_awesome</span>GenAI</span>
+                </button>
+                <button class="md-tab" role="tab" onclick="selectEpochStage(4)" id="epochTab4">
+                  <span class="md-tab-eyebrow">ACTS</span>
+                  <span class="md-tab-label"><span class="msr sm">smart_toy</span>AI Agent</span>
+                </button>
+              </div>
+              <div class="md-progress" style="border-radius:0;"><div id="epochScrubberFill" style="width:25%;"></div></div>
+
+              <div style="flex:1;">
+                <!-- 1. Automation -->
+                <div class="epoch-panel active" id="epochPanel1" role="tabpanel">
+                  <div class="epoch-title-row">
+                    <div>
+                      <h3 class="md-title-l">Automation: follows the rules you write</h3>
+                      <p class="md-body-m muted" style="margin-top:4px;">A developer writes the rule once, and the system applies it exactly the same way every time.</p>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:4px;">
+                      <span class="md-tag t-neutral">IF → THEN</span>
+                      <button class="md-icon-btn" onclick="playEpoch(1)" title="Replay animation"><span class="msr">replay</span></button>
+                    </div>
+                  </div>
+                  <div class="evo-stage">
+                    <div class="evo-rule"><span class="msr sm">rule</span><code>IF message contains "refund" → send to Refund team</code></div>
+                    <div class="evo-lane">
+                      <div class="evo-msg a-in" style="--t:.3s"><span class="msr sm">mail</span><span>"My order arrived broken. I want a <mark>refund</mark>."</span></div>
+                      <span class="msr evo-arrow a-pop" style="--t:1s">arrow_forward</span>
+                      <div class="evo-result ok a-pop" style="--t:1.4s"><span class="msr sm fill">check_circle</span>Refund team</div>
+                    </div>
+                    <div class="evo-lane">
+                      <div class="evo-msg a-in" style="--t:2.4s"><span class="msr sm">mail</span><span>"Can I get my money back?"</span></div>
+                      <span class="msr evo-arrow a-pop" style="--t:3.1s">arrow_forward</span>
+                      <div class="evo-result bad a-bad" style="--t:3.5s"><span class="msr sm fill">error</span>No rule matched · stuck</div>
+                    </div>
+                  </div>
+                  <div class="evo-take">
+                    <div><span class="msr sm fill c-green">thumb_up</span><span><strong>Strength:</strong> fast, low-cost and completely predictable</span></div>
+                    <div><span class="msr sm fill c-red">thumb_down</span><span><strong>Limitation:</strong> fails on any wording no one wrote a rule for</span></div>
+                  </div>
+                </div>
+
+                <!-- 2. Machine Learning -->
+                <div class="epoch-panel" id="epochPanel2" role="tabpanel">
+                  <div class="epoch-title-row">
+                    <div>
+                      <h3 class="md-title-l">Machine Learning: learns patterns from past data</h3>
+                      <p class="md-body-m muted" style="margin-top:4px;">Trained on thousands of past tickets, it recognizes a refund request even when the wording is new.</p>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:4px;">
+                      <span class="md-tag t-blue">DATA → PREDICTION</span>
+                      <button class="md-icon-btn" onclick="playEpoch(2)" title="Replay animation"><span class="msr">replay</span></button>
+                    </div>
+                  </div>
+                  <div class="evo-stage evo-ml">
+                    <div class="evo-ml-train">
+                      <div class="md-label-m muted">LEARNED FROM 50,000 PAST TICKETS</div>
+                      <div class="evo-dots"><i class="evo-dot r a-pop" style="--t:0.20s"></i><i class="evo-dot s a-pop" style="--t:0.25s"></i><i class="evo-dot r a-pop" style="--t:0.30s"></i><i class="evo-dot o a-pop" style="--t:0.35s"></i><i class="evo-dot r a-pop" style="--t:0.40s"></i><i class="evo-dot r a-pop" style="--t:0.45s"></i><i class="evo-dot s a-pop" style="--t:0.50s"></i><i class="evo-dot r a-pop" style="--t:0.55s"></i><i class="evo-dot o a-pop" style="--t:0.60s"></i><i class="evo-dot r a-pop" style="--t:0.65s"></i><i class="evo-dot s a-pop" style="--t:0.70s"></i><i class="evo-dot r a-pop" style="--t:0.75s"></i><i class="evo-dot r a-pop" style="--t:0.80s"></i><i class="evo-dot o a-pop" style="--t:0.85s"></i><i class="evo-dot r a-pop" style="--t:0.90s"></i><i class="evo-dot s a-pop" style="--t:0.95s"></i><i class="evo-dot r a-pop" style="--t:1.00s"></i><i class="evo-dot r a-pop" style="--t:1.05s"></i><i class="evo-dot o a-pop" style="--t:1.10s"></i><i class="evo-dot r a-pop" style="--t:1.15s"></i><i class="evo-dot s a-pop" style="--t:1.20s"></i><i class="evo-dot r a-pop" style="--t:1.25s"></i><i class="evo-dot r a-pop" style="--t:1.30s"></i><i class="evo-dot o a-pop" style="--t:1.35s"></i></div>
+                      <div class="evo-legend"><span><i class="evo-dot r"></i>Refund</span><span><i class="evo-dot s"></i>Shipping</span><span><i class="evo-dot o"></i>Other</span></div>
+                    </div>
+                    <div class="evo-ml-predict">
+                      <div class="evo-msg a-in" style="--t:1.6s"><span class="msr sm">mail</span><span>"Can I get my <mark>money back</mark>?"</span></div>
+                      <div class="evo-bars">
+                        <div class="evo-bar"><span>Refund</span><div class="evo-track"><div class="evo-fill r a-grow" style="--t:2.4s;width:96%;"></div></div><b class="a-pop" style="--t:3.2s">96%</b></div>
+                        <div class="evo-bar"><span>Shipping</span><div class="evo-track"><div class="evo-fill s a-grow" style="--t:2.5s;width:3%;"></div></div><b class="a-pop" style="--t:3.2s">3%</b></div>
+                        <div class="evo-bar"><span>Other</span><div class="evo-track"><div class="evo-fill o a-grow" style="--t:2.6s;width:1%;"></div></div><b class="a-pop" style="--t:3.2s">1%</b></div>
+                      </div>
+                      <div class="evo-result ok a-pop" style="--t:3.8s"><span class="msr sm fill">check_circle</span>Refund team, no rule needed</div>
+                    </div>
+                  </div>
+                  <div class="evo-take">
+                    <div><span class="msr sm fill c-green">thumb_up</span><span><strong>Strength:</strong> handles new phrasing without a hand-written rule</span></div>
+                    <div><span class="msr sm fill c-red">thumb_down</span><span><strong>Limitation:</strong> it only classifies the request; it can't reply or resolve it</span></div>
+                  </div>
+                </div>
+
+                <!-- 3. Generative AI -->
+                <div class="epoch-panel" id="epochPanel3" role="tabpanel">
+                  <div class="epoch-title-row">
+                    <div>
+                      <h3 class="md-title-l">Generative AI: writes new content on request</h3>
+                      <p class="md-body-m muted" style="margin-top:4px;">Give it a plain-English prompt and it drafts original replies, summaries, code or images.</p>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:4px;">
+                      <span class="md-tag t-purple">PROMPT → CONTENT</span>
+                      <button class="md-icon-btn" onclick="playEpoch(3)" title="Replay animation"><span class="msr">replay</span></button>
+                    </div>
+                  </div>
+                  <div class="evo-stage">
+                    <div class="evo-chat user a-in" style="--t:.3s"><span class="msr sm">person</span><span>Write a friendly reply to Sam about the broken order.</span></div>
+                    <div class="evo-chat ai a-pop" style="--t:.9s"><span class="msr sm fill">auto_awesome</span><span><span id="evoTyped">Hi Sam, I'm so sorry your order arrived broken! That's not the experience we want for you. I've passed your refund request to our team and you'll hear back within 24 hours.</span><span class="evo-caret"></span></span></div>
+                    <div class="evo-result warn a-pop" style="--t:5.6s"><span class="msr sm fill">info</span>A convincing reply, but no refund was actually processed</div>
+                  </div>
+                  <div class="evo-take">
+                    <div><span class="msr sm fill c-green">thumb_up</span><span><strong>Strength:</strong> writes, summarizes and explains in natural language</span></div>
+                    <div><span class="msr sm fill c-red">thumb_down</span><span><strong>Limitation:</strong> it produces words, not actions; the refund still needs a person</span></div>
+                  </div>
+                </div>
+
+                <!-- 4. AI Agent -->
+                <div class="epoch-panel" id="epochPanel4" role="tabpanel">
+                  <div class="epoch-title-row">
+                    <div>
+                      <h3 class="md-title-l">AI Agent: plans, acts and verifies</h3>
+                      <p class="md-body-m muted" style="margin-top:4px;">Give it a goal and access to tools. It reasons, takes action, checks the result and repeats until the job is done.</p>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:4px;">
+                      <span class="md-tag t-green">GOAL → DONE</span>
+                      <button class="md-icon-btn" onclick="playEpoch(4)" title="Replay animation"><span class="msr">replay</span></button>
+                    </div>
+                  </div>
+                  <div class="evo-stage">
+                    <div class="evo-agent">
+                      <div class="evo-agent-head">
+                        <div class="evo-goal a-in" style="--t:.2s"><span class="msr sm fill">flag</span>Goal: resolve Sam's ticket #4821</div>
+                        <div class="md-body-s muted">The agent loops <strong>think → act → check</strong> until the goal is met.</div>
+                      </div>
+                      <div class="evo-loop" aria-hidden="true">
+                        <div class="evo-loop-ring"><span class="evo-orbit"></span></div>
+                        <span class="evo-loop-core"><span class="msr fill">smart_toy</span></span>
+                        <span class="evo-loop-lbl l1">Think</span>
+                        <span class="evo-loop-lbl l2">Act</span>
+                        <span class="evo-loop-lbl l3">Check</span>
+                      </div>
+                      <ol class="evo-steps">
+                        <li class="a-in" style="--t:0.8s">
+                          <span class="evo-step-ic"><span class="a-out" style="--t:1.6s"><span class="msr sm evo-spin">progress_activity</span></span><span class="msr sm fill c-green a-pop" style="--t:1.6s">check_circle</span></span>
+                          <div><div class="md-title-s">Look up order #4821</div><div class="md-body-s">Delivered 3 days ago · $49</div></div>
+                          <span class="evo-tool">Orders DB</span>
+                        </li>
+                        <li class="a-in" style="--t:1.9s">
+                          <span class="evo-step-ic"><span class="a-out" style="--t:2.7s"><span class="msr sm evo-spin">progress_activity</span></span><span class="msr sm fill c-green a-pop" style="--t:2.7s">check_circle</span></span>
+                          <div><div class="md-title-s">Check refund policy</div><div class="md-body-s">Damaged item → full refund allowed</div></div>
+                          <span class="evo-tool">Policy docs</span>
+                        </li>
+                        <li class="a-in" style="--t:3.0s">
+                          <span class="evo-step-ic"><span class="a-out" style="--t:3.8s"><span class="msr sm evo-spin">progress_activity</span></span><span class="msr sm fill c-green a-pop" style="--t:3.8s">check_circle</span></span>
+                          <div><div class="md-title-s">Issue the refund</div><div class="md-body-s">$49.00 sent back to Sam's card</div></div>
+                          <span class="evo-tool">Payments API</span>
+                        </li>
+                        <li class="a-in" style="--t:4.1s">
+                          <span class="evo-step-ic"><span class="a-out" style="--t:4.9s"><span class="msr sm evo-spin">progress_activity</span></span><span class="msr sm fill c-green a-pop" style="--t:4.9s">check_circle</span></span>
+                          <div><div class="md-title-s">Email Sam</div><div class="md-body-s">"Your refund is on its way"</div></div>
+                          <span class="evo-tool">Email</span>
+                        </li>
+                      </ol>
+                    </div>
+                    <div class="evo-result ok a-pop" style="--t:5.3s"><span class="msr sm fill">task_alt</span>Ticket resolved end to end: refund issued and Sam notified, no human hand-off</div>
+                  </div>
+                  <div class="evo-take">
+                    <div><span class="msr sm fill c-green">thumb_up</span><span><strong>Strength:</strong> completes real multi-step work across systems</span></div>
+                    <div><span class="msr sm fill c-amber">shield</span><span><strong>Limitation:</strong> needs guardrails: scoped permissions, spending limits and human approval for risky steps</span></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="epoch-footer">
+                <span class="md-body-m">Same refund, four generations: <strong style="font-weight:500;">follows rules → learns patterns → writes content → takes action.</strong></span>
+                <span class="md-label-l c-purple">Automation → Agents</span>
+              </div>
+            </div>
+        </div>
+      </section>
+
+      <!-- ========================================================================= -->
+      <!-- SLIDESHOW 3: Understanding AI Terms -->
+      <!-- ========================================================================= -->
+      <section class="content-section" id="ai-terms">
+        <div class="welcome-card">
+          <span class="eyebrow">Slideshow 3 &bull; Vocabulary</span>
+          <h2>Understanding AI Terms</h2>
+          <p class="lead">The eight words you will hear every day as an AI developer, each with a simple animation.</p>
+        </div>
+
+        <div class="ai-deck is-duo" data-palette="duo" data-bg="none" aria-roledescription="carousel" aria-label="Understanding AI terms">
+          <div class="ai-stage" tabindex="0">
+            <span class="ai-blob b1"></span><span class="ai-blob b2"></span><span class="ai-blob b3"></span>
+            <canvas class="ai-bg" aria-hidden="true"></canvas>
+            <div class="ai-veil"></div>
+            <div class="ai-slides">
+
+              <section class="ai-slide center" aria-roledescription="slide">
+                <span class="ai-kicker ai-in" style="--d:0">Slideshow 3</span>
+                <h3 class="ai-h xl ai-in" style="--d:1"><span class="ai-grad">Understanding AI Terms</span></h3>
+                <div class="ai-tags center">
+                  <span class="ai-tag ai-in pop" style="--d:2">LLM</span><span class="ai-tag ai-in pop" style="--d:3">Harness</span><span class="ai-tag ai-in pop" style="--d:4">Tokens</span><span class="ai-tag ai-in pop" style="--d:5">Data / State</span>
+                  <span class="ai-tag ai-in pop" style="--d:6">MCP</span><span class="ai-tag ai-in pop" style="--d:7">RAG</span><span class="ai-tag ai-in pop" style="--d:8">Observability</span><span class="ai-tag ai-in pop" style="--d:9">MLOps</span>
+                </div>
+              </section>
+
+              <section class="ai-slide" aria-roledescription="slide">
+                <span class="ai-kicker ai-in" style="--d:0">Term 1</span>
+                <h3 class="ai-h ai-in" style="--d:1">LLM: <span class="ai-grad">Large Language Model</span></h3>
+                <div class="ai-row">
+                  <ul class="ai-list">
+                    <li class="ai-in left" style="--d:2">A model trained on huge amounts of text and code.</li>
+                    <li class="ai-in left" style="--d:3">It works by predicting the <b>next token</b> again and again.</li>
+                    <li class="ai-in left" style="--d:4">Examples: Claude, Gemini, GPT, Llama.</li>
+                  </ul>
+                  <div class="ai-glass ai-in pop" style="--d:2">
+                    <div class="ai-prompt">The capital of India is ___</div>
+                    <div class="ai-bars">
+                      <div class="r"><span>New</span><span class="t"><span class="f" style="--w:92%;--i:0"></span></span><span>92%</span></div>
+                      <div class="r"><span>a</span><span class="t"><span class="f" style="--w:4%;--i:1"></span></span><span>4%</span></div>
+                      <div class="r"><span>Delhi</span><span class="t"><span class="f" style="--w:2%;--i:2"></span></span><span>2%</span></div>
+                      <div class="r"><span>the</span><span class="t"><span class="f" style="--w:1%;--i:3"></span></span><span>1%</span></div>
+                    </div>
+                    <p class="ai-p" style="font-size:.78rem;margin-top:8px;color:#94a3b8;">Illustrative probabilities for the next token.</p>
+                  </div>
+                </div>
+              </section>
+
+              <section class="ai-slide" aria-roledescription="slide">
+                <span class="ai-kicker ai-in" style="--d:0">Term 2</span>
+                <h3 class="ai-h ai-in" style="--d:1">Harness: <span class="ai-grad">the code around the model</span></h3>
+                <div class="ai-row">
+                  <ul class="ai-list">
+                    <li class="ai-in left" style="--d:2">The LLM only reads and writes text. The <b>harness</b> does everything else.</li>
+                    <li class="ai-in left" style="--d:3">It runs the loop, calls tools, keeps memory, applies guardrails.</li>
+                    <li class="ai-in left" style="--d:4">Examples: Claude Agent SDK, LangGraph, CrewAI, Google ADK.</li>
+                  </ul>
+                  <div class="ai-harness">
+                    <div class="hx ai-in pop" style="--d:2">Prompts<small>instructions</small></div>
+                    <div class="hx ai-in pop" style="--d:3">Tools<small>APIs, code</small></div>
+                    <div class="hx ai-in pop" style="--d:4">Memory<small>history</small></div>
+                    <div class="hx ai-in pop" style="--d:5">Loop<small>run steps</small></div>
+                    <div class="hx model ai-in pop" style="--d:1">LLM</div>
+                    <div class="hx ai-in pop" style="--d:6">Guardrails<small>limits</small></div>
+                    <div class="hx ai-in pop" style="--d:7">Approvals<small>human</small></div>
+                    <div class="hx ai-in pop" style="--d:8">Logs<small>tracing</small></div>
+                    <div class="hx ai-in pop" style="--d:9">Sandbox<small>safe runs</small></div>
+                  </div>
+                </div>
+              </section>
+
+              <section class="ai-slide" aria-roledescription="slide">
+                <span class="ai-kicker ai-in" style="--d:0">Term 3</span>
+                <h3 class="ai-h ai-in" style="--d:1">Tokens: <span class="ai-grad">how models read text</span></h3>
+                <div class="ai-row">
+                  <ul class="ai-list">
+                    <li class="ai-in left" style="--d:2">Text is split into small pieces called <b>tokens</b>: words, parts of words, punctuation.</li>
+                    <li class="ai-in left" style="--d:3">Models have a <b>context window</b>: the most tokens they can read at once.</li>
+                    <li class="ai-in left" style="--d:4">You <b>pay per token</b>, for both input and output.</li>
+                  </ul>
+                  <div class="ai-glass">
+                    <div class="ai-tokens">
+                      <span class="ai-in pop" style="--d:2">Tin</span><span class="ai-in pop" style="--d:3">itiate</span><span class="ai-in pop" style="--d:4">&nbsp;teaches</span><span class="ai-in pop" style="--d:5">&nbsp;agent</span><span class="ai-in pop" style="--d:6">ic</span><span class="ai-in pop" style="--d:7">&nbsp;AI</span><span class="ai-in pop" style="--d:8">&nbsp;in</span><span class="ai-in pop" style="--d:9">&nbsp;Hyder</span><span class="ai-in pop" style="--d:10">abad</span><span class="ai-in pop" style="--d:11">!</span>
+                    </div>
+                    <div class="ai-in" style="--d:12;margin-top:14px;display:flex;align-items:baseline;gap:10px;"><span class="ai-count">10</span><span style="color:#94a3b8;font-size:.85rem;">tokens (illustrative: each model splits text its own way)</span></div>
+                  </div>
+                </div>
+              </section>
+
+              <section class="ai-slide" aria-roledescription="slide">
+                <span class="ai-kicker ai-in" style="--d:0">Term 4</span>
+                <h3 class="ai-h ai-in" style="--d:1">Data / State: <span class="ai-grad">what the agent knows right now</span></h3>
+                <div class="ai-row">
+                  <div style="display:grid;gap:12px;">
+                    <ul class="ai-list">
+                      <li class="ai-in left" style="--d:2">The model itself forgets everything between calls.</li>
+                      <li class="ai-in left" style="--d:3">The app sends the <b>conversation so far</b> every time, and keeps a <b>state</b> object for the task.</li>
+                    </ul>
+                    <div class="ai-gauge ai-in" style="--d:6"><span>context used</span><span class="t"><span class="f"></span></span></div>
+                  </div>
+                  <div class="ai-glass" style="display:grid;gap:10px;">
+                    <div class="ai-msgs">
+                      <div class="m u ai-in" style="--d:2">Where is order 4512?</div>
+                      <div class="m t ai-in" style="--d:3">tool: get_order(4512) &rarr; "shipped"</div>
+                      <div class="m a ai-in" style="--d:4">It shipped today and arrives Friday.</div>
+                    </div>
+                    <pre class="ai-state ai-in" style="--d:5">state = { order: 4512, status: "shipped", step: 3 }</pre>
+                  </div>
+                </div>
+              </section>
+
+              <section class="ai-slide" aria-roledescription="slide">
+                <span class="ai-kicker ai-in" style="--d:0">Term 5</span>
+                <h3 class="ai-h ai-in" style="--d:1">MCP: <span class="ai-grad">Model Context Protocol</span></h3>
+                <p class="ai-p ai-in" style="--d:2">An open standard that plugs AI apps into tools and data. Write a connector once as an <b>MCP server</b>, and any MCP-ready AI app can use it.</p>
+                <div class="ai-glass ai-in pop" style="--d:3">
+                  <div class="ai-flow">
+                    <div class="node"><i data-lucide="bot"></i>AI app<small>Claude, IDE, agent</small></div><div class="link"></div>
+                    <div class="node"><i data-lucide="plug"></i>MCP client<small>speaks the protocol</small></div><div class="link"></div>
+                    <div class="node"><i data-lucide="server"></i>MCP servers<small>GitHub, DB, Slack, files</small></div>
+                  </div>
+                </div>
+                <div class="ai-tags ai-in" style="--d:5"><span class="ai-tag">tools</span><span class="ai-tag">resources</span><span class="ai-tag">prompts</span></div>
+              </section>
+
+              <section class="ai-slide" aria-roledescription="slide">
+                <span class="ai-kicker ai-in" style="--d:0">Term 6</span>
+                <h3 class="ai-h ai-in" style="--d:1">RAG: <span class="ai-grad">Retrieval-Augmented Generation</span></h3>
+                <p class="ai-p ai-in" style="--d:2">Before answering, look up the right facts from <b>your</b> documents and give them to the model, so it answers from them instead of guessing.</p>
+                <div class="ai-glass ai-in pop" style="--d:3">
+                  <div class="ai-flow">
+                    <div class="node"><i data-lucide="message-circle-question"></i>Question<small>"refund policy?"</small></div><div class="link"></div>
+                    <div class="node"><i data-lucide="search"></i>Retrieve<small>vector search</small></div><div class="link"></div>
+                    <div class="node"><i data-lucide="file-plus"></i>Augment<small>add top passages</small></div><div class="link"></div>
+                    <div class="node"><i data-lucide="quote"></i>Answer<small>with citations</small></div>
+                  </div>
+                </div>
+              </section>
+
+              <section class="ai-slide" aria-roledescription="slide">
+                <span class="ai-kicker ai-in" style="--d:0">Term 7</span>
+                <h3 class="ai-h ai-in" style="--d:1">Observability: <span class="ai-grad">see inside every run</span></h3>
+                <div class="ai-row">
+                  <ul class="ai-list">
+                    <li class="ai-in left" style="--d:2"><b>Traces</b> show each step of a run and how long it took.</li>
+                    <li class="ai-in left" style="--d:3"><b>Logs</b> keep prompts, tool calls and errors.</li>
+                    <li class="ai-in left" style="--d:4"><b>Metrics</b> track cost, tokens, latency and quality.</li>
+                    <li class="ai-in left" style="--d:5">Tools: OpenTelemetry, LangSmith, Langfuse, Grafana.</li>
+                  </ul>
+                  <div class="ai-glass ai-in pop" style="--d:2">
+                    <div class="ai-trace">
+                      <div class="r"><span>agent.run</span><span class="t"><span class="f" style="--x:0%;--w:100%;--i:0;--col:#6366f1"></span></span><span>4.2s</span></div>
+                      <div class="r"><span>&nbsp;llm.call</span><span class="t"><span class="f" style="--x:0%;--w:28%;--i:1"></span></span><span>1.2s</span></div>
+                      <div class="r"><span>&nbsp;tool.search</span><span class="t"><span class="f" style="--x:28%;--w:22%;--i:2;--col:#f59e0b"></span></span><span>0.9s</span></div>
+                      <div class="r"><span>&nbsp;llm.call</span><span class="t"><span class="f" style="--x:50%;--w:38%;--i:3"></span></span><span>1.6s</span></div>
+                      <div class="r"><span>&nbsp;respond</span><span class="t"><span class="f" style="--x:88%;--w:12%;--i:4;--col:#10b981"></span></span><span>0.5s</span></div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              <section class="ai-slide" aria-roledescription="slide">
+                <span class="ai-kicker ai-in" style="--d:0">Term 8</span>
+                <h3 class="ai-h ai-in" style="--d:1">MLOps: <span class="ai-grad">running AI in production</span></h3>
+                <div class="ai-row">
+                  <ul class="ai-list">
+                    <li class="ai-in left" style="--d:2">DevOps for models: version data, prompts and models.</li>
+                    <li class="ai-in left" style="--d:3">Evaluate before every release; deploy safely.</li>
+                    <li class="ai-in left" style="--d:4">Monitor drift and quality, then improve. Also called <b>LLMOps</b> for LLM apps.</li>
+                  </ul>
+                  <div class="ai-cycle ai-in pop" style="--d:2">
+                    <svg viewBox="0 0 200 200" aria-hidden="true"><circle cx="100" cy="100" r="78" fill="none" stroke="rgba(255,255,255,.15)" stroke-width="2"/><g class="arc"><circle cx="100" cy="100" r="78" fill="none" stroke="#22d3ee" stroke-width="4" stroke-dasharray="90 400" stroke-linecap="round"/></g></svg>
+                    <span class="lb" style="left:50%;top:6%;--i:0">Data<small>collect</small></span>
+                    <span class="lb" style="left:94%;top:37%;--i:1">Train<small>or prompt</small></span>
+                    <span class="lb" style="left:78%;top:90%;--i:2">Evaluate<small>tests</small></span>
+                    <span class="lb" style="left:22%;top:90%;--i:3">Deploy<small>release</small></span>
+                    <span class="lb" style="left:6%;top:37%;--i:4">Monitor<small>drift</small></span>
+                  </div>
+                </div>
+              </section>
+
+            </div>
+            <div class="ai-progress"><i></i></div>
+            <span class="ai-stage-num"></span>
+          </div>
+          <div class="ai-ctrl"></div>
+        </div>
+      </section>
+
+      <!-- ========================================================================= -->
+      <!-- SLIDESHOW 4: Technology Stacks to learn -->
+      <!-- ========================================================================= -->
+      <section class="content-section" id="tech-stack">
+        <div class="welcome-card">
+          <span class="eyebrow">Slideshow 4 &bull; What to Learn</span>
+          <h2>Technology Stacks to Learn</h2>
+          <p class="lead">Foundations, agent frameworks, data and MLOps tools, and one cloud. Each slide shows what it is, why it matters and a first taste of code.</p>
+        </div>
+
+        <div class="ai-deck is-light" data-palette="wire" data-bg="wire" aria-roledescription="carousel" aria-label="Technology stacks to learn">
+          <div class="ai-stage" tabindex="0">
+            <span class="ai-blob b1"></span><span class="ai-blob b2"></span><span class="ai-blob b3"></span>
+            <canvas class="ai-bg" aria-hidden="true"></canvas>
+            <div class="ai-veil"></div>
+            <div class="ai-slides">
+
+              <section class="ai-slide center" aria-roledescription="slide">
+                <span class="ai-kicker ai-in" style="--d:0">Slideshow 4</span>
+                <h3 class="ai-h xl ai-in" style="--d:1"><span class="ai-grad">Technology Stacks to Learn</span></h3>
+                <div class="ai-groups">
+                  <div class="ai-group ai-in pop" style="--d:2">
+                    <b>Foundations</b>
+                    <span><img src="../assets/icons/tech/python.svg" alt="">Python</span>
+                    <span><img src="../assets/icons/tech/postgresql.svg" alt="">SQL</span>
+                    <span><img src="../assets/icons/tech/git.svg" alt="">Git &amp; GitHub Actions</span>
+                    <span><img src="../assets/icons/tech/docker.svg" alt="">Docker</span>
+                  </div>
+                  <div class="ai-group ai-in pop" style="--d:3">
+                    <b>Agent frameworks</b>
+                    <span><img src="../assets/icons/tech/crewai-icon.svg" alt="">CrewAI</span>
+                    <span><img src="../assets/icons/tech/langgraph.svg" alt="">LangGraph</span>
+                    <span><img src="../assets/icons/tech/claude.svg" alt="">Claude SDK</span>
+                    <span><img src="../assets/icons/tech/google-gemini-icon.svg" alt="">Google ADK</span>
+                  </div>
+                  <div class="ai-group ai-in pop" style="--d:4">
+                    <b>Data &amp; MLOps</b>
+                    <span><img src="../assets/icons/tech/pinecone.svg" alt="">Vector DBs</span>
+                    <span><i data-lucide="flask-conical"></i>MLflow</span>
+                    <span><img src="../assets/icons/tech/opentelemetry.svg" alt="">Observability</span>
+                  </div>
+                  <div class="ai-group ai-in pop" style="--d:5">
+                    <b>Cloud (pick one)</b>
+                    <span><img src="../assets/icons/tech/aws.svg" alt="">AWS</span>
+                    <span><img src="../assets/icons/tech/azure.svg" alt="">Azure</span>
+                    <span><img src="../assets/icons/tech/google-cloud.svg" alt="">Google Cloud</span>
+                  </div>
+                </div>
+              </section>
+
+              <section class="ai-slide" aria-roledescription="slide">
+                <div class="ai-head"><img class="ai-logo" src="../assets/icons/tech/python.svg" alt=""><div><span class="ai-kicker ai-in" style="--d:0">Foundation &bull; 1</span><h3 class="ai-h ai-in" style="--d:1">Python</h3></div></div>
+                <div class="ai-row">
+                  <ul class="ai-list">
+                    <li class="ai-in left" style="--d:2">The main language for AI, data and agent frameworks.</li>
+                    <li class="ai-in left" style="--d:3">Simple to read; huge library ecosystem.</li>
+                    <li class="ai-in left" style="--d:4"><b>Learn:</b> variables, functions, classes, exceptions, packages.</li>
+                  </ul>
+                  <pre class="ai-code ai-in pop" style="--d:3"><span class="c"># add up today's orders</span>
+orders = [<span class="s">1200</span>, <span class="s">450</span>, <span class="s">980</span>]
+total = <span class="f">sum</span>(orders)
+<span class="f">print</span>(<span class="s">f"Total: Rs. {total}"</span>)
+<span class="c"># Total: Rs. 2630</span></pre>
+                </div>
+                <a class="ai-link ai-in" style="--d:5" href="../foundational/python/index.html">Python course &rarr;</a>
+              </section>
+
+              <section class="ai-slide" aria-roledescription="slide">
+                <div class="ai-head"><img class="ai-logo" src="../assets/icons/tech/postgresql.svg" alt=""><div><span class="ai-kicker ai-in" style="--d:0">Foundation &bull; 2</span><h3 class="ai-h ai-in" style="--d:1">SQL</h3></div></div>
+                <div class="ai-row">
+                  <ul class="ai-list">
+                    <li class="ai-in left" style="--d:2">Business data lives in databases; SQL is how you ask it questions.</li>
+                    <li class="ai-in left" style="--d:3">Agents often call SQL tools to answer real questions.</li>
+                    <li class="ai-in left" style="--d:4"><b>Learn:</b> SELECT, WHERE, JOIN, GROUP BY, ORDER BY.</li>
+                  </ul>
+                  <pre class="ai-code ai-in pop" style="--d:3"><span class="k">SELECT</span> city, <span class="f">COUNT</span>(*) <span class="k">AS</span> customers
+<span class="k">FROM</span>   customers
+<span class="k">GROUP BY</span> city
+<span class="k">ORDER BY</span> customers <span class="k">DESC</span>;</pre>
+                </div>
+                <a class="ai-link ai-in" style="--d:5" href="../foundational/sql/index.html">SQL course &rarr;</a>
+              </section>
+
+              <section class="ai-slide" aria-roledescription="slide">
+                <div class="ai-head"><img class="ai-logo" src="../assets/icons/tech/git.svg" alt=""><div><span class="ai-kicker ai-in" style="--d:0">Foundation &bull; 3</span><h3 class="ai-h ai-in" style="--d:1">Git &amp; GitHub Actions</h3></div></div>
+                <div class="ai-row">
+                  <ul class="ai-list">
+                    <li class="ai-in left" style="--d:2"><b>Git</b> saves every change to your code, prompts and configs, so you can review and undo.</li>
+                    <li class="ai-in left" style="--d:3">Work in branches and merge through pull requests on <b>GitHub</b>.</li>
+                    <li class="ai-in left" style="--d:4"><b>GitHub Actions</b> runs your tests and evals on every push, then deploys.</li>
+                  </ul>
+                  <pre class="ai-code ai-in pop" style="--d:3"><span class="c"># .github/workflows/tests.yml</span>
+<span class="k">name:</span> tests
+<span class="k">on:</span> [push, pull_request]
+<span class="k">jobs:</span>
+  <span class="k">test:</span>
+    <span class="k">runs-on:</span> ubuntu-latest
+    <span class="k">steps:</span>
+      - <span class="k">uses:</span> <span class="s">actions/checkout@v4</span>
+      - <span class="k">uses:</span> <span class="s">actions/setup-python@v5</span>
+        <span class="k">with:</span> { python-version: <span class="s">"3.12"</span> }
+      - <span class="k">run:</span> pip install -r requirements.txt
+      - <span class="k">run:</span> pytest</pre>
+                </div>
+                <div class="ai-tags ai-in" style="--d:5"><span class="ai-tag"><img src="../assets/icons/tech/github.svg" alt="">GitHub</span><span class="ai-tag"><img src="../assets/icons/tech/github-actions.svg" alt="">GitHub Actions</span></div>
+              </section>
+
+              <section class="ai-slide" aria-roledescription="slide">
+                <div class="ai-head"><img class="ai-logo" src="../assets/icons/tech/docker.svg" alt=""><div><span class="ai-kicker ai-in" style="--d:0">Foundation &bull; 4</span><h3 class="ai-h ai-in" style="--d:1">Docker</h3></div></div>
+                <div class="ai-row">
+                  <ul class="ai-list">
+                    <li class="ai-in left" style="--d:2">Packs your app and everything it needs into one <b>image</b>.</li>
+                    <li class="ai-in left" style="--d:3">The same container runs on your laptop, in CI and in the cloud.</li>
+                    <li class="ai-in left" style="--d:4"><b>Docker Compose</b> runs the app with its database and vector store together.</li>
+                  </ul>
+                  <pre class="ai-code ai-in pop" style="--d:3"><span class="c"># Dockerfile for a FastAPI agent service</span>
+<span class="k">FROM</span> python:3.12-slim
+<span class="k">WORKDIR</span> /app
+<span class="k">COPY</span> requirements.txt .
+<span class="k">RUN</span> pip install --no-cache-dir -r requirements.txt
+<span class="k">COPY</span> . .
+<span class="k">CMD</span> [<span class="s">"uvicorn"</span>, <span class="s">"main:app"</span>, <span class="s">"--host"</span>, <span class="s">"0.0.0.0"</span>, <span class="s">"--port"</span>, <span class="s">"8000"</span>]</pre>
+                </div>
+              </section>
+
+              <section class="ai-slide" aria-roledescription="slide">
+                <div class="ai-head"><img class="ai-logo" src="../assets/icons/tech/crewai-icon.svg" alt=""><div><span class="ai-kicker ai-in" style="--d:0">Agent framework &bull; 1</span><h3 class="ai-h ai-in" style="--d:1">CrewAI</h3></div></div>
+                <div class="ai-row">
+                  <ul class="ai-list">
+                    <li class="ai-in left" style="--d:2">Build a <b>crew</b> of role-based agents that work through tasks together.</li>
+                    <li class="ai-in left" style="--d:3">Each agent has a role, goal and backstory; tasks have expected outputs.</li>
+                    <li class="ai-in left" style="--d:4"><b>Flows</b> add event-driven control for production pipelines.</li>
+                  </ul>
+                  <pre class="ai-code ai-in pop" style="--d:3"><span class="k">from</span> crewai <span class="k">import</span> Agent, Task, Crew
+
+writer = <span class="f">Agent</span>(role=<span class="s">"Writer"</span>, goal=<span class="s">"Explain AI simply"</span>,
+               backstory=<span class="s">"Friendly tech teacher"</span>)
+task = <span class="f">Task</span>(description=<span class="s">"Explain RAG"</span>,
+            expected_output=<span class="s">"3 short bullet points"</span>,
+            agent=writer)
+<span class="f">print</span>(<span class="f">Crew</span>(agents=[writer], tasks=[task]).<span class="f">kickoff</span>())</pre>
+                </div>
+                <a class="ai-link ai-in" style="--d:5" href="../ai/crewai/index.html">CrewAI track &rarr;</a>
+              </section>
+
+              <section class="ai-slide" aria-roledescription="slide">
+                <div class="ai-head"><img class="ai-logo" src="../assets/icons/tech/langgraph.svg" alt=""><div><span class="ai-kicker ai-in" style="--d:0">Agent framework &bull; 2</span><h3 class="ai-h ai-in" style="--d:1">LangGraph</h3></div></div>
+                <div class="ai-row">
+                  <ul class="ai-list">
+                    <li class="ai-in left" style="--d:2">Build agents as <b>graphs</b>: nodes do work, edges decide what runs next.</li>
+                    <li class="ai-in left" style="--d:3">Shared, typed <b>state</b>; checkpoints let runs pause and resume.</li>
+                    <li class="ai-in left" style="--d:4">Great for loops, branching and human approval steps.</li>
+                  </ul>
+                  <pre class="ai-code ai-in pop" style="--d:3"><span class="k">from</span> typing <span class="k">import</span> TypedDict
+<span class="k">from</span> langgraph.graph <span class="k">import</span> StateGraph, START, END
+
+<span class="k">class</span> <span class="f">State</span>(TypedDict):
+    question: str
+    answer: str
+
+<span class="k">def</span> <span class="f">reply</span>(state: State):
+    <span class="k">return</span> {<span class="s">"answer"</span>: <span class="s">"You asked: "</span> + state[<span class="s">"question"</span>]}
+
+g = <span class="f">StateGraph</span>(State)
+g.<span class="f">add_node</span>(<span class="s">"reply"</span>, reply)
+g.<span class="f">add_edge</span>(START, <span class="s">"reply"</span>)
+g.<span class="f">add_edge</span>(<span class="s">"reply"</span>, END)
+<span class="f">print</span>(g.<span class="f">compile</span>().<span class="f">invoke</span>({<span class="s">"question"</span>: <span class="s">"What is RAG?"</span>}))</pre>
+                </div>
+                <a class="ai-link ai-in" style="--d:5" href="../ai/langgraph/index.html">LangGraph track &rarr;</a>
+              </section>
+
+              <section class="ai-slide" aria-roledescription="slide">
+                <div class="ai-head"><img class="ai-logo" src="../assets/icons/tech/claude.svg" alt=""><div><span class="ai-kicker ai-in" style="--d:0">Agent framework &bull; 3</span><h3 class="ai-h ai-in" style="--d:1">Claude SDK</h3></div></div>
+                <div class="ai-row">
+                  <ul class="ai-list">
+                    <li class="ai-in left" style="--d:2">The <b>Anthropic SDK</b> calls Claude models: messages, tools, streaming, caching.</li>
+                    <li class="ai-in left" style="--d:3">The <b>Claude Agent SDK</b> gives you the Claude Code agent harness as a library.</li>
+                    <li class="ai-in left" style="--d:4">Plus MCP support and Managed Agents for hosted agents.</li>
+                  </ul>
+                  <pre class="ai-code ai-in pop" style="--d:3"><span class="k">import</span> anthropic
+
+client = anthropic.<span class="f">Anthropic</span>()   <span class="c"># reads ANTHROPIC_API_KEY</span>
+msg = client.messages.<span class="f">create</span>(
+    model=<span class="s">"claude-opus-5-5"</span>,
+    max_tokens=<span class="s">1024</span>,
+    messages=[{<span class="s">"role"</span>: <span class="s">"user"</span>,
+               <span class="s">"content"</span>: <span class="s">"Explain RAG in one line"</span>}],
+)
+<span class="f">print</span>(msg.content[<span class="s">0</span>].text)</pre>
+                </div>
+                <a class="ai-link ai-in" style="--d:5" href="../ai/claude-sdk/index.html">Claude SDK track &rarr;</a>
+              </section>
+
+              <section class="ai-slide" aria-roledescription="slide">
+                <div class="ai-head"><img class="ai-logo" src="../assets/icons/tech/google-gemini-icon.svg" alt=""><div><span class="ai-kicker ai-in" style="--d:0">Agent framework &bull; 4</span><h3 class="ai-h ai-in" style="--d:1">Google ADK</h3></div></div>
+                <div class="ai-row">
+                  <ul class="ai-list">
+                    <li class="ai-in left" style="--d:2">Google's open-source <b>Agent Development Kit</b> for building agents in code.</li>
+                    <li class="ai-in left" style="--d:3">Plain Python functions become tools; agents can be composed into teams.</li>
+                    <li class="ai-in left" style="--d:4">Built for Gemini, with a local dev UI and deployment to Google Cloud.</li>
+                  </ul>
+                  <pre class="ai-code ai-in pop" style="--d:3"><span class="k">from</span> google.adk.agents <span class="k">import</span> Agent
+
+<span class="k">def</span> <span class="f">get_weather</span>(city: str) -> dict:
+    <span class="s">"""Return the weather for a city."""</span>
+    <span class="k">return</span> {<span class="s">"city"</span>: city, <span class="s">"forecast"</span>: <span class="s">"sunny"</span>}
+
+root_agent = <span class="f">Agent</span>(
+    name=<span class="s">"weather_agent"</span>,
+    model=<span class="s">"gemini-2.5-flash"</span>,
+    instruction=<span class="s">"Answer weather questions with the tool."</span>,
+    tools=[get_weather],
+)</pre>
+                </div>
+                <a class="ai-link ai-in" style="--d:5" href="../ai/google-gemini-sdk/index.html">Google Gemini SDK track &rarr;</a>
+              </section>
+
+              <section class="ai-slide" aria-roledescription="slide">
+                <div class="ai-head"><img class="ai-logo" src="../assets/icons/tech/pinecone.svg" alt=""><div><span class="ai-kicker ai-in" style="--d:0">Data &amp; MLOps &bull; 1</span><h3 class="ai-h ai-in" style="--d:1">Vector Databases</h3></div></div>
+                <div class="ai-row">
+                  <ul class="ai-list">
+                    <li class="ai-in left" style="--d:2">Store text as <b>embeddings</b>: lists of numbers that capture meaning.</li>
+                    <li class="ai-in left" style="--d:3"><b>Similarity search</b> finds the passages closest to a question: the R in RAG.</li>
+                    <li class="ai-in left" style="--d:4">Start with <b>pgvector</b> in PostgreSQL; managed options scale further.</li>
+                  </ul>
+                  <pre class="ai-code ai-in pop" style="--d:3"><span class="c">-- pgvector: vectors inside PostgreSQL</span>
+<span class="k">CREATE EXTENSION IF NOT EXISTS</span> vector;
+<span class="k">CREATE TABLE</span> docs (
+  id <span class="k">serial PRIMARY KEY</span>,
+  body <span class="k">text</span>,
+  embedding <span class="f">vector</span>(<span class="s">1536</span>)
+);
+<span class="c">-- 5 passages closest to the question's embedding</span>
+<span class="k">SELECT</span> body <span class="k">FROM</span> docs
+<span class="k">ORDER BY</span> embedding &lt;=&gt; $1  <span class="c">-- cosine distance</span>
+<span class="k">LIMIT</span> <span class="s">5</span>;</pre>
+                </div>
+                <div class="ai-tags ai-in" style="--d:5"><span class="ai-tag"><img src="../assets/icons/tech/postgresql.svg" alt="">pgvector</span><span class="ai-tag"><img src="../assets/icons/tech/pinecone.svg" alt="">Pinecone</span><span class="ai-tag"><img src="../assets/icons/tech/qdrant.svg" alt="">Qdrant</span><span class="ai-tag"><img src="../assets/icons/tech/milvus.svg" alt="">Milvus</span></div>
+              </section>
+
+              <section class="ai-slide" aria-roledescription="slide">
+                <div class="ai-head"><span class="ai-logo ai-logo-ic"><i data-lucide="flask-conical"></i></span><div><span class="ai-kicker ai-in" style="--d:0">Data &amp; MLOps &bull; 2</span><h3 class="ai-h ai-in" style="--d:1">MLflow</h3></div></div>
+                <div class="ai-row">
+                  <ul class="ai-list">
+                    <li class="ai-in left" style="--d:2">Open-source platform to <b>track experiments</b>: parameters, metrics and results of every run.</li>
+                    <li class="ai-in left" style="--d:3"><b>Model registry</b> versions models and promotes them from staging to production.</li>
+                    <li class="ai-in left" style="--d:4">Also traces and evaluates LLM and agent apps.</li>
+                  </ul>
+                  <pre class="ai-code ai-in pop" style="--d:3"><span class="k">import</span> mlflow
+
+mlflow.<span class="f">set_experiment</span>(<span class="s">"refund-classifier"</span>)
+
+<span class="k">with</span> mlflow.<span class="f">start_run</span>():
+    mlflow.<span class="f">log_param</span>(<span class="s">"model"</span>, <span class="s">"logistic_regression"</span>)
+    mlflow.<span class="f">log_param</span>(<span class="s">"max_iter"</span>, <span class="s">200</span>)
+    mlflow.<span class="f">log_metric</span>(<span class="s">"accuracy"</span>, <span class="s">0.94</span>)
+<span class="c"># compare every run side by side in the MLflow UI</span></pre>
+                </div>
+              </section>
+
+              <section class="ai-slide" aria-roledescription="slide">
+                <div class="ai-head"><img class="ai-logo" src="../assets/icons/tech/opentelemetry.svg" alt=""><div><span class="ai-kicker ai-in" style="--d:0">Data &amp; MLOps &bull; 3</span><h3 class="ai-h ai-in" style="--d:1">Observability Tools</h3></div></div>
+                <p class="ai-p ai-in" style="--d:2">See every step of every agent run: prompts, tool calls, tokens, cost, latency and errors.</p>
+                <div class="ai-obs">
+                  <div class="ai-tool ai-in pop" style="--d:3"><img src="../assets/icons/tech/opentelemetry.svg" alt=""><b>OpenTelemetry</b><small>open standard for traces, metrics and logs</small></div>
+                  <div class="ai-tool ai-in pop" style="--d:4"><img src="../assets/icons/tech/langfuse.svg" alt=""><b>Langfuse / LangSmith</b><small>LLM traces, prompt versions, evals and cost</small></div>
+                  <div class="ai-tool ai-in pop" style="--d:5"><img src="../assets/icons/tech/prometheus.svg" alt=""><b>Prometheus</b><small>collects metrics over time</small></div>
+                  <div class="ai-tool ai-in pop" style="--d:6"><img src="../assets/icons/tech/grafana.svg" alt=""><b>Grafana</b><small>dashboards and alerts</small></div>
+                </div>
+              </section>
+
+              <section class="ai-slide" aria-roledescription="slide">
+                <span class="ai-kicker ai-in" style="--d:0">Cloud deployment</span>
+                <h3 class="ai-h ai-in" style="--d:1">Cloud: learn <span class="ai-grad">one</span> well</h3>
+                <p class="ai-p ai-in" style="--d:2">AWS, Azure or Google Cloud: the ideas are the same, only the service names change. Master one and the others are easy.</p>
+                <div class="ai-cloud ai-in pop" style="--d:3">
+                  <div class="hd"></div>
+                  <div class="hd"><img src="../assets/icons/tech/aws.svg" alt="">AWS</div>
+                  <div class="hd"><img src="../assets/icons/tech/azure.svg" alt="">Azure</div>
+                  <div class="hd"><img src="../assets/icons/tech/google-cloud.svg" alt="">Google Cloud</div>
+                  <div class="rw">Run containers</div><div>ECS / App Runner</div><div>Container Apps</div><div>Cloud Run</div>
+                  <div class="rw">Serverless code</div><div>Lambda</div><div>Functions</div><div>Cloud Run functions</div>
+                  <div class="rw">AI models</div><div>Bedrock</div><div>AI Foundry</div><div>Vertex AI</div>
+                  <div class="rw">Files &amp; data</div><div>S3</div><div>Blob Storage</div><div>Cloud Storage</div>
+                  <div class="rw">Secrets</div><div>Secrets Manager</div><div>Key Vault</div><div>Secret Manager</div>
+                </div>
+                <div class="ai-tags ai-in" style="--d:5">
+                  <a class="ai-link" href="../ai/aws-bedrock/index.html">AWS Bedrock track &rarr;</a>
+                  <a class="ai-link" href="../ai/azure-foundry/index.html">Azure Foundry track &rarr;</a>
+                  <a class="ai-link" href="../ai/google-gemini-sdk/index.html">Google Gemini track &rarr;</a>
+                </div>
+              </section>
+
+            </div>
+            <div class="ai-progress"><i></i></div>
+            <span class="ai-stage-num"></span>
+          </div>
+          <div class="ai-ctrl"></div>
+        </div>
+        <p class="sq-note">Ready to go deeper? Start with the <a href="../automation-ml-ai-agentic/index.html">AI Master Class</a> or <a href="../agentic-development/index.html">Agentic Development</a>.</p>
+      </section>
+
+    </main>
+
+    <!-- RIGHT: In-page Navigation -->
+    <nav class="inpage-nav-panel" aria-label="In-page Table of Contents">
+      <div class="nav-title">In-Page Navigation</div>
+      <ul class="inpage-menu" id="inpage-menu">
+        <li><a href="#ai-intro" class="active">1. How It Works</a></li>
+        <li><a href="#understanding-ai">2. Understanding AI</a></li>
+        <li><a href="#solving-problems">3. Solving Problems with AI</a></li>
+        <li><a href="#ai-terms">4. AI Terms</a></li>
+        <li><a href="#tech-stack">5. Technology Stacks</a></li>
+      </ul>
+    </nav>
+
+  </div>
 
   <!-- Master Footer -->
   <footer class="site-footer">
@@ -606,6 +2362,405 @@
     </div>
   </footer>
 
-  <script src="../assets/js/master-global-nav.js"></script>
+  <script src="../assets/js/master-global-nav.js" defer></script>
+
+  <script>
+  (function () {
+    'use strict';
+    const REDUCED = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let SPEED = 1;                       // multiplier for slide duration
+    const BASE_MS = 7000;                // time per slide at Normal speed
+    const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+    /* ------------------------------------------------------------------ */
+    /* Abstract animated background ("video"): particle trails + glow      */
+    /* ------------------------------------------------------------------ */
+    class Flow {
+      constructor(canvas, colors) {
+        this.c = canvas; this.ctx = canvas.getContext('2d'); this.colors = colors;
+        this.running = false; this.t = 0; this.parts = [];
+        this.resize();
+        new ResizeObserver(() => this.resize()).observe(canvas);
+      }
+      resize() {
+        const r = this.c.getBoundingClientRect(), dpr = Math.min(window.devicePixelRatio || 1, 2);
+        this.w = Math.max(1, r.width); this.h = Math.max(1, r.height);
+        this.c.width = this.w * dpr; this.c.height = this.h * dpr;
+        this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        const n = Math.round(Math.min(240, this.w * this.h / 2600));
+        this.parts = Array.from({ length: n }, () => this.spawn());
+        if (!this.running) this.frame(true);
+      }
+      spawn() {
+        return { x: Math.random() * this.w, y: Math.random() * this.h, life: 80 + Math.random() * 220,
+                 col: this.colors[(Math.random() * this.colors.length) | 0], sp: .6 + Math.random() * 1.4 };
+      }
+      field(x, y) {
+        const s = .0028, t = this.t * .0006;
+        return Math.sin(x * s + t) * 1.6 + Math.cos(y * s * 1.3 - t * 1.4) * 1.4 + Math.sin((x + y) * s * .6 + t * .7);
+      }
+      frame(still) {
+        const { ctx } = this;
+        ctx.globalCompositeOperation = 'destination-out';   // fade old trails to transparent so the colour blobs show through
+        ctx.fillStyle = 'rgba(0,0,0,0.07)';
+        ctx.fillRect(0, 0, this.w, this.h);
+        ctx.globalCompositeOperation = 'lighter';
+        for (const p of this.parts) {
+          const a = this.field(p.x, p.y);
+          const nx = p.x + Math.cos(a) * p.sp, ny = p.y + Math.sin(a) * p.sp;
+          ctx.strokeStyle = p.col; ctx.globalAlpha = .55; ctx.lineWidth = 1.3;
+          ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(nx, ny); ctx.stroke();
+          p.x = nx; p.y = ny; p.life--;
+          if (p.life <= 0 || p.x < -10 || p.x > this.w + 10 || p.y < -10 || p.y > this.h + 10) Object.assign(p, this.spawn());
+        }
+        // a few glowing nodes drifting slowly
+        for (let i = 0; i < 6; i++) {
+          const gx = (Math.sin(this.t * .0004 * (i + 1) + i * 2) * .42 + .5) * this.w;
+          const gy = (Math.cos(this.t * .0003 * (i + 2) + i) * .4 + .5) * this.h;
+          const g = ctx.createRadialGradient(gx, gy, 0, gx, gy, 26);
+          g.addColorStop(0, this.colors[i % this.colors.length]); g.addColorStop(1, 'transparent');
+          ctx.globalAlpha = .18; ctx.fillStyle = g; ctx.beginPath(); ctx.arc(gx, gy, 26, 0, Math.PI * 2); ctx.fill();
+        }
+        ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
+        this.t += 16;
+        if (still) { for (let i = 0; i < 120; i++) this.frameQuiet(); }
+      }
+      frameQuiet() {   // pre-draw trails for a still image (reduced motion / first paint)
+        for (const p of this.parts) {
+          const a = this.field(p.x, p.y), nx = p.x + Math.cos(a) * p.sp, ny = p.y + Math.sin(a) * p.sp;
+          this.ctx.strokeStyle = p.col; this.ctx.globalAlpha = .25;
+          this.ctx.beginPath(); this.ctx.moveTo(p.x, p.y); this.ctx.lineTo(nx, ny); this.ctx.stroke();
+          p.x = nx; p.y = ny;
+        }
+        this.ctx.globalAlpha = 1;
+      }
+      start() {
+        if (this.running || REDUCED) return;
+        this.running = true;
+        const loop = () => { if (!this.running) return; this.frame(false); this.raf = requestAnimationFrame(loop); };
+        this.raf = requestAnimationFrame(loop);
+      }
+      stop() { this.running = false; cancelAnimationFrame(this.raf); }
+    }
+
+
+    /* Light "wire" background: thin lines linking slowly drifting nodes, with signals running along them */
+    class Wire {
+      constructor(canvas) {
+        this.c = canvas; this.ctx = canvas.getContext('2d'); this.running = false; this.t = 0;
+        this.resize(); new ResizeObserver(() => this.resize()).observe(canvas);
+      }
+      resize() {
+        const r = this.c.getBoundingClientRect(), dpr = Math.min(window.devicePixelRatio || 1, 2);
+        this.w = Math.max(1, r.width); this.h = Math.max(1, r.height);
+        this.c.width = this.w * dpr; this.c.height = this.h * dpr; this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        const n = Math.round(Math.min(70, this.w * this.h / 9000));
+        this.nodes = Array.from({ length: n }, () => ({ x: Math.random() * this.w, y: Math.random() * this.h,
+          vx: (Math.random() - .5) * .25, vy: (Math.random() - .5) * .25 }));
+        this.signals = [];
+        this.draw();
+      }
+      draw() {
+        const { ctx, nodes } = this, max = Math.min(170, this.w / 5);
+        ctx.clearRect(0, 0, this.w, this.h);
+        const edges = [];
+        for (let i = 0; i < nodes.length; i++) for (let j = i + 1; j < nodes.length; j++) {
+          const dx = nodes[i].x - nodes[j].x, dy = nodes[i].y - nodes[j].y, d = Math.hypot(dx, dy);
+          if (d < max) {
+            edges.push([i, j]);
+            ctx.strokeStyle = `rgba(99,102,241,${(1 - d / max) * .28})`; ctx.lineWidth = 1;
+            ctx.beginPath(); ctx.moveTo(nodes[i].x, nodes[i].y); ctx.lineTo(nodes[j].x, nodes[j].y); ctx.stroke();
+          }
+        }
+        for (const p of nodes) { ctx.fillStyle = 'rgba(79,70,229,.45)'; ctx.beginPath(); ctx.arc(p.x, p.y, 2, 0, Math.PI * 2); ctx.fill(); }
+        // signals travelling along edges
+        if (edges.length && this.signals.length < 6 && Math.random() < .05) {
+          const [i, j] = edges[(Math.random() * edges.length) | 0]; this.signals.push({ i, j, k: 0 });
+        }
+        this.signals = this.signals.filter(sg => {
+          const a = nodes[sg.i], b = nodes[sg.j]; sg.k += .012; if (sg.k >= 1) return false;
+          const x = a.x + (b.x - a.x) * sg.k, y = a.y + (b.y - a.y) * sg.k;
+          const g = ctx.createRadialGradient(x, y, 0, x, y, 7); g.addColorStop(0, 'rgba(14,165,233,.9)'); g.addColorStop(1, 'rgba(14,165,233,0)');
+          ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, 7, 0, Math.PI * 2); ctx.fill();
+          return true;
+        });
+      }
+      step() {
+        for (const p of this.nodes) {
+          p.x += p.vx; p.y += p.vy;
+          if (p.x < 0 || p.x > this.w) p.vx *= -1;
+          if (p.y < 0 || p.y > this.h) p.vy *= -1;
+        }
+        this.draw();
+      }
+      start() {
+        if (this.running || REDUCED) return;
+        this.running = true;
+        const loop = () => { if (!this.running) return; this.step(); this.raf = requestAnimationFrame(loop); };
+        this.raf = requestAnimationFrame(loop);
+      }
+      stop() { this.running = false; cancelAnimationFrame(this.raf); }
+    }
+
+
+    /* Full screen for any slideshow or the refund walkthrough. The content keeps its designed layout and is zoomed to fit. */
+    const FS_SIZE = new Map();   // element -> [design width, design height]
+    function fsElement() { return document.fullscreenElement || document.webkitFullscreenElement || null; }
+    function toggleFullscreen(el, focusEl) {
+      if (fsElement()) { (document.exitFullscreen || document.webkitExitFullscreen).call(document); return; }
+      const req = el.requestFullscreen || el.webkitRequestFullscreen;
+      if (!req) return;
+      const p = req.call(el);
+      if (p && p.catch) p.catch(() => {});
+      if (focusEl) setTimeout(() => focusEl.focus({ preventScroll: true }), 200);
+    }
+    function fitFullscreen() {
+      document.querySelectorAll('.is-fs').forEach(n => { n.classList.remove('is-fs'); n.style.removeProperty('--fs-k'); });
+      document.querySelectorAll('.ai-fs-btn, .evo-fs-btn').forEach(b => {
+        const on = !!fsElement() && fsElement().contains(b);
+        if (b.classList.contains('ai-fs-btn')) b.innerHTML = on ? ICON.fsOff : ICON.fsOn;
+        else b.querySelector('.msr').textContent = on ? 'fullscreen_exit' : 'fullscreen';
+        b.setAttribute('aria-label', on ? 'Exit full screen' : 'Full screen');
+        b.title = on ? 'Exit full screen (Esc)' : 'Full screen';
+      });
+      const el = fsElement(); if (!el) return;
+      el.classList.add('is-fs');
+      const [w, h] = el.classList.contains('evo-scope') ? [1000, 760] : [960, 680];
+      const k = Math.max(0.6, Math.min((innerWidth - 40) / w, (innerHeight - 40) / h));
+      el.style.setProperty('--fs-k', k.toFixed(3));
+    }
+    document.addEventListener('fullscreenchange', fitFullscreen);
+    document.addEventListener('webkitfullscreenchange', fitFullscreen);
+    window.addEventListener('resize', () => { if (fsElement()) fitFullscreen(); });
+    window.toggleFullscreen = toggleFullscreen;
+
+    /* ------------------------------------------------------------------ */
+    /* Deck controller                                                     */
+    /* ------------------------------------------------------------------ */
+    const ICON = {
+      prev: '<svg viewBox="0 0 24 24" fill="currentColor"><polygon points="16 5 7 12 16 19"/></svg>',
+      next: '<svg viewBox="0 0 24 24" fill="currentColor"><polygon points="8 5 17 12 8 19"/></svg>',
+      play: '<svg viewBox="0 0 24 24" fill="currentColor"><polygon points="7 4 20 12 7 20"/></svg>',
+      pause: '<svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>',
+      fsOn: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>',
+      fsOff: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"/></svg>',
+    };
+    const decks = [];
+
+    class Deck {
+      constructor(el) {
+        this.el = el; this.stage = el.querySelector('.ai-stage'); this.ctrl = el.querySelector('.ai-ctrl');
+        this.bar = el.querySelector('.ai-progress i'); this.num = el.querySelector('.ai-stage-num');
+        this.i = 0; this.playing = false; this.elapsed = 0; this.last = 0;
+        const cs = getComputedStyle(this.stage);
+        this.flow = el.dataset.bg === 'none'
+          ? { start() {}, stop() {} }
+          : el.dataset.bg === 'wire'
+          ? new Wire(el.querySelector('.ai-bg'))
+          : new Flow(el.querySelector('.ai-bg'), ['--c1', '--c2', '--c3'].map(v => cs.getPropertyValue(v).trim() || '#7c3aed'));
+        this.ctrl.innerHTML = `
+          <button type="button" class="ai-btn" data-act="prev" aria-label="Previous slide">${ICON.prev}</button>
+          <button type="button" class="ai-btn play" data-act="play">${ICON.play}<span>Play</span></button>
+          <button type="button" class="ai-btn" data-act="next" aria-label="Next slide">${ICON.next}</button>
+          <div class="ai-dots" role="group" aria-label="Choose slide"></div>
+          <span class="ai-count-lbl" aria-live="polite"></span>
+          <button type="button" class="ai-btn ai-fs-btn" data-act="fs" aria-label="Full screen" title="Full screen">${ICON.fsOn}</button>`;
+        this.ctrl.addEventListener('click', e => {
+          const b = e.target.closest('button'); if (!b) return;
+          if (b.dataset.act === 'prev') { this.pause(); this.go(this.i - 1); }
+          else if (b.dataset.act === 'next') { this.pause(); this.go(this.i + 1); }
+          else if (b.dataset.act === 'play') this.playing ? this.pause() : this.play();
+          else if (b.dataset.act === 'fs') toggleFullscreen(this.el, this.stage);
+          else if (b.dataset.slide) { this.pause(); this.go(+b.dataset.slide); }
+        });
+        this.stage.addEventListener('keydown', e => {
+          if (e.key === 'ArrowRight') { e.preventDefault(); this.pause(); this.go(this.i + 1); }
+          else if (e.key === 'ArrowLeft') { e.preventDefault(); this.pause(); this.go(this.i - 1); }
+          else if (e.key === ' ') { e.preventDefault(); this.playing ? this.pause() : this.play(); }
+        });
+        this.refresh();
+        if (el.classList.contains('is-duo')) new ResizeObserver(() => this.bands()).observe(this.stage);
+      }
+      bands() {   // dark band height = bottom of the slide's heading + a little space
+        if (!this.el.classList.contains('is-duo')) return;
+        this.slides.forEach(sl => {
+          if (sl.classList.contains('center')) return;
+          const h = sl.querySelector('.ai-h'); if (!h || !h.offsetHeight) return;
+          sl.style.setProperty('--band', (h.offsetTop + h.offsetHeight + Math.max(18, h.offsetHeight * .22)) + 'px');
+        });
+      }
+      refresh() {
+        this.slides = Array.from(this.el.querySelectorAll('.ai-slide'));
+        this.slides.forEach((s, k) => s.setAttribute('aria-label', `${k + 1} of ${this.slides.length}`));
+        this.el.querySelector('.ai-dots').innerHTML = this.slides.map((_, k) =>
+          `<button type="button" class="ai-dot" data-slide="${k}" aria-label="Slide ${k + 1}"></button>`).join('');
+        if (window.lucide) lucide.createIcons();
+        this.i = 0; this.show();
+      }
+      show() {
+        this.slides.forEach((s, k) => {
+          const on = k === this.i;
+          if (on) { s.classList.remove('is-active'); void s.offsetWidth; }   // restart entrance animations
+          s.classList.toggle('is-active', on);
+          s.setAttribute('aria-hidden', String(!on));
+          s.querySelectorAll('a').forEach(a => { a.tabIndex = on ? 0 : -1; });
+        });
+        this.el.querySelectorAll('.ai-dot').forEach((d, k) => { d.classList.toggle('on', k === this.i); d.setAttribute('aria-current', k === this.i ? 'true' : 'false'); });
+        const label = `${this.i + 1} / ${this.slides.length}`;
+        this.el.querySelector('.ai-count-lbl').textContent = label;
+        this.num.textContent = label;
+        this.elapsed = 0; this.paintBar(); this.bands();
+      }
+      go(k) { const n = this.slides.length; this.i = ((k % n) + n) % n; this.show(); }
+      paintBar() {
+        const pct = this.playing ? Math.min(1, this.elapsed / (BASE_MS * SPEED)) : (this.i + 1) / this.slides.length;
+        this.bar.style.width = (pct * 100) + '%';
+      }
+      play() {
+        this.playing = true; this.last = performance.now();
+        const b = this.ctrl.querySelector('[data-act="play"]'); b.innerHTML = ICON.pause + '<span>Pause</span>';
+        const tick = now => {
+          if (!this.playing) return;
+          if (this.visible !== false) this.elapsed += now - this.last;
+          this.last = now;
+          if (this.elapsed >= BASE_MS * SPEED) this.go(this.i + 1);
+          this.paintBar();
+          this.raf = requestAnimationFrame(tick);
+        };
+        this.raf = requestAnimationFrame(tick);
+      }
+      pause() {
+        this.playing = false; cancelAnimationFrame(this.raf);
+        const b = this.ctrl.querySelector('[data-act="play"]'); b.innerHTML = ICON.play + '<span>Play</span>';
+        this.paintBar();
+      }
+    }
+
+    document.querySelectorAll('.ai-deck').forEach(el => decks.push(new Deck(el)));
+
+    document.getElementById('speed-seg').addEventListener('click', e => {
+      const b = e.target.closest('button[data-speed]'); if (!b) return;
+      SPEED = +b.dataset.speed;
+      document.querySelectorAll('#speed-seg button').forEach(x => x.classList.toggle('on', x === b));
+    });
+
+    // Animate backgrounds only while a stage is on screen; the first deck autoplays once it is seen
+    let autoplayed = false;
+    const io = new IntersectionObserver(entries => entries.forEach(en => {
+      const d = decks.find(x => x.stage === en.target); if (!d) return;
+      d.visible = en.isIntersecting;
+      if (en.isIntersecting) {
+        d.flow.start();
+        if (!autoplayed && d === decks[0] && !REDUCED) { autoplayed = true; d.play(); }
+      } else d.flow.stop();
+    }), { threshold: 0.15 });
+    decks.forEach(d => io.observe(d.stage));
+    document.addEventListener('visibilitychange', () => decks.forEach(d => (document.hidden ? d.flow.stop() : d.visible && d.flow.start())));
+
+    // Right menu: highlight the section in view
+    const links = Array.from(document.querySelectorAll('#inpage-menu a[href^="#"]'));
+    const spy = () => {
+      let active = links[0];
+      links.forEach(a => { const s = document.querySelector(a.getAttribute('href')); if (s && s.getBoundingClientRect().top < 140) active = a; });
+      links.forEach(a => a.classList.toggle('active', a === active));
+    };
+    window.addEventListener('scroll', spy, { passive: true });
+    spy();
+  })();
+  </script>
+  <!-- Copied from automation-ml-ai-agentic/demo.html: refund-system evolution walkthrough -->
+  <script>
+    function setIcon(el, name) { if (el) el.textContent = name; }
+    // Ripple feedback for the copied Material buttons
+    document.addEventListener('pointerdown', (e) => {
+      const host = e.target.closest('.evo-scope .md-btn, .evo-scope .md-icon-btn, .evo-scope .md-tab');
+      if (!host || host.disabled) return;
+      const rect = host.getBoundingClientRect();
+      const size = Math.max(rect.width, rect.height) * 2;
+      const r = document.createElement('span');
+      r.className = 'md-ripple';
+      r.style.width = r.style.height = size + 'px';
+      r.style.left = (e.clientX - rect.left - size / 2) + 'px';
+      r.style.top = (e.clientY - rect.top - size / 2) + 'px';
+      host.appendChild(r);
+      r.addEventListener('animationend', () => r.remove());
+    });
+
+    let currentEpoch = 1;
+    const totalEpochs = 4;
+    let tourPlaying = false;
+    let tourSeconds = 0;
+    const tourTotalSeconds = 30;
+    let tourInterval = null;
+
+    function selectEpochStage(idx, fromTour) {
+      currentEpoch = idx;
+      for (let i = 1; i <= totalEpochs; i++) {
+        document.getElementById('epochTab' + i).classList.toggle('active', i === idx);
+        document.getElementById('epochTab' + i).setAttribute('aria-selected', i === idx);
+        document.getElementById('epochPanel' + i).classList.toggle('active', i === idx);
+      }
+      playEpoch(idx);
+      if (!fromTour) {
+        document.getElementById('epochScrubberFill').style.width = (idx / totalEpochs) * 100 + '%';
+      }
+    }
+
+    function toggleTourPlay() {
+      tourPlaying = !tourPlaying;
+      setIcon(document.getElementById('tourPlayIcon'), tourPlaying ? 'pause' : 'play_arrow');
+      document.getElementById('tourPlayText').textContent = tourPlaying ? 'Pause' : 'Play Walkthrough';
+      if (tourPlaying) {
+        if (tourSeconds === 0) selectEpochStage(1, true);
+        tourInterval = setInterval(tickTour, 1000);
+      } else {
+        clearInterval(tourInterval);
+        tourInterval = null;
+      }
+    }
+
+    function tickTour() {
+      tourSeconds = tourSeconds >= tourTotalSeconds ? 0 : tourSeconds + 1;
+      document.getElementById('tourTimeText').textContent =
+        '00:' + String(tourSeconds).padStart(2, '0') + ' / 00:30';
+
+      const epochIdx = Math.min(totalEpochs, Math.floor(tourSeconds / 7.5) + 1);
+      if (epochIdx !== currentEpoch) selectEpochStage(epochIdx, true);
+      document.getElementById('epochScrubberFill').style.width = (tourSeconds / tourTotalSeconds) * 100 + '%';
+    }
+
+    // Restart a panel's step-by-step animation (and the GenAI typing effect)
+    let evoTypeTimer = null;
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    function playEpoch(idx) {
+      const panel = document.getElementById('epochPanel' + idx);
+      document.querySelectorAll('.epoch-panel.run').forEach(p => p.classList.remove('run'));
+      void panel.offsetWidth;
+      panel.classList.add('run');
+
+      clearTimeout(evoTypeTimer);
+      const typed = document.getElementById('evoTyped');
+      const text = typed.dataset.text || (typed.dataset.text = typed.textContent);
+      if (idx !== 3 || reduceMotion.matches) { typed.textContent = text; return; }
+      typed.textContent = '';
+      let i = 0;
+      (function typeNext() {
+        evoTypeTimer = setTimeout(() => {
+          typed.textContent = text.slice(0, ++i);
+          if (i < text.length) typeNext();
+        }, i === 0 ? 1200 : 22);
+      })();
+    }
+
+    // Play the first example once the card scrolls into view
+    new IntersectionObserver((entries, obs) => {
+      if (entries.some(e => e.isIntersecting)) {
+        if (!tourPlaying) playEpoch(currentEpoch);
+        obs.disconnect();
+      }
+    }, { threshold: 0.4 }).observe(document.getElementById('epochPanel1').parentElement);
+
+  </script>
 </body>
 </html>

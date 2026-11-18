@@ -135,6 +135,21 @@
     @media (max-width: 640px) { .sq-card { padding:14px; } .sq-field select { min-width:0; width:100%; } .sq-grow { display:none; } }
     @media (prefers-reduced-motion: reduce) { .py-frame tr.chg td { animation:none; } }
     .inpage-menu a.py-lesson-link.on { color:#6d28d9; font-weight:700; border-left-color:#7c3aed; background:#f5f3ff; }
+
+    /* ---- Full screen for lab cards (shared by the Python and SQL demos) ---- */
+    .sq-card.has-fs { position:relative; }
+    .fs-btn { display:inline-flex; align-items:center; justify-content:center; width:36px; height:36px; padding:0; border-radius:9px; border:1px solid #cbd5e1; background:#fff; color:#334155; cursor:pointer; flex:none; }
+    .fs-btn:hover { background:#f5f3ff; color:#6d28d9; }
+    .fs-btn:focus-visible { outline:2px solid #c4b5fd; outline-offset:2px; }
+    .fs-btn svg { width:16px; height:16px; }
+    .sq-toolbar > .fs-btn { margin-left:auto; align-self:flex-end; }
+    .sq-card.has-fs > .fs-btn.corner { position:absolute; top:14px; right:14px; z-index:2; }
+    .fs-title { display:none; }
+    .sq-card.is-fs { margin:0; border:0; border-radius:0; box-shadow:none; overflow:auto; background:#f8fafc; padding:28px max(28px, calc(50vw - 720px)); }
+    .sq-card.is-fs > * { zoom:var(--fs-k, 1); }
+    .sq-card.is-fs > .fs-title { display:flex; align-items:center; gap:10px; margin:0 0 16px; font-size:1.35rem; font-weight:800; color:#0f172a; }
+    .sq-card.is-fs > .fs-title span { font-size:.72rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:#6d28d9; background:#f5f3ff; border:1px solid #ddd6fe; padding:3px 10px; border-radius:999px; }
+    .sq-card.is-fs .py-code { max-height:none; }
   </style>
 </head>
 <body>
@@ -1295,6 +1310,56 @@ onmessage = async ({ data }) => {
   })();
 
   if (window.lucide) { lucide.createIcons(); }
+  </script>
+  <script>
+    // Full screen for each lab card: button in the card's toolbar (or top-right corner)
+    (function () {
+      const ON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>';
+      const OFF = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"/></svg>';
+      const fsEl = () => document.fullscreenElement || document.webkitFullscreenElement || null;
+      const cards = Array.from(document.querySelectorAll('.main-content .sq-card'))
+        .filter(c => !c.classList.contains('sq-intro-bar') && !c.closest('#explore'));
+      cards.forEach(card => {
+        const btn = document.createElement('button');
+        btn.type = 'button'; btn.className = 'fs-btn'; btn.innerHTML = ON;
+        btn.setAttribute('aria-label', 'Full screen'); btn.title = 'Full screen';
+        const bar = card.firstElementChild && card.firstElementChild.classList.contains('sq-toolbar') ? card.firstElementChild : null;
+        if (bar) bar.appendChild(btn); else { btn.classList.add('corner'); card.appendChild(btn); }
+        card.classList.add('has-fs');
+        // section title shown at the top while in full screen
+        const sec = card.closest('.content-section');
+        const h = sec && sec.querySelector('.welcome-card h1, .welcome-card h2');
+        const eb = sec && sec.querySelector('.welcome-card .eyebrow');
+        if (h) {
+          const t = document.createElement('div'); t.className = 'fs-title';
+          t.innerHTML = (eb ? '<span></span>' : '') + '<b></b>';
+          if (eb) t.querySelector('span').textContent = eb.textContent.trim();
+          t.querySelector('b').textContent = h.textContent.trim();
+          card.insertBefore(t, card.firstChild);
+        }
+        btn.addEventListener('click', () => {
+          if (fsEl()) { (document.exitFullscreen || document.webkitExitFullscreen).call(document); return; }
+          const req = card.requestFullscreen || card.webkitRequestFullscreen;
+          if (req) { const p = req.call(card); if (p && p.catch) p.catch(() => {}); }
+        });
+      });
+      function fit() {
+        cards.forEach(c => { c.classList.remove('is-fs'); c.style.removeProperty('--fs-k'); });
+        document.querySelectorAll('.fs-btn').forEach(b => {
+          const on = !!fsEl() && fsEl().contains(b);
+          b.innerHTML = on ? OFF : ON;
+          b.setAttribute('aria-label', on ? 'Exit full screen' : 'Full screen');
+          b.title = on ? 'Exit full screen (Esc)' : 'Full screen';
+        });
+        const el = fsEl();
+        if (!el || !cards.includes(el)) return;
+        el.classList.add('is-fs');
+        el.style.setProperty('--fs-k', Math.max(1, Math.min(1.5, innerWidth / 1280, innerHeight / 800)).toFixed(3));
+      }
+      document.addEventListener('fullscreenchange', fit);
+      document.addEventListener('webkitfullscreenchange', fit);
+      window.addEventListener('resize', () => { if (fsEl()) fit(); });
+    })();
   </script>
 </body>
 </html>
